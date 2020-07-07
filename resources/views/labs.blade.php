@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <!-- header -->
             <div class="row">
-                <div class="header col-sm-8 scgs-web">scgs-web</div>
+                <div class="header col-sm-8">scgs-web</div>
                 <div class="header col-sm-4"><a href="#" class="login">Login</a></div>
             </div>
             <!-- middle-area -->
@@ -42,6 +42,18 @@
                             RNA-Seq
                         </div>
                         <div class="result-detail">
+                            <div class="labs">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td><b>ID</b></td>
+                                        <td><b>Name</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>10001</b></td>
+                                        <td><b>lab_name</b></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,7 +77,7 @@
                 </div>
                 <div class="col-sm-4 microfooternav">
                     <ul class="nav nav-pills">
-                        <li><a href="#">Bioinformatics Platform</a></li>
+                        <li><a href="#"> Bioinformatics Platform</a></li>
                         <li><a href="#">scgs - website</a></li>
                     </ul>
                 </div>

@@ -10,14 +10,28 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/common.css') }}" rel="stylesheet">
         <style>
-
+            .project-item{
+                height:80px;
+                padding:20px;
+                font-size:18px;
+                line-height: 18px;
+                font-family:Consolas;
+                display:flex;
+            }
+            .sample{
+                margin-bottom:30px;
+                font-weight: bolder;
+            }
+            .desc{
+                font-weight: bolder;
+            }
         </style>
     </head>
     <body>
         <div class="container-fluid">
             <!-- header -->
             <div class="row">
-                <div class="header col-sm-8 scgs-web">scgs-web</div>
+                <div class="header col-sm-8">scgs-web</div>
                 <div class="header col-sm-4"><a href="#" class="login">Login</a></div>
             </div>
             <!-- middle-area -->
@@ -42,6 +56,23 @@
                             RNA-Seq
                         </div>
                         <div class="result-detail">
+                            <div class="projects">
+                                <div class="project-item">
+                                    <div class="desc">project name:</div>
+                                    <div>WGA of SARS-CoV-2 amplified using ARTIC V3 protocol</div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="desc">Description:</div>
+                                    <div>FISABIO - Public Health</div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="sample">Samples:</div>
+                                        <table class="table table-bordered">
+                                            <tr><td>sampleId</td><td>sampleLabel</td></tr>
+                                            <tr><td>...</td><td>...</td></tr>
+                                        </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
