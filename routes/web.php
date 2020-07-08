@@ -25,9 +25,7 @@ Route::get('/labs', function () {
     return view('labs');
 });
 
-Route::get('/institutions', function () {
-    return view('institutions');
-});
+Route::get('/institutions', 'InstitutionsController@index');
 
 Auth::routes();
 
