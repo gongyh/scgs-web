@@ -49,20 +49,6 @@
             </div>
         </div>
     </div>
-    <!-- footer -->
-    <div class="row footer">
-        <div class="col-sm-8">
-            <ol class="breadcrumb">
-                <li><a href="#">NGS database</a></li>
-                <li class="active">Samples</li>
-            </ol>
-        </div>
-        <div class="col-sm-4 microfooternav">
-            <ul class="nav nav-pills">
-                <li><a href="#"> Bioinformatics Platform</a></li>
-                <li><a href="#">scgs - website</a></li>
-            </ul>
-        </div>
-    </div>
+
 </div>
 @endsection
