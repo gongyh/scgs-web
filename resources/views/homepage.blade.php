@@ -1,7 +1,8 @@
+
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+  <div class="container-fluid">
     <!-- middle-area -->
     <!-- left column -->
     <div class="row middle-area">
@@ -24,18 +25,6 @@
                     RNA-Seq
                 </div>
                 <div class="result-detail">
-                    <div class="institutions">
-                        <table class="table table-bordered">
-                            <tr>
-                                <td><b>ID</b></td>
-                                <td><b>Name</b></td>
-                            </tr>
-                            <tr>
-                                <td><b>10001</b></td>
-                                <td><b>institution</b></td>
-                            </tr>
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>
@@ -50,19 +39,19 @@
         </div>
     </div>
     <!-- footer -->
-    <div class="row footer">
-        <div class="col-sm-8">
-            <ol class="breadcrumb">
-                <li><a href="#">NGS database</a></li>
-                <li class="active">Samples</li>
-            </ol>
-        </div>
-        <div class="col-sm-4 microfooternav">
-            <ul class="nav nav-pills">
-                <li><a href="#"> Bioinformatics Platform</a></li>
-                <li><a href="#">scgs - website</a></li>
-            </ul>
+        <div class="row footer">
+            <div class="col-sm-8">
+                <ol class="breadcrumb">
+                    <li><a href="#">NGS database</a></li>
+                    <li class="active">Samples</li>
+                </ol>
+            </div>
+            <div class="col-sm-4 microfooternav">
+                <ul class="nav nav-pills">
+                    <li><a href="#">Bioinformatics Platform</a></li>
+                    <li><a href="#">scgs - website</a></li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 @endsection
