@@ -14,7 +14,7 @@ class InstitutionsController extends Controller
      */
     public function index()
     {
-        $institutions = Institutions::all()->paginate(15);
-        return view('institutions', ['institutions', $institutions]);
+        $institutions = Institutions::paginate(15);
+        return view('institutions', ['institutions'=>$institutions]);
     }
 }

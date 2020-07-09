@@ -25,16 +25,13 @@
                 </div>
                 <div class="result-detail">
                     <div class="institutions">
-                        <table class="table table-bordered">
-                            <tr>
-                                <td><b>ID</b></td>
-                                <td><b>Name</b></td>
-                            </tr>
-                            <tr>
-                                <td><b>10001</b></td>
-                                <td><b>institution</b></td>
-                            </tr>
+                        <table class="table table-condense">
+                            <tr><td class="table-header">institutions</td></tr>
+                           @foreach ($institutions as $institution)
+                            <tr><td class="table-item">{{$institution->name}}</td></tr>
+                           @endforeach
                         </table>
+                        {{$institutions->links()}}
                     </div>
                 </div>
             </div>
@@ -52,3 +49,17 @@
 
 </div>
 @endsection
+
+@section('style')
+.table-header {
+    text-align:center;
+    font:bold 22px "Times New Roman"
+}
+.table-item {
+    text-align:center;
+}
+.pagination{
+    margin-left:25%;
+}
+@endsection
+
