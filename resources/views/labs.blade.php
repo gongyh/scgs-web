@@ -10,9 +10,8 @@
                 <a class="list-group-item" href="/institutions">Institutions</a>
                 <a class="list-group-item" href="/labs">Labs</a>
                 <a class="list-group-item" href="/projects">Projects</a>
-                <a class="list-group-item" href="/">Samples</a>
-                <a class="list-group-item" href="/">Species</a>
-                <a class="list-group-item" href="/">Status</a>
+                <a class="list-group-item" href="/samples">Samples</a>
+                <a class="list-group-item" href="/status">Status</a>
             </div>
         </div>
         <div class="col-sm-6 middle-column">
@@ -25,16 +24,21 @@
                 </div>
                 <div class="result-detail">
                     <div class="labs">
-                        <table class="table table-bordered">
-                            <tr>
-                                <td><b>ID</b></td>
-                                <td><b>Name</b></td>
-                            </tr>
-                            <tr>
-                                <td><b>10001</b></td>
-                                <td><b>lab_name</b></td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-condense">
+                                <tr>
+                                    <td class="table-header">ID</td>
+                                    <td class="table-header">Labs</td>
+                                </tr>
+                                @foreach ($labs as $lab)
+                                <tr>
+                                    <td class="table-item">{{$lab->id}}</td>
+                                    <td class="table-item"><a href='#'>{{$lab->name}}</a></td>
+                                </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                        {{$labs->links()}}
                     </div>
                 </div>
             </div>

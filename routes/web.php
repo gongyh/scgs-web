@@ -17,15 +17,15 @@ Route::get('/', function () {
     return view('homepage');
 });
 
-Route::get('/projects', function () {
-    return view('projects');
-});
+Route::get('/projects','ProjectsController@index');
 
-Route::get('/labs', function () {
-    return view('labs');
-});
+Route::get('/labs', 'LabsController@index');
 
 Route::get('/institutions', 'InstitutionsController@index');
+
+Route::get('/samples', 'SamplesController@index');
+
+Route::get('/status', 'StatusController@index');
 
 Auth::routes();
 
