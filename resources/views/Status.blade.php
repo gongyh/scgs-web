@@ -1,8 +1,7 @@
-
 @extends('layouts.app')
 
 @section('content')
-  <div class="container-fluid">
+<div class="container-fluid">
     <!-- middle-area -->
     <!-- left column -->
     <div class="row middle-area">
@@ -24,6 +23,23 @@
                     RNA-Seq
                 </div>
                 <div class="result-detail">
+                    <div class="status">
+                        <div class="table-responsive">
+                            <table class="table table-condense">
+                                <tr>
+                                    <td class="table-header">ID</td>
+                                    <td class="table-header">Run_samples</td>
+                                </tr>
+                            @foreach ($status as $status_item)
+                                <tr>
+                                    <td class="table-item">{{$status_item->id}}</td>
+                                    <td class="table-item"><a href='#'>{{$status_item->run_samples}}</a></td>
+                                </tr>
+                            @endforeach
+                            </table>
+                        </div>
+                        {{$status->links()}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,5 +54,5 @@
         </div>
     </div>
 
-  </div>
+</div>
 @endsection

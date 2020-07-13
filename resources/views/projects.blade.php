@@ -1,25 +1,5 @@
 @extends('layouts.app')
 
-@section('style')
-    .project-item{
-        height:80px;
-        padding:20px;
-        font-size:18px;
-        line-height: 18px;
-        font-family:Consolas;
-        display:flex;
-    }
-    .sample{
-        margin-bottom:30px;
-        margin-right:10px;
-        font-weight: bolder;
-    }
-    .desc{
-        font-weight: bolder;
-        margin-right:10px;
-    }
-@endsection
-
 @section('content')
 <div class="container-fluid">
     <!-- middle-area -->
@@ -30,9 +10,8 @@
                 <a class="list-group-item" href="/institutions">Institutions</a>
                 <a class="list-group-item" href="/labs">Labs</a>
                 <a class="list-group-item" href="/projects">Projects</a>
-                <a class="list-group-item" href="/">Samples</a>
-                <a class="list-group-item" href="/">Species</a>
-                <a class="list-group-item" href="/">Status</a>
+                <a class="list-group-item" href="/samples">Samples</a>
+                <a class="list-group-item" href="/status">Status</a>
             </div>
         </div>
         <div class="col-sm-6 middle-column">
@@ -45,21 +24,25 @@
                 </div>
                 <div class="result-detail">
                     <div class="projects">
-                        <div class="project-item">
-                            <div class="desc">project name:</div>
-                            <div>WGA of SARS-CoV-2 amplified using ARTIC V3 protocol</div>
+                        <div class="table-responsive">
+                            <table class="table table-condense">
+                                <tr>
+                                    <td class="table-header">ID</td>
+                                    <td class="table-header">Projects</td>
+                                    <td class="table-header">DOI</td>
+                                    <td class="table-header">Description</td>
+                                </tr>
+                                @foreach ($projects as $project)
+                                <tr>
+                                    <td class="table-item">{{$project->id}}</td>
+                                    <td class="table-item"><a href='#'>{{$project->name}}</a></td>
+                                    <td class="table-item">{{$project->doi}}</td>
+                                    <td class="table-item desc">{{$project->desc}}</td>
+                                </tr>
+                                @endforeach
+                            </table>
                         </div>
-                        <div class="project-item">
-                            <div class="desc">Description:</div>
-                            <div>FISABIO - Public Health</div>
-                        </div>
-                        <div class="project-item">
-                            <div class="sample">Samples:</div>
-                                <table class="table table-bordered">
-                                    <tr><td>sampleId</td><td>sampleLabel</td></tr>
-                                    <tr><td>...</td><td>...</td></tr>
-                                </table>
-                        </div>
+                        {{$projects->links()}}
                     </div>
                 </div>
             </div>

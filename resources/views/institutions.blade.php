@@ -10,9 +10,8 @@
                 <a class="list-group-item" href="/institutions">Institutions</a>
                 <a class="list-group-item" href="/labs">Labs</a>
                 <a class="list-group-item" href="/projects">Projects</a>
-                <a class="list-group-item" href="/">Samples</a>
-                <a class="list-group-item" href="/">Species</a>
-                <a class="list-group-item" href="/">Status</a>
+                <a class="list-group-item" href="/samples">Samples</a>
+                <a class="list-group-item" href="/status">Status</a>
             </div>
         </div>
         <div class="col-sm-6 middle-column">
@@ -25,12 +24,20 @@
                 </div>
                 <div class="result-detail">
                     <div class="institutions">
-                        <table class="table table-condense">
-                            <tr><td class="table-header">institutions</td></tr>
-                           @foreach ($institutions as $institution)
-                            <tr><td class="table-item">{{$institution->name}}</td></tr>
-                           @endforeach
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-condense">
+                                <tr>
+                                    <td class="table-header">ID</td>
+                                    <td class="table-header">Institutions</td>
+                                </tr>
+                            @foreach ($institutions as $institution)
+                                <tr>
+                                    <td class="table-item">{{$institution->id}}</td>
+                                    <td class="table-item"><a href='#'>{{$institution->name}}</a></td>
+                                </tr>
+                            @endforeach
+                            </table>
+                        </div>
                         {{$institutions->links()}}
                     </div>
                 </div>
@@ -49,17 +56,3 @@
 
 </div>
 @endsection
-
-@section('style')
-.table-header {
-    text-align:center;
-    font:bold 22px "Times New Roman"
-}
-.table-item {
-    text-align:center;
-}
-.pagination{
-    margin-left:25%;
-}
-@endsection
-
