@@ -2,57 +2,68 @@
 
 @section('content')
 <div class="container-fluid">
-    <!-- middle-area -->
-    <!-- left column -->
-    <div class="row middle-area">
-        <div class="col-sm-3 left-column">
-            <div class="list-group list">
-                <a class="list-group-item" href="/institutions">Institutions</a>
-                <a class="list-group-item" href="/labs">Labs</a>
-                <a class="list-group-item" href="/projects">Projects</a>
-                <a class="list-group-item" href="/samples">Samples</a>
-                <a class="list-group-item" href="/status">Status</a>
-            </div>
-        </div>
-        <div class="col-sm-6 middle-column">
-            <div class="middle-info">
-                Welcome!
-            </div>
-            <div class="result">
-                <div class="result-info">
-                    RNA-Seq
-                </div>
-                <div class="result-detail">
-                    <div class="institutions">
-                        <div class="table-responsive">
-                            <table class="table table-condense">
-                                <tr>
-                                    <td class="table-header">ID</td>
-                                    <td class="table-header">Institutions</td>
-                                </tr>
-                            @foreach ($institutions as $institution)
-                                <tr>
-                                    <td class="table-item">{{$institution->id}}</td>
-                                    <td class="table-item"><a href='#'>{{$institution->name}}</a></td>
-                                </tr>
-                            @endforeach
-                            </table>
-                        </div>
-                        {{$institutions->links()}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    <!-- right-column -->
-        <div class="col-sm-3 right-column">
-            <div class="others">
-                Structure
-            </div>
-            <div class="other-info">
-
-            </div>
-        </div>
+  <!-- middle-area -->
+  <!-- left column -->
+  <div class="row middle-area">
+    <div class="col-sm-3 left-column">
+      <div class="list-group list">
+        <a class="list-group-item" href="/institutions">Institutions</a>
+        <a class="list-group-item" href="/labs">Labs</a>
+        <a class="list-group-item" href="/projects">Projects</a>
+        <a class="list-group-item" href="/samples">Samples</a>
+        <a class="list-group-item" href="/status">Status</a>
+      </div>
     </div>
+
+      <!-- middle column -->
+    <div class="col-sm-6 middle-column">
+      <div class="middle-info">
+        Welcome!
+      </div>
+      <div class="result">
+        <div class="result-info">
+          RNA-Seq
+        </div>
+        <div class="result-detail">
+          <div class="institutions">
+            <div class="table-responsive">
+              <table class="table table-condense">
+                <tr>
+                  <td class="table-header">ID</td>
+                  <td class="table-header">Institutions</td>
+                </tr>
+                @foreach ($institutions as $institution)
+                <tr>
+                    <td class="table-item" name="insti-id">{{$institution->id}}</td>
+                    <td class="table-item" name="insti-name">
+                    <a href='#'>{{$institution->name}}</a></td>
+                    <td>
+                        <a href="{{url('institutions/delete',['id'=>$institution->id])}}" onclick="if(confirm('are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
+                    </td>
+                    <td>
+                        <a href="{{url('institutions/update',['id'=>$institution->id])}}" class="btn btn-primary btn-sm">edit</a>
+                    </td>
+                </tr>
+
+                @endforeach
+              </table>
+            </div>
+              {{$institutions->links()}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- right-column -->
+    <div class="col-sm-3 right-column">
+      <div class="others">
+        Structure
+      </div>
+      <div class="other-info">
+
+      </div>
+    </div>
+  </div>
 
 </div>
 @endsection

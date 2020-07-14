@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InstitutionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +22,11 @@ Route::get('/projects','ProjectsController@index');
 
 Route::get('/labs', 'LabsController@index');
 
-Route::get('/institutions', 'InstitutionsController@index');
+Route::group(['prefix'=>'institutions'],function(){
+    Route::get('/','InstitutionsController@index');
+    Route::any('/update/{id}','InstitutionsController@update');
+    Route::any('/delete/{id}','InstitutionsController@delete');
+});
 
 Route::get('/samples', 'SamplesController@index');
 
