@@ -17,4 +17,24 @@ class ProjectsController extends Controller
         $projects = Projects::paginate(15);
         return view('projects', ['projects'=>$projects]);
     }
+
+    public function update(Request $request,$id)
+    {
+        $project = Projects::find($id);
+        if($request->isMethod('post')){
+            $new_proj = $request->input('new-projname');
+            $project['name'] = $new_proj;
+            if($project->save()){
+                return redirect('/projects');
+            }
+        }
+        return view('proj_update',['project'=>$project]);
+    }
+
+    public function delete($id){
+        $project = Projects::find($id);
+        if($project->delete()){
+            return redirect('/projects');
+        }
+    }
 }

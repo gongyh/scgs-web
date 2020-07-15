@@ -18,17 +18,29 @@ Route::get('/', function () {
     return view('homepage');
 });
 
-Route::get('/projects','ProjectsController@index');
-
-Route::get('/labs', 'LabsController@index');
-
 Route::group(['prefix'=>'institutions'],function(){
     Route::get('/','InstitutionsController@index');
     Route::any('/update/{id}','InstitutionsController@update');
     Route::any('/delete/{id}','InstitutionsController@delete');
 });
 
-Route::get('/samples', 'SamplesController@index');
+Route::group(['prefix'=>'labs'],function(){
+    Route::get('/','LabsController@index');
+    Route::any('/update/{id}','LabsController@update');
+    Route::any('/delete/{id}','LabsController@delete');
+});
+
+Route::group(['prefix'=>'projects'],function(){
+    Route::get('/','ProjectsController@index');
+    Route::any('/update/{id}','ProjectsController@update');
+    Route::any('/delete/{id}','ProjectsController@delete');
+});
+
+Route::group(['prefix'=>'samples'],function(){
+    Route::get('/','SamplesController@index');
+    Route::any('/update/{id}','SamplesController@update');
+    Route::any('/delete/{id}','SamplesController@delete');
+});
 
 Route::get('/status', 'StatusController@index');
 

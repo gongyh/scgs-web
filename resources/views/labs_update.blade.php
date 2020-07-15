@@ -8,12 +8,12 @@
                 @csrf
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Institutions-edit</h5>
+                        <h5 class="card-title">Labs-edit</h5>
                         <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Institutions Name</span>
+                            <span class="input-group-text">Lab Name</span>
                         </div>
-                            <input type="text" class="form-control" name="new-instiname" value="{{$institution->name}}">
+                            <input type="text" class="form-control" name="new-labname" value="{{$lab->name}}">
                         </div>
                         <button type="commit" class="btn btn-primary">Commit</button>
                     </div>

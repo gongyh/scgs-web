@@ -29,15 +29,19 @@
                                 <tr>
                                     <td class="table-header">ID</td>
                                     <td class="table-header">Projects</td>
-                                    <td class="table-header">DOI</td>
                                     <td class="table-header">Description</td>
                                 </tr>
                                 @foreach ($projects as $project)
                                 <tr>
                                     <td class="table-item">{{$project->id}}</td>
                                     <td class="table-item"><a href='#'>{{$project->name}}</a></td>
-                                    <td class="table-item">{{$project->doi}}</td>
                                     <td class="table-item desc">{{$project->desc}}</td>
+                                    <td>
+                                        <a href="{{url('projects/delete',['id'=>$project->id])}}" onclick="if(confirm('Are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{url('projects/update',['id'=>$project->id])}}" class="btn btn-primary btn-sm">edit</a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </table>

@@ -38,7 +38,7 @@
                     <td class="table-item" name="insti-name">
                     <a href='#'>{{$institution->name}}</a></td>
                     <td>
-                        <a href="{{url('institutions/delete',['id'=>$institution->id])}}" onclick="if(confirm('are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
+                        <a href="{{url('institutions/delete',['id'=>$institution->id])}}" onclick="if(confirm('Are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
                     </td>
                     <td>
                         <a href="{{url('institutions/update',['id'=>$institution->id])}}" class="btn btn-primary btn-sm">edit</a>

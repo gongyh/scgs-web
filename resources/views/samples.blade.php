@@ -36,6 +36,10 @@
                                     <td class="table-item">{{$sample->id}}</td>
                                     <td class="table-item"><a href='#'>{{$sample->name}}</a></td>
                                     <td class="table-item">{{$sample->species}}</td>
+                                    <td>
+                                        <a href="{{url('samples/delete',['id'=>$sample->id])}}" onclick="if(confirm('Are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
+                                        <a href="{{url('samples/update',['id'=>$sample->id])}}" class="btn btn-primary btn-sm">edit</a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </table>
@@ -45,7 +49,7 @@
                 </div>
             </div>
         </div>
-    <!-- right-column -->
+        <!-- right-column -->
         <div class="col-sm-3 right-column">
             <div class="others">
                 Structure

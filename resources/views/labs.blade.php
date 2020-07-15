@@ -34,7 +34,12 @@
                                 <tr>
                                     <td class="table-item">{{$lab->id}}</td>
                                     <td class="table-item"><a href='#'>{{$lab->name}}</a></td>
+                                    <td>
+                                        <a href="{{url('labs/delete',['id'=>$lab->id])}}" onclick="if(confirm('Are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
+                                        <a href="{{url('labs/update',['id'=>$lab->id])}}" class="btn btn-primary btn-sm">edit</a>
+                                    </td>
                                 </tr>
+
                                 @endforeach
                             </table>
                         </div>

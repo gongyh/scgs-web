@@ -20,16 +20,16 @@ class InstitutionsController extends Controller
 
     public function update(Request $request,$id)
     {
-        $institutions = Institutions::find($id);
+        $institution = Institutions::find($id);
         if($request->isMethod('post')){
             $new_instiname = $request->input('new-stiname');
-            $institutions['name'] =$new_instiname;
+            $institution['name'] =$new_instiname;
 
-            if($institutions->save()){
+            if($institution->save()){
                 return redirect('/institutions');
             }
         }
-        return view('insti_update');
+        return view('insti_update',['institution'=>$institution]);
     }
 
     public function delete($id){
