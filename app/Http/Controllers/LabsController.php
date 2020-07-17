@@ -20,22 +20,23 @@ class LabsController extends Controller
 
     public function update(Request $request,$id)
     {
-        $lab = Labs::find($id);
-        if($request->isMethod('post')){
-            $new_labname = $request->input('new-labname');
-            $lab['name'] =$new_labname;
-
-            if($lab->save()){
+        try{
+            $lab = Labs::findOrFail($id);
+            if($request->isMethod('POST')){
+                $new_labname = $request->input('new-labname');
+                $lab['name'] =$new_labname;
+                $lab->save();
                 return redirect('/labs');
             }
+            return view('labs_update',['lab'=>$lab]);
+        }catch(\Illuminate\Database\Eloquent\ModelNotFoundException $ex){
+            return 'sorry!can not update!';
         }
-        return view('labs_update',['lab'=>$lab]);
     }
 
     public function delete($id){
         $lab = Labs::find($id);
-        if($lab->delete()){
-            return redirect('/labs');
-        }
+        $lab->delete();
+        return redirect('/labs');
     }
 }

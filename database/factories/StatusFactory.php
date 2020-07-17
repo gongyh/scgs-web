@@ -7,8 +7,11 @@ use Faker\Generator as Faker;
 
 $factory->define(Status::class, function (Faker $faker) {
     return [
-        'id' => $faker->randomNumber(3, true),
-        'run_samples' => $faker->company,
+        'id' => $faker->randomNumber(5, true),
+        'runId' => $faker->randomNumber(5, true),
+        'status' => $faker->lexify('Hello ???'),
+        'started' => now(),
+        'finished' => now(),
         'updated_at' => now(),
         'created_at' => now()
     ];

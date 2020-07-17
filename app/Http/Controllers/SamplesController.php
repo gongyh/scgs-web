@@ -21,7 +21,7 @@ class SamplesController extends Controller
     public function update(Request $request,$id)
     {
         $sample = Samples::find($id);
-        if($request->isMethod('post')){
+        if($request->isMethod('POST')){
             $new_sampname = $request->input('new-sampname');
             $sample['name'] =$new_sampname;
 
@@ -34,8 +34,7 @@ class SamplesController extends Controller
 
     public function delete($id){
         $sample = Samples::find($id);
-        if($sample->delete()){
-            return redirect('/samples');
-        }
+        $sample->delete();
+        return redirect('/samples');
     }
 }

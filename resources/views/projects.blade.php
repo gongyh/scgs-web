@@ -35,7 +35,7 @@
                                 <tr>
                                     <td class="table-item">{{$project->id}}</td>
                                     <td class="table-item"><a href='#'>{{$project->name}}</a></td>
-                                    <td class="table-item desc">{{$project->desc}}</td>
+                                    <td class="table-item desc">{{$project->description}}</td>
                                     <td>
                                         <a href="{{url('projects/delete',['id'=>$project->id])}}" onclick="if(confirm('Are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
                                     </td>

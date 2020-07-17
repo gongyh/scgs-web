@@ -33,9 +33,8 @@ class InstitutionsController extends Controller
     }
 
     public function delete($id){
-        $institutions = Institutions::find($id);
-        if($institutions->delete()){
-            return redirect('/institutions');
-        }
+        $institution = Institutions::find($id);
+        $institution->delete();
+        return redirect('/institutions');
     }
 }
