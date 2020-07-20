@@ -16,32 +16,43 @@
     </div>
     <div class="col-sm-6 middle-column">
       <div class="middle-info">
-        Welcome to SCGS-Web!
+        Welcome!
       </div>
       <div class="result">
         <div class="result-info">
-          Status
+          {{$project->name}}
         </div>
         <div class="result-detail">
-          <div class="status">
-            <div class="table-responsive">
-              <table class="table table-condense">
-                <thead class="table-dark">
-                  <tr>
-                    <td scope="col" class="table-header">ID</td>
-                    <td scope="col" class="table-header">Runing samples</td>
-                  </tr>
-                </thead>
-                @foreach ($status as $status_item)
-                <tr>
-                  <th scope="row" class="table-item">{{$status_item->id}}</td>
-                  <td class="table-item"><a href='#'>{{$status_item->run_samples}}</a></td>
-                </tr>
-                @endforeach
-              </table>
-            </div>
-            {{$status->links()}}
+          <div class="project_name">
+            <div class="proj_title">Project Name:</div>
+            <div class="proj_detail">{{$project->name}}</div>
           </div>
+          <div class="project_doi">
+            <div class="proj_title">Doi Number:</div>
+            <div class="proj_detail">{{$project->doi}}</div>
+          </div>
+          <div class="project_desc">
+            <div class="proj_title">Description:</div>
+            <div class="proj_detail">{{$project->description}}</div>
+          </div>
+          <div class="project_sample">
+            <div class="proj_title">Sample List:</div>
+            <table class="sampleTable table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">SampleID</th>
+                  <th scope="col">SampleLabel</th>
+                  <th scope="col">Species</th>
+                </tr>
+              </thead>
+              <tbody>
+                <th scope="row">##</th>
+                <td>XXXX</td>
+                <td>XXXX</td>
+              </tbody>
+            </table>
+          </div>
+
         </div>
       </div>
     </div>

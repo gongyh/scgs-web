@@ -18,28 +18,29 @@ Route::get('/', function () {
     return view('homepage');
 });
 
-Route::group(['prefix'=>'institutions'],function(){
-    Route::get('/','InstitutionsController@index');
-    Route::any('/update/{id}','InstitutionsController@update');
-    Route::any('/delete/{id}','InstitutionsController@delete');
+Route::group(['prefix' => 'institutions'], function () {
+    Route::get('/', 'InstitutionsController@index')->middleware('auth');
+    Route::any('/update/{id}', 'InstitutionsController@update');
+    Route::any('/delete/{id}', 'InstitutionsController@delete');
 });
 
-Route::group(['prefix'=>'labs'],function(){
-    Route::get('/','LabsController@index');
-    Route::any('/update/{id}','LabsController@update');
-    Route::any('/delete/{id}','LabsController@delete');
+Route::group(['prefix' => 'labs'], function () {
+    Route::get('/', 'LabsController@index')->middleware('auth');
+    Route::any('/update/{id}', 'LabsController@update');
+    Route::any('/delete/{id}', 'LabsController@delete');
 });
 
-Route::group(['prefix'=>'projects'],function(){
-    Route::get('/','ProjectsController@index');
-    Route::any('/update/{id}','ProjectsController@update');
-    Route::any('/delete/{id}','ProjectsController@delete');
+Route::group(['prefix' => 'projects'], function () {
+    Route::get('/', 'ProjectsController@index')->middleware('auth');
+    Route::any('/update/{id}', 'ProjectsController@update');
+    Route::any('/delete/{id}', 'ProjectsController@delete');
+    Route::get('/projectInfo/{id}', 'ProjectsController@detail');
 });
 
-Route::group(['prefix'=>'samples'],function(){
-    Route::get('/','SamplesController@index');
-    Route::any('/update/{id}','SamplesController@update');
-    Route::any('/delete/{id}','SamplesController@delete');
+Route::group(['prefix' => 'samples'], function () {
+    Route::get('/', 'SamplesController@index');
+    Route::any('/update/{id}', 'SamplesController@update');
+    Route::any('/delete/{id}', 'SamplesController@delete');
 });
 
 Route::get('/status', 'StatusController@index');

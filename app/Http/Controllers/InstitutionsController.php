@@ -15,24 +15,25 @@ class InstitutionsController extends Controller
     public function index()
     {
         $institutions = Institutions::paginate(15);
-        return view('institutions', ['institutions'=>$institutions]);
+        return view('institutions', ['institutions' => $institutions]);
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $institution = Institutions::find($id);
-        if($request->isMethod('post')){
+        if ($request->isMethod('post')) {
             $new_instiname = $request->input('new-stiname');
-            $institution['name'] =$new_instiname;
+            $institution['name'] = $new_instiname;
 
-            if($institution->save()){
+            if ($institution->save()) {
                 return redirect('/institutions');
             }
         }
-        return view('insti_update',['institution'=>$institution]);
+        return view('insti_update', ['institution' => $institution]);
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $institution = Institutions::find($id);
         $institution->delete();
         return redirect('/institutions');

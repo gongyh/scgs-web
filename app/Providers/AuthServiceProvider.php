@@ -25,14 +25,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-        Gate::define('delete-update-control',function($user){
-            if(Labs::where('principleInvestigator',$user->name)->count() > 0){
-                return true;
-            }else{
-                return false;
-            }
-        });
+        // $this->registerPolicies();
+        // Gate::define('delete-update-control',function($user){
+        //     if(Labs::where('principleInvestigator',$user->name)->count() > 0){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // });
         //
     }
 }

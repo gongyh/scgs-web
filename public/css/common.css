@@ -1,60 +1,80 @@
-
 /* middle-area */
 .middle-area {
-    margin-top:20px;
+  margin-top: 20px;
 }
 
- /* left-column */
+/* left-column */
 .list {
-    width:200px;
-    height:350px;
-    margin-top:100px;
+  width: 200px;
+  height: 350px;
+  margin-top: 100px;
 }
 
 /* middle-column */
 .middle-info {
-    height:100px;
-    padding:20px;
-    border-top: 3px #369 dashed;
-    border-bottom:3px #369 dashed;
-    text-align: center;
-    font-family: 'Times New Roman';
-    font-size: 35px;
-    color:#369;
+  height: 100px;
+  padding: 20px;
+  border-top: 3px #369 dashed;
+  border-bottom: 3px #369 dashed;
+  text-align: center;
+  font-family: 'Arial';
+  font-size: 35px;
+  color: #369;
 }
 
 .result-info {
-    height:50px;
-    padding:10px;
-    text-align: center;
-    font-family: 'Times New Roman';
-    font-size: 20px;
-    color:#369;
+  height: 50px;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Arial';
+  font-size: 20px;
+  color: #369;
 }
 
 .others {
-    height:40px;
-    text-align:center;
-    font-family: 'Times New Roman';
-    font-size: 20px;
-    color:#369;
-    border-bottom:3px #369 dashed;
+  height: 40px;
+  text-align: center;
+  font-family: 'Times New Roman';
+  font-size: 20px;
+  color: #369;
+  border-bottom: 3px #369 dashed;
+}
+
+.result-detail {
+  margin-top: 10px;
 }
 
 .table-header {
-    text-align:center;
-    font:bold 22px "Times New Roman"
+  text-align: center;
+  font: normal 22px "Arial"
 }
 
 .table-item {
-    text-align:center;
+  text-align: center;
 }
 
 nav:last-child {
-    margin-left:25%;
+  margin-left: 25%;
 }
 
 /* footer */
-.footer{
-    margin-top:300px;
+.footer {
+  margin-top: 300px;
+}
+
+/* project_info */
+.proj_title {
+  font: bold 20px "Arial";
+  line-height: 20px;
+  margin: 15px;
+}
+
+.proj_detail,
+.sampleTable {
+  margin-left: 15px;
+}
+
+.proj_detail {
+  font-size: 18px;
+  line-height: 18px;
 }
