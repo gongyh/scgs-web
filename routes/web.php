@@ -22,6 +22,8 @@ Route::group(['prefix' => 'institutions'], function () {
     Route::get('/', 'InstitutionsController@index')->middleware('auth');
     Route::any('/update/{id}', 'InstitutionsController@update');
     Route::any('/delete/{id}', 'InstitutionsController@delete');
+    Route::get('/labs', 'InstitutionsController@next');
+    Route::get('/labs/project', 'LabsController@next');
 });
 
 Route::group(['prefix' => 'labs'], function () {
@@ -38,10 +40,12 @@ Route::group(['prefix' => 'projects'], function () {
 });
 
 Route::group(['prefix' => 'samples'], function () {
-    Route::get('/', 'SamplesController@index');
+    Route::get('/', 'SamplesController@index')->middleware('auth');
     Route::any('/update/{id}', 'SamplesController@update');
     Route::any('/delete/{id}', 'SamplesController@delete');
 });
+
+Route::any('/labPasswd', 'LabsPasswdController@passwdCheck');
 
 Route::get('/status', 'StatusController@index');
 

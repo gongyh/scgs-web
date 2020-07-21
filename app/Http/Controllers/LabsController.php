@@ -18,7 +18,7 @@ class LabsController extends Controller
         $user = Auth::user();
         $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
         $labs = Labs::paginate(15);
-        return view('labs', compact('labs', 'isPI'));
+        return view('Labs.labs', compact('labs', 'isPI'));
     }
 
     public function update(Request $request, $id)
@@ -32,7 +32,7 @@ class LabsController extends Controller
                 $lab->save();
                 return redirect('/labs');
             }
-            return view('labs_update', ['lab' => $lab]);
+            return view('Labs.labs_update', ['lab' => $lab]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $ex) {
             return 'sorry!can not update!';
         }

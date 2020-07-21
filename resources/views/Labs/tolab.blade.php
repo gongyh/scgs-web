@@ -9,57 +9,57 @@
       <div class="list-group list">
         <a class="list-group-item" href="/institutions">Institutions</a>
         <a class="list-group-item" href="/labs">Labs</a>
-        <a class="list-group-item" href="/projects">Projects</a>
-        <a class="list-group-item" href="/samples">Samples</a>
-        <a class="list-group-item" href="/status">Status</a>
       </div>
     </div>
-
-    <!-- middle column -->
     <div class="col-sm-6 middle-column">
       <div class="middle-info">
         Welcome to SCGS-Web!
       </div>
       <div class="result">
         <div class="result-info">
-          Institution
+          Lab
         </div>
         <div class="result-detail">
-          <div class="institutions">
+          <div class="labs">
             <div class="table-responsive">
               <table class="table table-condense">
-                <thead class="thead-dark">
+                <thead class="table-dark">
                   <tr>
                     <th scope="col" class="table-header">ID</th>
-                    <th scope="col" class="table-header">Institutions</th>
+                    <th scope="col" class="table-header">Labs</th>
                     <th scope="col" class="table-header">Operation</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($institutions as $institution)
+                  @if($selectLabs !== null)
+                  @foreach ($selectLabs as $selectLab)
                   <tr>
-                    <th scope="row" class="table-item" name="insti-id">{{$institution->id}}</td>
-                    <td class="table-item" name="insti-name">
-                      <a href='#'>{{$institution->name}}</a></td>
+                    <th scope="row" class="table-item">{{$selectLab->id}}</td>
                     <td class="table-item">
-                      <a href="{{url('institutions/delete',['id'=>$institution->id])}}" onclick="if(confirm('Are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
-                      <a href="{{url('institutions/update',['id'=>$institution->id])}}" class="btn btn-primary btn-sm">edit</a>
+                      <a href="/labPasswd?labID={{$selectLab->id}}">{{$selectLab->name}}</a>
+                    </td>
+                    <td class="table-item">
+                      <a href="{{$isPI ? url('labs/delete',['id'=>$selectLab->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '' : 'disabled'}}" onclick="if(confirm('Are you sure to delete?')==false) return false;">delete</a>
+                      <a href="{{$isPI ? url('labs/update',['id'=>$selectLab->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '':'disabled'}} ">edit</a>
                     </td>
                   </tr>
                   @endforeach
+                  @endif
+
                 </tbody>
               </table>
             </div>
-            {{$institutions->links()}}
+            @if($selectLabs !== null)
+            {{$selectLabs->links()}}
+            @endif
           </div>
         </div>
       </div>
     </div>
-
     <!-- right-column -->
     <div class="col-sm-3 right-column">
       <div class="others">
-        Structure
+        Notice
       </div>
       <div class="other-info">
 

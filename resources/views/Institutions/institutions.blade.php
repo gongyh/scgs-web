@@ -9,53 +9,54 @@
       <div class="list-group list">
         <a class="list-group-item" href="/institutions">Institutions</a>
         <a class="list-group-item" href="/labs">Labs</a>
-        <a class="list-group-item" href="/projects">Projects</a>
-        <a class="list-group-item" href="/samples">Samples</a>
-        <a class="list-group-item" href="/status">Status</a>
       </div>
     </div>
+
+    <!-- middle column -->
     <div class="col-sm-6 middle-column">
       <div class="middle-info">
         Welcome to SCGS-Web!
       </div>
       <div class="result">
         <div class="result-info">
-          Lab
+          Institution
         </div>
         <div class="result-detail">
-          <div class="labs">
+          <div class="institutions">
             <div class="table-responsive">
               <table class="table table-condense">
-                <thead class="table-dark">
+                <thead class="thead-dark">
                   <tr>
                     <th scope="col" class="table-header">ID</th>
-                    <th scope="col" class="table-header">Labs</th>
+                    <th scope="col" class="table-header">Institutions</th>
                     <th scope="col" class="table-header">Operation</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($labs as $lab)
+                  @foreach ($institutions as $institution)
                   <tr>
-                    <th scope="row" class="table-item">{{$lab->id}}</td>
-                    <td class="table-item"><a href='#'>{{$lab->name}}</a></td>
+                    <th scope="row" class="table-item" name="insti-id">{{$institution->id}}</td>
+                    <td class="table-item" name="insti-name">
+                      <a href="/institutions/labs?instiID={{$institution->id}}">{{$institution->name}}</a></td>
                     <td class="table-item">
-                      <a href="{{$isPI ? url('labs/delete',['id'=>$lab->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '' : 'disabled'}}" onclick="if(confirm('Are you sure to delete?')==false) return false;">delete</a>
-                      <a href="{{$isPI ? url('labs/update',['id'=>$lab->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '':'disabled'}} ">edit</a>
+                      <a href="{{url('institutions/delete',['id'=>$institution->id])}}" onclick="if(confirm('Are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
+                      <a href="{{url('institutions/update',['id'=>$institution->id])}}" class="btn btn-primary btn-sm">edit</a>
                     </td>
                   </tr>
                   @endforeach
                 </tbody>
               </table>
             </div>
-            {{$labs->links()}}
+            {{$institutions->links()}}
           </div>
         </div>
       </div>
     </div>
+
     <!-- right-column -->
     <div class="col-sm-3 right-column">
       <div class="others">
-        Structure
+        Notice
       </div>
       <div class="other-info">
 

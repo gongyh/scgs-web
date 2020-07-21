@@ -19,7 +19,7 @@ class ProjectsController extends Controller
         $projects = Projects::paginate(15);
         $user = Auth::user();
         $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
-        return view('projects', compact('projects', 'isPI'));
+        return view('Projects.projects', compact('projects', 'isPI'));
     }
 
     public function update(Request $request, $id)
@@ -34,7 +34,7 @@ class ProjectsController extends Controller
                     return redirect('/projects');
                 }
             }
-            return view('proj_update', ['project' => $project]);
+            return view('Projects.proj_update', ['project' => $project]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $ex) {
             return 'sorry!can not update!';
         }
@@ -51,6 +51,6 @@ class ProjectsController extends Controller
     public function detail($id)
     {
         $project = Projects::find($id);
-        return view('projects_info', ['project' => $project]);
+        return view('Projects.projects_info', ['project' => $project]);
     }
 }
