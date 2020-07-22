@@ -23,7 +23,7 @@
           <div class="labs">
             <div class="table-responsive">
               <table class="table table-condense">
-                <thead class="table-dark">
+                <thead>
                   <tr>
                     <th scope="col" class="table-header">ID</th>
                     <th scope="col" class="table-header">Labs</th>

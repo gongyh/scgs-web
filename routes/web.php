@@ -23,7 +23,7 @@ Route::group(['prefix' => 'institutions'], function () {
     Route::any('/update/{id}', 'InstitutionsController@update');
     Route::any('/delete/{id}', 'InstitutionsController@delete');
     Route::get('/labs', 'InstitutionsController@next');
-    Route::get('/labs/project', 'LabsController@next');
+    Route::get('/labs/projects', 'LabsController@next');
 });
 
 Route::group(['prefix' => 'labs'], function () {
@@ -46,6 +46,10 @@ Route::group(['prefix' => 'samples'], function () {
 });
 
 Route::any('/labPasswd', 'LabsPasswdController@passwdCheck');
+
+Route::get('/toproject', function () {
+    return view('Projects.toprojects');
+});
 
 Route::get('/status', 'StatusController@index');
 

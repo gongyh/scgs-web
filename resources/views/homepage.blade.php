@@ -26,7 +26,7 @@
     <!-- right-column -->
     <div class="col-sm-3 right-column">
       <div class="others">
-        Structure
+        Notice
       </div>
       <div class="other-info">
 

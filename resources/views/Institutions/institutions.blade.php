@@ -25,7 +25,7 @@
           <div class="institutions">
             <div class="table-responsive">
               <table class="table table-condense">
-                <thead class="thead-dark">
+                <thead>
                   <tr>
                     <th scope="col" class="table-header">ID</th>
                     <th scope="col" class="table-header">Institutions</th>
@@ -39,8 +39,8 @@
                     <td class="table-item" name="insti-name">
                       <a href="/institutions/labs?instiID={{$institution->id}}">{{$institution->name}}</a></td>
                     <td class="table-item">
-                      <a href="{{url('institutions/delete',['id'=>$institution->id])}}" onclick="if(confirm('Are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
-                      <a href="{{url('institutions/update',['id'=>$institution->id])}}" class="btn btn-primary btn-sm">edit</a>
+                      <a href="{{$isPI ? url('institutions/delete',['id'=>$institution->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '' : 'disabled'}}" onclick="if(confirm('Are you sure to delete?')==false) return false;">delete</a>
+                      <a href="{{$isPI ? url('institutions/update',['id'=>$institution->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '' : 'disabled'}}">edit</a>
                     </td>
                   </tr>
                   @endforeach

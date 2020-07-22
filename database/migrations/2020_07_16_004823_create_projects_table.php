@@ -16,8 +16,10 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name', 250)->unique();
-            $table->string('doi',100);
-            $table->string('description',250);
+            $table->string('doi', 100);
+            $table->string('description', 250);
+            $table->string('labID', 250);
+            $table->foreign('labID')->references('id')->on('labs')->onDelete('cascade');
             $table->timestamps();
         });
     }

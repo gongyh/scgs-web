@@ -9,9 +9,6 @@
       <div class="list-group list">
         <a class="list-group-item" href="/institutions">Institutions</a>
         <a class="list-group-item" href="/labs">Labs</a>
-        <a class="list-group-item" href="/projects">Projects</a>
-        <a class="list-group-item" href="/samples">Samples</a>
-        <a class="list-group-item" href="/status">Status</a>
       </div>
     </div>
     <div class="col-sm-6 middle-column">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Labs;
+use App\Projects;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -43,5 +44,19 @@ class LabsController extends Controller
         $lab = Labs::find($id);
         $lab->delete();
         return redirect('/labs');
+    }
+
+    public function next(Request $request)
+    {
+        $labID = $request->input('labID');
+        try {
+            $selectProjects = Projects::where('labID', $labID)->paginate(15);
+            $user = Auth::user();
+            $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
+            return view('Projects.toprojects', ['selectProjects' => $selectProjects, 'isPI' => $isPI]);
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $selectProjects = null;
+            return view('Projects.toprojects', ['selectProjects' => $selectProjects]);
+        }
     }
 }

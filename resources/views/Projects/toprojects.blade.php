@@ -13,38 +13,44 @@
     </div>
     <div class="col-sm-6 middle-column">
       <div class="middle-info">
-        Welcome to SCGS-Web!
+        Welcome!
       </div>
       <div class="result">
         <div class="result-info">
-          Lab
+          Project
         </div>
         <div class="result-detail">
-          <div class="labs">
+          <div class="projects">
             <div class="table-responsive">
               <table class="table table-condense">
-                <thead class="table-dark">
+                <thead>
                   <tr>
                     <th scope="col" class="table-header">ID</th>
-                    <th scope="col" class="table-header">Labs</th>
+                    <th scope="col" class="table-header">Projects</th>
+                    <th scope="col" class="table-header">Description</th>
                     <th scope="col" class="table-header">Operation</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($labs as $lab)
+                  @if($selectProjects !== null)
+                  @foreach ($selectProjects as $selectProject)
                   <tr>
-                    <th scope="row" class="table-item">{{$lab->id}}</td>
-                    <td class="table-item"><a href='/labPasswd?labID={{$lab->id}}'>{{$lab->name}}</a></td>
+                    <th scope="row" class="table-item">{{$selectProject->id}}</td>
+                    <td class="table-item"><a href="{{url('projects/projectInfo',['id'=>$selectProject->id])}}">{{$selectProject->name}}</a></td>
+                    <td class="table-item desc">{{$selectProject->description}}</td>
                     <td class="table-item">
-                      <a href="{{$isPI ? url('labs/delete',['id'=>$lab->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '' : 'disabled'}}" onclick="if(confirm('Are you sure to delete?')==false) return false;">delete</a>
-                      <a href="{{$isPI ? url('labs/update',['id'=>$lab->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '':'disabled'}} ">edit</a>
+                      <a href="{{$isPI ? url('projects/delete',['id'=>$selectProject->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '' : 'disabled'}}" onclick="if(confirm('Are you sure to delete?')==false) return false;">delete</a>
+                      <a href="{{$isPI ? url('projects/update',['id'=>$selectProject->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '':'disabled'}} ">edit</a>
                     </td>
                   </tr>
                   @endforeach
+                  @endif
                 </tbody>
               </table>
             </div>
-            {{$labs->links()}}
+            @if($selectProjects !== null)
+            {{$selectProjects->links()}}
+            @endif
           </div>
         </div>
       </div>
@@ -59,6 +65,5 @@
       </div>
     </div>
   </div>
-
 </div>
 @endsection

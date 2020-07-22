@@ -16,8 +16,10 @@ class InstitutionsController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
         $institutions = Institutions::paginate(15);
-        return view('Institutions.institutions', ['institutions' => $institutions]);
+        return view('Institutions.institutions', ['institutions' => $institutions, 'isPI' => $isPI]);
     }
 
     public function update(Request $request, $id)

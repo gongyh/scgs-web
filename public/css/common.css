@@ -14,8 +14,14 @@
 /* left-column */
 .list {
   width: 200px;
-  height: 350px;
-  margin-top: 100px;
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+.list-group-item {
+  font-family: "Arial";
+  font-size: 20px;
+  line-height: 20px;
 }
 
 /* middle-column */
