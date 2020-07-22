@@ -9,47 +9,48 @@
       <div class="list-group list">
         <a class="list-group-item" href="/institutions">Institutions</a>
         <a class="list-group-item" href="/labs">Labs</a>
-        <a class="list-group-item" href="/projects">Projects</a>
-        <a class="list-group-item" href="/samples">Samples</a>
-        <a class="list-group-item" href="/status">Status</a>
       </div>
     </div>
     <div class="col-sm-6 middle-column">
       <div class="middle-info">
-        Welcome to SCGS-Web!
+        Welcome!
       </div>
       <div class="result">
         <div class="result-info">
-          Sample
+          Project
         </div>
         <div class="result-detail">
-          <div class="labs">
+          <div class="projects">
             <div class="table-responsive">
               <table class="table table-condense">
-                <thead class="table-dark">
+                <thead>
                   <tr>
                     <th scope="col" class="table-header">ID</th>
-                    <th scope="col" class="table-header">Samples</th>
-                    <th scope="col" class="table-header">Species</th>
+                    <th scope="col" class="table-header">Projects</th>
+                    <th scope="col" class="table-header">Description</th>
                     <th scope="col" class="table-header">Operation</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($samples as $sample)
+                  @if($selectProjects !== null)
+                  @foreach ($selectProjects as $selectProject)
                   <tr>
-                    <th scope="row" class="table-item">{{$sample->id}}</td>
-                    <td class="table-item"><a href='#'>{{$sample->sampleLabel}}</a></td>
-                    <td class="table-item">{{$sample->species}}</td>
+                    <th scope="row" class="table-item">{{$selectProject->id}}</td>
+                    <td class="table-item"><a href="{{url('projects/projectInfo',['id'=>$selectProject->id])}}">{{$selectProject->name}}</a></td>
+                    <td class="table-item desc">{{$selectProject->description}}</td>
                     <td class="table-item">
-                      <a href="{{url('samples/delete',['id'=>$sample->id])}}" onclick="if(confirm('Are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
-                      <a href="{{url('samples/update',['id'=>$sample->id])}}" class="btn btn-primary btn-sm">edit</a>
+                      <a href="{{$isPI ? url('projects/delete',['id'=>$selectProject->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '' : 'disabled'}}" onclick="if(confirm('Are you sure to delete?')==false) return false;">delete</a>
+                      <a href="{{$isPI ? url('projects/update',['id'=>$selectProject->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '':'disabled'}} ">edit</a>
                     </td>
                   </tr>
                   @endforeach
+                  @endif
                 </tbody>
               </table>
             </div>
-            {{$samples->links()}}
+            @if($selectProjects !== null)
+            {{$selectProjects->links()}}
+            @endif
           </div>
         </div>
       </div>
@@ -57,13 +58,12 @@
     <!-- right-column -->
     <div class="col-sm-3 right-column">
       <div class="others">
-        Structure
+        Notice
       </div>
       <div class="other-info">
 
       </div>
     </div>
   </div>
-
 </div>
 @endsection

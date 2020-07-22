@@ -11,6 +11,6 @@ class InstitutionsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Institutions::class, 100)->create();
+        factory(App\Institutions::class, 20)->create();
     }
 }

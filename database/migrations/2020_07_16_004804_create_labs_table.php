@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateLabsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('labs', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 250)->unique();
+            $table->string('principleInvestigator',40);
+            $table->integer('institution_id');
+            $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade');
+            $table->string('login',20);
+            $table->string('password',20);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('labs');
+    }
+}

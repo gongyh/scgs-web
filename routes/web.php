@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InstitutionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,13 +18,38 @@ Route::get('/', function () {
     return view('homepage');
 });
 
-Route::get('/projects','ProjectsController@index');
+Route::group(['prefix' => 'institutions'], function () {
+    Route::get('/', 'InstitutionsController@index')->middleware('auth');
+    Route::any('/update/{id}', 'InstitutionsController@update');
+    Route::any('/delete/{id}', 'InstitutionsController@delete');
+    Route::get('/labs', 'InstitutionsController@next');
+    Route::get('/labs/projects', 'LabsController@next');
+});
 
-Route::get('/labs', 'LabsController@index');
+Route::group(['prefix' => 'labs'], function () {
+    Route::get('/', 'LabsController@index')->middleware('auth');
+    Route::any('/update/{id}', 'LabsController@update');
+    Route::any('/delete/{id}', 'LabsController@delete');
+});
 
-Route::get('/institutions', 'InstitutionsController@index');
+Route::group(['prefix' => 'projects'], function () {
+    Route::get('/', 'ProjectsController@index')->middleware('auth');
+    Route::any('/update/{id}', 'ProjectsController@update');
+    Route::any('/delete/{id}', 'ProjectsController@delete');
+    Route::get('/projectInfo/{id}', 'ProjectsController@detail');
+});
 
-Route::get('/samples', 'SamplesController@index');
+Route::group(['prefix' => 'samples'], function () {
+    Route::get('/', 'SamplesController@index')->middleware('auth');
+    Route::any('/update/{id}', 'SamplesController@update');
+    Route::any('/delete/{id}', 'SamplesController@delete');
+});
+
+Route::any('/labPasswd', 'LabsPasswdController@passwdCheck');
+
+Route::get('/toproject', function () {
+    return view('Projects.toprojects');
+});
 
 Route::get('/status', 'StatusController@index');
 

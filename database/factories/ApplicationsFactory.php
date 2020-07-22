@@ -2,15 +2,13 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Projects;
+use App\Application;
 use Faker\Generator as Faker;
 
-$factory->define(Projects::class, function (Faker $faker) {
+$factory->define(Application::class, function (Faker $faker) {
     return [
         'id' => $faker->randomNumber(5, true),
-        'labID' => $faker->randomNumber(5, true),
-        'name' => $faker->company,
-        'doi' => $faker->numerify('doi #####'),
+        'name' => $faker->name,
         'description' => $faker->sentence(5, true),
         'updated_at' => now(),
         'created_at' => now()

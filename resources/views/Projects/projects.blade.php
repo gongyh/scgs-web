@@ -16,40 +16,40 @@
     </div>
     <div class="col-sm-6 middle-column">
       <div class="middle-info">
-        Welcome to SCGS-Web!
+        Welcome!
       </div>
       <div class="result">
         <div class="result-info">
-          Sample
+          Project
         </div>
         <div class="result-detail">
-          <div class="labs">
+          <div class="projects">
             <div class="table-responsive">
               <table class="table table-condense">
                 <thead class="table-dark">
                   <tr>
                     <th scope="col" class="table-header">ID</th>
-                    <th scope="col" class="table-header">Samples</th>
-                    <th scope="col" class="table-header">Species</th>
+                    <th scope="col" class="table-header">Projects</th>
+                    <th scope="col" class="table-header">Description</th>
                     <th scope="col" class="table-header">Operation</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($samples as $sample)
+                  @foreach ($projects as $project)
                   <tr>
-                    <th scope="row" class="table-item">{{$sample->id}}</td>
-                    <td class="table-item"><a href='#'>{{$sample->sampleLabel}}</a></td>
-                    <td class="table-item">{{$sample->species}}</td>
+                    <th scope="row" class="table-item">{{$project->id}}</td>
+                    <td class="table-item"><a href="{{url('projects/projectInfo',['id'=>$project->id])}}">{{$project->name}}</a></td>
+                    <td class="table-item desc">{{$project->description}}</td>
                     <td class="table-item">
-                      <a href="{{url('samples/delete',['id'=>$sample->id])}}" onclick="if(confirm('Are you sure to delete?')==false) return false;" class="btn btn-primary btn-sm">delete</a>
-                      <a href="{{url('samples/update',['id'=>$sample->id])}}" class="btn btn-primary btn-sm">edit</a>
+                      <a href="{{$isPI ? url('projects/delete',['id'=>$project->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '' : 'disabled'}}" onclick="if(confirm('Are you sure to delete?')==false) return false;">delete</a>
+                      <a href="{{$isPI ? url('projects/update',['id'=>$project->id]):'javascript:void(0)'}}" class="btn btn-primary btn-sm {{$isPI ? '':'disabled'}} ">edit</a>
                     </td>
                   </tr>
                   @endforeach
                 </tbody>
               </table>
             </div>
-            {{$samples->links()}}
+            {{$projects->links()}}
           </div>
         </div>
       </div>
@@ -64,6 +64,5 @@
       </div>
     </div>
   </div>
-
 </div>
 @endsection
