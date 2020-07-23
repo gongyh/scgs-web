@@ -14,18 +14,25 @@ class LabsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = Auth::user();
-        $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
+        $instiID = $request->input('instiID');
         $labs = Labs::paginate(15);
-        return view('Labs.labs', compact('labs', 'isPI'));
+        if (auth::check()) {
+            $user = Auth::user();
+            $isPI = Labs::where([['institution_id', $instiID], ['principleInvestigator', $user->name]])->get()->count > 0;
+            $isAdmin = $user->email == 'admin@123.com';
+            return view('Labs.labs', compact('labs', 'isPI', 'isAdmin'));
+        } else {
+            $isPI  = false;
+            $isAdmin = false;
+            return view('Labs.labs', compact('labs', 'isPI', 'isAdmin'));
+        }
     }
 
     public function update(Request $request, $id)
     {
         try {
-            $this->authorize('delete-update-control');
             $lab = Labs::findOrFail($id);
             if ($request->isMethod('POST')) {
                 $new_labname = $request->input('new-labname');
@@ -46,13 +53,30 @@ class LabsController extends Controller
         return redirect('/labs');
     }
 
+    public function create(Request $request)
+    {
+        $user = Auth::user();
+        $pi = $user->name;
+        $instiID = $request->input("instiID");
+        if ($request->isMethod('POST')) {
+            $new_lab_name = $request->input('new_lab_name');
+            Labs::create([
+                'name' => $new_lab_name,
+                'principleInvestigator' => $pi,
+                'institution_id' => $instiID
+            ]);
+            return redirect('/institutions/labs?instiID=' . $instiID);
+        }
+        return view('Labs.labs_create');
+    }
+
     public function next(Request $request)
     {
         $labID = $request->input('labID');
         try {
             $selectProjects = Projects::where('labID', $labID)->paginate(15);
             $user = Auth::user();
-            $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
+            $isPI = Labs::where('principleInvestigator', $user->name)->get()->count() > 0;
             return view('Projects.toprojects', ['selectProjects' => $selectProjects, 'isPI' => $isPI]);
         } catch (\Illuminate\Database\QueryException $ex) {
             $selectProjects = null;

@@ -16,11 +16,9 @@ class CreateLabsTable extends Migration
         Schema::create('labs', function (Blueprint $table) {
             $table->id();
             $table->string('name', 250)->unique();
-            $table->string('principleInvestigator',40);
+            $table->string('principleInvestigator', 40);
             $table->integer('institution_id');
             $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade');
-            $table->string('login',20);
-            $table->string('password',20);
             $table->timestamps();
         });
     }

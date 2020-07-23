@@ -16,10 +16,15 @@ class InstitutionsController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
         $institutions = Institutions::paginate(15);
-        return view('Institutions.institutions', ['institutions' => $institutions, 'isPI' => $isPI]);
+        if (auth::check()) {
+            $user = Auth::user();
+            $isAdmin = $user->email == 'admin@123.com';
+            return view('Institutions.institutions', ['institutions' => $institutions, 'isAdmin' => $isAdmin]);
+        } else {
+            $isAdmin = false;
+            return view('Institutions.institutions', ['institutions' => $institutions, 'isAdmin' => $isAdmin]);
+        }
     }
 
     public function update(Request $request, $id)
@@ -43,17 +48,36 @@ class InstitutionsController extends Controller
         return redirect('/institutions');
     }
 
+    public function create(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $new_insti_name = $request->input('new_insti_name');
+            Institutions::create([
+                'name' => $new_insti_name
+            ]);
+            return redirect('/institutions');
+        }
+        return view('Institutions.insti_create');
+    }
+
     public function next(Request $request)
     {
         $instiID = $request->input('instiID');
+        $selectLabs = Labs::where('institution_id', $instiID)->paginate(15);
         try {
-            $selectLabs = Labs::where('institution_id', $instiID)->paginate(15);
-            $user = Auth::user();
-            $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
-            return view('Labs.tolab', ['selectLabs' => $selectLabs, 'isPI' => $isPI]);
+            if (auth::check()) {
+                $user = Auth::user();
+                $isPI = Labs::where([['institution_id', $instiID], ['principleInvestigator', $user->name]])->get();
+                $isAdmin = $user->email == 'admin@123.com';
+                return view('Labs.tolab', compact('selectLabs', 'isPI', 'isAdmin', 'instiID'));
+            } else {
+                $isPI  = collect();
+                $isAdmin = false;
+                return view('Labs.tolab', compact('selectLabs', 'isPI', 'isAdmin', 'instiID'));
+            }
         } catch (\Illuminate\Database\QueryException $ex) {
             $selectLabs = null;
-            return view('Labs.tolab', ['selectLabs' => $selectLabs]);
+            return view('Labs.tolab', compact('selectLabs', 'instiID'));
         }
     }
 }

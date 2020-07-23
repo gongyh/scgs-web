@@ -12,4 +12,5 @@ class Institutions extends Model
      * @var string
      */
     protected $table = 'institutions';
+    protected $fillable = ['name', 'id'];
 }

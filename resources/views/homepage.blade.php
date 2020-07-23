@@ -8,7 +8,6 @@
     <div class="col-sm-3 left-column">
       <div class="list-group list">
         <a class="list-group-item" href="/institutions">Institutions</a>
-        <a class="list-group-item" href="/labs">Labs</a>
       </div>
     </div>
     <div class="col-sm-6 middle-column">
