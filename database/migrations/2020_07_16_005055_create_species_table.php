@@ -15,9 +15,9 @@ class CreateSpeciesTable extends Migration
     {
         Schema::create('species', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 250)->unique();
-            $table->string('fasta',200);
-            $table->string('gff',200);
+            $table->string('name', 250);
+            $table->string('fasta', 200);
+            $table->string('gff', 200);
             $table->timestamps();
         });
     }

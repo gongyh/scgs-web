@@ -16,7 +16,11 @@
       </div>
       <div class="result">
         <div class="result-info">
-          Home
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active" aria-current="page">Home</li>
+            </ol>
+          </nav>
         </div>
         <div class="result-detail">
         </div>

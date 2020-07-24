@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Closure;
 
-class BanInstitutionsCreate
+class BanInstitutionsOperation
 {
     /**
      * Handle an incoming request.

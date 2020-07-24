@@ -18,7 +18,11 @@
       </div>
       <div class="result">
         <div class="result-info">
-          Institution
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active" aria-current="page">institutions</li>
+            </ol>
+          </nav>
         </div>
         <div class="result-detail">
           <div class="institutions">

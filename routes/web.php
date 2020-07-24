@@ -20,15 +20,15 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'institutions'], function () {
     Route::get('/', 'InstitutionsController@index');
-    Route::any('/update/{id}', 'InstitutionsController@update');
-    Route::any('/create', 'InstitutionsController@create')->middleware('ban-insti-create');
-    Route::any('/delete/{id}', 'InstitutionsController@delete');
-    Route::get('/labs', 'InstitutionsController@next');
+    Route::any('/update/{id}', 'InstitutionsController@update')->middleware('ban-insti-opt');
+    Route::any('/delete/{id}', 'InstitutionsController@delete')->middleware('ban-insti-opt');
+    Route::any('/create', 'InstitutionsController@create')->middleware('ban-insti-opt');
 });
 
 Route::group(['prefix' => 'institutions/labs'], function () {
-    Route::any('/update/{id}', 'LabsController@update');
-    Route::any('/delete/{id}', 'LabsController@delete');
+    Route::get('/', 'LabsController@index');
+    Route::any('/update', 'LabsController@update')->middleware('ban-labs-update');
+    Route::any('/delete', 'LabsController@delete')->middleware('ban-labs-delete');
     Route::any('/create', 'LabsController@create')->middleware('auth');
     Route::get('/projects', 'LabsController@next');
 });

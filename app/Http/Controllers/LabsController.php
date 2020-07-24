@@ -17,28 +17,35 @@ class LabsController extends Controller
     public function index(Request $request)
     {
         $instiID = $request->input('instiID');
-        $labs = Labs::paginate(15);
-        if (auth::check()) {
-            $user = Auth::user();
-            $isPI = Labs::where([['institution_id', $instiID], ['principleInvestigator', $user->name]])->get()->count > 0;
-            $isAdmin = $user->email == 'admin@123.com';
-            return view('Labs.labs', compact('labs', 'isPI', 'isAdmin'));
-        } else {
-            $isPI  = false;
-            $isAdmin = false;
-            return view('Labs.labs', compact('labs', 'isPI', 'isAdmin'));
+        $selectLabs = Labs::where('institution_id', $instiID)->paginate(15);
+        try {
+            if (auth::check()) {
+                $user = Auth::user();
+                $isPI = Labs::where([['institution_id', $instiID], ['principleInvestigator', $user->name]])->get();
+                $isAdmin = $user->email == 'admin@123.com';
+                return view('Labs.labs', compact('selectLabs', 'isPI', 'isAdmin', 'instiID'));
+            } else {
+                $isPI  = collect();
+                $isAdmin = false;
+                return view('Labs.labs', compact('selectLabs', 'isPI', 'isAdmin', 'instiID'));
+            }
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $selectLabs = null;
+            return view('Labs.labs', compact('selectLabs', 'instiID'));
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         try {
-            $lab = Labs::findOrFail($id);
+            $instiID = $request->input('instiID');
+            $labID = $request->input('labID');
+            $lab = Labs::findOrFail($labID);
             if ($request->isMethod('POST')) {
                 $new_labname = $request->input('new-labname');
                 $lab['name'] = $new_labname;
                 $lab->save();
-                return redirect('/labs');
+                return redirect('institutions/labs?instiID=' . $instiID);
             }
             return view('Labs.labs_update', ['lab' => $lab]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $ex) {
