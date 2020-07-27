@@ -43,7 +43,7 @@
                   <tr>
                     <th scope="row" class="table-item">{{$selectLab->id}}</td>
                     <td class="table-item">
-                      <a href="labs/projects?labID={{$selectLab->id}}">{{$selectLab->name}}</a>
+                      <a href="/projects?labID={{$selectLab->id}}">{{$selectLab->name}}</a>
                     </td>
                     <td class="table-item">
                       @if($isAdmin)

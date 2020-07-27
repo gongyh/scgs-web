@@ -11,7 +11,6 @@ a:link {
   width: 100%;
 }
 
-
 /* middle-area */
 .middle-area {
   margin-top: 20px;
@@ -60,6 +59,11 @@ a:link {
 
 .table-item {
   text-align: center;
+}
+
+.desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .pagination {

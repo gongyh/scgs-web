@@ -17,11 +17,11 @@ class LabsController extends Controller
     public function index(Request $request)
     {
         $instiID = $request->input('instiID');
-        $selectLabs = Labs::where('institution_id', $instiID)->paginate(15);
+        $selectLabs = Labs::where('institutions_id', $instiID)->paginate(15);
         try {
             if (auth::check()) {
                 $user = Auth::user();
-                $isPI = Labs::where([['institution_id', $instiID], ['principleInvestigator', $user->name]])->get();
+                $isPI = Labs::where([['institutions_id', $instiID], ['principleInvestigator', $user->name]])->get();
                 $isAdmin = $user->email == 'admin@123.com';
                 return view('Labs.labs', compact('selectLabs', 'isPI', 'isAdmin', 'instiID'));
             } else {
@@ -37,20 +37,20 @@ class LabsController extends Controller
 
     public function update(Request $request)
     {
-        try {
-            $instiID = $request->input('instiID');
-            $labID = $request->input('labID');
-            $lab = Labs::findOrFail($labID);
-            if ($request->isMethod('POST')) {
-                $new_labname = $request->input('new-labname');
+        $instiID = $request->input('instiID');
+        $labID = $request->input('labID');
+        $lab = Labs::findOrFail($labID);
+        if ($request->isMethod('POST')) {
+            $new_labname = $request->input('new-labname');
+            try {
                 $lab['name'] = $new_labname;
                 $lab->save();
-                return redirect('institutions/labs?instiID=' . $instiID);
+                return redirect('/labs?instiID=' . $instiID);
+            } catch (\Illuminate\Database\QueryException $ex) {
+                return 'Sorry!You have not input the lab name!';
             }
-            return view('Labs.labs_update', ['lab' => $lab]);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $ex) {
-            return 'sorry!can not update!';
         }
+        return view('Labs.labs_update', ['lab' => $lab]);
     }
 
     public function delete($id)
@@ -70,24 +70,10 @@ class LabsController extends Controller
             Labs::create([
                 'name' => $new_lab_name,
                 'principleInvestigator' => $pi,
-                'institution_id' => $instiID
+                'institutions_id' => $instiID
             ]);
-            return redirect('/institutions/labs?instiID=' . $instiID);
+            return redirect('/labs?instiID=' . $instiID);
         }
         return view('Labs.labs_create');
-    }
-
-    public function next(Request $request)
-    {
-        $labID = $request->input('labID');
-        try {
-            $selectProjects = Projects::where('labID', $labID)->paginate(15);
-            $user = Auth::user();
-            $isPI = Labs::where('principleInvestigator', $user->name)->get()->count() > 0;
-            return view('Projects.toprojects', ['selectProjects' => $selectProjects, 'isPI' => $isPI]);
-        } catch (\Illuminate\Database\QueryException $ex) {
-            $selectProjects = null;
-            return view('Projects.toprojects', ['selectProjects' => $selectProjects]);
-        }
     }
 }

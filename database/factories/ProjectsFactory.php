@@ -10,6 +10,7 @@ $factory->define(Projects::class, function (Faker $faker) {
         'name' => $faker->company,
         'doi' => $faker->numerify('doi #####'),
         'description' => $faker->sentence(5, true),
+        'labs_id' => $faker->randomDigitNotNull,
         'updated_at' => now(),
         'created_at' => now()
     ];

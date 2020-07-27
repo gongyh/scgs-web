@@ -25,26 +25,27 @@ Route::group(['prefix' => 'institutions'], function () {
     Route::any('/create', 'InstitutionsController@create')->middleware('ban-insti-opt');
 });
 
-Route::group(['prefix' => 'institutions/labs'], function () {
+Route::group(['prefix' => 'labs'], function () {
     Route::get('/', 'LabsController@index');
     Route::any('/update', 'LabsController@update')->middleware('ban-labs-update');
     Route::any('/delete', 'LabsController@delete')->middleware('ban-labs-delete');
     Route::any('/create', 'LabsController@create')->middleware('auth');
-    Route::get('/projects', 'LabsController@next');
 });
 
-// Route::group(['prefix' => 'projects'], function () {
-//     Route::get('/', 'ProjectsController@index');
-//     Route::any('/update/{id}', 'ProjectsController@update');
-//     Route::any('/delete/{id}', 'ProjectsController@delete');
-//     Route::get('/projectInfo/{id}', 'ProjectsController@detail');
-// });
+Route::group(['prefix' => 'projects'], function () {
+    Route::get('/', 'ProjectsController@index');
+    Route::any('/update', 'ProjectsController@update');
+    Route::any('/delete', 'ProjectsController@delete');
+    Route::any('/create', 'ProjectsController@create');
+    Route::get('/projectInfo', 'ProjectsController@detail');
+});
 
-// Route::group(['prefix' => 'samples'], function () {
-//     Route::get('/', 'SamplesController@index');
-//     Route::any('/update/{id}', 'SamplesController@update');
-//     Route::any('/delete/{id}', 'SamplesController@delete');
-// });
+Route::group(['prefix' => 'samples'], function () {
+    Route::get('/', 'SamplesController@index');
+    Route::any('/update', 'SamplesController@update');
+    Route::any('/create', 'SamplesController@create');
+    Route::any('/delete', 'SamplesController@delete');
+});
 
 Route::get('/status', 'StatusController@index');
 

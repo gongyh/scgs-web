@@ -12,5 +12,5 @@ class Labs extends Model
      * @var string
      */
     protected $table = 'Labs';
-    protected $fillable = ['name', 'id', 'principleInvestigator', 'institution_id'];
+    protected $fillable = ['name', 'id', 'principleInvestigator', 'institutions_id'];
 }

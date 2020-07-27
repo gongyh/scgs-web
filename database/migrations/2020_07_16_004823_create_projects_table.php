@@ -18,8 +18,8 @@ class CreateProjectsTable extends Migration
             $table->string('name', 250);
             $table->string('doi', 100);
             $table->string('description', 250);
-            $table->string('labID', 250);
-            $table->foreign('labID')->references('id')->on('labs')->onDelete('cascade');
+            $table->integer('labs_id');
+            $table->foreign('labs_id')->references('id')->on('labs')->onDelete('cascade');
             $table->timestamps();
         });
     }

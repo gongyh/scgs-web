@@ -12,4 +12,5 @@ class Samples extends Model
      * @var string
      */
     protected $table = 'samples';
+    protected $fillable = ['sampleLabel', 'pairends'];
 }

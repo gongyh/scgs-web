@@ -9,6 +9,7 @@ $factory->define(Labs::class, function (Faker $faker) {
     return [
         'name' => $faker->company,
         'principleInvestigator' => $faker->name,
+        'institutions_id' => $faker->randomDigitNotNull,
         'updated_at' => now(),
         'created_at' => now()
     ];

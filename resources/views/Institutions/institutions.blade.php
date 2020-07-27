@@ -45,7 +45,7 @@
                   <tr>
                     <th scope="row" class="table-item" name="insti-id">{{$institution->id}}</td>
                     <td class="table-item" name="insti-name">
-                      <a href="/institutions/labs?instiID={{$institution->id}}">{{$institution->name}}</a></td>
+                      <a href="/labs?instiID={{$institution->id}}">{{$institution->name}}</a></td>
                     @if($isAdmin)
                     <td class="table-item">
                       <a href="{{url('institutions/delete',['id'=>$institution->id])}}" class="btn btn-primary btn-sm" onclick="if(confirm('Are you sure to delete?')==false) return false;">delete</a>

@@ -31,11 +31,15 @@ class InstitutionsController extends Controller
     {
         $institution = Institutions::find($id);
         if ($request->isMethod('post')) {
-            $new_instiname = $request->input('new-stiname');
-            $institution['name'] = $new_instiname;
-
-            if ($institution->save()) {
+            $new_instiname = $request->input('new-instiname');
+            try {
+                $institution['name'] = $new_instiname;
+                if ($institution->save()) {
+                    return redirect('/institutions');
+                }
                 return redirect('/institutions');
+            } catch (\Illuminate\Database\QueryException $ex) {
+                return 'Sorry!You have not input the institution name!';
             }
         }
         return view('Institutions.insti_update', ['institution' => $institution]);
