@@ -12,4 +12,5 @@ class Projects extends Model
      * @var string
      */
     protected $table = 'projects';
+    protected $fillable = ['labs_id', 'name', 'description', 'doi'];
 }

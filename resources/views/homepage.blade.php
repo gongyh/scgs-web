@@ -8,7 +8,6 @@
     <div class="col-sm-3 left-column">
       <div class="list-group list">
         <a class="list-group-item" href="/institutions">Institutions</a>
-        <a class="list-group-item" href="/labs">Labs</a>
       </div>
     </div>
     <div class="col-sm-6 middle-column">
@@ -17,7 +16,11 @@
       </div>
       <div class="result">
         <div class="result-info">
-          Home
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active" aria-current="page">Home</li>
+            </ol>
+          </nav>
         </div>
         <div class="result-detail">
         </div>

@@ -16,21 +16,30 @@ class InstitutionsController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
         $institutions = Institutions::paginate(15);
-        return view('Institutions.institutions', ['institutions' => $institutions, 'isPI' => $isPI]);
+        if (auth::check()) {
+            $user = Auth::user();
+            $isAdmin = $user->email == 'admin@123.com';
+            return view('Institutions.institutions', ['institutions' => $institutions, 'isAdmin' => $isAdmin]);
+        } else {
+            $isAdmin = false;
+            return view('Institutions.institutions', ['institutions' => $institutions, 'isAdmin' => $isAdmin]);
+        }
     }
 
     public function update(Request $request, $id)
     {
         $institution = Institutions::find($id);
         if ($request->isMethod('post')) {
-            $new_instiname = $request->input('new-stiname');
-            $institution['name'] = $new_instiname;
-
-            if ($institution->save()) {
+            $new_instiname = $request->input('new-instiname');
+            try {
+                $institution['name'] = $new_instiname;
+                if ($institution->save()) {
+                    return redirect('/institutions');
+                }
                 return redirect('/institutions');
+            } catch (\Illuminate\Database\QueryException $ex) {
+                return 'Sorry!You have not input the institution name!';
             }
         }
         return view('Institutions.insti_update', ['institution' => $institution]);
@@ -43,17 +52,15 @@ class InstitutionsController extends Controller
         return redirect('/institutions');
     }
 
-    public function next(Request $request)
+    public function create(Request $request)
     {
-        $instiID = $request->input('instiID');
-        try {
-            $selectLabs = Labs::where('institution_id', $instiID)->paginate(15);
-            $user = Auth::user();
-            $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
-            return view('Labs.tolab', ['selectLabs' => $selectLabs, 'isPI' => $isPI]);
-        } catch (\Illuminate\Database\QueryException $ex) {
-            $selectLabs = null;
-            return view('Labs.tolab', ['selectLabs' => $selectLabs]);
+        if ($request->isMethod('POST')) {
+            $new_insti_name = $request->input('new_insti_name');
+            Institutions::create([
+                'name' => $new_insti_name
+            ]);
+            return redirect('/institutions');
         }
+        return view('Institutions.insti_create');
     }
 }

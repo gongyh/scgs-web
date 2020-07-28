@@ -4,20 +4,21 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <form action=" " method="post">
+      <form method="post" action="">
         @csrf
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Projects-edit</h5>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Project Name</span>
-              </div>
-              <input type="text" class="form-control" name="new-projname" value="{{$project->name}}">
-            </div>
-            <button type="commit" class="btn btn-primary">Commit</button>
-          </div>
+        <div class="form-group">
+          <label for="new_projName">Project Name</label>
+          <input type="text" class="form-control" name="new_projName" id="new_projName" value="{{$project->name}}">
         </div>
+        <div class="form-group">
+          <label for="new_doiNum">DOI Number</label>
+          <input type="text" class="form-control" name="new_doiNum" id="new_doiNum" value="{{$project->doi}}">
+        </div>
+        <div class="form-group">
+          <label for="new_projDesc">Description</label>
+          <input type="text" class="form-control" name="new_projDesc" id="new_projDesc" value="{{$project->description}}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
   </div>

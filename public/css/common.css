@@ -1,10 +1,15 @@
+a:hover,
+a:visited,
+a:link {
+  text-decoration: none;
+}
+
 .banner-image {
   background: url('../image/banner.jpg') no-repeat;
   background-size: 100% 100%;
-  height: 150px;
+  height: 80px;
   width: 100%;
 }
-
 
 /* middle-area */
 .middle-area {
@@ -28,27 +33,16 @@
 .middle-info {
   height: 100px;
   padding: 20px;
-  border-top: 3px #369 dotted;
-  border-bottom: 3px #369 dotted;
   text-align: center;
   font-family: 'Arial';
   font-size: 35px;
   color: #369;
 }
 
-.result-info {
-  height: 50px;
-  padding: 10px;
-  text-align: center;
-  font-family: 'Arial';
-  font-size: 20px;
-  color: #369;
-}
-
 .others {
   height: 40px;
   text-align: center;
-  font-family: 'Times New Roman';
+  font-family: 'Arial';
   font-size: 20px;
   color: #369;
   border-bottom: 3px #369 dotted;
@@ -67,8 +61,13 @@
   text-align: center;
 }
 
-nav:last-child {
-  margin-left: 25%;
+.desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pagination {
+  justify-content: center !important;
 }
 
 /* footer */

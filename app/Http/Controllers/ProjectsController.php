@@ -14,24 +14,47 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Projects::paginate(15);
-        $user = Auth::user();
-        $isPI = Labs::where('PrincipleInvestigator', $user->name)->get()->count() > 0;
-        return view('Projects.projects', compact('projects', 'isPI'));
+        $labID = $request->input('labID');
+        $current_insti_id = Labs::where('id', $labID)->value('institutions_id');
+        $selectProjects = Projects::where('labs_id', $labID)->paginate(15);
+        try {
+            if (auth::check()) {
+                $user = Auth::user();
+                $isPI = Labs::where([['id', $labID], ['principleInvestigator', $user->name]])->get()->count() > 0;
+                $isAdmin = $user->email == 'admin@123.com';
+                return view('Projects.projects', compact('selectProjects', 'isPI', 'isAdmin', 'labID', 'current_insti_id'));
+            } else {
+                $isPI  = false;
+                $isAdmin = false;
+                return view('Projects.projects', compact('selectProjects', 'isPI', 'isAdmin', 'labID', 'current_insti_id'));
+            }
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $selectLabs = null;
+            return view('Labs.labs', compact('selectLabs', 'labID', 'current_insti_id'));
+        }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         try {
             // $this->authorize('delete-update-control');
-            $project = Projects::find($id);
+            $labID = $request->input('labID');
+            $proj_id = $request->input('projectID');
+            $project = Projects::find($proj_id);
             if ($request->isMethod('POST')) {
-                $new_proj = $request->input('new-projname');
-                $project['name'] = $new_proj;
-                if ($project->save()) {
-                    return redirect('/projects');
+                $new_proj = $request->input('new_projName');
+                $new_doi = $request->input('new_projDoi');
+                $new_desc = $request->input('new_projDesc');
+                try {
+                    $project['name'] = $new_proj;
+                    $project['doi'] = $new_doi;
+                    $project['description'] = $new_desc;
+                    $project->save();
+                    return redirect('/projects?labID=' . $labID);
+                } catch (\Illuminate\Database\QueryException $ex) {
+                    return 'Sorry!You have not input the sample label!';
                 }
             }
             return view('Projects.proj_update', ['project' => $project]);
@@ -40,17 +63,36 @@ class ProjectsController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
         // $this->authorize('delete-update-control');
-        $project = Projects::find($id);
+        $proj_id = $request->input('projectID');
+        $lab_id = $request->input('labID');
+        $project = Projects::find($proj_id);
         $project->delete();
-        return redirect('/projects');
+        return redirect('/projects?labID=' . $lab_id);
     }
 
-    public function detail($id)
+    public function create(Request $request)
     {
-        $project = Projects::find($id);
-        return view('Projects.projects_info', ['project' => $project]);
+        if ($request->isMethod('POST')) {
+            $labID = $request->input('labID');
+            $new_proj_name = $request->input('new_proj_name');
+            $new_doi_num = $request->input('new_doi_num');
+            $new_proj_desc = $request->input('new_proj_desc');
+            try{
+                Projects::create([
+                    'labs_id' => $labID,
+                    'name' => $new_proj_name,
+                    'doi' => $new_doi_num,
+                    'description' => $new_proj_desc
+                ]);
+                return redirect('/projects?labID=' . $labID);
+            }catch(\Illuminate\Database\QueryException $ex){
+                return 'Sorry!You have not input the sample label!';
+            }
+        }
+        return view('Projects.proj_create');
     }
+
 }

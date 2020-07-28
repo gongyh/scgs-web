@@ -7,13 +7,12 @@ use Faker\Generator as Faker;
 
 $factory->define(Samples::class, function (Faker $faker) {
     return [
-        'id' => $faker->randomNumber(5, true),
         'filename1' => $faker->name,
         'filename2' => $faker->name,
-        'species_id' => $faker->randomNumber(5,true),
-        'application_id' => $faker->randomNumber(5,true),
-        'lab_id' => $faker->randomNumber(5,true),
-        'pairends' => $faker->randomNumber(1, true),
+        'pairends' => $faker->randomDigitNotNull,
+        'species_id' => $faker->randomDigitNotNull,
+        'projects_id' => $faker->randomDigitNotNull,
+        'applications_id' => $faker->randomDigitNotNull,
         'sampleLabel' => $faker->name,
         'updated_at' => now(),
         'created_at' => now()

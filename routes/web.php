@@ -19,36 +19,32 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'institutions'], function () {
-    Route::get('/', 'InstitutionsController@index')->middleware('auth');
-    Route::any('/update/{id}', 'InstitutionsController@update');
-    Route::any('/delete/{id}', 'InstitutionsController@delete');
-    Route::get('/labs', 'InstitutionsController@next');
-    Route::get('/labs/projects', 'LabsController@next');
+    Route::get('/', 'InstitutionsController@index');
+    Route::any('/update/{id}', 'InstitutionsController@update')->middleware('ban-insti-opt');
+    Route::any('/delete/{id}', 'InstitutionsController@delete')->middleware('ban-insti-opt');
+    Route::any('/create', 'InstitutionsController@create')->middleware('ban-insti-opt');
 });
 
 Route::group(['prefix' => 'labs'], function () {
-    Route::get('/', 'LabsController@index')->middleware('auth');
-    Route::any('/update/{id}', 'LabsController@update');
-    Route::any('/delete/{id}', 'LabsController@delete');
+    Route::get('/', 'LabsController@index');
+    Route::any('/update', 'LabsController@update')->middleware('ban-labs-update');
+    Route::any('/delete', 'LabsController@delete')->middleware('ban-labs-delete');
+    Route::any('/create', 'LabsController@create')->middleware('auth');
 });
 
 Route::group(['prefix' => 'projects'], function () {
-    Route::get('/', 'ProjectsController@index')->middleware('auth');
-    Route::any('/update/{id}', 'ProjectsController@update');
-    Route::any('/delete/{id}', 'ProjectsController@delete');
-    Route::get('/projectInfo/{id}', 'ProjectsController@detail');
+    Route::get('/', 'ProjectsController@index');
+    Route::any('/update', 'ProjectsController@update');
+    Route::any('/delete', 'ProjectsController@delete');
+    Route::any('/create', 'ProjectsController@create');
+    Route::get('/projectInfo', 'ProjectsController@detail');
 });
 
 Route::group(['prefix' => 'samples'], function () {
-    Route::get('/', 'SamplesController@index')->middleware('auth');
-    Route::any('/update/{id}', 'SamplesController@update');
-    Route::any('/delete/{id}', 'SamplesController@delete');
-});
-
-Route::any('/labPasswd', 'LabsPasswdController@passwdCheck');
-
-Route::get('/toproject', function () {
-    return view('Projects.toprojects');
+    Route::get('/', 'SamplesController@index');
+    Route::any('/update', 'SamplesController@update');
+    Route::any('/create', 'SamplesController@create');
+    Route::any('/delete', 'SamplesController@delete');
 });
 
 Route::get('/status', 'StatusController@index');
