@@ -7,7 +7,7 @@
   <div class="row middle-area">
     <div class="col-sm-3 left-column">
       <div class="list-group list">
-        <a class="list-group-item" href="/institutions">Institutions</a>
+
       </div>
     </div>
     <div class="col-sm-6 middle-column">

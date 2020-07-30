@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Labs;
-use App\Projects;
+use App\Institutions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -16,36 +16,55 @@ class LabsController extends Controller
      */
     public function index(Request $request)
     {
-        $instiID = $request->input('instiID');
-        $selectLabs = Labs::where('institutions_id', $instiID)->paginate(15);
-        try {
-            if (auth::check()) {
-                $user = Auth::user();
-                $isPI = Labs::where([['institutions_id', $instiID], ['principleInvestigator', $user->name]])->get();
-                $isAdmin = $user->email == 'admin@123.com';
-                return view('Labs.labs', compact('selectLabs', 'isPI', 'isAdmin', 'instiID'));
-            } else {
-                $isPI  = collect();
-                $isAdmin = false;
-                return view('Labs.labs', compact('selectLabs', 'isPI', 'isAdmin', 'instiID'));
+        if ($request->isMethod('POST')) {
+            try {
+                $search_lab = $request->input('search_lab');
+                $findLabs = Labs::where('name', 'LIKE', '%' . $search_lab . '%')->paginate(15);
+                if (auth::check()) {
+                    $user = Auth::user();
+                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
+                    $isAdmin = $user->email == 'admin@123.com';
+                    return view('Labs.labs', compact('findLabs', 'isPI', 'isAdmin'));
+                } else {
+                    $isPI  = collect();
+                    $isAdmin = false;
+                    return view('Labs.labs', compact('findLabs', 'isPI', 'isAdmin'));
+                }
+            } catch (\Illuminate\Database\QueryException $ex) {
+                $findLabs = null;
+                return view('Labs.labs', compact('findLabs'));
             }
-        } catch (\Illuminate\Database\QueryException $ex) {
-            $selectLabs = null;
-            return view('Labs.labs', compact('selectLabs', 'instiID'));
+        } else {
+            $Labs = Labs::paginate(15);
+            try {
+                if (auth::check()) {
+                    $user = Auth::user();
+                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
+                    $isAdmin = $user->email == 'admin@123.com';
+                    return view('Labs.labs', compact('Labs', 'isPI', 'isAdmin'));
+                } else {
+                    $isPI  = collect();
+                    $isAdmin = false;
+                    return view('Labs.labs', compact('Labs', 'isPI', 'isAdmin'));
+                }
+            } catch (\Illuminate\Database\QueryException $ex) {
+                $selectLabs = null;
+                return view('Labs.labs', compact('Labs'));
+            }
         }
     }
 
     public function update(Request $request)
     {
-        $instiID = $request->input('instiID');
         $labID = $request->input('labID');
+        $current_page = ceil($labID / 15);
         $lab = Labs::findOrFail($labID);
         if ($request->isMethod('POST')) {
             $new_labname = $request->input('new-labname');
             try {
                 $lab['name'] = $new_labname;
                 $lab->save();
-                return redirect('/labs?instiID=' . $instiID);
+                return redirect('/labs?page=' . $current_page);
             } catch (\Illuminate\Database\QueryException $ex) {
                 return 'Sorry!You have not input the lab name!';
             }
@@ -53,27 +72,41 @@ class LabsController extends Controller
         return view('Labs.labs_update', ['lab' => $lab]);
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-        $lab = Labs::find($id);
+        $lab_id = $request->input('labID');
+        $current_page = ceil($lab_id / 15);
+        $lab = Labs::find($lab_id);
         $lab->delete();
-        return redirect('/labs');
+        return redirect('/labs?page=' . $current_page);
     }
 
     public function create(Request $request)
     {
+        $institutions = Institutions::all();
         $user = Auth::user();
         $pi = $user->name;
-        $instiID = $request->input("instiID");
+
         if ($request->isMethod('POST')) {
             $new_lab_name = $request->input('new_lab_name');
-            Labs::create([
-                'name' => $new_lab_name,
-                'principleInvestigator' => $pi,
-                'institutions_id' => $instiID
-            ]);
-            return redirect('/labs?instiID=' . $instiID);
+            if ($request->input('selectInstitution') != "Choose a institution") {
+                try {
+                    $chose_insti_id = $request->input('selectInstitution');
+                    Labs::Create([
+                        'name' => $new_lab_name,
+                        'principleInvestigator' => $pi,
+                        'institutions_id' => $chose_insti_id
+                    ]);
+                    return redirect('/labs');
+                } catch (\Illuminate\Database\QueryException $ex) {
+                    $error = 'You haven\'t input lab name';
+                    return view('Labs.labs_create', ['institutions' => $institutions, 'error' => $error]);
+                }
+            } else {
+                $error = 'choose a institution first';
+                return view('Labs.labs_create', ['institutions' => $institutions, 'error' => $error]);
+            }
         }
-        return view('Labs.labs_create');
+        return view('Labs.labs_create', ['institutions' => $institutions]);
     }
 }

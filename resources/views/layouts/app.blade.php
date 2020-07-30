@@ -37,7 +37,17 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-
+              <li class="nav-item">
+                <a href="/labs" class="nav-link nav-labs">Labs</a>
+              </li>
+              <li class="nav-item">
+                <a href="/projects" class="nav-link nav-proj">Projects</a>
+              </li>
+              <li class="nav-item">
+                <div class="contact">
+                  Contact : Qibebt
+                </div>
+              </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -63,6 +73,13 @@
                                                      document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}
                                 </a>
+                    @if(Auth::user()->email == 'admin@123.com')
+                    <a href="/institutions/create" class="dropdown-item">Add institutions</a>
+                    @endif
+                    <a href="/labs/create" class="dropdown-item">Add labs</a>
+                    <a href="/projects/create" class="dropdown-item">Add projects</a>
+                    <a href="/myLab" class="dropdown-item">My Lab</a>
+                    <a href="/myProject" class="dropdown-item">My Project</a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                       @csrf
