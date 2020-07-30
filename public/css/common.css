@@ -4,6 +4,18 @@ a:link {
   text-decoration: none;
 }
 
+/* navbar */
+.nav-labs,
+.nav-proj {
+  margin-left: 1.0rem;
+}
+
+.contact {
+  display: block;
+  color: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 0.5rem;
+}
+
 .banner-image {
   background: url('../image/banner.jpg') no-repeat;
   background-size: 100% 100%;
@@ -90,4 +102,18 @@ a:link {
 .proj_detail {
   font-size: 18px;
   line-height: 18px;
+}
+
+/* labs_create */
+.choose_insti,
+.choose_lab,
+.selectInstitution,
+.selectLab,
+.add_insti {
+  margin-bottom: 10px;
+}
+
+.input_title {
+  font-size: 14px;
+  font-family: "Arial";
 }

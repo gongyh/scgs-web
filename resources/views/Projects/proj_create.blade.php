@@ -6,6 +6,16 @@
     <div class="col-md-8">
       <form method="post" action="">
         @csrf
+        @isset($labs)
+        <div class="choose_lab input_title">Choose a lab</div>
+        <select class="custom-select selectLab" name="selectLab">
+          <option selected>choose a lab</option>
+          @foreach($labs as $lab)
+          <option value="{{$lab->id}}">{{$lab->name}}</option>
+          @endforeach
+        </select>
+        @endisset
+
         <div class="form-group">
           <label for="new_proj_name">Project Name</label>
           <input type="text" class="form-control" name="new_proj_name" id="new_proj_name">
@@ -18,6 +28,9 @@
           <label for="new_proj_desc">Description</label>
           <input type="text" class="form-control" name="new_proj_desc" id="new_proj_desc">
         </div>
+        @isset($error)
+        <div class="text-danger">{{$error}}</div>
+        @endisset
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
