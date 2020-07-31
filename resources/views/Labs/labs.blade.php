@@ -42,7 +42,7 @@
                 <thead>
                   <tr>
                     <th scope="col" class="table-header">ID</th>
-                    <th scope="col" class="table-header">Labs</th>
+                    <th scope="col" class="table-header">Lab</th>
                     <th scope="col" class="table-header">principleInvestigator</th>
                     <th></th>
                     <th scope="col" class="table-header"><a href="labs/create"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -129,9 +129,7 @@
     </div>
     <!-- right-column -->
     <div class="col-sm-3 right-column">
-      <div class="others">
-        Notice
-      </div>
+
       <div class="other-info">
 
       </div>

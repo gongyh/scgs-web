@@ -50,7 +50,11 @@ Route::group(['prefix' => 'samples'], function () {
 
 Route::get('/myLab', 'MineController@myLab');
 
-Route::get('/status', 'StatusController@index');
+Route::get('/myProject', 'MineController@myProject');
+
+Route::get('/aboutus', function () {
+    return view('aboutus');
+});
 
 Auth::routes();
 

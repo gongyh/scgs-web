@@ -44,10 +44,13 @@
                 <a href="/projects" class="nav-link nav-proj">Projects</a>
               </li>
               <li class="nav-item">
-                <div class="contact">
-                  Contact : Qibebt
-                </div>
+                <a href="/aboutus" class="nav-link nav-aboutus">AboutUs</a>
               </li>
+              @if(Auth::check())
+              <li class="nav-item">
+                <a href="" class="nav-link nav-workspace">Workspace</a>
+              </li>
+              @endif
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -76,8 +79,6 @@
                     @if(Auth::user()->email == 'admin@123.com')
                     <a href="/institutions/create" class="dropdown-item">Add institutions</a>
                     @endif
-                    <a href="/labs/create" class="dropdown-item">Add labs</a>
-                    <a href="/projects/create" class="dropdown-item">Add projects</a>
                     <a href="/myLab" class="dropdown-item">My Lab</a>
                     <a href="/myProject" class="dropdown-item">My Project</a>
 
@@ -91,9 +92,11 @@
           </div>
       </div>
     </nav>
+    @if(!strpos(URL::current(),'/aboutus'))
     <div class="banner">
       <div class="banner-image"></div>
     </div>
+    @endif
 
     <main class="py-4">
       @yield('content')

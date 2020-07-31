@@ -41,7 +41,7 @@
                 <thead>
                   <tr>
                     <th scope="col" class="table-header">ID</th>
-                    <th scope="col" class="table-header">Projects</th>
+                    <th scope="col" class="table-header">Project</th>
                     <th scope="col" class="table-header">Description</th>
                     <th></th>
 
@@ -133,9 +133,7 @@
     </div>
     <!-- right-column -->
     <div class="col-sm-3 right-column">
-      <div class="others">
-        Notice
-      </div>
+
       <div class="other-info">
 
       </div>
