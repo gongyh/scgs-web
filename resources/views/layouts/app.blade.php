@@ -48,7 +48,7 @@
               </li>
               @if(Auth::check())
               <li class="nav-item">
-                <a href="" class="nav-link nav-workspace">Workspace</a>
+                <a href="/workspace" class="nav-link nav-workspace">Workspace</a>
               </li>
               @endif
             </ul>
@@ -79,8 +79,8 @@
                     @if(Auth::user()->email == 'admin@123.com')
                     <a href="/institutions/create" class="dropdown-item">Add institutions</a>
                     @endif
-                    <a href="/myLab" class="dropdown-item">My Lab</a>
-                    <a href="/myProject" class="dropdown-item">My Project</a>
+                    <!-- <a href="/myLab" class="dropdown-item">My Lab</a>
+                    <a href="/myProject" class="dropdown-item">My Project</a> -->
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                       @csrf

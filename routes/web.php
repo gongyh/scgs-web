@@ -56,6 +56,10 @@ Route::get('/aboutus', function () {
     return view('aboutus');
 });
 
+Route::get('/workspace', function () {
+    return view('workspace');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
