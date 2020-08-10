@@ -76,11 +76,6 @@
                                                      document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}
                                 </a>
-                    @if(Auth::user()->email == 'admin@123.com')
-                    <a href="/institutions/create" class="dropdown-item">Add institutions</a>
-                    @endif
-                    <!-- <a href="/myLab" class="dropdown-item">My Lab</a>
-                    <a href="/myProject" class="dropdown-item">My Project</a> -->
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                       @csrf

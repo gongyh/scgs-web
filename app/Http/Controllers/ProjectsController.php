@@ -51,22 +51,26 @@ class ProjectsController extends Controller
                     $project['doi'] = $new_doi;
                     $project['description'] = $new_desc;
                     $project->save();
-                    return redirect('/projects?labID=' . $labID);
+                    if ($request->input('pos')) {
+                        return redirect('/workspace/myLab/projects?labID=' . $labID);
+                    } else {
+                        return redirect('/labs/projects?labID=' . $labID);
+                    }
                 } catch (\Illuminate\Database\QueryException $ex) {
                     return 'Sorry!You have not input the information!';
                 }
             } else {
+                $current_page = $request->input('page');
                 $new_proj = $request->input('new_projName');
                 $new_doi = $request->input('new_doiNum');
                 $new_desc = $request->input('new_projDesc');
-                $current_page = ceil($proj_id / 15);
                 try {
                     $project['name'] = $new_proj;
                     $project['doi'] = $new_doi;
                     $project['description'] = $new_desc;
                     $project->save();
                     if ($request->input('pos')) {
-                        return redirect('/myProject');
+                        return redirect('/workspace/myProject');
                     } else {
                         return redirect('/projects?page=' . $current_page);
                     }
@@ -85,14 +89,18 @@ class ProjectsController extends Controller
             $lab_id = $request->input('labID');
             $project = Projects::find($proj_id);
             $project->delete();
-            return redirect('/labs/projects?labID=' . $lab_id);
+            if ($request->input('pos')) {
+                return redirect('/workspace/myLab/projects?labID=' . $lab_id);
+            } else {
+                return redirect('/labs/projects?labID=' . $lab_id);
+            }
         } else {
             $proj_id = $request->input('projectID');
-            $current_page = ceil($proj_id / 15);
+            $current_page = $request->input('page');
             $project = Projects::find($proj_id);
             $project->delete();
             if ($request->input('pos')) {
-                return redirect('/myProject');
+                return redirect('/workspace/myProject');
             } else {
                 return redirect('/projects?page=' . $current_page);
             }
@@ -119,7 +127,11 @@ class ProjectsController extends Controller
                         'doi' => $new_doi_num,
                         'description' => $new_proj_desc
                     ]);
-                    return redirect('/projects?labID=' . $labID);
+                    if ($request->input('pos')) {
+                        return redirect('/workspace/myLab/projects?labID=' . $labID);
+                    } else {
+                        return redirect('/projects?labID=' . $labID);
+                    }
                 } catch (\Illuminate\Database\QueryException $ex) {
                     return 'Sorry!You have not input all information!';
                 }
@@ -135,7 +147,7 @@ class ProjectsController extends Controller
                         'description' => $new_proj_desc
                     ]);
                     if ($request->input('pos')) {
-                        return redirect('/myProject');
+                        return redirect('/workspace/myProject');
                     } else {
                         return redirect('/projects');
                     }
@@ -176,16 +188,17 @@ class ProjectsController extends Controller
             }
         } else {
             $Projects = Projects::paginate(15);
+            $current_page = $request->input('page');
             try {
                 if (auth::check()) {
                     $user = Auth::user();
                     $isPI = Labs::where('principleInvestigator', $user->name)->get();
                     $isAdmin = $user->email == 'admin@123.com';
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin'));
+                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page'));
                 } else {
                     $isPI  = collect();
                     $isAdmin = false;
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin'));
+                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
                 $Projects = null;

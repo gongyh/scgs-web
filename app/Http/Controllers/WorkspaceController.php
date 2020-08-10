@@ -7,7 +7,7 @@ use App\Projects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class MineController extends Controller
+class WorkspaceController extends Controller
 {
     //
     public function myLab()
@@ -15,10 +15,10 @@ class MineController extends Controller
         $user = Auth::user();
         try {
             $myLabs = Labs::where('principleInvestigator', $user->name)->paginate(15);
-            return view('Mine.myLab', ['myLabs' => $myLabs]);
+            return view('Workspace.myLab', ['myLabs' => $myLabs]);
         } catch (\Illuminate\Database\QueryException $ex) {
             $myLabs = null;
-            return view('Mine.myLab', ['myLabs' => $myLabs]);
+            return view('Workspace.myLab', ['myLabs' => $myLabs]);
         }
     }
 
@@ -32,10 +32,22 @@ class MineController extends Controller
                 array_push($lab_id_list, $myLab->id);
             }
             $myProjects = Projects::whereIn('labs_id', $lab_id_list)->paginate(15);
-            return view('Mine.myProject', ['myProjects' => $myProjects]);
+            return view('Workspace.myProject', ['myProjects' => $myProjects]);
         } catch (\Illuminate\Database\QueryException $ex) {
             $myProjects = null;
-            return view('Mine.myProject', ['myProjects' => $myProjects]);
+            return view('Workspace.myProject', ['myProjects' => $myProjects]);
+        }
+    }
+
+    public function selectMyProj(Request $request)
+    {
+        try {
+            $labID = $request->input('labID');
+            $selectMyProjs = Projects::where('labs_id', $labID)->paginate(15);
+            return view('Workspace.selectMyProj', ['selectMyProjs' => $selectMyProjs, 'labID' => $labID]);
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $selectMyProjs = null;
+            return view('Workspace.selectMyProj', ['selectMyProjs' => $selectMyProjs, 'labID' => $labID]);
         }
     }
 }
