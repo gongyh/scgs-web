@@ -17,10 +17,11 @@ a:link {
 }
 
 .banner-image {
-  /* background: url('../image/banner.jpg') no-repeat;
-  background-size: 100% 100%; */
+  background: url('../image/banner.jpg') no-repeat;
+  background-size: 100% 100%;
   height: 80px;
   width: 100%;
+  display: none;
 }
 
 /* middle-area */
