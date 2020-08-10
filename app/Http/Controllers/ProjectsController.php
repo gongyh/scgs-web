@@ -65,7 +65,11 @@ class ProjectsController extends Controller
                     $project['doi'] = $new_doi;
                     $project['description'] = $new_desc;
                     $project->save();
-                    return redirect('/projects?page=' . $current_page);
+                    if ($request->input('pos')) {
+                        return redirect('/myProject');
+                    } else {
+                        return redirect('/projects?page=' . $current_page);
+                    }
                 } catch (\Illuminate\Database\QueryException $ex) {
                     return 'Sorry!You have not input the information!';
                 }
@@ -87,7 +91,11 @@ class ProjectsController extends Controller
             $current_page = ceil($proj_id / 15);
             $project = Projects::find($proj_id);
             $project->delete();
-            return redirect('/projects?page=' . $current_page);
+            if ($request->input('pos')) {
+                return redirect('/myProject');
+            } else {
+                return redirect('/projects?page=' . $current_page);
+            }
         }
     }
 
@@ -126,7 +134,11 @@ class ProjectsController extends Controller
                         'doi' => $new_doi_num,
                         'description' => $new_proj_desc
                     ]);
-                    return redirect('/projects');
+                    if ($request->input('pos')) {
+                        return redirect('/myProject');
+                    } else {
+                        return redirect('/projects');
+                    }
                 } catch (\Illuminate\Database\QueryException $ex) {
                     return 'Sorry!You have not input all information!';
                 }

@@ -64,7 +64,11 @@ class LabsController extends Controller
             try {
                 $lab['name'] = $new_labname;
                 $lab->save();
-                return redirect('/labs?page=' . $current_page);
+                if ($request->input('pos')) {
+                    return redirect('/myLab');
+                } else {
+                    return redirect('/labs?page=' . $current_page);
+                }
             } catch (\Illuminate\Database\QueryException $ex) {
                 return 'Sorry!You have not input the lab name!';
             }
@@ -78,7 +82,11 @@ class LabsController extends Controller
         $current_page = ceil($lab_id / 15);
         $lab = Labs::find($lab_id);
         $lab->delete();
-        return redirect('/labs?page=' . $current_page);
+        if ($request->input('pos')) {
+            return redirect('/myLab');
+        } else {
+            return redirect('/labs?page=' . $current_page);
+        }
     }
 
     public function create(Request $request)
@@ -97,7 +105,11 @@ class LabsController extends Controller
                         'principleInvestigator' => $pi,
                         'institutions_id' => $chose_insti_id
                     ]);
-                    return redirect('/labs');
+                    if ($request->input('pos')) {
+                        return redirect('/myLab');
+                    } else {
+                        return redirect('/labs');
+                    }
                 } catch (\Illuminate\Database\QueryException $ex) {
                     $error = 'You haven\'t input lab name';
                     return view('Labs.labs_create', ['institutions' => $institutions, 'error' => $error]);
