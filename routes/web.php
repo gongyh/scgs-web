@@ -19,9 +19,6 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'institutions'], function () {
-    // Route::get('/', 'InstitutionsController@index');
-    // Route::any('/update/{id}', 'InstitutionsController@update')->middleware('ban-insti-opt');
-    // Route::any('/delete/{id}', 'InstitutionsController@delete')->middleware('ban-insti-opt');
     Route::any('/create', 'InstitutionsController@create')->middleware('ban-insti-opt');
 });
 
@@ -37,7 +34,7 @@ Route::group(['prefix' => 'projects'], function () {
     Route::any('/', 'ProjectsController@projectList');
     Route::any('/update', 'ProjectsController@update');
     Route::any('/delete', 'ProjectsController@delete');
-    Route::any('/create', 'ProjectsController@create');
+    Route::any('/create', 'ProjectsController@create')->middleware('auth');
     Route::get('/projectInfo', 'ProjectsController@detail');
 });
 
@@ -48,16 +45,17 @@ Route::group(['prefix' => 'samples'], function () {
     Route::any('/delete', 'SamplesController@delete');
 });
 
-Route::get('/myLab', 'MineController@myLab');
-
-Route::get('/myProject', 'MineController@myProject');
+Route::group(['prefix' => 'workspace'], function () {
+    Route::get('/', function () {
+        return view('Workspace.workspace');
+    });
+    Route::get('/myLab', 'WorkspaceController@myLab');
+    Route::get('/myProject', 'WorkspaceController@myProject');
+    Route::get('/myLab/projects', 'WorkspaceController@selectMyProj');
+});
 
 Route::get('/aboutus', function () {
     return view('aboutus');
-});
-
-Route::get('/workspace', function () {
-    return view('workspace');
 });
 
 Auth::routes();
