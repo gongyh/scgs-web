@@ -14,43 +14,46 @@ class InstitutionsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    // public function index()
-    // {
-    //     $institutions = Institutions::paginate(15);
-    //     if (auth::check()) {
-    //         $user = Auth::user();
-    //         $isAdmin = $user->email == 'admin@123.com';
-    //         return view('Institutions.institutions', ['institutions' => $institutions, 'isAdmin' => $isAdmin]);
-    //     } else {
-    //         $isAdmin = false;
-    //         return view('Institutions.institutions', ['institutions' => $institutions, 'isAdmin' => $isAdmin]);
-    //     }
-    // }
+    public function index(Request $request)
+    {
+        try {
+            $institutions = Institutions::paginate(15);
+            $current_page = $request->input('page');
+            return view('Institutions.institutions', ['institutions' => $institutions, 'current_page' => $current_page]);
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $institutions = null;
+            return view('Institutions.institutions', ['institutions' => $institutions, 'current_page' => $current_page]);
+        }
+    }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $institution = Institutions::find($id);
-    //     if ($request->isMethod('post')) {
-    //         $new_instiname = $request->input('new-instiname');
-    //         try {
-    //             $institution['name'] = $new_instiname;
-    //             if ($institution->save()) {
-    //                 return redirect('/institutions');
-    //             }
-    //             return redirect('/institutions');
-    //         } catch (\Illuminate\Database\QueryException $ex) {
-    //             return 'Sorry!You have not input the institution name!';
-    //         }
-    //     }
-    //     return view('Institutions.insti_update', ['institution' => $institution]);
-    // }
+    public function update(Request $request)
+    {
+        $insti_id = $request->input('instiID');
+        $institution = Institutions::find($insti_id);
+        $current_page = $request->input('page');
+        if ($request->isMethod('post')) {
+            $new_instiname = $request->input('new-instiName');
+            try {
+                $institution['name'] = $new_instiname;
+                $institution->save();
+                return redirect('/institutions?page=' . $current_page);
+                return redirect('/institutions');
+            } catch (\Illuminate\Database\QueryException $ex) {
+                $error = 'Institution\'s name illegal';
+                return view('Institutions.insti_create', ['error' => $error]);
+            }
+        }
+        return view('Institutions.insti_update', ['institution' => $institution]);
+    }
 
-    // public function delete($id)
-    // {
-    //     $institution = Institutions::find($id);
-    //     $institution->delete();
-    //     return redirect('/institutions');
-    // }
+    public function delete(Request $request)
+    {
+        $insti_id = $request->input('instiID');
+        $current_page = $request->input('page');
+        $institution = Institutions::find($insti_id);
+        $institution->delete();
+        return redirect('/institutions?page=' . $current_page);
+    }
 
     public function create(Request $request)
     {
@@ -60,7 +63,7 @@ class InstitutionsController extends Controller
                 Institutions::create([
                     'name' => $new_insti_name
                 ]);
-                return redirect('/');
+                return redirect('/institutions');
             } catch (\Illuminate\Database\QueryException $ex) {
                 $error = 'Institution\'s name illegal';
                 return view('Institutions.insti_create', ['error' => $error]);

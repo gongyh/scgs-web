@@ -14,9 +14,4 @@ class Labs extends Model
      */
     protected $table = 'Labs';
     protected $fillable = ['name', 'id', 'principleInvestigator', 'institutions_id'];
-
-    public function projects()
-    {
-        return $this->hasMany(Projects::class);
-    }
 }

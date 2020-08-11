@@ -10,6 +10,10 @@ a:link {
   margin-left: 1.0rem;
 }
 
+.top-nav {
+  background-image: linear-gradient(to right, rgb(173, 218, 248), rgb(149, 195, 238), rgb(240, 187, 231));
+}
+
 .contact {
   display: block;
   color: rgba(0, 0, 0, 0.5);
@@ -71,7 +75,7 @@ a:link {
   margin-top: -20px;
   margin-bottom: 20px;
   text-align: center;
-  font-family: 'Arial';
+  font-family: 'Times New Roman';
   font-size: 35px;
   color: #369;
 }
@@ -114,9 +118,10 @@ a:link {
 
 /* project_info */
 .proj_title {
-  font: bold 20px "Arial";
+  font: normal 20px "Arial";
   line-height: 20px;
   margin: 15px;
+  color: #3490dc;
 }
 
 .proj_detail,
