@@ -11,9 +11,9 @@
       </div>
     </div>
     <div class="col-sm-6 middle-column">
-      <div class="middle-info">
-        Welcome!
-      </div>
+      <!-- <div class="middle-info">
+
+      </div> -->
       <div class="result">
         <div class="result-detail">
           <div class="project_name">

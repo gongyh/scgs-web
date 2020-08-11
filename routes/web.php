@@ -19,7 +19,10 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'institutions'], function () {
+    Route::get('/', 'InstitutionsController@index')->middleware('ban-insti-opt');
     Route::any('/create', 'InstitutionsController@create')->middleware('ban-insti-opt');
+    Route::any('/delete', 'InstitutionsController@delete')->middleware('ban-insti-opt');
+    Route::any('/update', 'InstitutionsController@update')->middleware('ban-insti-opt');
 });
 
 Route::group(['prefix' => 'labs'], function () {
@@ -27,11 +30,11 @@ Route::group(['prefix' => 'labs'], function () {
     Route::any('/update', 'LabsController@update')->middleware('ban-labs-update');
     Route::any('/delete', 'LabsController@delete')->middleware('ban-labs-delete');
     Route::any('/create', 'LabsController@create')->middleware('auth');
-    Route::get('/projects', 'ProjectsController@index');
+    Route::get('/projects', 'ProjectsController@selectProj');
 });
 
 Route::group(['prefix' => 'projects'], function () {
-    Route::any('/', 'ProjectsController@projectList');
+    Route::any('/', 'ProjectsController@index');
     Route::any('/update', 'ProjectsController@update');
     Route::any('/delete', 'ProjectsController@delete');
     Route::any('/create', 'ProjectsController@create')->middleware('auth');

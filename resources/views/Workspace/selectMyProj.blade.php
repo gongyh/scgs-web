@@ -8,7 +8,7 @@
       <ul class="nav nav-tabs">
         @if(Auth::user()->email == 'admin@123.com')
         <li class="nav-item">
-          <a class="nav-link" href="#">Add Institutions</a>
+          <a class="nav-link" href="/institutions">Institutions Manage</a>
         </li>
         @endif
         <li class="nav-item">
@@ -66,7 +66,7 @@
                   <tr>
                     <th scope="row" class="table-item">{{$selectMyProj->id}}</td>
                     <td class="table-item">
-                      <a href="/labs/projects?labID={{$selectMyProj->id}}">{{$selectMyProj->name}}</a>
+                      <a href="/samples?projectID={{$selectMyProj->id}}">{{$selectMyProj->name}}</a>
                     </td>
                     <td class="table-item">{{$selectMyProj->doi}}</td>
                     <td class="table-item">{{$selectMyProj->description}}</td>

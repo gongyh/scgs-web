@@ -14,25 +14,45 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index(Request $request)
     {
-        $labID = $request->input('labID');
-        $current_lab_name = Labs::where('id', $labID)->value('name');
-        $selectProjects = Projects::where('labs_id', $labID)->paginate(15);
-        try {
-            if (auth::check()) {
-                $user = Auth::user();
-                $isPI = Labs::where([['id', $labID], ['principleInvestigator', $user->name]])->get()->count() > 0;
-                $isAdmin = $user->email == 'admin@123.com';
-                return view('Projects.selectProjects', compact('selectProjects', 'isPI', 'isAdmin', 'labID', 'current_lab_name'));
-            } else {
-                $isPI  = false;
-                $isAdmin = false;
-                return view('Projects.selectProjects', compact('selectProjects', 'isPI', 'isAdmin', 'labID', 'current_lab_name'));
+        if ($request->isMethod('POST')) {
+            try {
+                $search_project = $request->input('search_project');
+                $findProjects = Projects::where('name', 'LIKE', '%' . $search_project . '%')->paginate(15);
+                if (auth::check()) {
+                    $user = Auth::user();
+                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
+                    $isAdmin = $user->email == 'admin@123.com';
+                    return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin'));
+                } else {
+                    $isPI  = collect();
+                    $isAdmin = false;
+                    return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin'));
+                }
+            } catch (\Illuminate\Database\QueryException $ex) {
+                $findProjects = null;
+                return view('Projects.projects', compact('findProjects'));
             }
-        } catch (\Illuminate\Database\QueryException $ex) {
-            $selectProjects = null;
-            return view('Project.selectProjects', compact('selectLabs', 'current_lab_name'));
+        } else {
+            $Projects = Projects::paginate(15);
+            $current_page = $request->input('page');
+            try {
+                if (auth::check()) {
+                    $user = Auth::user();
+                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
+                    $isAdmin = $user->email == 'admin@123.com';
+                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page'));
+                } else {
+                    $isPI  = collect();
+                    $isAdmin = false;
+                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page'));
+                }
+            } catch (\Illuminate\Database\QueryException $ex) {
+                $Projects = null;
+                return view('Projects.projects', compact('Projects'));
+            }
         }
     }
 
@@ -166,44 +186,25 @@ class ProjectsController extends Controller
         }
     }
 
-    public function projectList(Request $request)
+    public function selectProj(Request $request)
     {
-        if ($request->isMethod('POST')) {
-            try {
-                $search_project = $request->input('search_project');
-                $findProjects = Projects::where('name', 'LIKE', '%' . $search_project . '%')->paginate(15);
-                if (auth::check()) {
-                    $user = Auth::user();
-                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
-                    $isAdmin = $user->email == 'admin@123.com';
-                    return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin'));
-                } else {
-                    $isPI  = collect();
-                    $isAdmin = false;
-                    return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin'));
-                }
-            } catch (\Illuminate\Database\QueryException $ex) {
-                $findProjects = null;
-                return view('Projects.projects', compact('findProjects'));
+        $labID = $request->input('labID');
+        $current_lab_name = Labs::where('id', $labID)->value('name');
+        $selectProjects = Projects::where('labs_id', $labID)->paginate(15);
+        try {
+            if (auth::check()) {
+                $user = Auth::user();
+                $isPI = Labs::where([['id', $labID], ['principleInvestigator', $user->name]])->get()->count() > 0;
+                $isAdmin = $user->email == 'admin@123.com';
+                return view('Projects.selectProjects', compact('selectProjects', 'isPI', 'isAdmin', 'labID', 'current_lab_name'));
+            } else {
+                $isPI  = false;
+                $isAdmin = false;
+                return view('Projects.selectProjects', compact('selectProjects', 'isPI', 'isAdmin', 'labID', 'current_lab_name'));
             }
-        } else {
-            $Projects = Projects::paginate(15);
-            $current_page = $request->input('page');
-            try {
-                if (auth::check()) {
-                    $user = Auth::user();
-                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
-                    $isAdmin = $user->email == 'admin@123.com';
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page'));
-                } else {
-                    $isPI  = collect();
-                    $isAdmin = false;
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page'));
-                }
-            } catch (\Illuminate\Database\QueryException $ex) {
-                $Projects = null;
-                return view('Projects.projects', compact('Projects'));
-            }
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $selectProjects = null;
+            return view('Project.selectProjects', compact('selectLabs', 'current_lab_name'));
         }
     }
 }

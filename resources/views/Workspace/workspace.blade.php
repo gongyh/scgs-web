@@ -7,7 +7,7 @@
       <ul class="nav nav-tabs">
         @if(Auth::user()->email == 'admin@123.com')
         <li class="nav-item">
-          <a class="nav-link" href="/institutions/create">Add Institutions</a>
+          <a class="nav-link" href="/institutions">Institutions Manage</a>
         </li>
         @endif
         <li class="nav-item">
