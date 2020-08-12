@@ -26,6 +26,7 @@
                   <tr>
                     <th scope="col" class="table-header">ID</th>
                     <th scope="col" class="table-header">Project</th>
+                    <th scope="col" class="table-header">ProjectID</th>
                     <th scope="col" class="table-header">Description</th>
                     <th></th>
 
@@ -43,7 +44,8 @@
                   <tr>
                     <th scope="row" class="table-item">{{$selectProject->id}}</td>
                     <td scope="row" class="table-item"><a href="/samples?projectID={{$selectProject->id}}">{{$selectProject->name}}</a></td>
-                    <td class="table-item desc">{{$selectProject->description}}</td>
+                    <td scope="row" class="table-item desc">{{$selectProject->doi}}</td>
+                    <td class="table-item">{{substr($selectProject->description,0,20).'...'}}</td>
 
                     @if($isAdmin || $isPI)
                     <td class="table-item">

@@ -48,14 +48,13 @@ Route::group(['prefix' => 'samples'], function () {
     Route::any('/delete', 'SamplesController@delete');
 });
 
-Route::group(['prefix' => 'workspace'], function () {
-    Route::get('/', function () {
-        return view('Workspace.workspace');
-    });
-    Route::get('/myLab', 'WorkspaceController@myLab');
-    Route::get('/myProject', 'WorkspaceController@myProject');
-    Route::get('/myLab/projects', 'WorkspaceController@selectMyProj');
-});
+Route::get('/workspace', 'WorkspaceController@index');
+
+Route::get('/myLab', 'WorkspaceController@myLab');
+
+Route::get('/myProject', 'WorkspaceController@myProject');
+
+Route::get('/myLab/projects', 'WorkspaceController@selectMyProj');
 
 Route::get('/aboutus', function () {
     return view('aboutus');
