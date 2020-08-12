@@ -26,7 +26,7 @@
           </div>
           <div class="project_desc">
             <div class="proj_title">Description:</div>
-            <div class="proj_detail">{{$project->description}}</div>
+            <div class="proj_desc">{{$project->description}}</div>
           </div>
           <div class="project_sample">
             <div class="proj_title">Sample List:</div>
@@ -76,7 +76,7 @@
               </tbody>
             </table>
           </div>
-          @if($selectSamples !== null)
+          @if($selectSamples != null)
           {{$selectSamples->links()}}
           @endif
         </div>

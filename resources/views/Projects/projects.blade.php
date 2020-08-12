@@ -39,6 +39,7 @@
                   <tr>
                     <th scope="col" class="table-header">ID</th>
                     <th scope="col" class="table-header">Project</th>
+                    <th scope="col" class="table-header">ProjectID</th>
                     <th scope="col" class="table-header">Description</th>
                     <th></th>
 
@@ -56,9 +57,9 @@
                   @foreach ($Projects as $Project)
                   <tr>
                     <th scope="row" class="table-item">{{$Project->id}}</td>
-                    <td scope="row" class="table-item"><a href="/samples?projectID={{$Project->id}}">{{$Project->name}}</a></td>
-                    <td class="table-item desc">{{$Project->description}}</td>
-
+                    <td class="table-item"><a href="/samples?projectID={{$Project->id}}">{{$Project->name}}</a></td>
+                    <td class="table-item">{{$Project->doi}}</td>
+                    <td class="table-item">{{substr($Project->description,0,20).'...'}}</td>
                     <td class="table-item">
                       @if($isAdmin || $isPI->contains($Project->labs_id))
                       <a href="projects/delete?projectID={{$Project->id}}&page={{$current_page}}" onclick="if(confirm('Are you sure to delete?')==false) return false;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

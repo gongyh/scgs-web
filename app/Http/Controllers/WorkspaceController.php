@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 class WorkspaceController extends Controller
 {
     //
+    public function index()
+    {
+        return view('Workspace.workspace');
+    }
+
     public function myLab()
     {
         $user = Auth::user();

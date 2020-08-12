@@ -72,7 +72,7 @@ class ProjectsController extends Controller
                     $project['description'] = $new_desc;
                     $project->save();
                     if ($request->input('pos')) {
-                        return redirect('/workspace/myLab/projects?labID=' . $labID);
+                        return redirect('/myLab/projects?labID=' . $labID);
                     } else {
                         return redirect('/labs/projects?labID=' . $labID);
                     }
@@ -90,7 +90,7 @@ class ProjectsController extends Controller
                     $project['description'] = $new_desc;
                     $project->save();
                     if ($request->input('pos')) {
-                        return redirect('/workspace/myProject');
+                        return redirect('/myProject');
                     } else {
                         return redirect('/projects?page=' . $current_page);
                     }
@@ -110,7 +110,7 @@ class ProjectsController extends Controller
             $project = Projects::find($proj_id);
             $project->delete();
             if ($request->input('pos')) {
-                return redirect('/workspace/myLab/projects?labID=' . $lab_id);
+                return redirect('/myLab/projects?labID=' . $lab_id);
             } else {
                 return redirect('/labs/projects?labID=' . $lab_id);
             }
@@ -120,7 +120,7 @@ class ProjectsController extends Controller
             $project = Projects::find($proj_id);
             $project->delete();
             if ($request->input('pos')) {
-                return redirect('/workspace/myProject');
+                return redirect('/myProject');
             } else {
                 return redirect('/projects?page=' . $current_page);
             }
@@ -148,7 +148,7 @@ class ProjectsController extends Controller
                         'description' => $new_proj_desc
                     ]);
                     if ($request->input('pos')) {
-                        return redirect('/workspace/myLab/projects?labID=' . $labID);
+                        return redirect('/myLab/projects?labID=' . $labID);
                     } else {
                         return redirect('/projects?labID=' . $labID);
                     }
@@ -167,7 +167,7 @@ class ProjectsController extends Controller
                         'description' => $new_proj_desc
                     ]);
                     if ($request->input('pos')) {
-                        return redirect('/workspace/myProject');
+                        return redirect('/myProject');
                     } else {
                         return redirect('/projects');
                     }

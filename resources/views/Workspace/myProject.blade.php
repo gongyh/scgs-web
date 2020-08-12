@@ -2,24 +2,8 @@
 
 @section('content')
 <div class="container-fluid">
-  <!-- navbar -->
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <ul class="nav nav-tabs">
-        @if(Auth::user()->email == 'admin@123.com')
-        <li class="nav-item">
-          <a class="nav-link" href="/institutions">Institutions Manage</a>
-        </li>
-        @endif
-        <li class="nav-item">
-          <a class="nav-link" href="/workspace/myLab">My Labs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/workspace/myProject">My Projects</a>
-        </li>
-      </ul>
-    </div>
-  </div>
+  @include('components.workspace_nav')
+
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
@@ -48,7 +32,7 @@
                   <tr>
                     <th scope="col" class="table-header">ID</th>
                     <th scope="col" class="table-header">Project</th>
-                    <th scope="col" class="table-header">DOI</th>
+                    <th scope="col" class="table-header">projectID</th>
                     <th scope="col" class="table-header">Description</th>
                     <th></th>
                     <th scope="col" class="table-header"><a href="/projects/create?pos=myProject">
@@ -69,7 +53,7 @@
                       <a href="/samples?projectID={{$myProject->id}}">{{$myProject->name}}</a>
                     </td>
                     <td class="table-item">{{$myProject->doi}}</td>
-                    <td class="table-item">{{$myProject->description}}</td>
+                    <td class="table-item">{{substr($myProject->description,0,20).'...'}}</td>
                     <td class="table-item">
                       <a href="/projects/delete?projectID={{$myProject->id}}&pos=myProject" onclick="if(confirm('Are you sure to delete?')==false) return false;">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

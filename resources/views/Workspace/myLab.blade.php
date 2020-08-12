@@ -2,24 +2,8 @@
 
 @section('content')
 <div class="container-fluid">
-  <!-- navbar -->
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <ul class="nav nav-tabs">
-        @if(Auth::user()->email == 'admin@123.com')
-        <li class="nav-item">
-          <a class="nav-link" href="/institutions">Institutions Manage</a>
-        </li>
-        @endif
-        <li class="nav-item">
-          <a class="nav-link" href="/workspace/myLab">My Labs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/workspace/myProject">My Projects</a>
-        </li>
-      </ul>
-    </div>
-  </div>
+  @include('components.workspace_nav')
+
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
@@ -65,7 +49,7 @@
                   <tr>
                     <th scope="row" class="table-item">{{$myLab->id}}</td>
                     <td class="table-item">
-                      <a href="/workspace/myLab/projects?labID={{$myLab->id}}">{{$myLab->name}}</a>
+                      <a href="/myLab/projects?labID={{$myLab->id}}">{{$myLab->name}}</a>
                     </td>
                     <td class="table-item">{{$myLab->principleInvestigator}}</td>
                     <td class="table-item">

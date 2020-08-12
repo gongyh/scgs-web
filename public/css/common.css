@@ -102,11 +102,6 @@ a:link {
   text-align: center;
 }
 
-.desc {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .pagination {
   justify-content: center !important;
 }
@@ -117,21 +112,37 @@ a:link {
 }
 
 /* project_info */
+.project_name,
+.project_doi,
+.project_desc {
+  display: flex;
+}
+
 .proj_title {
-  font: normal 20px "Arial";
+  font: normal 15px "Arial";
   line-height: 20px;
-  margin: 15px;
+  margin: 7px;
   color: #3490dc;
 }
 
 .proj_detail,
-.sampleTable {
-  margin-left: 15px;
+.proj_desc {
+  font-size: 15px;
+  line-height: 20px;
+  margin: 7px 0px;
+  width: 70%;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
-.proj_detail {
-  font-size: 18px;
-  line-height: 18px;
+.project_desc_hidden {
+  font-size: 15px;
+  line-height: 20px;
+  margin: 7px 0px;
+  width: 70%;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: none;
 }
 
 /* labs_create */
