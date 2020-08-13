@@ -16,7 +16,7 @@
         </div>
         <div class="form-group">
           <label for="new_projDesc">Description</label>
-          <input type="text" class="form-control" name="new_projDesc" id="new_projDesc" value="{{$project->description}}">
+          <textarea class="form-control" name="new_projDesc" id="new_projDesc">{{$project->description}}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

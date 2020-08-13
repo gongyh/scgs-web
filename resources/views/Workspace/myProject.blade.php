@@ -53,7 +53,7 @@
                       <a href="/samples?projectID={{$myProject->id}}">{{$myProject->name}}</a>
                     </td>
                     <td class="table-item">{{$myProject->doi}}</td>
-                    <td class="table-item">{{substr($myProject->description,0,20).'...'}}</td>
+                    <td class="table-item">{{strlen($myProject->description)>30?substr($myProject->description,0,30).'...':$myProject->description}}</td>
                     <td class="table-item">
                       <a href="/projects/delete?projectID={{$myProject->id}}&pos=myProject" onclick="if(confirm('Are you sure to delete?')==false) return false;">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
