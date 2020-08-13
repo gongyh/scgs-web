@@ -23,7 +23,7 @@ window.onload = function () {
  */
 
 $(function () {
-  text_folded('.proj_desc', 30);
+  text_folded('.proj_desc', 200);
 });
 
 /**

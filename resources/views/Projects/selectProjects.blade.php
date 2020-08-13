@@ -45,7 +45,7 @@
                     <th scope="row" class="table-item">{{$selectProject->id}}</td>
                     <td scope="row" class="table-item"><a href="/samples?projectID={{$selectProject->id}}">{{$selectProject->name}}</a></td>
                     <td scope="row" class="table-item desc">{{$selectProject->doi}}</td>
-                    <td class="table-item">{{substr($selectProject->description,0,20).'...'}}</td>
+                    <td class="table-item">{{strlen($selectProject->description)>30?substr($selectProject->description,0,30).'...':$selectProject->description}}</td>
 
                     @if($isAdmin || $isPI)
                     <td class="table-item">

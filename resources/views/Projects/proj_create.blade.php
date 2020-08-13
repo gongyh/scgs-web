@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
           <label for="new_proj_desc">Description</label>
-          <input type="text" class="form-control" name="new_proj_desc" id="new_proj_desc">
+          <textarea class="form-control" name="new_proj_desc" id="new_proj_desc"></textarea>
         </div>
         @isset($error)
         <div class="text-danger">{{$error}}</div>
