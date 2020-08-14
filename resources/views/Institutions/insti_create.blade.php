@@ -7,12 +7,20 @@
       <form method="post" action="">
         @csrf
         <div class="form-group">
-          <label for="new_lab_name" class="input_title">Institution Name</label>
-          <input type="text" class="form-control" name="new_insti_name" id="new_insti_name">
+          <label for="new_insti_name" class="input_title">Institution Name</label>
+          <input type="text" class="form-control" name="new_institution_name" id="new_insti_name">
         </div>
-        @isset($error)
-        <div class="text-danger">{{$error}}</div>
-        @endisset
+        <!-- error message -->
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+        </div>
+        @endif
+
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>

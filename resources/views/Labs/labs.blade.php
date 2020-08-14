@@ -38,11 +38,11 @@
               <table class="table table-condense">
                 <thead>
                   <tr>
-                    <th scope="col" class="table-header">ID</th>
-                    <th scope="col" class="table-header">Lab</th>
-                    <th scope="col" class="table-header">principleInvestigator</th>
+                    <th class="table-header" scope="col">ID</th>
+                    <th class="table-header" scope="col">Lab</th>
+                    <th class="table-header" scope="col">principleInvestigator</th>
                     <th></th>
-                    <th scope="col" class="table-header"><a href="labs/create"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <th class="table-header" scope="col"><a href="labs/create"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path fill-rule="evenodd" d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z" />
                           <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z" />
                         </svg></a></th>
@@ -52,12 +52,12 @@
                   @if(empty($findLabs) && $Labs != null)
                   @foreach ($Labs as $Lab)
                   <tr>
-                    <th scope="row" class="table-item">{{$Lab->id}}</td>
+                    <th class="table-item" scope="row">{{$Lab->id}}</td>
                     <td class="table-item">
                       <a href="labs/projects?labID={{$Lab->id}}">{{$Lab->name}}</a>
                     </td>
                     <td class="table-item">{{$Lab->principleInvestigator}}</td>
-                    <td class="table-item">
+                    <td>
                       @if($isAdmin)
                       <a href="labs/delete?labID={{$Lab->id}}" onclick="if(confirm('Are you sure to delete?')==false) return false;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
@@ -65,7 +65,7 @@
                         </svg></a>
                       @endif
                     </td>
-                    <td class="table-item">
+                    <td>
                       @if($isAdmin || $isPI->contains($Lab->id))
                       <a href="labs/update?labID={{$Lab->id}}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -79,12 +79,12 @@
                   @elseif(isset($findLabs))
                   @foreach ($findLabs as $findLab)
                   <tr>
-                    <th scope="row" class="table-item">{{$findLab->id}}</td>
-                    <td class="table-item">
+                    <th scope="row">{{$findLab->id}}</td>
+                    <td>
                       <a href="labs/projects?labID={{$findLab->id}}">{{$findLab->name}}</a>
                     </td>
-                    <td class="table-item">{{$findLab->principleInvestigator}}</td>
-                    <td class="table-item">
+                    <td>{{$findLab->principleInvestigator}}</td>
+                    <td>
                       @if($isAdmin)
                       <a href="labs/delete?labID={{$findLab->id}}" onclick="if(confirm('Are you sure to delete?')==false) return false;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
@@ -92,7 +92,7 @@
                         </svg></a>
                       @endif
                     </td>
-                    <td class="table-item">
+                    <td>
                       @if($isAdmin || $isPI->contains($findLab->id))
                       <a href="labs/update?labID={{$findLab->id}}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />

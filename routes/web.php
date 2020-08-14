@@ -48,6 +48,13 @@ Route::group(['prefix' => 'samples'], function () {
     Route::any('/delete', 'SamplesController@delete');
 });
 
+Route::group(['prefix' => 'species'], function () {
+    Route::get('/', 'SpeciesController@index');
+    Route::any('/update', 'SpeciesController@update');
+    Route::any('/create', 'SpeciesController@create');
+    Route::any('/delete', 'SpeciesController@delete');
+});
+
 Route::get('/workspace', 'WorkspaceController@index');
 
 Route::get('/myLab', 'WorkspaceController@myLab');

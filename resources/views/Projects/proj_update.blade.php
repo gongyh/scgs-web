@@ -11,7 +11,7 @@
           <input type="text" class="form-control" name="new_projName" id="new_projName" value="{{$project->name}}">
         </div>
         <div class="form-group">
-          <label for="new_doiNum">DOI Number</label>
+          <label for="new_doiNum">ProjectID</label>
           <input type="text" class="form-control" name="new_doiNum" id="new_doiNum" value="{{$project->doi}}">
         </div>
         <div class="form-group">

@@ -13,8 +13,18 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Lab Name</span>
               </div>
-              <input type="text" class="form-control" name="new-labname" value="{{$lab->name}}">
+              <input type="text" class="form-control" name="lab_name" value="{{$lab->name}}">
             </div>
+            <!-- error message -->
+            @if (count($errors) > 0)
+            <div class="alert alert-danger">
+              <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+            </div>
+            @endif
             <button type="commit" class="btn btn-primary">Commit</button>
           </div>
         </div>

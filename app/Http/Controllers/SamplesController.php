@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Samples;
 use App\Projects;
 use App\Labs;
+use App\Applications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -39,6 +40,36 @@ class SamplesController extends Controller
         }
     }
 
+    public function create(Request $request)
+    {
+        $applications = Applications::all();
+        if ($request->isMethod('POST')) {
+            $projectID = $request->input('projectID');
+            $new_sample_label = $request->input('new_sample_label');
+            $select_application = $request->input('select_application');
+            try {
+                Samples::create([
+                    'sampleLabel' => $new_sample_label,
+                    'applications_id' => $select_application,
+                    'projects_id' => $projectID
+                ]);
+                return redirect('/samples?projectID=' . $projectID);
+            } catch (\Illuminate\Database\QueryException $ex) {
+                return 'Sorry!You have not input the sample label!';
+            }
+        }
+        return view('Samples.samp_create', ['applications' => $applications]);
+    }
+
+    public function delete(Request $request)
+    {
+        $samp_id = $request->input('sampleID');
+        $project_id = $request->input('projectID');
+        $sample = Samples::find($samp_id);
+        $sample->delete();
+        return redirect('/samples?projectID=' . $project_id);
+    }
+
     public function update(Request $request)
     {
         $sampleID = $request->input('sampleID');
@@ -57,33 +88,5 @@ class SamplesController extends Controller
             }
         }
         return view('Samples.samp_update', ['sample' => $sample]);
-    }
-
-    public function create(Request $request)
-    {
-        if ($request->isMethod('POST')) {
-            $projectID = $request->input('projectID');
-            $new_sample_label = $request->input('new_sample_label');
-            $new_pair_ends = $request->input('new_pair_ends');
-            try {
-                Samples::create([
-                    'sampleLabel' => $new_sample_label,
-                    'pairends' => $new_pair_ends
-                ]);
-                return redirect('/samples?projectID=' . $projectID);
-            } catch (\Illuminate\Database\QueryException $ex) {
-                return 'Sorry!You have not input the sample label!';
-            }
-        }
-        return view('Samples.samp_create');
-    }
-
-    public function delete(Request $request)
-    {
-        $samp_id = $request->input('sampleID');
-        $project_id = $request->input('projectID');
-        $sample = Samples::find($samp_id);
-        $sample->delete();
-        return redirect('/samples?projectID=' . $project_id);
     }
 }

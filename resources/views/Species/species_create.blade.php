@@ -6,18 +6,19 @@
     <div class="col-md-8">
       <form method="post" action="">
         @csrf
-        <div class="choose_insti input_title">Choose a institution</div>
-        <select class="custom-select selectInstitution" name="choose_a_institution">
-          <option selected></option>
-
-          @foreach($institutions as $institution)
-          <option value="{{$institution->id}}">{{$institution->name}}</option>
-          @endforeach
-        </select>
+        <div class="form-group">
+          <label for="new_species_name" class="input_title">Species Name</label>
+          <input type="text" class="form-control" name="new_species_name" id="new_species_name">
+        </div>
 
         <div class="form-group">
-          <label for="new_lab_name" class="input_title">Lab Name</label>
-          <input type="text" class="form-control" name="new_lab_name" id="new_lab_name">
+          <label for="new_fasta" class="input_title">Path of Reference Genome(.fasta)</label>
+          <input type="text" class="form-control" name="new_fasta" id="new_fasta">
+        </div>
+
+        <div class="form-group">
+          <label for="new_gff" class="input_title">Path of Genome Annotation(.gff)</label>
+          <input type="text" class="form-control" name="new_gff" id="new_gff">
         </div>
         <!-- error message -->
         @if (count($errors) > 0)
