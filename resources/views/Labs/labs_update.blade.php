@@ -13,7 +13,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Lab Name</span>
               </div>
-              <input type="text" class="form-control" name="lab_name" value="{{$lab->name}}">
+              <input type="text" class="form-control" name="name" value="{{$lab->name}}">
             </div>
             <!-- error message -->
             @if (count($errors) > 0)

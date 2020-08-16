@@ -14,7 +14,7 @@
         <div class="form-group">
           <label for="select_application">Choose a application</label>
           <select class="custom-select" name="select_application" id="select_application">
-            <option selected>Choose a application</option>
+            <option selected></option>
             @foreach($applications as $application)
             <option value="{{$application->id}}">{{$application->name}}</option>
             @endforeach
@@ -22,8 +22,25 @@
         </div>
 
         <div class="form-group">
-          <label for="new_species">Species</label>
-          <input type="text" class="form-control" name="new_species" id="new_species">
+          <label for="select_species">Choose a species</label>
+          <select class="custom-select" name="select_species" id="select_species">
+            <option selected></option>
+            @foreach($all_species as $species)
+            <option value="{{$species->id}}">{{$species->name}}</option>
+            @endforeach
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>PairEnds?</label>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="singleEnds">
+            <label class="custom-control-label" for="customRadio1">SingleEnds</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="pairEnds">
+            <label class="custom-control-label" for="customRadio2">PairEnds</label>
+          </div>
         </div>
 
         <div class="form-group">
@@ -31,10 +48,20 @@
           <input type="text" class="form-control" name="new_fileOne" id="new_fileOne">
         </div>
 
-        <div class="form-group">
+        <div class="form-group file_two">
           <label for="new_fileTwo">File 2</label>
-          <input type="text" class="form-control" name="new_fileTwo" id="new_fileTwo">
+          <input type="text" class="form-control fileTwo" name="new_fileTwo" id="new_fileTwo">
         </div>
+        <!-- error message -->
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+        </div>
+        @endif
 
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

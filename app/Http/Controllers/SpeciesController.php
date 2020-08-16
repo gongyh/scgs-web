@@ -61,21 +61,28 @@ class SpeciesController extends Controller
         $current_page = $request->input('page');
         if ($request->isMethod('post')) {
             $input = $request->all();
-            dd(Rule::unique('species')->where(function($query){$query->value('name')};)->ignore($input['speciesID']));
 
             // species validate
             Validator::make($input, [
-                'species_name' => [
+                'name' => [
                     'required',
                     'max:250',
-                    Rule::unique('species')
+                    Rule::unique('species')->ignore($input['speciesID'])
                 ],
-                'fasta' => ['required', 'regex:{(\/(\w)+)+\.fasta$}'],
-                'gff' => ['required', 'regex:{(\/(\w)+)+\.gff$}']
+                'fasta' => [
+                    'required',
+                    'regex:{(\/(\w)+)+\.fasta$}',
+                    Rule::unique('species')->ignore($input['speciesID'])
+
+                ],
+                'gff' => [
+                    'required',
+                    'regex:{(\/(\w)+)+\.gff$}',
+                    Rule::unique('species')->ignore($input['speciesID'])
+                ]
             ])->validate();
 
-
-            $species_name = $request->input('species_name');
+            $species_name = $request->input('name');
             $fasta = $request->input('fasta');
             $gff = $request->input('gff');
             $species['name'] = $species_name;

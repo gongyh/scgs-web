@@ -28,6 +28,8 @@
           <label for="new_proj_desc">Description</label>
           <textarea class="form-control" name="new_proj_desc" id="new_proj_desc"></textarea>
         </div>
+
+        <!-- error message -->
         @isset($error)
         <div class="text-danger">{{$error}}</div>
         @endisset

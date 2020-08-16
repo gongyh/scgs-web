@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Institutions;
 use Illuminate\Http\Request;
 
@@ -56,15 +58,19 @@ class InstitutionsController extends Controller
         $institution = Institutions::find($insti_id);
         $current_page = $request->input('page');
         if ($request->isMethod('post')) {
+            $input = $request->all();
             // institutions validate
-            $this->validate($request, [
-                'institution_name' => 'required|unique:institutions,name|max:250'
-            ]);
-            $institution_name = $request->input('institution_name');
+            Validator::make($input, [
+                'name' => [
+                    'required',
+                    'max:250',
+                    Rule::unique('labs')->ignore($input['sintiID'])
+                ]
+            ])->validate();
+            $institution_name = $request->input('name');
             $institution['name'] = $institution_name;
             $institution->save();
             return redirect('/institutions?page=' . $current_page);
-            return redirect('/institutions');
         }
         return view('Institutions.insti_update', ['institution' => $institution]);
     }
