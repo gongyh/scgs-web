@@ -58,3 +58,9 @@ $("input[type = 'radio']").change(function () {
     $(".file_two").show();
   }
 })
+
+if ($("input[type='radio']:checked").val() == 'singleEnds') {
+  $(".file_two").hide();
+} else {
+  $(".file_two").show();
+}

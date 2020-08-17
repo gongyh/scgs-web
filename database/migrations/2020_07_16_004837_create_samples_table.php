@@ -16,9 +16,9 @@ class CreateSamplesTable extends Migration
         Schema::create('samples', function (Blueprint $table) {
             $table->id();
             $table->string('filename1', 400);
-            $table->string('filename2', 400);
+            $table->string('filename2', 400)->nullable();
             $table->integer('pairends');
-            $table->integer('species_id');
+            $table->integer('species_id')->nullable();
             $table->string('sampleLabel', 50);
             $table->foreign('species_id')->references('id')->on('species')->onDelete('cascade');
             $table->integer('applications_id');

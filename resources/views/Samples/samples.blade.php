@@ -37,6 +37,7 @@
                   <th scope="col">SampleLabel</th>
                   <th scope="col">Application</th>
                   <th scope="col">Species</th>
+                  <th scope="col">Pairends</th>
                   <th scope="col">File 1</th>
                   <th scope="col">File 2</th>
                   <th>
@@ -60,6 +61,7 @@
                   </td>
                   <td>{{$selectSample->applications_id}}</td>
                   <td>{{$selectSample->species}}</td>
+                  <td>{{$selectSample->pairends}}</td>
                   <td>{{$selectSample->filename1}}</td>
                   <td>{{$selectSample->filename2}}</td>
                   @if($isAdmin || $isPI)

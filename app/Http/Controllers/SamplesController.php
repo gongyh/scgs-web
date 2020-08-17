@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use App\Samples;
 use App\Projects;
 use App\Labs;
@@ -49,7 +47,7 @@ class SamplesController extends Controller
         $all_species = Species::all();
         if ($request->isMethod('POST')) {
             $this->validate($request, [
-                'new_sample_label' => 'required|unique:samples,sampleLabel|max:50',
+                'new_sample_label' => 'required|max:250',
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
@@ -68,8 +66,8 @@ class SamplesController extends Controller
                     $isPairends = 1;
                     break;
             }
-            $fileOne = $request->input('fileOne');
-            $fileTwo = $request->input('fileTwo');
+            $fileOne = $request->input('new_fileOne');
+            $fileTwo = $request->input('new_fileTwo');
 
             Samples::create([
                 'sampleLabel' => $new_sample_label,
@@ -78,7 +76,7 @@ class SamplesController extends Controller
                 'species_id' => $select_species,
                 'pairends' => $isPairends,
                 'filename1' => $fileOne,
-                'fliename2' => $fileTwo
+                'filename2' => $fileTwo
             ]);
             return redirect('/samples?projectID=' . $projectID);
         }
@@ -96,21 +94,45 @@ class SamplesController extends Controller
 
     public function update(Request $request)
     {
-        $sampleID = $request->input('sampleID');
-        $projectID = $request->input('projectID');
-        $sample = Samples::find($sampleID);
+        $sample_id = $request->input('sampleID');
+        $sample = Samples::find($sample_id);
+        $app = Applications::find($sample['applications_id']);
+        $applications = Applications::all();
+        $all_species = Species::all();
         if ($request->isMethod('POST')) {
-            $new_sample_label = $request->input('new_sampleLabel');
-            $new_pairEnds = $request->input('new_pairEnds');
-            try {
-                $sample['sampleLabel'] = $new_sample_label;
-                $sample['pairends'] = $new_pairEnds;
-                $sample->save();
-                return redirect('/samples?projectID=' . $projectID);
-            } catch (\Illuminate\Database\QueryException $ex) {
-                return 'Sorry!You have not input the sample label!';
+            $this->validate($request, [
+                'sample_label' => 'required|max:50',
+                'select_application' => 'required',
+                'select_species' => 'nullable',
+                'isPairends' => 'required',
+                'fileOne' => ['required', 'regex:{(\/(\w)+)+\.fasta$}'],
+                'fileTwo' => ['nullable', 'regex:{(\/(\w)+)+\.fasta$}']
+            ]);
+            $projectID = $request->input('projectID');
+            $sample_label = $request->input('sample_label');
+            $select_application = $request->input('select_application');
+            $select_species = $request->input('select_species');
+            switch ($request->input('isPairends')) {
+                case 'singleEnds':
+                    $isPairends = 0;
+                    break;
+                case 'pairEnds':
+                    $isPairends = 1;
+                    break;
             }
+            $fileOne = $request->input('fileOne');
+            $fileTwo = $request->input('fileTwo');
+
+            $sample = Samples::find($sample_id);
+            $sample['sampleLabel'] = $sample_label;
+            $sample['applications_id'] = $select_application;
+            $sample['species_id'] = $select_species;
+            $sample['pairends'] = $isPairends;
+            $sample['filename1'] = $fileOne;
+            $sample['filename2'] = $fileTwo;
+            $sample->save();
+            return redirect('/samples?projectID=' . $projectID);
         }
-        return view('Samples.samp_update', ['sample' => $sample]);
+        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app]);
     }
 }

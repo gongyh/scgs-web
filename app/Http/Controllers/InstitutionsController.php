@@ -64,7 +64,7 @@ class InstitutionsController extends Controller
                 'name' => [
                     'required',
                     'max:250',
-                    Rule::unique('labs')->ignore($input['sintiID'])
+                    Rule::unique('institutions')->ignore($input['sintiID'])
                 ]
             ])->validate();
             $institution_name = $request->input('name');

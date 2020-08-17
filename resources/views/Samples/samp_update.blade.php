@@ -7,14 +7,14 @@
       <form method="post" action="">
         @csrf
         <div class="form-group">
-          <label for="new_sampleLabel">SampleLabel</label>
-          <input type="text" class="form-control" name="new_sampleLabel" id="new_sampleLabel" value="{{$sample->sampleLabel}}">
+          <label for="sample_label">SampleLabel</label>
+          <input type="text" class="form-control" name="sample_label" id="sample_label" value="{{$sample->sampleLabel}}">
         </div>
 
         <div class="form-group">
-          <div>Choose a application</div>
-          <select class="custom-select">
-            <option selected>Choose a application</option>
+          <label for="select_application">Choose a application</label>
+          <select class="custom-select" name="select_application" id="select_application">
+            <option selected value="{{$app->id}}">{{$app->name}}</option>
             @foreach($applications as $application)
             <option value="{{$application->id}}">{{$application->name}}</option>
             @endforeach
@@ -22,19 +22,59 @@
         </div>
 
         <div class="form-group">
-          <label for="species">Species</label>
-          <input type="text" class="form-control" name="species" id="species" value="{{$sample->species_id}}">
+          <label for="select_species">Choose a species</label>
+          <select class="custom-select" name="select_species" id="select_species">
+            <option selected></option>
+            @foreach($all_species as $species)
+            <option value="{{$species->id}}">{{$species->name}}</option>
+            @endforeach
+          </select>
         </div>
+
+        <div class="form-group">
+          <label>PairEnds?</label>
+          @if($sample->pairends == 0)
+          <div class="custom-control custom-radio">
+            <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="singleEnds" checked="checked">
+            <label class="custom-control-label" for="customRadio1">SingleEnds</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="pairEnds">
+            <label class="custom-control-label" for="customRadio2">PairEnds</label>
+          </div>
+
+          @else
+          <div class="custom-control custom-radio">
+            <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="singleEnds">
+            <label class="custom-control-label" for="customRadio1">SingleEnds</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="pairEnds" checked="checked">
+            <label class="custom-control-label" for="customRadio2">PairEnds</label>
+          </div>
+        </div>
+        @endif
 
         <div class="form-group">
           <label for="fileOne">File 1</label>
-          <input type="text" class="form-control" name="fileOne" id="fileOne">
+          <input type="text" class="form-control" name="fileOne" id="fileOne" value="{{$sample->filename1}}">
         </div>
 
-        <div class="form-group">
+        <div class="form-group file_two">
           <label for="fileTwo">File 2</label>
-          <input type="file" class="form-control" name="fileTwo" id="fileTwo">
+          <input type="text" class="form-control fileTwo" name="fileTwo" id="fileTwo" value="{{$sample->filename2}}">
         </div>
+
+        <!-- error message -->
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+        </div>
+        @endif
 
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
