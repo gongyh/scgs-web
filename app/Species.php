@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Applications extends Model
+class Species extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'applications';
-    protected $fillable = ['id', 'name', 'description'];
+    protected $table = 'species';
+    protected $fillable = ['id', 'name', 'fasta', 'gff'];
 }

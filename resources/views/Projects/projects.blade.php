@@ -85,8 +85,9 @@
                   @foreach ($findProjects as $findProject)
                   <tr>
                     <th scope="row" class="table-item">{{$findProject->id}}</td>
-                    <td scope="row" class="table-item"><a href="/samples?projectID={{$findProject->id}}">{{$findProject->name}}</a></td>
-                    <td class="table-item desc">{{$findProject->description}}</td>
+                    <td class="table-item"><a href="/samples?projectID={{$findProject->id}}">{{$findProject->name}}</a></td>
+                    <td class="table-item">{{$findProject->doi}}</td>
+                    <td class="table-item desc">{{strlen($findProject->description)>30?substr($findProject->description,0,30).'...':$findProject->description}}</td>
 
                     <td class="table-item">
                       @if($isAdmin || $isPI->contains($findProject->labs_id))

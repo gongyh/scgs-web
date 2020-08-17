@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Samples;
 use App\Projects;
 use App\Labs;
+use App\Applications;
+use App\Species;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -39,43 +41,46 @@ class SamplesController extends Controller
         }
     }
 
-    public function update(Request $request)
-    {
-        $sampleID = $request->input('sampleID');
-        $projectID = $request->input('projectID');
-        $sample = Samples::find($sampleID);
-        if ($request->isMethod('POST')) {
-            $new_sample_label = $request->input('new_sampleLabel');
-            $new_pairEnds = $request->input('new_pairEnds');
-            try {
-                $sample['sampleLabel'] = $new_sample_label;
-                $sample['pairends'] = $new_pairEnds;
-                $sample->save();
-                return redirect('/samples?projectID=' . $projectID);
-            } catch (\Illuminate\Database\QueryException $ex) {
-                return 'Sorry!You have not input the sample label!';
-            }
-        }
-        return view('Samples.samp_update', ['sample' => $sample]);
-    }
-
     public function create(Request $request)
     {
+        $applications = Applications::all();
+        $all_species = Species::all();
         if ($request->isMethod('POST')) {
+            $this->validate($request, [
+                'new_sample_label' => 'required|max:250',
+                'select_application' => 'required',
+                'select_species' => 'nullable',
+                'isPairends' => 'required',
+                'new_fileOne' => ['required', 'regex:{(\/(\w)+)+\.fasta$}'],
+                'new_fileTwo' => ['nullable', 'regex:{(\/(\w)+)+\.fasta$}']
+            ]);
             $projectID = $request->input('projectID');
             $new_sample_label = $request->input('new_sample_label');
-            $new_pair_ends = $request->input('new_pair_ends');
-            try {
-                Samples::create([
-                    'sampleLabel' => $new_sample_label,
-                    'pairends' => $new_pair_ends
-                ]);
-                return redirect('/samples?projectID=' . $projectID);
-            } catch (\Illuminate\Database\QueryException $ex) {
-                return 'Sorry!You have not input the sample label!';
+            $select_application = $request->input('select_application');
+            $select_species = $request->input('select_species');
+            switch ($request->input('isPairends')) {
+                case 'singleEnds':
+                    $isPairends = 0;
+                    break;
+                case 'pairEnds':
+                    $isPairends = 1;
+                    break;
             }
+            $fileOne = $request->input('new_fileOne');
+            $fileTwo = $request->input('new_fileTwo');
+
+            Samples::create([
+                'sampleLabel' => $new_sample_label,
+                'applications_id' => $select_application,
+                'projects_id' => $projectID,
+                'species_id' => $select_species,
+                'pairends' => $isPairends,
+                'filename1' => $fileOne,
+                'filename2' => $fileTwo
+            ]);
+            return redirect('/samples?projectID=' . $projectID);
         }
-        return view('Samples.samp_create');
+        return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species]);
     }
 
     public function delete(Request $request)
@@ -85,5 +90,49 @@ class SamplesController extends Controller
         $sample = Samples::find($samp_id);
         $sample->delete();
         return redirect('/samples?projectID=' . $project_id);
+    }
+
+    public function update(Request $request)
+    {
+        $sample_id = $request->input('sampleID');
+        $sample = Samples::find($sample_id);
+        $app = Applications::find($sample['applications_id']);
+        $applications = Applications::all();
+        $all_species = Species::all();
+        if ($request->isMethod('POST')) {
+            $this->validate($request, [
+                'sample_label' => 'required|max:50',
+                'select_application' => 'required',
+                'select_species' => 'nullable',
+                'isPairends' => 'required',
+                'fileOne' => ['required', 'regex:{(\/(\w)+)+\.fasta$}'],
+                'fileTwo' => ['nullable', 'regex:{(\/(\w)+)+\.fasta$}']
+            ]);
+            $projectID = $request->input('projectID');
+            $sample_label = $request->input('sample_label');
+            $select_application = $request->input('select_application');
+            $select_species = $request->input('select_species');
+            switch ($request->input('isPairends')) {
+                case 'singleEnds':
+                    $isPairends = 0;
+                    break;
+                case 'pairEnds':
+                    $isPairends = 1;
+                    break;
+            }
+            $fileOne = $request->input('fileOne');
+            $fileTwo = $request->input('fileTwo');
+
+            $sample = Samples::find($sample_id);
+            $sample['sampleLabel'] = $sample_label;
+            $sample['applications_id'] = $select_application;
+            $sample['species_id'] = $select_species;
+            $sample['pairends'] = $isPairends;
+            $sample['filename1'] = $fileOne;
+            $sample['filename2'] = $fileTwo;
+            $sample->save();
+            return redirect('/samples?projectID=' . $projectID);
+        }
+        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app]);
     }
 }

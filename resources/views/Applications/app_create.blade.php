@@ -6,19 +6,16 @@
     <div class="col-md-8">
       <form method="post" action="">
         @csrf
-        <div class="choose_insti input_title">Choose a institution</div>
-        <select class="custom-select selectInstitution" name="choose_a_institution">
-          <option selected></option>
-
-          @foreach($institutions as $institution)
-          <option value="{{$institution->id}}">{{$institution->name}}</option>
-          @endforeach
-        </select>
+        <div class="form-group">
+          <label for="new_app_name" class="input_title">Application Name</label>
+          <input type="text" class="form-control" name="new_app_name" id="new_app_name">
+        </div>
 
         <div class="form-group">
-          <label for="new_lab_name" class="input_title">Lab Name</label>
-          <input type="text" class="form-control" name="new_lab_name" id="new_lab_name">
+          <label for="new_app_desc">Description</label>
+          <textarea class="form-control" name="new_app_desc" id="new_app_desc"></textarea>
         </div>
+
         <!-- error message -->
         @if (count($errors) > 0)
         <div class="alert alert-danger">

@@ -64,7 +64,7 @@ a:link {
 }
 
 .list-group-item {
-  font-family: "Arial";
+  font-family: 'Arial';
   font-size: 20px;
   line-height: 20px;
 }
@@ -75,7 +75,7 @@ a:link {
   margin-top: -20px;
   margin-bottom: 20px;
   text-align: center;
-  font-family: 'Times New Roman';
+  font-family: "Courier New", Courier, monospace;
   font-size: 35px;
   color: #369;
 }
@@ -93,13 +93,21 @@ a:link {
   margin-top: 10px;
 }
 
-.table-header {
-  text-align: center;
-  font: normal 22px "Arial"
-}
-
+/* table */
+.table-header,
 .table-item {
   text-align: center;
+}
+
+td:nth-last-child(2) {
+  padding-right: 0;
+  text-align: right;
+}
+
+th:last-child,
+td:last-child {
+  padding: 0.75rem 0;
+  text-align: right;
 }
 
 .pagination {

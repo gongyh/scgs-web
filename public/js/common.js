@@ -49,3 +49,18 @@ function text_folded(clas, num) {
     $(this).parent().hide().siblings().show();
   }
 }
+
+// sample根据pairends控制上传file数量
+$("input[type = 'radio']").change(function () {
+  if ($("input[type='radio']:checked").val() == 'singleEnds') {
+    $(".file_two").hide();
+  } else {
+    $(".file_two").show();
+  }
+})
+
+if ($("input[type='radio']:checked").val() == 'singleEnds') {
+  $(".file_two").hide();
+} else {
+  $(".file_two").show();
+}

@@ -21,13 +21,15 @@
           <input type="text" class="form-control" name="new_proj_name" id="new_proj_name">
         </div>
         <div class="form-group">
-          <label for="new_doi_num">DOI Number</label>
+          <label for="new_doi_num">ProjectID</label>
           <input type="text" class="form-control" name="new_doi_num" id="new_doi_num">
         </div>
         <div class="form-group">
           <label for="new_proj_desc">Description</label>
           <textarea class="form-control" name="new_proj_desc" id="new_proj_desc"></textarea>
         </div>
+
+        <!-- error message -->
         @isset($error)
         <div class="text-danger">{{$error}}</div>
         @endisset

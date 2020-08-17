@@ -56,77 +56,6 @@ class ProjectsController extends Controller
         }
     }
 
-    public function update(Request $request)
-    {
-        $proj_id = $request->input('projectID');
-        $project = Projects::find($proj_id);
-        if ($request->isMethod('POST')) {
-            if ($request->input('labID')) {
-                $labID = $request->input('labID');
-                $new_proj = $request->input('new_projName');
-                $new_doi = $request->input('new_doiNum');
-                $new_desc = $request->input('new_projDesc');
-                try {
-                    $project['name'] = $new_proj;
-                    $project['doi'] = $new_doi;
-                    $project['description'] = $new_desc;
-                    $project->save();
-                    if ($request->input('pos')) {
-                        return redirect('/myLab/projects?labID=' . $labID);
-                    } else {
-                        return redirect('/labs/projects?labID=' . $labID);
-                    }
-                } catch (\Illuminate\Database\QueryException $ex) {
-                    return 'Sorry!You have not input the information!';
-                }
-            } else {
-                $current_page = $request->input('page');
-                $new_proj = $request->input('new_projName');
-                $new_doi = $request->input('new_doiNum');
-                $new_desc = $request->input('new_projDesc');
-                try {
-                    $project['name'] = $new_proj;
-                    $project['doi'] = $new_doi;
-                    $project['description'] = $new_desc;
-                    $project->save();
-                    if ($request->input('pos')) {
-                        return redirect('/myProject');
-                    } else {
-                        return redirect('/projects?page=' . $current_page);
-                    }
-                } catch (\Illuminate\Database\QueryException $ex) {
-                    return 'Sorry!You have not input the information!';
-                }
-            }
-        }
-        return view('Projects.proj_update', ['project' => $project]);
-    }
-
-    public function delete(Request $request)
-    {
-        if ($request->input('labID') != null) {
-            $proj_id = $request->input('projectID');
-            $lab_id = $request->input('labID');
-            $project = Projects::find($proj_id);
-            $project->delete();
-            if ($request->input('pos')) {
-                return redirect('/myLab/projects?labID=' . $lab_id);
-            } else {
-                return redirect('/labs/projects?labID=' . $lab_id);
-            }
-        } else {
-            $proj_id = $request->input('projectID');
-            $current_page = $request->input('page');
-            $project = Projects::find($proj_id);
-            $project->delete();
-            if ($request->input('pos')) {
-                return redirect('/myProject');
-            } else {
-                return redirect('/projects?page=' . $current_page);
-            }
-        }
-    }
-
     public function create(Request $request)
     {
         $labs = Labs::all();
@@ -184,6 +113,77 @@ class ProjectsController extends Controller
         } else {
             return view('Projects.proj_create', ['labs' => $labs]);
         }
+    }
+
+    public function delete(Request $request)
+    {
+        if ($request->input('labID') != null) {
+            $proj_id = $request->input('projectID');
+            $lab_id = $request->input('labID');
+            $project = Projects::find($proj_id);
+            $project->delete();
+            if ($request->input('pos')) {
+                return redirect('/myLab/projects?labID=' . $lab_id);
+            } else {
+                return redirect('/labs/projects?labID=' . $lab_id);
+            }
+        } else {
+            $proj_id = $request->input('projectID');
+            $current_page = $request->input('page');
+            $project = Projects::find($proj_id);
+            $project->delete();
+            if ($request->input('pos')) {
+                return redirect('/myProject');
+            } else {
+                return redirect('/projects?page=' . $current_page);
+            }
+        }
+    }
+
+    public function update(Request $request)
+    {
+        $proj_id = $request->input('projectID');
+        $project = Projects::find($proj_id);
+        if ($request->isMethod('POST')) {
+            if ($request->input('labID')) {
+                $labID = $request->input('labID');
+                $new_proj = $request->input('new_projName');
+                $new_doi = $request->input('new_doiNum');
+                $new_desc = $request->input('new_projDesc');
+                try {
+                    $project['name'] = $new_proj;
+                    $project['doi'] = $new_doi;
+                    $project['description'] = $new_desc;
+                    $project->save();
+                    if ($request->input('pos')) {
+                        return redirect('/myLab/projects?labID=' . $labID);
+                    } else {
+                        return redirect('/labs/projects?labID=' . $labID);
+                    }
+                } catch (\Illuminate\Database\QueryException $ex) {
+                    return 'Sorry!You have not input the information!';
+                }
+            } else {
+                $current_page = $request->input('page');
+                $new_proj = $request->input('new_projName');
+                $new_doi = $request->input('new_doiNum');
+                $new_desc = $request->input('new_projDesc');
+                try {
+                    $project['name'] = $new_proj;
+                    $project['doi'] = $new_doi;
+                    $project['description'] = $new_desc;
+                    $project->save();
+                    if ($request->input('pos')) {
+                        return redirect('/myProject');
+                    } else {
+                        return redirect('/projects?page=' . $current_page);
+                    }
+                } catch (\Illuminate\Database\QueryException $ex) {
+                    return 'Sorry!You have not input the information!';
+                }
+            }
+        }
+        return view('Projects.proj_update', ['project' => $project]);
     }
 
     public function selectProj(Request $request)
