@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Samples;
 use App\Projects;
 use App\Labs;
@@ -36,6 +38,7 @@ class SamplesController extends Controller
                 return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project'));
             }
         } catch (\Illuminate\Database\QueryException $ex) {
+            // 数据库中没有samples时显示
             $selectSamples = null;
             return view('Sample.samples', compact('selectSamples', 'projectID', 'project'));
         }
@@ -46,6 +49,7 @@ class SamplesController extends Controller
         $applications = Applications::all();
         $all_species = Species::all();
         if ($request->isMethod('POST')) {
+            // samples create validate
             $this->validate($request, [
                 'new_sample_label' => 'required|max:250',
                 'select_application' => 'required',
@@ -100,6 +104,7 @@ class SamplesController extends Controller
         $applications = Applications::all();
         $all_species = Species::all();
         if ($request->isMethod('POST')) {
+            // sample update validate
             $this->validate($request, [
                 'sample_label' => 'required|max:50',
                 'select_application' => 'required',

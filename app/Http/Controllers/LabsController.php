@@ -7,6 +7,7 @@ use Illuminate\Validation\Rule;
 use App\Labs;
 use App\Institutions;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class LabsController extends Controller
@@ -33,6 +34,7 @@ class LabsController extends Controller
                     return view('Labs.labs', compact('findLabs', 'isPI', 'isAdmin'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
+                // 未找到labs时显示
                 $findLabs = null;
                 return view('Labs.labs', compact('findLabs'));
             }
@@ -51,6 +53,7 @@ class LabsController extends Controller
                     return view('Labs.labs', compact('Labs', 'isPI', 'isAdmin', 'current_page'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
+                // 数据库中没有labs时显示
                 $selectLabs = null;
                 return view('Labs.labs', compact('Labs'));
             }
@@ -64,6 +67,7 @@ class LabsController extends Controller
         $pi = $user->name;
 
         if ($request->isMethod('POST')) {
+            // labs create validate
             $this->validate($request, [
                 'choose_a_institution' => 'required',
                 'new_lab_name' => 'required|max:250'
@@ -104,6 +108,7 @@ class LabsController extends Controller
         $lab = Labs::findOrFail($labID);
         if ($request->isMethod('POST')) {
             $input = $request->all();
+            // labs update validate
             Validator::make($input, [
                 'name' => [
                     'required',

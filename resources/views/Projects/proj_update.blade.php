@@ -7,17 +7,27 @@
       <form method="post" action="">
         @csrf
         <div class="form-group">
-          <label for="new_projName">Project Name</label>
-          <input type="text" class="form-control" name="new_projName" id="new_projName" value="{{$project->name}}">
+          <label for="name">Project Name</label>
+          <input type="text" class="form-control" name="name" id="name" value="{{$project->name}}">
         </div>
         <div class="form-group">
-          <label for="new_doiNum">ProjectID</label>
-          <input type="text" class="form-control" name="new_doiNum" id="new_doiNum" value="{{$project->doi}}">
+          <label for="doi">ProjectID</label>
+          <input type="text" class="form-control" name="doi" id="doi" value="{{$project->doi}}">
         </div>
         <div class="form-group">
-          <label for="new_projDesc">Description</label>
-          <textarea class="form-control" name="new_projDesc" id="new_projDesc">{{$project->description}}</textarea>
+          <label for="description">Description</label>
+          <textarea class="form-control" name="description" id="description">{{$project->description}}</textarea>
         </div>
+        <!-- error message -->
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+        </div>
+        @endif
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>

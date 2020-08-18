@@ -17,6 +17,7 @@ class SpeciesController extends Controller
             $current_page = $request->input('page');
             return view('Species.species', ['all_species' => $all_species, 'current_page' => $current_page]);
         } catch (\Illuminate\Database\QueryException $ex) {
+            // 数据库中没有species显示
             $all_species = null;
             $current_page = null;
             return view('Species.species', ['all_species' => $all_species, 'current_page' => $current_page]);
@@ -26,7 +27,7 @@ class SpeciesController extends Controller
     public function create(Request $request)
     {
         if ($request->isMethod('POST')) {
-            // species validate
+            // species create validate
             $this->validate($request, [
                 'new_species_name' => 'required|unique:species,name|max:250',
                 'new_fasta' => ['required', 'regex:{(\/(\w)+)+\.fasta$}'],
@@ -61,8 +62,7 @@ class SpeciesController extends Controller
         $current_page = $request->input('page');
         if ($request->isMethod('post')) {
             $input = $request->all();
-
-            // species validate
+            // species update validate
             Validator::make($input, [
                 'name' => [
                     'required',
