@@ -9,7 +9,7 @@
         @isset($labs)
         <div class="choose_lab input_title">Choose a lab</div>
         <select class="custom-select selectLab" name="selectLab">
-          <option selected>choose a lab</option>
+          <option selected></option>
           @foreach($labs as $lab)
           <option value="{{$lab->id}}">{{$lab->name}}</option>
           @endforeach
@@ -30,8 +30,22 @@
         </div>
 
         <!-- error message -->
-        @isset($error)
-        <div class="text-danger">{{$error}}</div>
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+        </div>
+        @endif
+
+        @isset($pi_error)
+        <div class="alert alert-danger">
+          <ul>
+            <li>{{ $pi_error }}</li>
+          </ul>
+        </div>
         @endisset
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

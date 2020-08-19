@@ -17,7 +17,7 @@ class CreateLabsTable extends Migration
             $table->id();
             $table->string('name', 250);
             $table->string('principleInvestigator', 40);
-            $table->integer('institutions_id');
+            $table->unsignedBigInteger('institutions_id');
             $table->foreign('institutions_id')->references('id')->on('institutions')->onDelete('cascade');
             $table->timestamps();
         });

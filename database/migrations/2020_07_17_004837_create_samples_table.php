@@ -18,12 +18,12 @@ class CreateSamplesTable extends Migration
             $table->string('filename1', 400);
             $table->string('filename2', 400)->nullable();
             $table->integer('pairends');
-            $table->integer('species_id')->nullable();
+            $table->unsignedBigInteger('species_id')->nullable();
             $table->string('sampleLabel', 50);
             $table->foreign('species_id')->references('id')->on('species')->onDelete('cascade');
-            $table->integer('applications_id');
+            $table->unsignedBigInteger('applications_id');
             $table->foreign('applications_id')->references('id')->on('applications')->onDelete('cascade');
-            $table->integer('projects_id');
+            $table->unsignedBigInteger('projects_id');
             $table->foreign('projects_id')->references('id')->on('projects')->onDelete('cascade');
             $table->timestamps();
         });

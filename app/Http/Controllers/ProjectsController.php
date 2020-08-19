@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Labs;
 use App\Projects;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +34,7 @@ class ProjectsController extends Controller
                     return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
+                //未找到projects时显示
                 $findProjects = null;
                 return view('Projects.projects', compact('findProjects'));
             }
@@ -50,6 +53,7 @@ class ProjectsController extends Controller
                     return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
+                // 数据库中没有projects时显示
                 $Projects = null;
                 return view('Projects.projects', compact('Projects'));
             }
@@ -63,49 +67,53 @@ class ProjectsController extends Controller
             $user = Auth::user();
             $isAdmin = $user->email == 'admin@123.com';
             $labId = $request->input('selectLab');
-            $new_proj_name = $request->input('new_proj_name');
-            $new_doi_num = $request->input('new_doi_num');
-            $new_proj_desc = $request->input('new_proj_desc');
             $isPI = Labs::where([['id', $labId], ['principleInvestigator', $user->name]])->get()->count() > 0;
             if ($request->input('labID')) {
-                try {
-                    $labID = $request->input('labID');
-                    Projects::create([
-                        'labs_id' => $labID,
-                        'name' => $new_proj_name,
-                        'doi' => $new_doi_num,
-                        'description' => $new_proj_desc
-                    ]);
-                    if ($request->input('pos')) {
-                        return redirect('/myLab/projects?labID=' . $labID);
-                    } else {
-                        return redirect('/projects?labID=' . $labID);
-                    }
-                } catch (\Illuminate\Database\QueryException $ex) {
-                    return 'Sorry!You have not input all information!';
+                $this->validate($request, [
+                    'new_proj_name' => 'required',
+                    'new_doi_num' => 'required|unique:projects,doi',
+                    'new_proj_desc' => 'required|max:2000'
+                ]);
+                $new_proj_name = $request->input('new_proj_name');
+                $new_doi_num = $request->input('new_doi_num');
+                $new_proj_desc = $request->input('new_proj_desc');
+                $labID = $request->input('labID');
+                Projects::create([
+                    'labs_id' => $labID,
+                    'name' => $new_proj_name,
+                    'doi' => $new_doi_num,
+                    'description' => $new_proj_desc
+                ]);
+                if ($request->input('pos')) {
+                    return redirect('/myLab/projects?labID=' . $labID);
+                } else {
+                    return redirect('/projects?labID=' . $labID);
                 }
-            } elseif ($request->input('selectLab') == 'choose a lab') {
-                $error = 'choose a lab first';
-                return view('Projects.proj_create', ['error' => $error, 'labs' => $labs]);
             } elseif ($isPI || $isAdmin && $request->input('labID') == null) {
-                try {
-                    Projects::create([
-                        'labs_id' => $labId,
-                        'name' => $new_proj_name,
-                        'doi' => $new_doi_num,
-                        'description' => $new_proj_desc
-                    ]);
-                    if ($request->input('pos')) {
-                        return redirect('/myProject');
-                    } else {
-                        return redirect('/projects');
-                    }
-                } catch (\Illuminate\Database\QueryException $ex) {
-                    return 'Sorry!You have not input all information!';
+                $this->validate($request, [
+                    'selectLab' => 'required',
+                    'new_proj_name' => 'required',
+                    'new_doi_num' => 'required|unique:projects,doi',
+                    'new_proj_desc' => 'required|max:2000'
+                ]);
+                $labId = $request->input('selectLab');
+                $new_proj_name = $request->input('new_proj_name');
+                $new_doi_num = $request->input('new_doi_num');
+                $new_proj_desc = $request->input('new_proj_desc');
+                Projects::create([
+                    'labs_id' => $labId,
+                    'name' => $new_proj_name,
+                    'doi' => $new_doi_num,
+                    'description' => $new_proj_desc
+                ]);
+                if ($request->input('pos')) {
+                    return redirect('/myProject');
+                } else {
+                    return redirect('/projects');
                 }
             } else {
-                $error = 'sorry! you are not the principleInvestgator! Can not create project!';
-                return view('Projects.proj_create', ['error' => $error, 'labs' => $labs]);
+                $pi_error = 'sorry! you are not the principleInvestgator! Can not create project!';
+                return view('Projects.proj_create', ['pi_error' => $pi_error, 'labs' => $labs]);
             }
         }
         if ($request->input('labID')) {
@@ -145,41 +153,43 @@ class ProjectsController extends Controller
         $proj_id = $request->input('projectID');
         $project = Projects::find($proj_id);
         if ($request->isMethod('POST')) {
+            $input = $request->all();
+            Validator::make($input, [
+                'name' => [
+                    'required',
+                    'max:250',
+                    Rule::unique('projects')->ignore($proj_id)
+                ],
+                'doi' => [
+                    'required',
+                    Rule::unique('projects')->ignore($proj_id)
+                ],
+                'description' => [
+                    'required',
+                    'max:2000',
+                    Rule::unique('projects')->ignore($proj_id)
+                ]
+            ])->validate();
+            $new_proj = $input['name'];
+            $new_doi = $input['doi'];
+            $new_desc = $input['description'];
+            $project['name'] = $new_proj;
+            $project['doi'] = $new_doi;
+            $project['description'] = $new_desc;
+            $project->save();
             if ($request->input('labID')) {
                 $labID = $request->input('labID');
-                $new_proj = $request->input('new_projName');
-                $new_doi = $request->input('new_doiNum');
-                $new_desc = $request->input('new_projDesc');
-                try {
-                    $project['name'] = $new_proj;
-                    $project['doi'] = $new_doi;
-                    $project['description'] = $new_desc;
-                    $project->save();
-                    if ($request->input('pos')) {
-                        return redirect('/myLab/projects?labID=' . $labID);
-                    } else {
-                        return redirect('/labs/projects?labID=' . $labID);
-                    }
-                } catch (\Illuminate\Database\QueryException $ex) {
-                    return 'Sorry!You have not input the information!';
+                if ($request->input('pos')) {
+                    return redirect('/myLab/projects?labID=' . $labID);
+                } else {
+                    return redirect('/labs/projects?labID=' . $labID);
                 }
             } else {
                 $current_page = $request->input('page');
-                $new_proj = $request->input('new_projName');
-                $new_doi = $request->input('new_doiNum');
-                $new_desc = $request->input('new_projDesc');
-                try {
-                    $project['name'] = $new_proj;
-                    $project['doi'] = $new_doi;
-                    $project['description'] = $new_desc;
-                    $project->save();
-                    if ($request->input('pos')) {
-                        return redirect('/myProject');
-                    } else {
-                        return redirect('/projects?page=' . $current_page);
-                    }
-                } catch (\Illuminate\Database\QueryException $ex) {
-                    return 'Sorry!You have not input the information!';
+                if ($request->input('pos')) {
+                    return redirect('/myProject');
+                } else {
+                    return redirect('/projects?page=' . $current_page);
                 }
             }
         }
@@ -203,6 +213,7 @@ class ProjectsController extends Controller
                 return view('Projects.selectProjects', compact('selectProjects', 'isPI', 'isAdmin', 'labID', 'current_lab_name'));
             }
         } catch (\Illuminate\Database\QueryException $ex) {
+            // 未找到projects时显示
             $selectProjects = null;
             return view('Project.selectProjects', compact('selectLabs', 'current_lab_name'));
         }
