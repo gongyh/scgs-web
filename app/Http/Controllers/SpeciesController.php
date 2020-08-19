@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Species;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SpeciesController extends Controller
 {
@@ -30,18 +31,32 @@ class SpeciesController extends Controller
             // species create validate
             $this->validate($request, [
                 'new_species_name' => 'required|unique:species,name|max:250',
-                'new_fasta' => ['required', 'regex:{(\/(\w)+)+\.fasta$}'],
-                'new_gff' => ['required', 'regex:{(\/(\w)+)+\.gff$}']
+                'new_fasta' => ['required', 'regex:{((\w)+\/)*(\w)+\.fasta$}'],
+                'new_gff' => ['required', 'regex:{((\w)+\/)*(\w)+\.gff$}']
             ]);
             $new_species_name = $request->input('new_species_name');
             $new_fasta = $request->input('new_fasta');
             $new_gff = $request->input('new_gff');
-            Species::create([
-                'name' => $new_species_name,
-                'fasta' => $new_fasta,
-                'gff' => $new_gff
-            ]);
-            return redirect('/species');
+            // 验证fasta、gff文件是否存在，如不存在返回错误信息
+            $fasta_exist = Storage::disk('local')->exists($new_fasta);
+            $gff_exist = Storage::disk('local')->exists($new_gff);
+            if (!$fasta_exist && $gff_exist) {
+                $file_error = 'fasta file doesn\'t exist';
+                return view('Species.species_create', ['file_error' => $file_error]);
+            } elseif ($fasta_exist && !$gff_exist) {
+                $file_error = 'gff file doesn\'t exist';
+                return view('Species.species_create', ['file_error' => $file_error]);
+            } elseif (!$fasta_exist && !$gff_exist) {
+                $file_error = 'fasta file and gff file doesn\'t exist';
+                return view('Species.species_create', ['file_error' => $file_error]);
+            } else {
+                Species::create([
+                    'name' => $new_species_name,
+                    'fasta' => $new_fasta,
+                    'gff' => $new_gff
+                ]);
+                return redirect('/species');
+            }
         }
         return view('Species.species_create');
     }
@@ -71,26 +86,38 @@ class SpeciesController extends Controller
                 ],
                 'fasta' => [
                     'required',
-                    'regex:{(\/(\w)+)+\.fasta$}',
+                    'regex:{((\w)+\/)*(\w)+\.fasta$}',
                     Rule::unique('species')->ignore($input['speciesID'])
 
                 ],
                 'gff' => [
                     'required',
-                    'regex:{(\/(\w)+)+\.gff$}',
+                    'regex:{((\w)+\/)*(\w)+\.gff$}',
                     Rule::unique('species')->ignore($input['speciesID'])
                 ]
             ])->validate();
-
             $species_name = $request->input('name');
             $fasta = $request->input('fasta');
             $gff = $request->input('gff');
-            $species['name'] = $species_name;
-            $species['fasta'] = $fasta;
-            $species['gff'] = $gff;
-            $species->save();
-            return redirect('/species?page=' . $current_page);
-            return redirect('/species');
+            // 验证fasta、gff文件是否存在，如不存在返回错误信息
+            $fasta_exist = Storage::disk('local')->exists($fasta);
+            $gff_exist = Storage::disk('local')->exists($gff);
+            if (!$fasta_exist && $gff_exist) {
+                $file_error = 'fasta file doesn\'t exist';
+                return view('Species.species_update', ['species' => $species, 'file_error' => $file_error]);
+            } elseif ($fasta_exist && !$gff_exist) {
+                $file_error = 'gff file doesn\'t exist';
+                return view('Species.species_update', ['species' => $species, 'file_error' => $file_error]);
+            } elseif (!$fasta_exist && !$gff_exist) {
+                $file_error = 'fasta file and gff file doesn\'t exist';
+                return view('Species.species_update', ['species' => $species, 'file_error' => $file_error]);
+            } else {
+                $species['name'] = $species_name;
+                $species['fasta'] = $fasta;
+                $species['gff'] = $gff;
+                $species->save();
+                return redirect('/species?page=' . $current_page);
+            }
         }
         return view('Species.species_update', ['species' => $species]);
     }

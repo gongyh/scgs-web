@@ -7,7 +7,6 @@ use Illuminate\Validation\Rule;
 use App\Labs;
 use App\Institutions;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class LabsController extends Controller

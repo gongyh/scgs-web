@@ -75,7 +75,13 @@
           </ul>
         </div>
         @endif
-
+        @isset($file_error)
+        <div class="alert alert-danger">
+          <ul>
+            <li>{{ $file_error }}</li>
+          </ul>
+        </div>
+        @endisset
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>

@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use App\Samples;
 use App\Projects;
 use App\Labs;
 use App\Applications;
 use App\Species;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class SamplesController extends Controller
@@ -55,8 +54,8 @@ class SamplesController extends Controller
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
-                'new_fileOne' => ['required', 'regex:{(\/(\w)+)+\.fasta$}'],
-                'new_fileTwo' => ['nullable', 'regex:{(\/(\w)+)+\.fasta$}']
+                'new_fileOne' => ['required', 'regex:{((\w)+\/)*(\w)+\.fasta$}'],
+                'new_fileTwo' => ['nullable', 'regex:{((\w)+\/)*(\w)+\.fasta$}']
             ]);
             $projectID = $request->input('projectID');
             $new_sample_label = $request->input('new_sample_label');
@@ -72,17 +71,49 @@ class SamplesController extends Controller
             }
             $fileOne = $request->input('new_fileOne');
             $fileTwo = $request->input('new_fileTwo');
-
-            Samples::create([
-                'sampleLabel' => $new_sample_label,
-                'applications_id' => $select_application,
-                'projects_id' => $projectID,
-                'species_id' => $select_species,
-                'pairends' => $isPairends,
-                'filename1' => $fileOne,
-                'filename2' => $fileTwo
-            ]);
-            return redirect('/samples?projectID=' . $projectID);
+            if ($fileTwo == null) {
+                // 验证file1、file2是否存在，如不存在，返回错误信息
+                $file1_exist = Storage::disk('local')->exists($fileOne);
+                if ($file1_exist) {
+                    Samples::create([
+                        'sampleLabel' => $new_sample_label,
+                        'applications_id' => $select_application,
+                        'projects_id' => $projectID,
+                        'species_id' => $select_species,
+                        'pairends' => $isPairends,
+                        'filename1' => $fileOne,
+                        'filename2' => $fileTwo
+                    ]);
+                    return redirect('/samples?projectID=' . $projectID);
+                } else {
+                    $file_error = 'file1 doesn\'t exist';
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
+                }
+            } else {
+                $file1_exist = Storage::disk('local')->exists($fileOne);
+                $file2_exist = Storage::disk('local')->exists($fileTwo);
+                if (!$file1_exist && $file2_exist) {
+                    $file_error = 'file1 doesn\'t exist';
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
+                } elseif ($file1_exist && !$file2_exist) {
+                    $file_error = 'file2 doesn\'t exist';
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
+                } elseif (!$file1_exist && !$file2_exist) {
+                    $file_error = 'file1 and file2 doesn\'t exist';
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
+                } else {
+                    Samples::create([
+                        'sampleLabel' => $new_sample_label,
+                        'applications_id' => $select_application,
+                        'projects_id' => $projectID,
+                        'species_id' => $select_species,
+                        'pairends' => $isPairends,
+                        'filename1' => $fileOne,
+                        'filename2' => $fileTwo
+                    ]);
+                    return redirect('/samples?projectID=' . $projectID);
+                }
+            }
         }
         return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species]);
     }
@@ -110,8 +141,8 @@ class SamplesController extends Controller
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
-                'fileOne' => ['required', 'regex:{(\/(\w)+)+\.fasta$}'],
-                'fileTwo' => ['nullable', 'regex:{(\/(\w)+)+\.fasta$}']
+                'fileOne' => ['required', 'regex:{((\w)+\/)*(\w)+\.fasta$}'],
+                'fileTwo' => ['nullable', 'regex:{((\w)+\/)*(\w)+\.fasta$}']
             ]);
             $projectID = $request->input('projectID');
             $sample_label = $request->input('sample_label');
@@ -127,16 +158,45 @@ class SamplesController extends Controller
             }
             $fileOne = $request->input('fileOne');
             $fileTwo = $request->input('fileTwo');
-
-            $sample = Samples::find($sample_id);
-            $sample['sampleLabel'] = $sample_label;
-            $sample['applications_id'] = $select_application;
-            $sample['species_id'] = $select_species;
-            $sample['pairends'] = $isPairends;
-            $sample['filename1'] = $fileOne;
-            $sample['filename2'] = $fileTwo;
-            $sample->save();
-            return redirect('/samples?projectID=' . $projectID);
+            if ($fileTwo == null) {
+                // 验证file1、file2是否存在，如不存在，返回错误信息
+                $file1_exist = Storage::disk('local')->exists($fileOne);
+                if ($file1_exist) {
+                    $sample['sampleLabel'] = $sample_label;
+                    $sample['applications_id'] = $select_application;
+                    $sample['species_id'] = $select_species;
+                    $sample['pairends'] = $isPairends;
+                    $sample['filename1'] = $fileOne;
+                    $sample['filename2'] = $fileTwo;
+                    $sample->save();
+                    return redirect('/samples?projectID=' . $projectID);
+                } else {
+                    $file_error = 'file1 doesn\'t exist';
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
+                }
+            } else {
+                $file1_exist = Storage::disk('local')->exists($fileOne);
+                $file2_exist = Storage::disk('local')->exists($fileTwo);
+                if (!$file1_exist && $file2_exist) {
+                    $file_error = 'file1 doesn\'t exist';
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
+                } elseif ($file1_exist && !$file2_exist) {
+                    $file_error = 'file2 doesn\'t exist';
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
+                } elseif (!$file1_exist && !$file2_exist) {
+                    $file_error = 'file1 and file2 doesn\'t exist';
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
+                } else {
+                    $sample['sampleLabel'] = $sample_label;
+                    $sample['applications_id'] = $select_application;
+                    $sample['species_id'] = $select_species;
+                    $sample['pairends'] = $isPairends;
+                    $sample['filename1'] = $fileOne;
+                    $sample['filename2'] = $fileTwo;
+                    $sample->save();
+                    return redirect('/samples?projectID=' . $projectID);
+                }
+            }
         }
         return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app]);
     }
