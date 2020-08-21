@@ -25,21 +25,22 @@ class SamplesController extends Controller
         $current_lab_id = Projects::where('id', $projectID)->value('labs_id');
         $selectSamples = Samples::where('projects_id', $projectID)->paginate(8);
         $selectSamples->withPath('/samples?projectID=' . $projectID);
+        $sample = new Samples();
         try {
             if (auth::check()) {
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->name]])->get()->count() > 0;
                 $isAdmin = $user->email == 'admin@123.com';
-                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project'));
+                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
             } else {
                 $isPI  = false;
                 $isAdmin = false;
-                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project'));
+                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
             }
         } catch (\Illuminate\Database\QueryException $ex) {
             // 数据库中没有samples时显示
             $selectSamples = null;
-            return view('Sample.samples', compact('selectSamples', 'projectID', 'project'));
+            return view('Sample.samples', compact('selectSamples', 'projectID', 'project', 'applications'));
         }
     }
 
@@ -54,8 +55,8 @@ class SamplesController extends Controller
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
-                'new_fileOne' => ['required', 'regex:{((\w)+\/)*(\w)+\.fasta$}'],
-                'new_fileTwo' => ['nullable', 'regex:{((\w)+\/)*(\w)+\.fasta$}']
+                'new_fileOne' => ['required', 'regex:{((\w)+\/)*(\w)+\.fastq.gz$}'],
+                'new_fileTwo' => ['nullable', 'regex:{((\w)+\/)*(\w)+\.fastq.gz$}']
             ]);
             $projectID = $request->input('projectID');
             $new_sample_label = $request->input('new_sample_label');
@@ -141,8 +142,8 @@ class SamplesController extends Controller
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
-                'fileOne' => ['required', 'regex:{((\w)+\/)*(\w)+\.fasta$}'],
-                'fileTwo' => ['nullable', 'regex:{((\w)+\/)*(\w)+\.fasta$}']
+                'fileOne' => ['required', 'regex:{((\w)+\/)*(\w)+\.fastq.gz$}'],
+                'fileTwo' => ['nullable', 'regex:{((\w)+\/)*(\w)+\.fastq.gz$}']
             ]);
             $projectID = $request->input('projectID');
             $sample_label = $request->input('sample_label');
