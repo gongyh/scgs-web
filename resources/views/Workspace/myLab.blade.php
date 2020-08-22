@@ -2,28 +2,17 @@
 
 @section('content')
 <div class="container-fluid">
-  @include('components.workspace_nav')
 
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
-    <div class="col-sm-3 left-column">
-      <div class="list-group list">
-
-      </div>
+    <div class="col-md-2">
+      @include('components.workspace_nav')
     </div>
-    <div class="col-sm-6 middle-column">
-      <div class="middle-info">
-      </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-6">
       <div class="result">
-        <div class="result-info">
-
-
-
-        </div>
-
         <div class="result-detail">
-
           <!--labs table -->
           <div class="labs">
             <div class="table-responsive">
@@ -92,11 +81,8 @@
       </div>
     </div>
     <!-- right-column -->
-    <div class="col-sm-3 right-column">
+    <div class="col-md-3">
 
-      <div class="other-info">
-
-      </div>
     </div>
   </div>
 

@@ -31,7 +31,7 @@ class SpeciesController extends Controller
             // species create validate
             $this->validate($request, [
                 'new_species_name' => 'required|unique:species,name|max:250',
-                'new_fasta' => ['required', 'regex:{((\w)+\/)*(\w)+\.fasta$}'],
+                'new_fasta' => ['required', 'regex:{((\w)+\/)*(\w)+\.(fasta|fa)$}'],
                 'new_gff' => ['required', 'regex:{((\w)+\/)*(\w)+\.gff$}']
             ]);
             $new_species_name = $request->input('new_species_name');
@@ -86,7 +86,7 @@ class SpeciesController extends Controller
                 ],
                 'fasta' => [
                     'required',
-                    'regex:{((\w)+\/)*(\w)+\.fasta$}',
+                    'regex:{((\w)+\/)*(\w)+\.(fasta|fa)$}',
                     Rule::unique('species')->ignore($input['speciesID'])
 
                 ],

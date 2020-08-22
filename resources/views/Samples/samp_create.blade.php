@@ -38,7 +38,7 @@
             <label class="custom-control-label" for="customRadio1">SingleEnds</label>
           </div>
           <div class="custom-control custom-radio">
-            <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="pairEnds">
+            <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="pairEnds" checked>
             <label class="custom-control-label" for="customRadio2">PairEnds</label>
           </div>
         </div>
