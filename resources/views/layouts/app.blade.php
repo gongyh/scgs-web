@@ -39,17 +39,17 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                <a href="/labs" class="nav-link nav-labs">Labs</a>
+                <a href="/labs" class="nav-link nav-menu">Labs</a>
               </li>
               <li class="nav-item">
-                <a href="/projects" class="nav-link nav-proj">Projects</a>
+                <a href="/projects" class="nav-link nav-menu">Projects</a>
               </li>
               <li class="nav-item">
-                <a href="/aboutus" class="nav-link nav-aboutus">AboutUs</a>
+                <a href="/aboutus" class="nav-link nav-menu">AboutUs</a>
               </li>
               @if(Auth::check())
               <li class="nav-item">
-                <a href="/workspace" class="nav-link nav-workspace">Workspace</a>
+                <a href="/workspace" class="nav-link nav-menu">Workspace</a>
               </li>
               @endif
             </ul>
@@ -71,7 +71,8 @@
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                   <svg class="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                  </svg>{{ Auth::user()->name }}<span class="caret"></span>
+                  </svg>
+                  <span>{{ Auth::user()->name }}<span class="caret"></span></span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

@@ -64,3 +64,16 @@ if ($("input[type='radio']:checked").val() == 'singleEnds') {
 } else {
   $(".file_two").show();
 }
+
+// workspace-nav选中时的阴影效果
+$('.workspace-nav').hover(function () {
+  $(this).addClass('shadow p-3 rounded');
+}, function () {
+  $(this).removeClass('shadow p-3 rounded');
+})
+
+$('.nav-menu').hover(function () {
+  $(this).addClass('shadow rounded');
+}, function () {
+  $(this).removeClass('shadow rounded');
+})

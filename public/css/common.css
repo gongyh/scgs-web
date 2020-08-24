@@ -1,3 +1,7 @@
+body {
+  background-color: rgb(239, 239, 240);
+}
+
 a:hover,
 a:visited,
 a:link {
@@ -5,8 +9,7 @@ a:link {
 }
 
 /* navbar */
-.nav-labs,
-.nav-proj {
+.nav-menu:first-child {
   margin-left: 1.0rem;
 }
 
@@ -30,7 +33,7 @@ a:link {
 
 /* middle-area */
 .middle-area {
-  margin-top: 20px;
+  margin-top: 1.0rem;
 }
 
 /* aboutus lab-image */
@@ -165,4 +168,28 @@ td:last-child {
 .input_title {
   font-size: 14px;
   font-family: "Arial";
+}
+
+/* workspace-nav */
+.workspace-nav {
+  font-size: 1.0rem;
+}
+
+.user-image {
+  display: block;
+  width: 5.0rem;
+  height: 5.0rem;
+  margin: 0 auto;
+}
+
+.user-name {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #f40;
+  margin-bottom: 1.5rem;
+}
+
+.workspace-menu {
+  margin-top: -2.5rem;
+  height: 40rem;
 }
