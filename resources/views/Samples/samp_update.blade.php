@@ -64,7 +64,7 @@
           <label for="fileTwo">File 2</label>
           <input type="text" class="form-control fileTwo" name="fileTwo" id="fileTwo" value="{{$sample->filename2}}">
         </div>
-
+        <p class="text-black-50"><strong>Tips:</strong> The default root dictionary is 'D:\', you can input the absolute path or relative path based on the root dictionary, you can also go to the "config - filesystem.php - disk - local - root" to change the root dictionary if needed.</p>
         <!-- error message -->
         @if (count($errors) > 0)
         <div class="alert alert-danger">

@@ -30,7 +30,7 @@
           </div>
           <div class="project_sample">
             <div class="proj_title">Sample List:</div>
-            <table class="table">
+            <table class="table table-responsive">
               <thead>
                 <tr>
                   <th scope="col">SampleID</th>

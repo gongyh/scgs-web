@@ -31,15 +31,26 @@ class SpeciesController extends Controller
             // species create validate
             $this->validate($request, [
                 'new_species_name' => 'required|unique:species,name|max:250',
-                'new_fasta' => ['required', 'regex:{((\w)+\/)*(\w)+\.(fasta|fa)$}'],
-                'new_gff' => ['required', 'regex:{((\w)+\/)*(\w)+\.gff$}']
+                'new_fasta' => ['required', 'regex:{\.(fasta|fa)$}'],
+                'new_gff' => ['required', 'regex:{\.gff$}']
             ]);
             $new_species_name = $request->input('new_species_name');
             $new_fasta = $request->input('new_fasta');
             $new_gff = $request->input('new_gff');
             // 验证fasta、gff文件是否存在，如不存在返回错误信息
-            $fasta_exist = Storage::disk('local')->exists($new_fasta);
-            $gff_exist = Storage::disk('local')->exists($new_gff);
+            $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+            if (strpos($new_fasta, $base_path) == 0) {
+                $new_fasta_path = str_replace($base_path, '', $new_fasta);
+                $fasta_exist = Storage::disk('local')->exists($new_fasta_path);
+            } else {
+                $fasta_exist = Storage::disk('local')->exists($new_fasta);
+            }
+            if (strpos($new_gff, $base_path) == 0) {
+                $new_gff_path = str_replace($base_path, '', $new_gff);
+                $gff_exist = Storage::disk('local')->exists($new_gff_path);
+            } else {
+                $gff_exist = Storage::disk('local')->exists($new_gff);
+            }
             if (!$fasta_exist && $gff_exist) {
                 $file_error = 'fasta file doesn\'t exist';
                 return view('Species.species_create', ['file_error' => $file_error]);
@@ -86,13 +97,12 @@ class SpeciesController extends Controller
                 ],
                 'fasta' => [
                     'required',
-                    'regex:{((\w)+\/)*(\w)+\.(fasta|fa)$}',
+                    'regex:{\.(fasta|fa)$}',
                     Rule::unique('species')->ignore($input['speciesID'])
-
                 ],
                 'gff' => [
                     'required',
-                    'regex:{((\w)+\/)*(\w)+\.gff$}',
+                    'regex:{\.gff$}',
                     Rule::unique('species')->ignore($input['speciesID'])
                 ]
             ])->validate();
@@ -100,8 +110,19 @@ class SpeciesController extends Controller
             $fasta = $request->input('fasta');
             $gff = $request->input('gff');
             // 验证fasta、gff文件是否存在，如不存在返回错误信息
-            $fasta_exist = Storage::disk('local')->exists($fasta);
-            $gff_exist = Storage::disk('local')->exists($gff);
+            $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+            if (strpos($fasta, $base_path) == 0) {
+                $fasta_path = str_replace($base_path, '', $fasta);
+                $fasta_exist = Storage::disk('local')->exists($fasta_path);
+            } else {
+                $fasta_exist = Storage::disk('local')->exists($fasta);
+            }
+            if (strpos($gff, $base_path) == 0) {
+                $gff_path = str_replace($base_path, '', $gff);
+                $gff_exist = Storage::disk('local')->exists($gff_path);
+            } else {
+                $gff_exist = Storage::disk('local')->exists($gff);
+            }
             if (!$fasta_exist && $gff_exist) {
                 $file_error = 'fasta file doesn\'t exist';
                 return view('Species.species_update', ['species' => $species, 'file_error' => $file_error]);
