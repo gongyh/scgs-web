@@ -59,9 +59,9 @@
                   <td>
                     <a href="#">{{$selectSample->sampleLabel}}</a>
                   </td>
-                  <td>{{$selectSample->applications_id}}</td>
-                  <td>{{$selectSample->species}}</td>
-                  <td>{{$selectSample->pairends}}</td>
+                  <td>{{$sample->getAppName($selectSample->applications_id)}}</td>
+                  <td>{{$sample->getSpeciesName($selectSample->species_id)}}</td>
+                  <td>{{$selectSample->pairends == 1 ? 'Yes':'No'}}</td>
                   <td>{{$selectSample->filename1}}</td>
                   <td>{{$selectSample->filename2}}</td>
                   @if($isAdmin || $isPI)
