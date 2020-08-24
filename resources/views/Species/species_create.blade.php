@@ -12,7 +12,7 @@
         </div>
 
         <div class="form-group">
-          <label for="new_fasta" class="input_title">Path of Reference Genome(.fasta)</label>
+          <label for="new_fasta" class="input_title">Path of Reference Genome(.fasta/.fa)</label>
           <input type="text" class="form-control" name="new_fasta" id="new_fasta">
         </div>
 
@@ -20,6 +20,7 @@
           <label for="new_gff" class="input_title">Path of Genome Annotation(.gff)</label>
           <input type="text" class="form-control" name="new_gff" id="new_gff">
         </div>
+        <p class="text-black-50"><strong>Tips:</strong> The default root dictionary is 'D:\', you can input the absolute path or relative path based on the root dictionary, you can also go to the "config - filesystem.php - disk - local - root" to change the root dictionary if needed.</p>
         <!-- error message -->
         @if (count($errors) > 0)
         <div class="alert alert-danger">

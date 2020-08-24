@@ -55,8 +55,8 @@ class SamplesController extends Controller
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
-                'new_fileOne' => ['required', 'regex:{((\w)+\/)*(\w)+\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}'],
-                'new_fileTwo' => ['nullable', 'regex:{((\w)+\/)*(\w)+\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}']
+                'new_fileOne' => ['required', 'regex:{\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}'],
+                'new_fileTwo' => ['nullable', 'regex:{\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}']
             ]);
             $projectID = $request->input('projectID');
             $new_sample_label = $request->input('new_sample_label');
@@ -74,7 +74,13 @@ class SamplesController extends Controller
             $fileTwo = $request->input('new_fileTwo');
             if ($fileTwo == null) {
                 // 验证file1、file2是否存在，如不存在，返回错误信息
-                $file1_exist = Storage::disk('local')->exists($fileOne);
+                $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+                if (strpos($fileOne, $base_path) == 0) {
+                    $file1_path = str_replace($base_path, '', $fileOne);
+                    $file1_exist = Storage::disk('local')->exists($file1_path);
+                } else {
+                    $file1_exist = Storage::disk('local')->exists($fileOne);
+                }
                 if ($file1_exist) {
                     Samples::create([
                         'sampleLabel' => $new_sample_label,
@@ -91,8 +97,19 @@ class SamplesController extends Controller
                     return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
                 }
             } else {
-                $file1_exist = Storage::disk('local')->exists($fileOne);
-                $file2_exist = Storage::disk('local')->exists($fileTwo);
+                $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+                if (strpos($fileOne, $base_path) == 0) {
+                    $file1_path = str_replace($base_path, '', $fileOne);
+                    $file1_exist = Storage::disk('local')->exists($file1_path);
+                } else {
+                    $file1_exist = Storage::disk('local')->exists($fileOne);
+                }
+                if (strpos($fileTwo, $base_path) == 0) {
+                    $file2_path = str_replace($base_path, '', $fileTwo);
+                    $file2_exist = Storage::disk('local')->exists($file2_path);
+                } else {
+                    $file2_exist = Storage::disk('local')->exists($fileTwo);
+                }
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
                     return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
@@ -142,8 +159,8 @@ class SamplesController extends Controller
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
-                'fileOne' => ['required', 'regex:{((\w)+\/)*(\w)+\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}'],
-                'fileTwo' => ['nullable', 'regex:{((\w)+\/)*(\w)+\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}']
+                'fileOne' => ['required', 'regex:{\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}'],
+                'fileTwo' => ['nullable', 'regex:{\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}']
             ]);
             $projectID = $request->input('projectID');
             $sample_label = $request->input('sample_label');
@@ -161,7 +178,13 @@ class SamplesController extends Controller
             $fileTwo = $request->input('fileTwo');
             if ($fileTwo == null) {
                 // 验证file1、file2是否存在，如不存在，返回错误信息
-                $file1_exist = Storage::disk('local')->exists($fileOne);
+                $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+                if (strpos($fileOne, $base_path) == 0) {
+                    $file1_path = str_replace($base_path, '', $fileOne);
+                    $file1_exist = Storage::disk('local')->exists($file1_path);
+                } else {
+                    $file1_exist = Storage::disk('local')->exists($fileOne);
+                }
                 if ($file1_exist) {
                     $sample['sampleLabel'] = $sample_label;
                     $sample['applications_id'] = $select_application;
@@ -176,8 +199,19 @@ class SamplesController extends Controller
                     return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
                 }
             } else {
-                $file1_exist = Storage::disk('local')->exists($fileOne);
-                $file2_exist = Storage::disk('local')->exists($fileTwo);
+                $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+                if (strpos($fileOne, $base_path) == 0) {
+                    $file1_path = str_replace($base_path, '', $fileOne);
+                    $file1_exist = Storage::disk('local')->exists($file1_path);
+                } else {
+                    $file1_exist = Storage::disk('local')->exists($fileOne);
+                }
+                if (strpos($fileTwo, $base_path) == 0) {
+                    $file2_path = str_replace($base_path, '', $fileTwo);
+                    $file2_exist = Storage::disk('local')->exists($file2_path);
+                } else {
+                    $file2_exist = Storage::disk('local')->exists($fileTwo);
+                }
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
                     return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);

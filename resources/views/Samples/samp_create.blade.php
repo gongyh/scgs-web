@@ -44,14 +44,15 @@
         </div>
 
         <div class="form-group">
-          <label for="new_fileOne">File 1</label>
+          <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label>
           <input type="text" class="form-control" name="new_fileOne" id="new_fileOne">
         </div>
 
         <div class="form-group file_two">
-          <label for="new_fileTwo">File 2</label>
+          <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label>
           <input type="text" class="form-control fileTwo" name="new_fileTwo" id="new_fileTwo">
         </div>
+        <p class="text-black-50"><strong>Tips:</strong> The default root dictionary is 'D:\', you can input the absolute path or relative path based on the root dictionary, you can also go to the "config - filesystem.php - disk - local - root" to change the root dictionary if needed.</p>
         <!-- error message -->
         @if (count($errors) > 0)
         <div class="alert alert-danger">
