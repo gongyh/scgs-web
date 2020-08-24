@@ -17,7 +17,7 @@
       <div class="result">
         <div class="result-info">
           <!--search bar -->
-          <nav class="navbar navbar-light bg-light">
+          <nav class="navbar navbar-light">
             <form class="form-inline" method="post" action="/labs">
               @csrf
               <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_lab">
