@@ -159,8 +159,8 @@ class SamplesController extends Controller
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
-                'fileOne' => ['required', 'regex:{((\w)+\/)*(\w)+\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}'],
-                'fileTwo' => ['nullable', 'regex:{((\w)+\/)*(\w)+\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}']
+                'fileOne' => ['required', 'regex:{\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}'],
+                'fileTwo' => ['nullable', 'regex:{\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}']
             ]);
             $projectID = $request->input('projectID');
             $sample_label = $request->input('sample_label');
