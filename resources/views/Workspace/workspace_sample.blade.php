@@ -38,15 +38,12 @@
                     <th scope="col">Application</th>
                     <th scope="col">Species</th>
                     <th scope="col">Pairends</th>
-                    <th>
-                    </th>
+                    <th></th>
 
-                    @if($isAdmin || $isPI)
                     <th scope="col"><a href="/samples/create?projectID={{$projectID}}&pos=workspace"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path fill-rule="evenodd" d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z" />
                           <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z" />
                         </svg></a></th>
-                    @endif
                   </tr>
                 </thead>
                 <tbody>
@@ -60,7 +57,6 @@
                     <td>{{$sample->getAppName($selectSample->applications_id)}}</td>
                     <td>{{$sample->getSpeciesName($selectSample->species_id)}}</td>
                     <td>{{$selectSample->pairends == 1 ? 'Yes':'No'}}</td>
-                    @if($isAdmin || $isPI)
                     <td>
                       <a href="/samples/delete?projectID={{$projectID}}&sampleID={{$selectSample->id}}&pos=workspace" onclick="if(confirm('Are you sure to delete?')==false) return false;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
@@ -73,7 +69,6 @@
                           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                         </svg></a>
                     </td>
-                    @endif
                   </tr>
                   @endforeach
                   @endif
