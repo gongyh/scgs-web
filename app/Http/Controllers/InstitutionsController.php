@@ -38,7 +38,7 @@ class InstitutionsController extends Controller
             Institutions::create([
                 'name' => $new_institution_name
             ]);
-            return redirect('/institutions');
+            return redirect('/workspace/institutions');
         }
         return view('Institutions.insti_create');
     }
@@ -49,7 +49,7 @@ class InstitutionsController extends Controller
         $current_page = $request->input('page');
         $institution = Institutions::find($insti_id);
         $institution->delete();
-        return redirect('/institutions?page=' . $current_page);
+        return redirect('/workspace/institutions?page=' . $current_page);
     }
 
     public function update(Request $request)
@@ -64,13 +64,13 @@ class InstitutionsController extends Controller
                 'name' => [
                     'required',
                     'max:250',
-                    Rule::unique('institutions')->ignore($input['sintiID'])
+                    Rule::unique('institutions')->ignore($input['instiID'])
                 ]
             ])->validate();
             $institution_name = $request->input('name');
             $institution['name'] = $institution_name;
             $institution->save();
-            return redirect('/institutions?page=' . $current_page);
+            return redirect('/workspace/institutions?page=' . $current_page);
         }
         return view('Institutions.insti_update', ['institution' => $institution]);
     }

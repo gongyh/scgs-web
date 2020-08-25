@@ -27,12 +27,14 @@ class SamplesController extends Controller
         $selectSamples->withPath('/samples?projectID=' . $projectID);
         $sample = new Samples();
         try {
+            // 登录用户显示
             if (auth::check()) {
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->name]])->get()->count() > 0;
                 $isAdmin = $user->email == 'admin@123.com';
                 return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
             } else {
+                // 未登录用户显示
                 $isPI  = false;
                 $isAdmin = false;
                 return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
@@ -98,7 +100,11 @@ class SamplesController extends Controller
                         'filename1' => $fileOne,
                         'filename2' => $fileTwo
                     ]);
-                    return redirect('/samples?projectID=' . $projectID);
+                    if ($request->input('pos')) {
+                        return redirect('/workspace/samples?projectID=' . $projectID);
+                    } else {
+                        return redirect('/samples?projectID=' . $projectID);
+                    }
                 } else {
                     $file_error = 'file1 doesn\'t exist';
                     return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
@@ -146,7 +152,11 @@ class SamplesController extends Controller
                         'filename1' => $fileOne,
                         'filename2' => $fileTwo
                     ]);
-                    return redirect('/samples?projectID=' . $projectID);
+                    if ($request->input('pos')) {
+                        return redirect('/workspace/samples?projectID=' . $projectID);
+                    } else {
+                        return redirect('/samples?projectID=' . $projectID);
+                    }
                 }
             }
         }
@@ -159,7 +169,11 @@ class SamplesController extends Controller
         $project_id = $request->input('projectID');
         $sample = Samples::find($samp_id);
         $sample->delete();
-        return redirect('/samples?projectID=' . $project_id);
+        if ($request->input('pos')) {
+            return redirect('/workspace/samples?projectID=' . $project_id);
+        } else {
+            return redirect('/samples?projectID=' . $project_id);
+        }
     }
 
     public function update(Request $request)
@@ -216,7 +230,11 @@ class SamplesController extends Controller
                     $sample['filename1'] = $fileOne;
                     $sample['filename2'] = $fileTwo;
                     $sample->save();
-                    return redirect('/samples?projectID=' . $projectID);
+                    if ($request->input('pos')) {
+                        return redirect('/workspace/samples?projectID=' . $projectID);
+                    } else {
+                        return redirect('/samples?projectID=' . $projectID);
+                    }
                 } else {
                     $file_error = 'file1 doesn\'t exist';
                     return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
@@ -247,7 +265,7 @@ class SamplesController extends Controller
                     $file_error = 'file1 and file2 doesn\'t exist';
                     return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
                 } else {
-                    //  判断是否为相对路径
+                    //  判断输入是否是相对路径
                     $fileOne = $file1_path ? $file1_path : $fileOne;
                     $fileTwo = $file2_path ? $file2_path : $fileTwo;
 
@@ -261,7 +279,11 @@ class SamplesController extends Controller
                     $sample['filename1'] = $fileOne;
                     $sample['filename2'] = $fileTwo;
                     $sample->save();
-                    return redirect('/samples?projectID=' . $projectID);
+                    if ($request->input('pos')) {
+                        return redirect('/workspace/samples?projectID=' . $projectID);
+                    } else {
+                        return redirect('/samples?projectID=' . $projectID);
+                    }
                 }
             }
         }

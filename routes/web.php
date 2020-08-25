@@ -18,13 +18,6 @@ Route::get('/', function () {
     return view('homepage');
 });
 
-Route::group(['prefix' => 'institutions'], function () {
-    Route::get('/', 'InstitutionsController@index')->middleware('ban-insti-opt');
-    Route::any('/create', 'InstitutionsController@create')->middleware('ban-insti-opt');
-    Route::any('/delete', 'InstitutionsController@delete')->middleware('ban-insti-opt');
-    Route::any('/update', 'InstitutionsController@update')->middleware('ban-insti-opt');
-});
-
 Route::group(['prefix' => 'labs'], function () {
     Route::any('/', 'LabsController@index');
     Route::any('/update', 'LabsController@update')->middleware('ban-labs-update');
@@ -48,27 +41,34 @@ Route::group(['prefix' => 'samples'], function () {
     Route::any('/delete', 'SamplesController@delete');
 });
 
-Route::group(['prefix' => 'species'], function () {
+Route::group(['prefix' => 'workspace'], function () {
+    Route::get('/', 'WorkspaceController@index');
+    Route::get('/myLab', 'WorkspaceController@myLab');
+    Route::get('/myProject', 'WorkspaceController@myProject');
+    Route::get('/myLab/projects', 'WorkspaceController@selectMyProj');
+    Route::get('/samples', 'WorkspaceController@selectSamples');
+});
+
+Route::group(['prefix' => 'workspace/institutions'], function () {
+    Route::get('/', 'InstitutionsController@index')->middleware('ban-insti-opt');
+    Route::any('/create', 'InstitutionsController@create')->middleware('ban-insti-opt');
+    Route::any('/delete', 'InstitutionsController@delete')->middleware('ban-insti-opt');
+    Route::any('/update', 'InstitutionsController@update')->middleware('ban-insti-opt');
+});
+
+Route::group(['prefix' => 'workspace/species'], function () {
     Route::get('/', 'SpeciesController@index');
     Route::any('/update', 'SpeciesController@update');
     Route::any('/create', 'SpeciesController@create');
     Route::any('/delete', 'SpeciesController@delete');
 });
 
-Route::group(['prefix' => 'applications'], function () {
+Route::group(['prefix' => 'workspace/applications'], function () {
     Route::get('/', 'ApplicationsController@index');
     Route::any('/update', 'ApplicationsController@update');
     Route::any('/create', 'ApplicationsController@create');
     Route::any('/delete', 'ApplicationsController@delete');
 });
-
-Route::get('/workspace', 'WorkspaceController@index');
-
-Route::get('/myLab', 'WorkspaceController@myLab');
-
-Route::get('/myProject', 'WorkspaceController@myProject');
-
-Route::get('/myLab/projects', 'WorkspaceController@selectMyProj');
 
 Route::get('/aboutus', function () {
     return view('aboutus');

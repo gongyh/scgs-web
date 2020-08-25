@@ -79,7 +79,7 @@ class LabsController extends Controller
                 'institutions_id' => $choose_a_institution
             ]);
             if ($request->input('pos')) {
-                return redirect('/myLab');
+                return redirect('/workspace/myLab');
             } else {
                 return redirect('/labs');
             }
@@ -94,7 +94,7 @@ class LabsController extends Controller
         $lab = Labs::find($lab_id);
         $lab->delete();
         if ($request->input('pos')) {
-            return redirect('/myLab');
+            return redirect('/workspace/myLab');
         } else {
             return redirect('/labs?page=' . $current_page);
         }
@@ -119,7 +119,7 @@ class LabsController extends Controller
             $lab['name'] = $lab_name;
             $lab->save();
             if ($request->input('pos')) {
-                return redirect('/myLab');
+                return redirect('/workspace/myLab');
             } else {
                 return redirect('/labs?page=' . $current_page);
             }
