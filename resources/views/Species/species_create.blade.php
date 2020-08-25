@@ -10,7 +10,7 @@
           <label for="new_species_name" class="input_title">Species Name</label>
           <input type="text" class="form-control" name="new_species_name" id="new_species_name">
         </div>
-        <p class="tips"><strong>Tips:</strong> The default root dictionary is '<strong>D:\</strong>', you can input the absolute path or relative path based on the root dictionary, you can also go to the "<strong>config - filesystem.php - disk - local - root</strong>" to change the root dictionary if needed.</p>
+        <p class="tips"><strong>Tips:</strong> The default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also go to the "<strong>config - filesystem.php - disk - local - root</strong>" to change the root dictionary if needed.</p>
         <div class="form-group">
           <label for="new_fasta" class="input_title">Path of Reference Genome(.fasta/.fa)</label>
           <input type="text" class="form-control" name="new_fasta" id="new_fasta">

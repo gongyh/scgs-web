@@ -50,6 +50,7 @@ class SamplesController extends Controller
     {
         $applications = Applications::all();
         $all_species = Species::all();
+        $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         if ($request->isMethod('POST')) {
             // samples create validate
             $this->validate($request, [
@@ -75,7 +76,6 @@ class SamplesController extends Controller
             $fileOne = $request->input('new_fileOne');
             $fileTwo = $request->input('new_fileTwo');
             if ($fileTwo == null) {
-                $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
                 // 验证file1是否存在
                 if (strpos($fileOne, $base_path) == 0) {
                     //  判断输入是否是绝对路径
@@ -107,10 +107,9 @@ class SamplesController extends Controller
                     }
                 } else {
                     $file_error = 'file1 doesn\'t exist';
-                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'base_path' => $base_path]);
                 }
             } else {
-                $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
                 // 验证file1,file2是否存在
                 if (strpos($fileOne, $base_path) == 0) {
                     $file1_path = str_replace($base_path, '', $fileOne);
@@ -127,13 +126,13 @@ class SamplesController extends Controller
                 // 判断返回错误信息
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
-                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'base_path' => $base_path]);
                 } elseif ($file1_exist && !$file2_exist) {
                     $file_error = 'file2 doesn\'t exist';
-                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'base_path' => $base_path]);
                 } elseif (!$file1_exist && !$file2_exist) {
                     $file_error = 'file1 and file2 doesn\'t exist';
-                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'base_path' => $base_path]);
                 } else {
                     //  统一保存为相对路径
                     $fileOne = $file1_path ? $file1_path : $fileOne;
@@ -160,7 +159,7 @@ class SamplesController extends Controller
                 }
             }
         }
-        return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species]);
+        return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'base_path' => $base_path]);
     }
 
     public function delete(Request $request)
@@ -183,6 +182,7 @@ class SamplesController extends Controller
         $app = Applications::find($sample['applications_id']);
         $applications = Applications::all();
         $all_species = Species::all();
+        $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         if ($request->isMethod('POST')) {
             // sample update validate
             $this->validate($request, [
@@ -208,7 +208,6 @@ class SamplesController extends Controller
             $fileOne = $request->input('fileOne');
             $fileTwo = $request->input('fileTwo');
             if ($fileTwo == null) {
-                $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
                 // 验证file1是否存在
                 if (strpos($fileOne, $base_path) == 0) {
                     //  判断输入是否是绝对路径
@@ -237,10 +236,9 @@ class SamplesController extends Controller
                     }
                 } else {
                     $file_error = 'file1 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
                 }
             } else {
-                $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
                 // 验证file1,file2是否存在
                 if (strpos($fileOne, $base_path) == 0) {
                     $file1_path = str_replace($base_path, '', $fileOne);
@@ -257,13 +255,13 @@ class SamplesController extends Controller
                 // 判断返回错误信息
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
                 } elseif ($file1_exist && !$file2_exist) {
                     $file_error = 'file2 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
                 } elseif (!$file1_exist && !$file2_exist) {
                     $file_error = 'file1 and file2 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
                 } else {
                     //  判断输入是否是相对路径
                     $fileOne = $file1_path ? $file1_path : $fileOne;
@@ -287,6 +285,6 @@ class SamplesController extends Controller
                 }
             }
         }
-        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app]);
+        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
     }
 }

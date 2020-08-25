@@ -37,7 +37,7 @@ class ApplicationsController extends Controller
                 'name' => $new_app_name,
                 'description' => $new_app_desc
             ]);
-            return redirect('/applications');
+            return redirect('/workspace/applications');
         }
         return view('Applications.app_create');
     }
@@ -48,7 +48,7 @@ class ApplicationsController extends Controller
         $current_page = $request->input('page');
         $application = Applications::find($app_id);
         $application->delete();
-        return redirect('/applications?page=' . $current_page);
+        return redirect('/workspace/applications?page=' . $current_page);
     }
 
     public function update(Request $request)
@@ -76,7 +76,7 @@ class ApplicationsController extends Controller
             $application['name'] = $app_name;
             $application['description'] = $app_desc;
             $application->save();
-            return redirect('/applications?page=' . $current_page);
+            return redirect('/workspace/applications?page=' . $current_page);
         }
         return view('Applications.app_update', ['application' => $application]);
     }
