@@ -193,3 +193,9 @@ td:last-child {
   margin-top: -2.5rem;
   height: 40rem;
 }
+
+/* tips */
+.tips {
+  color: #ef470f;
+  font-size: 1.0rem;
+}

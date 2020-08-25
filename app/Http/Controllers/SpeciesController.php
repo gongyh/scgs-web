@@ -39,7 +39,10 @@ class SpeciesController extends Controller
             $new_gff = $request->input('new_gff');
             // 验证fasta、gff文件是否存在，如不存在返回错误信息
             $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+
+            // 判断输入是否是绝对路径
             if (strpos($new_fasta, $base_path) == 0) {
+                // 相对路径
                 $new_fasta_path = str_replace($base_path, '', $new_fasta);
                 $fasta_exist = Storage::disk('local')->exists($new_fasta_path);
             } else {
@@ -51,6 +54,15 @@ class SpeciesController extends Controller
             } else {
                 $gff_exist = Storage::disk('local')->exists($new_gff);
             }
+
+            //  统一保存为相对路径
+            $new_fasta = $new_fasta_path ? $new_fasta_path : $new_fasta;
+            $new_gff = $new_gff_path ? $new_gff_path : $new_gff;
+
+            //  判断是否存在反斜杠\
+            $new_fasta = strpos($new_fasta, '\\') !== false ? str_replace('\\', '/', $new_fasta) : $new_fasta;
+            $new_gff = strpos($new_gff, '\\') !== false ? str_replace('\\', '/', $new_gff) : $new_gff;
+
             if (!$fasta_exist && $gff_exist) {
                 $file_error = 'fasta file doesn\'t exist';
                 return view('Species.species_create', ['file_error' => $file_error]);
@@ -111,7 +123,9 @@ class SpeciesController extends Controller
             $gff = $request->input('gff');
             // 验证fasta、gff文件是否存在，如不存在返回错误信息
             $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+            //  判断输入的是否是绝对路径
             if (strpos($fasta, $base_path) == 0) {
+                //  相对路径
                 $fasta_path = str_replace($base_path, '', $fasta);
                 $fasta_exist = Storage::disk('local')->exists($fasta_path);
             } else {
@@ -123,6 +137,15 @@ class SpeciesController extends Controller
             } else {
                 $gff_exist = Storage::disk('local')->exists($gff);
             }
+
+            //  统一保存为相对路径
+            $fasta = $fasta_path ? $fasta_path : $fasta;
+            $gff = $gff_path ? $gff_path : $gff;
+
+            //  判断是否存在反斜杠\
+            $fasta = strpos($fasta, '\\') !== false ? str_replace('\\', '/', $fasta) : $fasta;
+            $gff = strpos($gff, '\\') !== false ? str_replace('\\', '/', $gff) : $gff;
+
             if (!$fasta_exist && $gff_exist) {
                 $file_error = 'fasta file doesn\'t exist';
                 return view('Species.species_update', ['species' => $species, 'file_error' => $file_error]);
