@@ -73,15 +73,22 @@ class SamplesController extends Controller
             $fileOne = $request->input('new_fileOne');
             $fileTwo = $request->input('new_fileTwo');
             if ($fileTwo == null) {
-                // 验证file1、file2是否存在，如不存在，返回错误信息
                 $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+                // 验证file1是否存在
                 if (strpos($fileOne, $base_path) == 0) {
+                    //  判断输入是否是绝对路径
                     $file1_path = str_replace($base_path, '', $fileOne);
                     $file1_exist = Storage::disk('local')->exists($file1_path);
                 } else {
                     $file1_exist = Storage::disk('local')->exists($fileOne);
                 }
+
                 if ($file1_exist) {
+                    //  统一保存为相对路径
+                    $fileOne = $file1_path ? $file1_path : $fileOne;
+
+                    //  判断是否存在反斜杠\
+                    $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
                     Samples::create([
                         'sampleLabel' => $new_sample_label,
                         'applications_id' => $select_application,
@@ -98,6 +105,7 @@ class SamplesController extends Controller
                 }
             } else {
                 $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+                // 验证file1,file2是否存在
                 if (strpos($fileOne, $base_path) == 0) {
                     $file1_path = str_replace($base_path, '', $fileOne);
                     $file1_exist = Storage::disk('local')->exists($file1_path);
@@ -110,6 +118,7 @@ class SamplesController extends Controller
                 } else {
                     $file2_exist = Storage::disk('local')->exists($fileTwo);
                 }
+                // 判断返回错误信息
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
                     return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
@@ -120,6 +129,14 @@ class SamplesController extends Controller
                     $file_error = 'file1 and file2 doesn\'t exist';
                     return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error]);
                 } else {
+                    //  统一保存为相对路径
+                    $fileOne = $file1_path ? $file1_path : $fileOne;
+                    $fileTwo = $file2_path ? $file2_path : $fileTwo;
+
+                    //  判断是否存在反斜杠\
+                    $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
+                    $fileTwo = strpos($fileTwo, '\\') !== false ? str_replace('\\', '/', $fileTwo) : $fileTwo;
+
                     Samples::create([
                         'sampleLabel' => $new_sample_label,
                         'applications_id' => $select_application,
@@ -177,15 +194,21 @@ class SamplesController extends Controller
             $fileOne = $request->input('fileOne');
             $fileTwo = $request->input('fileTwo');
             if ($fileTwo == null) {
-                // 验证file1、file2是否存在，如不存在，返回错误信息
                 $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+                // 验证file1是否存在
                 if (strpos($fileOne, $base_path) == 0) {
+                    //  判断输入是否是绝对路径
                     $file1_path = str_replace($base_path, '', $fileOne);
                     $file1_exist = Storage::disk('local')->exists($file1_path);
                 } else {
                     $file1_exist = Storage::disk('local')->exists($fileOne);
                 }
                 if ($file1_exist) {
+                    //  判断是否为相对路径
+                    $fileOne = $file1_path ? $file1_path : $fileOne;
+
+                    //  判断是否存在反斜杠\
+                    $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
                     $sample['sampleLabel'] = $sample_label;
                     $sample['applications_id'] = $select_application;
                     $sample['species_id'] = $select_species;
@@ -200,6 +223,7 @@ class SamplesController extends Controller
                 }
             } else {
                 $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+                // 验证file1,file2是否存在
                 if (strpos($fileOne, $base_path) == 0) {
                     $file1_path = str_replace($base_path, '', $fileOne);
                     $file1_exist = Storage::disk('local')->exists($file1_path);
@@ -212,6 +236,7 @@ class SamplesController extends Controller
                 } else {
                     $file2_exist = Storage::disk('local')->exists($fileTwo);
                 }
+                // 判断返回错误信息
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
                     return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
@@ -222,6 +247,13 @@ class SamplesController extends Controller
                     $file_error = 'file1 and file2 doesn\'t exist';
                     return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app]);
                 } else {
+                    //  判断是否为相对路径
+                    $fileOne = $file1_path ? $file1_path : $fileOne;
+                    $fileTwo = $file2_path ? $file2_path : $fileTwo;
+
+                    //  判断是否存在反斜杠\
+                    $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
+                    $fileTwo = strpos($fileTwo, '\\') !== false ? str_replace('\\', '/', $fileTwo) : $fileTwo;
                     $sample['sampleLabel'] = $sample_label;
                     $sample['applications_id'] = $select_application;
                     $sample['species_id'] = $select_species;
