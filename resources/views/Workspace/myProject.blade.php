@@ -45,7 +45,7 @@
                   <tr>
                     <th scope="row" class="table-item">{{$myProject->id}}</td>
                     <td class="table-item">
-                      <a href="/samples?projectID={{$myProject->id}}">{{$myProject->name}}</a>
+                      <a href="/workspace/samples?projectID={{$myProject->id}}">{{$myProject->name}}</a>
                     </td>
                     <td class="table-item">{{$myProject->doi}}</td>
                     <td class="table-item">{{strlen($myProject->description)>30?substr($myProject->description,0,30).'...':$myProject->description}}</td>

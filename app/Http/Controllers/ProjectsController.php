@@ -85,7 +85,7 @@ class ProjectsController extends Controller
                     'description' => $new_proj_desc
                 ]);
                 if ($request->input('pos')) {
-                    return redirect('/myLab/projects?labID=' . $labID);
+                    return redirect('/workspace/myLab/projects?labID=' . $labID);
                 } else {
                     return redirect('/projects?labID=' . $labID);
                 }
@@ -107,7 +107,7 @@ class ProjectsController extends Controller
                     'description' => $new_proj_desc
                 ]);
                 if ($request->input('pos')) {
-                    return redirect('/myProject');
+                    return redirect('/workspace/myProject');
                 } else {
                     return redirect('/projects');
                 }
@@ -131,7 +131,7 @@ class ProjectsController extends Controller
             $project = Projects::find($proj_id);
             $project->delete();
             if ($request->input('pos')) {
-                return redirect('/myLab/projects?labID=' . $lab_id);
+                return redirect('/workspace/myLab/projects?labID=' . $lab_id);
             } else {
                 return redirect('/labs/projects?labID=' . $lab_id);
             }
@@ -141,7 +141,7 @@ class ProjectsController extends Controller
             $project = Projects::find($proj_id);
             $project->delete();
             if ($request->input('pos')) {
-                return redirect('/myProject');
+                return redirect('/workspace/myProject');
             } else {
                 return redirect('/projects?page=' . $current_page);
             }
@@ -180,14 +180,14 @@ class ProjectsController extends Controller
             if ($request->input('labID')) {
                 $labID = $request->input('labID');
                 if ($request->input('pos')) {
-                    return redirect('/myLab/projects?labID=' . $labID);
+                    return redirect('/workspace/myLab/projects?labID=' . $labID);
                 } else {
                     return redirect('/labs/projects?labID=' . $labID);
                 }
             } else {
                 $current_page = $request->input('page');
                 if ($request->input('pos')) {
-                    return redirect('/myProject');
+                    return redirect('/workspace/myProject');
                 } else {
                     return redirect('/projects?page=' . $current_page);
                 }

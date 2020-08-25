@@ -6,7 +6,7 @@
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
-    <div class="col-md-3">
+    <div class="col-md-2">
       @include('components.workspace_nav')
     </div>
     <div class="col-md-1"></div>
@@ -14,9 +14,7 @@
       <div class="result">
         <div class="result-info">
           <!--search bar -->
-
         </div>
-
         <div class="result-detail">
 
           <!--labs table -->
@@ -45,7 +43,7 @@
                   <tr>
                     <th scope="row" class="table-item">{{$selectMyProj->id}}</td>
                     <td class="table-item">
-                      <a href="/samples?projectID={{$selectMyProj->id}}">{{$selectMyProj->name}}</a>
+                      <a href="/workspace/samples?projectID={{$selectMyProj->id}}">{{$selectMyProj->name}}</a>
                     </td>
                     <td class="table-item">{{$selectMyProj->doi}}</td>
                     <td class="table-item">{{strlen($selectMyProj->description)>30?substr($selectMyProj->description,0,30).'...':$selectMyProj->description}}</td>
