@@ -27,6 +27,7 @@ class SpeciesController extends Controller
 
     public function create(Request $request)
     {
+        $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         if ($request->isMethod('POST')) {
             // species create validate
             $this->validate($request, [
@@ -38,7 +39,6 @@ class SpeciesController extends Controller
             $new_fasta = $request->input('new_fasta');
             $new_gff = $request->input('new_gff');
             // 验证fasta、gff文件是否存在，如不存在返回错误信息
-            $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
 
             // 判断输入是否是绝对路径
             if (strpos($new_fasta, $base_path) == 0) {
@@ -65,23 +65,23 @@ class SpeciesController extends Controller
 
             if (!$fasta_exist && $gff_exist) {
                 $file_error = 'fasta file doesn\'t exist';
-                return view('Species.species_create', ['file_error' => $file_error]);
+                return view('Species.species_create', ['file_error' => $file_error, 'base_path' => $base_path]);
             } elseif ($fasta_exist && !$gff_exist) {
                 $file_error = 'gff file doesn\'t exist';
-                return view('Species.species_create', ['file_error' => $file_error]);
+                return view('Species.species_create', ['file_error' => $file_error, 'base_path' => $base_path]);
             } elseif (!$fasta_exist && !$gff_exist) {
                 $file_error = 'fasta file and gff file doesn\'t exist';
-                return view('Species.species_create', ['file_error' => $file_error]);
+                return view('Species.species_create', ['file_error' => $file_error, 'base_path' => $base_path]);
             } else {
                 Species::create([
                     'name' => $new_species_name,
                     'fasta' => $new_fasta,
                     'gff' => $new_gff
                 ]);
-                return redirect('/species');
+                return redirect('/workspace/species');
             }
         }
-        return view('Species.species_create');
+        return view('Species.species_create', ['base_path' => $base_path]);
     }
 
     public function delete(Request $request)
@@ -90,7 +90,7 @@ class SpeciesController extends Controller
         $current_page = $request->input('page');
         $species = Species::find($species_id);
         $species->delete();
-        return redirect('/species?page=' . $current_page);
+        return redirect('/workspace/species?page=' . $current_page);
     }
 
     public function update(Request $request)
@@ -98,6 +98,7 @@ class SpeciesController extends Controller
         $species_id = $request->input('speciesID');
         $species = Species::find($species_id);
         $current_page = $request->input('page');
+        $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         if ($request->isMethod('post')) {
             $input = $request->all();
             // species update validate
@@ -122,7 +123,6 @@ class SpeciesController extends Controller
             $fasta = $request->input('fasta');
             $gff = $request->input('gff');
             // 验证fasta、gff文件是否存在，如不存在返回错误信息
-            $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
             //  判断输入的是否是绝对路径
             if (strpos($fasta, $base_path) == 0) {
                 //  相对路径
@@ -148,21 +148,21 @@ class SpeciesController extends Controller
 
             if (!$fasta_exist && $gff_exist) {
                 $file_error = 'fasta file doesn\'t exist';
-                return view('Species.species_update', ['species' => $species, 'file_error' => $file_error]);
+                return view('Species.species_update', ['species' => $species, 'file_error' => $file_error, 'base_path' => $base_path]);
             } elseif ($fasta_exist && !$gff_exist) {
                 $file_error = 'gff file doesn\'t exist';
-                return view('Species.species_update', ['species' => $species, 'file_error' => $file_error]);
+                return view('Species.species_update', ['species' => $species, 'file_error' => $file_error, 'base_path' => $base_path]);
             } elseif (!$fasta_exist && !$gff_exist) {
                 $file_error = 'fasta file and gff file doesn\'t exist';
-                return view('Species.species_update', ['species' => $species, 'file_error' => $file_error]);
+                return view('Species.species_update', ['species' => $species, 'file_error' => $file_error, 'base_path' => $base_path]);
             } else {
                 $species['name'] = $species_name;
                 $species['fasta'] = $fasta;
                 $species['gff'] = $gff;
                 $species->save();
-                return redirect('/species?page=' . $current_page);
+                return redirect('/workspace/species?page=' . $current_page);
             }
         }
-        return view('Species.species_update', ['species' => $species]);
+        return view('Species.species_update', ['species' => $species, 'base_path' => $base_path]);
     }
 }
