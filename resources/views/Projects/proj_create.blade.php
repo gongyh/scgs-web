@@ -1,13 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
+<div class="container-fluid">
+  <div class="row middle-area">
+    <div class="col-md-2">
+      @if(strpos(url()->full(),'from'))
+      @include('components.workspace_nav')
+      @endif
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
       <form method="post" action="">
         @csrf
         @isset($labs)
-        <div class="choose_lab input_title">Choose a lab</div>
+        <div class="choose_lab input_title">Choose a lab<span class="text-danger">*</span></div>
         <select class="custom-select selectLab" name="selectLab">
           <option selected></option>
           @foreach($labs as $lab)
@@ -17,15 +23,15 @@
         @endisset
 
         <div class="form-group">
-          <label for="new_proj_name">Project Name</label>
+          <label for="new_proj_name">Project Name</label><span class="text-danger">*</span>
           <input type="text" class="form-control" name="new_proj_name" id="new_proj_name">
         </div>
         <div class="form-group">
-          <label for="new_doi_num">ProjectID</label>
+          <label for="new_doi_num">ProjectID</label><span class="text-danger">*</span>
           <input type="text" class="form-control" name="new_doi_num" id="new_doi_num">
         </div>
         <div class="form-group">
-          <label for="new_proj_desc">Description</label>
+          <label for="new_proj_desc">Description</label><span class="text-danger">*</span>
           <textarea class="form-control" name="new_proj_desc" id="new_proj_desc"></textarea>
         </div>
 

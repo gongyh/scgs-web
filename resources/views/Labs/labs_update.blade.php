@@ -1,9 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
+<div class="container-fluid">
+  <div class="row middle-area">
+    <div class="col-md-2">
+      @if(strpos(url()->full(),'from'))
+      @include('components.workspace_nav')
+      @endif
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
       <form action=" " method="post">
         @csrf
         <div class="card">
@@ -11,7 +17,7 @@
             <h5 class="card-title">Labs-edit</h5>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text">Lab Name</span>
+                <span class="input-group-text">Lab Name<span class="text-danger">*</span></span>
               </div>
               <input type="text" class="form-control" name="name" value="{{$lab->name}}">
             </div>

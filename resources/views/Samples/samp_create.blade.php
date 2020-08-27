@@ -1,18 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
+<div class="container-fluid">
+  <div class="row middle-area">
+    <div class="col-md-2">
+      @if(strpos(url()->full(),'from'))
+      @include('components.workspace_nav')
+      @endif
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
       <form method="post" action="">
         @csrf
         <div class="form-group">
-          <label for="new_sample_label">SampleLabel</label>
+          <label for="new_sample_label">SampleLabel</label><span class="text-danger">*</span>
           <input type="text" class="form-control" name="new_sample_label" id="new_sample_label">
         </div>
 
         <div class="form-group">
-          <label for="select_application">Choose a application</label>
+          <label for="select_application">Choose a application</label><span class="text-danger">*</span>
           <select class="custom-select" name="select_application" id="select_application">
             <option selected></option>
             @foreach($applications as $application)
@@ -32,7 +38,7 @@
         </div>
 
         <div class="form-group">
-          <label>PairEnds?</label>
+          <label>PairEnds?</label><span class="text-danger">*</span>
           <div class="custom-control custom-radio">
             <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="singleEnds">
             <label class="custom-control-label" for="customRadio1">SingleEnds</label>
@@ -42,14 +48,14 @@
             <label class="custom-control-label" for="customRadio2">PairEnds</label>
           </div>
         </div>
-        <p class="tips"><strong>Tips:</strong> The default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also go to the "<strong>config - filesystem.php - disk - local - root</strong>" to change the root dictionary if needed.</p>
+        <p class="tips"><strong>Tips:</strong> 1.<strong>* </strong>means required field;<br />2.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also go to the "<strong>config - filesystem.php - disk - local - root</strong>" to change the root dictionary if needed.</p>
         <div class="form-group">
-          <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label>
+          <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger">*</span>
           <input type="text" class="form-control" name="new_fileOne" id="new_fileOne">
         </div>
 
         <div class="form-group file_two">
-          <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label>
+          <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger">*</span>
           <input type="text" class="form-control fileTwo" name="new_fileTwo" id="new_fileTwo">
         </div>
         <!-- error message -->

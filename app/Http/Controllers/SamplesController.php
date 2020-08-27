@@ -100,7 +100,7 @@ class SamplesController extends Controller
                         'filename1' => $fileOne,
                         'filename2' => $fileTwo
                     ]);
-                    if ($request->input('pos')) {
+                    if ($request->input('from')) {
                         return redirect('/workspace/samples?projectID=' . $projectID);
                     } else {
                         return redirect('/samples?projectID=' . $projectID);
@@ -151,7 +151,7 @@ class SamplesController extends Controller
                         'filename1' => $fileOne,
                         'filename2' => $fileTwo
                     ]);
-                    if ($request->input('pos')) {
+                    if ($request->input('from')) {
                         return redirect('/workspace/samples?projectID=' . $projectID);
                     } else {
                         return redirect('/samples?projectID=' . $projectID);
@@ -168,7 +168,7 @@ class SamplesController extends Controller
         $project_id = $request->input('projectID');
         $sample = Samples::find($samp_id);
         $sample->delete();
-        if ($request->input('pos')) {
+        if ($request->input('from')) {
             return redirect('/workspace/samples?projectID=' . $project_id);
         } else {
             return redirect('/samples?projectID=' . $project_id);
@@ -229,9 +229,11 @@ class SamplesController extends Controller
                     $sample['filename1'] = $fileOne;
                     $sample['filename2'] = $fileTwo;
                     $sample->save();
-                    if ($request->input('pos')) {
+                    if ($request->input('from')) {
+                        // 从workspace - myProject中访问
                         return redirect('/workspace/samples?projectID=' . $projectID);
                     } else {
+                        // 从home - sample访问
                         return redirect('/samples?projectID=' . $projectID);
                     }
                 } else {
@@ -277,7 +279,7 @@ class SamplesController extends Controller
                     $sample['filename1'] = $fileOne;
                     $sample['filename2'] = $fileTwo;
                     $sample->save();
-                    if ($request->input('pos')) {
+                    if ($request->input('from')) {
                         return redirect('/workspace/samples?projectID=' . $projectID);
                     } else {
                         return redirect('/samples?projectID=' . $projectID);

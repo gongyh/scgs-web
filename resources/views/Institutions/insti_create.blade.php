@@ -1,13 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
+<div class="container-fluid">
+  <div class="row middle-area">
+    <div class="col-md-2">
+      @include('components.workspace_nav')
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
       <form method="post" action="">
         @csrf
         <div class="form-group">
-          <label for="new_insti_name" class="input_title">Institution Name</label>
+          <label for="new_insti_name" class="input_title">Institution Name</label><span class="text-danger">*</span>
           <input type="text" class="form-control" name="new_institution_name" id="new_insti_name">
         </div>
         <!-- error message -->
