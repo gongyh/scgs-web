@@ -1,21 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
+<div class="container-fluid">
+  <div class="row middle-area">
+    <div class="col-md-2">
+      @if(strpos(url()->full(),'from'))
+      @include('components.workspace_nav')
+      @endif
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
       <form method="post" action="">
         @csrf
         <div class="form-group">
-          <label for="name">Project Name</label>
+          <label for="name">Project Name</label><span class="text-danger">*</span>
           <input type="text" class="form-control" name="name" id="name" value="{{$project->name}}">
         </div>
         <div class="form-group">
-          <label for="doi">ProjectID</label>
+          <label for="doi">ProjectID</label><span class="text-danger">*</span>
           <input type="text" class="form-control" name="doi" id="doi" value="{{$project->doi}}">
         </div>
         <div class="form-group">
-          <label for="description">Description</label>
+          <label for="description">Description</label><span class="text-danger">*</span>
           <textarea class="form-control" name="description" id="description">{{$project->description}}</textarea>
         </div>
         <!-- error message -->

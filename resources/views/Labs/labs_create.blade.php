@@ -1,12 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
+<div class="container-fluid">
+  <div class="row middle-area">
+    <div class="col-md-2">
+      @if(strpos(url()->full(),'from'))
+      @include('components.workspace_nav')
+      @endif
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
       <form method="post" action="">
         @csrf
-        <div class="choose_insti input_title">Choose a institution</div>
+        <div class="choose_insti input_title">Choose a institution<span class="text-danger">*</span></div>
         <select class="custom-select selectInstitution" name="choose_a_institution">
           <option selected></option>
 
@@ -16,7 +22,7 @@
         </select>
 
         <div class="form-group">
-          <label for="new_lab_name" class="input_title">Lab Name</label>
+          <label for="new_lab_name" class="input_title">Lab Name</label><span class="text-danger">*</span>
           <input type="text" class="form-control" name="new_lab_name" id="new_lab_name">
         </div>
         <!-- error message -->

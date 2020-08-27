@@ -6,10 +6,11 @@ window.onload = function () {
   var index = 0;
   var current_url = window.location.href;
   var url = current_url.split('/').pop();
+  var url_noparams = url.indexOf('?') != -1 ? url.slice(0, url.indexOf('?')) : url;
   var workspace_nav = document.getElementsByClassName('workspace-nav');
   if (url) {
     for (var i = 0; i < workspace_nav.length; i++) {
-      if (workspace_nav[i].getAttribute('href').indexOf(url) != -1) {
+      if (workspace_nav[i].getAttribute('href').indexOf(url_noparams) != -1) {
         index = i;
         workspace_nav[index].className = 'nav-item nav-link workspace-nav active';
         break;
