@@ -45,7 +45,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => 'D:/',
+            'root' => '/home/gongyh/',
         ],
 
         'public' => [
