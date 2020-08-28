@@ -10,7 +10,7 @@ window.onload = function () {
   var workspace_nav = document.getElementsByClassName('workspace-nav');
   if (url) {
     for (var i = 0; i < workspace_nav.length; i++) {
-      if (workspace_nav[i].getAttribute('href').indexOf(url_noparams) != -1) {
+      if (workspace_nav[i].getAttribute('href').split('/').pop().indexOf(url_noparams) != -1) {
         index = i;
         workspace_nav[index].className = 'nav-item nav-link workspace-nav active';
         break;

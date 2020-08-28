@@ -59,35 +59,34 @@
           </div>
         </div>
         @endif
-        <p class="tips"><strong>Tips:</strong> 1.<strong>* </strong>means required field;<br />2.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also go to the "<strong>config - filesystem.php - disk - local - root</strong>" to change the root dictionary if needed.</p>
-        <div class="form-group">
-          <label for="fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger">*</span>
-          <input type="text" class="form-control" name="fileOne" id="fileOne" value="{{$sample->filename1}}">
-        </div>
-        <div class="form-group file_two">
-          <label for="fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger">*</span>
-          <input type="text" class="form-control fileTwo" name="fileTwo" id="fileTwo" value="{{$sample->filename2}}">
-        </div>
-        <!-- error message -->
-        @if (count($errors) > 0)
-        <div class="alert alert-danger">
-          <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-              @endforeach
-          </ul>
-        </div>
-        @endif
-        @isset($file_error)
-        <div class="alert alert-danger">
-          <ul>
-            <li>{{ $file_error }}</li>
-          </ul>
-        </div>
-        @endisset
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+        <p class="tips"><strong>Tips:</strong> 1.<strong>* </strong>means required field;<br />2.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
+        <label for="fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger">*</span>
+        <input type="text" class="form-control" name="fileOne" id="fileOne" value="{{$sample->filename1}}">
     </div>
+    <div class="form-group file_two">
+      <label for="fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger">*</span>
+      <input type="text" class="form-control fileTwo" name="fileTwo" id="fileTwo" value="{{$sample->filename2}}">
+    </div>
+    <!-- error message -->
+    @if (count($errors) > 0)
+    <div class="alert alert-danger">
+      <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+    </div>
+    @endif
+    @isset($file_error)
+    <div class="alert alert-danger">
+      <ul>
+        <li>{{ $file_error }}</li>
+      </ul>
+    </div>
+    @endisset
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
   </div>
+</div>
 </div>
 @endsection
