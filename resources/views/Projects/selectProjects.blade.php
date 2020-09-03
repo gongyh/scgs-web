@@ -12,7 +12,7 @@
     </div>
     <div class="col-sm-6 middle-column">
       <div class="middle-info">
-        Welcome to {{$current_lab_name}}!
+        Welcome!
       </div>
       <div class="result">
         <div class="result-info">

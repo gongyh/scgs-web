@@ -12,7 +12,7 @@
     </div>
     <div class="col-sm-6 middle-column">
       <div class="middle-info">
-        Welcome to SCGS-Web!
+        Welcome!
       </div>
       <div class="result">
         <div class="result-info">
@@ -79,12 +79,12 @@
                   @elseif(isset($findLabs))
                   @foreach ($findLabs as $findLab)
                   <tr>
-                    <th scope="row">{{$findLab->id}}</td>
-                    <td>
+                    <th class="table-item" scope="row">{{$findLab->id}}</td>
+                    <td class="table-item">
                       <a href="labs/projects?labID={{$findLab->id}}">{{$findLab->name}}</a>
                     </td>
-                    <td>{{$findLab->principleInvestigator}}</td>
-                    <td>
+                    <td class="table-item">{{$findLab->principleInvestigator}}</td>
+                    <td class="table-item">
                       @if($isAdmin)
                       <a href="labs/delete?labID={{$findLab->id}}&page={{$current_page}}" onclick="if(confirm('Are you sure to delete?')==false) return false;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
@@ -92,7 +92,7 @@
                         </svg></a>
                       @endif
                     </td>
-                    <td>
+                    <td class="table-item">
                       @if($isAdmin || $isPI->contains($findLab->id))
                       <a href="labs/update?labID={{$findLab->id}}&page={{$current_page}}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -106,7 +106,6 @@
                   @else
                   <td></td>
                   <td></td>
-
                   @endif
 
                 </tbody>

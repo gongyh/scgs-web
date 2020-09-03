@@ -171,6 +171,14 @@ td:last-child {
 }
 
 /* workspace-nav */
+.workspace-menu-nodisplay {
+  display: none;
+}
+
+.workspace-menu {
+  margin-top: -2.5rem;
+}
+
 .workspace-nav {
   font-size: 1.0rem;
 }
@@ -187,11 +195,6 @@ td:last-child {
   font-size: 1.5rem;
   color: #f40;
   margin-bottom: 1.5rem;
-}
-
-.workspace-menu {
-  margin-top: -2.5rem;
-  height: 40rem;
 }
 
 /* tips */

@@ -22,15 +22,16 @@ class LabsController extends Controller
             try {
                 $search_lab = $request->input('search_lab');
                 $findLabs = Labs::where('name', 'LIKE', '%' . $search_lab . '%')->paginate(15);
+                $current_page = $request->input('page');
                 if (auth::check()) {
                     $user = Auth::user();
                     $isPI = Labs::where('principleInvestigator', $user->name)->get();
                     $isAdmin = $user->email == 'admin@123.com';
-                    return view('Labs.labs', compact('findLabs', 'isPI', 'isAdmin'));
+                    return view('Labs.labs', compact('findLabs', 'isPI', 'isAdmin', 'current_page'));
                 } else {
                     $isPI  = collect();
                     $isAdmin = false;
-                    return view('Labs.labs', compact('findLabs', 'isPI', 'isAdmin'));
+                    return view('Labs.labs', compact('findLabs', 'isPI', 'isAdmin', 'current_page'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
                 // 未找到labs时显示
@@ -53,7 +54,7 @@ class LabsController extends Controller
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
                 // 数据库中没有labs时显示
-                $selectLabs = null;
+                $Labs = null;
                 return view('Labs.labs', compact('Labs'));
             }
         }

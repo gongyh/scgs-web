@@ -199,23 +199,22 @@ class ProjectsController extends Controller
     public function selectProj(Request $request)
     {
         $labID = $request->input('labID');
-        $current_lab_name = Labs::where('id', $labID)->value('name');
         $selectProjects = Projects::where('labs_id', $labID)->paginate(15);
         try {
             if (auth::check()) {
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $labID], ['principleInvestigator', $user->name]])->get()->count() > 0;
                 $isAdmin = $user->email == 'admin@123.com';
-                return view('Projects.selectProjects', compact('selectProjects', 'isPI', 'isAdmin', 'labID', 'current_lab_name'));
+                return view('Projects.selectProjects', compact('selectProjects', 'isPI', 'isAdmin', 'labID'));
             } else {
                 $isPI  = false;
                 $isAdmin = false;
-                return view('Projects.selectProjects', compact('selectProjects', 'isPI', 'isAdmin', 'labID', 'current_lab_name'));
+                return view('Projects.selectProjects', compact('selectProjects', 'isPI', 'isAdmin', 'labID'));
             }
         } catch (\Illuminate\Database\QueryException $ex) {
             // 未找到projects时显示
             $selectProjects = null;
-            return view('Project.selectProjects', compact('selectLabs', 'current_lab_name'));
+            return view('Project.selectProjects', compact('selectLabs'));
         }
     }
 }
