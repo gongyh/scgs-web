@@ -23,7 +23,7 @@ class BanOperation
                 return abort('403');
             }
         } else {
-            return abort(403);
+            return redirect('/login');
         }
     }
 }
