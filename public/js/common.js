@@ -82,6 +82,55 @@ $('.nav-menu').hover(function () {
 //workspace用户卡片淡出
 $(document).ready(
   function () {
-    $('.workspace-menu-nodisplay').fadeIn(1500);
+    $('.workspace-menu-nodisplay').fadeIn(1000);
   }
 )
+
+// execute params setting
+$('#resfinder_db').on('change', function () {
+  if ($('#resfinder_db').is(':checked')) {
+    $('.resfinder_db_path').show();
+  } else {
+    $('.resfinder_db_path').hide();
+  }
+})
+
+$('#nt_db').on('change', function () {
+  if ($('#nt_db').is(':checked')) {
+    $('.nt_db_path').show();
+  } else {
+    $('.nt_db_path').hide();
+  }
+})
+
+$('#eggnog_db').on('change', function () {
+  if ($('#eggnog_db').is(':checked')) {
+    $('.eggnog_db_path').show();
+  } else {
+    $('.eggnog_db_path').hide();
+  }
+})
+
+$('#kraken_db').on('change', function () {
+  if ($('#kraken_db').is(':checked')) {
+    $('.kraken_db_path').show();
+  } else {
+    $('.kraken_db_path').hide();
+  }
+})
+
+$('#kofam_profile').on('change', function () {
+  if ($('#kofam_profile').is(':checked')) {
+    $('.kofam_profile_path').show();
+  } else {
+    $('.kofam_profile_path').hide();
+  }
+})
+
+$('#kofam_kolist').on('change', function () {
+  if ($('#kofam_kolist').is(':checked')) {
+    $('.kofam_kolist_path').show();
+  } else {
+    $('.kofam_kolist_path').hide();
+  }
+})

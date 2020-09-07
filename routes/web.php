@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\InstitutionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,5 +73,9 @@ Route::get('/aboutus', function () {
 });
 
 Auth::routes();
+
+Route::get('/workspace/execparams', function () {
+    return view('Workspace.execParams');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');

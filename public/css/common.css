@@ -1,5 +1,6 @@
 body {
   background-color: rgb(239, 239, 240);
+  font-family: 'Comic Sans MS';
 }
 
 a:hover,
@@ -92,15 +93,16 @@ a:link {
   text-align: center;
 }
 
-.delete {
-  padding-right: 0 !important;
-  text-align: right;
-}
-
 .add,
+.delete,
 .update {
   padding: 0.75rem 0 !important;
   text-align: right;
+}
+
+.exec {
+  padding: 0.75rem 0 !important;
+  text-align: center;
 }
 
 .pagination {
@@ -190,5 +192,23 @@ a:link {
 /* tips */
 .tips {
   color: #ef470f;
+  font-size: 1.0rem;
+}
+
+/* execute params setting */
+.resfinder_db_path,
+.nt_db_path,
+.kraken_db_path,
+.eggnog_db_path,
+.kofam_profile_path,
+.kofam_kolist_path {
+  display: none;
+}
+
+.exec-title {
+  font-size: 1.5rem;
+}
+
+.exec-params {
   font-size: 1.0rem;
 }
