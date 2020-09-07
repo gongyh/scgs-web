@@ -58,8 +58,8 @@ class SamplesController extends Controller
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
-                'new_fileOne' => ['required', 'regex:{\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}'],
-                'new_fileTwo' => ['nullable', 'regex:{\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}']
+                'new_fileOne' => ['required', 'regex:{(\.R1)?(_1)?(_R1)?(_trimmed)?(_combined)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$}'],
+                'new_fileTwo' => ['nullable', 'regex:{(\.R2)?(_2)?(_R2)?(_trimmed)?(_combined)?(\.2_val_2)?(_R2_val_2)?(\.fq)?(\.fastq)?(\.gz)?$}']
             ]);
             $projectID = $request->input('projectID');
             $new_sample_label = $request->input('new_sample_label');
@@ -190,8 +190,8 @@ class SamplesController extends Controller
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
-                'fileOne' => ['required', 'regex:{\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}'],
-                'fileTwo' => ['nullable', 'regex:{\.(fastq.gz|fasta.gz|fasta|fastq|fa)$}']
+                'fileOne' => ['required', 'regex:{(\.R1)?(_1)?(_R1)?(_trimmed)?(_combined)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$}'],
+                'fileTwo' => ['nullable', 'regex:{(\.R2)?(_2)?(_R2)?(_trimmed)?(_combined)?(\.2_val_2)?(_R2_val_2)?(\.fq)?(\.fastq)?(\.gz)?$}']
             ]);
             $projectID = $request->input('projectID');
             $sample_label = $request->input('sample_label');

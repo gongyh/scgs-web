@@ -4,7 +4,9 @@
 <div class="container-fluid">
   <div class="row middle-area">
     <div class="col-md-2">
-      @include('components.workspace_nav')
+      <div class="workspace-menu-nodisplay">
+        @include('components.workspace_nav')
+      </div>
     </div>
   </div>
 </div>

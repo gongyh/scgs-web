@@ -19,9 +19,8 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'labs'], function () {
-    Route::any('/', 'LabsController@index');
-    Route::any('/update', 'LabsController@update')->middleware('ban-labs-update');
-    Route::any('/delete', 'LabsController@delete')->middleware('ban-labs-delete');
+    Route::any('/update', 'LabsController@update');
+    Route::any('/delete', 'LabsController@delete');
     Route::any('/create', 'LabsController@create')->middleware('auth');
     Route::get('/projects', 'ProjectsController@selectProj');
 });
@@ -42,32 +41,32 @@ Route::group(['prefix' => 'samples'], function () {
 });
 
 Route::group(['prefix' => 'workspace'], function () {
-    Route::get('/', 'WorkspaceController@index');
-    Route::get('/myLab', 'WorkspaceController@myLab');
-    Route::get('/myProject', 'WorkspaceController@myProject');
-    Route::get('/myLab/projects', 'WorkspaceController@selectMyProj');
-    Route::get('/samples', 'WorkspaceController@selectSamples');
+    Route::get('/', 'WorkspaceController@index')->middleware('auth');
+    Route::get('/myLab', 'WorkspaceController@myLab')->middleware('auth');
+    Route::get('/myProject', 'WorkspaceController@myProject')->middleware('auth');
+    Route::get('/myLab/projects', 'WorkspaceController@selectMyProj')->middleware('auth');
+    Route::get('/samples', 'WorkspaceController@selectSamples')->middleware('auth');
 });
 
 Route::group(['prefix' => 'workspace/institutions'], function () {
-    Route::get('/', 'InstitutionsController@index')->middleware('ban-insti-opt');
-    Route::any('/create', 'InstitutionsController@create')->middleware('ban-insti-opt');
-    Route::any('/delete', 'InstitutionsController@delete')->middleware('ban-insti-opt');
-    Route::any('/update', 'InstitutionsController@update')->middleware('ban-insti-opt');
+    Route::get('/', 'InstitutionsController@index')->middleware('ban_operation');
+    Route::any('/create', 'InstitutionsController@create')->middleware('ban_operation');
+    Route::any('/delete', 'InstitutionsController@delete')->middleware('ban_operation');
+    Route::any('/update', 'InstitutionsController@update')->middleware('ban_operation');
 });
 
 Route::group(['prefix' => 'workspace/species'], function () {
-    Route::get('/', 'SpeciesController@index');
-    Route::any('/update', 'SpeciesController@update');
-    Route::any('/create', 'SpeciesController@create');
-    Route::any('/delete', 'SpeciesController@delete');
+    Route::get('/', 'SpeciesController@index')->middleware('ban_operation');
+    Route::any('/update', 'SpeciesController@update')->middleware('ban_operation');
+    Route::any('/create', 'SpeciesController@create')->middleware('ban_operation');
+    Route::any('/delete', 'SpeciesController@delete')->middleware('ban_operation');
 });
 
 Route::group(['prefix' => 'workspace/applications'], function () {
-    Route::get('/', 'ApplicationsController@index');
-    Route::any('/update', 'ApplicationsController@update');
-    Route::any('/create', 'ApplicationsController@create');
-    Route::any('/delete', 'ApplicationsController@delete');
+    Route::get('/', 'ApplicationsController@index')->middleware('ban_operation');
+    Route::any('/update', 'ApplicationsController@update')->middleware('ban_operation');
+    Route::any('/create', 'ApplicationsController@create')->middleware('ban_operation');
+    Route::any('/delete', 'ApplicationsController@delete')->middleware('ban_operation');
 });
 
 Route::get('/aboutus', function () {

@@ -21,7 +21,6 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/common.css') }}" rel="stylesheet">
-
 </head>
 
 <body>
@@ -39,19 +38,16 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                <a href="/labs" class="nav-link nav-menu">Labs</a>
-              </li>
-              <li class="nav-item">
                 <a href="/projects" class="nav-link nav-menu">Projects</a>
-              </li>
-              <li class="nav-item">
-                <a href="/aboutus" class="nav-link nav-menu">AboutUs</a>
               </li>
               @if(Auth::check())
               <li class="nav-item">
                 <a href="/workspace" class="nav-link nav-menu">Workspace</a>
               </li>
               @endif
+              <li class="nav-item">
+                <a href="/aboutus" class="nav-link nav-menu">AboutUs</a>
+              </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -98,6 +94,7 @@
     @endif
 
     <main class="py-4">
+      @include('flash::message')
       @yield('content')
     </main>
 

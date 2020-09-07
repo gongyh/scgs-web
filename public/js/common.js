@@ -52,6 +52,12 @@ function text_folded(clas, num) {
 }
 
 // sample根据pairends控制上传file数量
+if ($("input[type='radio']:checked").val() == 'singleEnds') {
+  $(".file_two").hide();
+} else {
+  $(".file_two").show();
+}
+
 $("input[type = 'radio']").change(function () {
   if ($("input[type='radio']:checked").val() == 'singleEnds') {
     $(".file_two").hide();
@@ -59,12 +65,6 @@ $("input[type = 'radio']").change(function () {
     $(".file_two").show();
   }
 })
-
-if ($("input[type='radio']:checked").val() == 'singleEnds') {
-  $(".file_two").hide();
-} else {
-  $(".file_two").show();
-}
 
 // workspace-nav选中时的阴影效果
 $('.workspace-nav').hover(function () {
@@ -78,3 +78,10 @@ $('.nav-menu').hover(function () {
 }, function () {
   $(this).removeClass('shadow rounded');
 })
+
+//workspace用户卡片淡出
+$(document).ready(
+  function () {
+    $('.workspace-menu-nodisplay').fadeIn(1500);
+  }
+)

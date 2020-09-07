@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Labs;
 use Illuminate\Database\Eloquent\Model;
 
 class Projects extends Model
@@ -13,4 +14,9 @@ class Projects extends Model
      */
     protected $table = 'projects';
     protected $fillable = ['labs_id', 'name', 'description', 'doi'];
+    public function getLabName($id)
+    {
+        $lab_name = Labs::where('id', $id)->value('name');
+        return $lab_name;
+    }
 }
