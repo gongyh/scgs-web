@@ -87,6 +87,30 @@ $(document).ready(
 )
 
 // execute params setting
+const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
+for (let i = 0; i < db_list.length; i++) {
+  if ($('#' + db_list[i]).is(':checked')) {
+    $('.' + db_list[i] + '_path').show();
+  } else {
+    $('.' + db_list[i] + '_path').hide();
+  }
+}
+
+if ($('#genus').is(':checked')) {
+  $('.genus_name').show();
+} else {
+  $('.genus_name').hide();
+}
+
+
+$('#genus').on('change', function () {
+  if ($('#genus').is(':checked')) {
+    $('.genus_name').show();
+  } else {
+    $('.genus_name').hide();
+  }
+})
+
 $('#resfinder_db').on('change', function () {
   if ($('#resfinder_db').is(':checked')) {
     $('.resfinder_db_path').show();

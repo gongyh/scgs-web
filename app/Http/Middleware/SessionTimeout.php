@@ -20,7 +20,7 @@ class SessionTimeout
     private $list_except_path = ['login'];
 
     //超时时长
-    private $time_out = 300;
+    private $time_out = 3000;
 
     private function determineLogout()
     {

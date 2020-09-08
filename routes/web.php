@@ -74,8 +74,6 @@ Route::get('/aboutus', function () {
 
 Auth::routes();
 
-Route::get('/workspace/execparams', function () {
-    return view('Workspace.execParams');
-});
+Route::any('/workspace/execparams', 'ExecparamsController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');

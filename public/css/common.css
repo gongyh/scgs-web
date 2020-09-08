@@ -196,12 +196,7 @@ a:link {
 }
 
 /* execute params setting */
-.resfinder_db_path,
-.nt_db_path,
-.kraken_db_path,
-.eggnog_db_path,
-.kofam_profile_path,
-.kofam_kolist_path {
+.no-display {
   display: none;
 }
 
