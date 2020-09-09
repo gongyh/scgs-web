@@ -13,12 +13,12 @@
       <form method="post" action="">
         @csrf
         <div class="form-group">
-          <label for="sample_label">SampleLabel</label><span class="text-danger">*</span>
+          <label for="sample_label">SampleLabel</label><span class="text-danger"> *</span>
           <input type="text" class="form-control" name="sample_label" id="sample_label" value="{{$sample->sampleLabel}}">
         </div>
 
         <div class="form-group">
-          <label for="select_application">Choose a application</label><span class="text-danger">*</span>
+          <label for="select_application">Choose a application</label><span class="text-danger"> *</span>
           <select class="custom-select" name="select_application" id="select_application">
             @foreach($applications as $application)
             <option value="{{$application->id}}" @if($sample->applications_id == $application->id)selected @endif>{{$application->name}}</option>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group">
-          <label>PairEnds?</label><span class="text-danger">*</span>
+          <label>PairEnds?</label><span class="text-danger"> *</span>
           @if($sample->pairends == 0)
           <div class="custom-control custom-radio">
             <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="singleEnds" checked="checked">
@@ -59,7 +59,7 @@
           </div>
         </div>
         @endif
-        <p class="tips"><strong>Tips:</strong> 1.<strong>* </strong>means required field;<br />2.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
+        <p class="tips"><strong>Tips:1.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
         <label for="fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger">*</span>
         <input type="text" class="form-control" name="fileOne" id="fileOne" value="{{$sample->filename1}}">
     </div>

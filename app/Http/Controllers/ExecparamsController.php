@@ -74,18 +74,18 @@ class ExecparamsController extends Controller
             ]);
         } else {
             $id = Execparams::where('samples_id', $sample_id)->value('id');
-            $execparams = Execparams::find(1);
-            $execparams['ass'] = $ass;
-            $execparams['snv'] = $snv;
-            $execparams['cnv'] = $cnv;
-            $execparams['genus'] = $genus;
-            $execparams['genus_name'] = $genus_name;
-            $execparams['resfinder_db'] = $resfinder_db;
-            $execparams['kraken_db'] = $kraken_db;
-            $execparams['nt_db'] = $nt_db;
-            $execparams['eggnog'] = $eggnog;
-            $execparams['kofam_profile'] = $kofam_profile;
-            $execparams['kofam_kolist'] = $kofam_kolist;
+            $execparams = Execparams::find($id);
+            $execparams->ass = $ass;
+            $execparams->snv = $snv;
+            $execparams->cnv = $cnv;
+            $execparams->genus = $genus;
+            $execparams->genus_name = $genus_name;
+            $execparams->resfinder_db = $resfinder_db;
+            $execparams->kraken_db = $kraken_db;
+            $execparams->nt_db = $nt_db;
+            $execparams->eggnog = $eggnog;
+            $execparams->kofam_profile = $kofam_profile;
+            $execparams->kofam_kolist = $kofam_kolist;
             $execparams->save();
         }
         return view('Pipeline.pipelineRun', compact('ass', 'cnv', 'snv', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
