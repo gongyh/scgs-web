@@ -207,3 +207,8 @@ a:link {
 .exec-params {
   font-size: 1.0rem;
 }
+
+.db_path {
+  background: linear-gradient(to right, rgba(250, 185, 6, 0.384) 30%, rgba(172, 114, 7, 0.849) 60%, rgba(250, 185, 6, 0.384) 100%);
+  background-size: 100%;
+}

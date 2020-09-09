@@ -13,7 +13,7 @@
 
       </div> -->
       <div class="bg-white rounded shadow-sm p-3 exec-params">
-        <form action="" method="POST">
+        <form action="/execute/run?sampleID={{$sample_id}}" method="POST">
           @csrf
           <div class="exec-title">execute params setting</div>
           <div>
@@ -51,47 +51,47 @@
                 <input type="checkbox" class="custom-control-input" id="resfinder_db" name="resfinder_db" value="resfinder_db" {{$resfinder_db?'checked':''}}>
                 <label class="custom-control-label" for="resfinder_db">resfinder_db</label>
               </div>
-              <div class="border border-success rounded shadow-sm p-2 resfinder_db_path {{$resfinder_db?'no-display':''}}">/mnt/data7/gongyh/ARG/resfinder_db</div>
+              <div class="border db_path rounded shadow-sm p-2 resfinder_db_path {{$resfinder_db?'no-display':''}}">{{$pipelineParams->resfinder_db_path}}</div>
             </div>
             <div class="d-flex mt-2">
               <div class="custom-control custom-checkbox mr-4">
                 <input type="checkbox" class="custom-control-input" id="nt_db" name="nt_db" value="nt_db" {{$nt_db?'checked':''}}>
                 <label class="custom-control-label" for="nt_db">nt_db</label>
               </div>
-              <div class="border border-success rounded shadow-sm p-2 nt_db_path {{$nt_db? 'no-display':''}}">/mnt/data7/gongyh/ncbi_databases/</div>
+              <div class="border db_path rounded shadow-sm p-2 nt_db_path {{$nt_db? 'no-display':''}}">{{$pipelineParams->nt_db_path}}</div>
             </div>
             <div class="d-flex mt-2">
               <div class="custom-control custom-checkbox mr-4">
                 <input type="checkbox" class="custom-control-input" id="kraken_db" name="kraken_db" value="kraken_db" {{$kraken_db?'checked':''}}>
                 <label class="custom-control-label" for="kraken_db">kraken_db</label>
               </div>
-              <div class="border border-success rounded shadow-sm p-2 kraken_db_path {{$kraken_db ?'no-display':''}}"> /mnt/data7/gongyh/minikraken_20171101_8GB_dustmasked/</div>
+              <div class="border db_path rounded shadow-sm p-2 kraken_db_path {{$kraken_db ?'no-display':''}}">{{$pipelineParams->kraken_db_path}}</div>
             </div>
             <div class="d-flex mt-2">
               <div class="custom-control custom-checkbox mr-4">
                 <input type="checkbox" class="custom-control-input" id="eggnog_db" name="eggnog_db" value="eggnog_db" {{$eggnog?'checked':''}}>
                 <label class="custom-control-label" for="eggnog_db">eggnog_db</label>
               </div>
-              <div class="border border-success rounded shadow-sm p-2 eggnog_db_path {{$eggnog ?'no-display':''}}">/mnt/data7/gongyh/databases/eggnogv5</div>
+              <div class="border db_path rounded shadow-sm p-2 eggnog_db_path {{$eggnog ?'no-display':''}}">{{$pipelineParams->eggnog_db_path}}</div>
             </div>
             <div class="d-flex mt-2">
               <div class="custom-control custom-checkbox mr-4">
                 <input type="checkbox" class="custom-control-input" id="kofam_profile" name="kofam_profile" value="kofam_profile" {{$kofam_profile?'checked':''}}>
                 <label class="custom-control-label" for="kofam_profile">kofam_profile</label>
               </div>
-              <div class="border border-success rounded shadow-sm p-2 kofam_profile_path {{$kofam_profile?'no-display':''}}">/mnt/scc8t/gongyh/jingxy/KofamKOALA/db/profiles</div>
+              <div class="border db_path rounded shadow-sm p-2 kofam_profile_path {{$kofam_profile?'no-display':''}}">{{$pipelineParams->kofam_profile_path}}</div>
             </div>
             <div class="d-flex mt-2">
               <div class="custom-control custom-checkbox mr-4">
                 <input type="checkbox" class="custom-control-input" id="kofam_kolist" name="kofam_kolist" value="kofam_kolist" {{$kofam_kolist?'checked':''}}>
                 <label class="custom-control-label" for="kofam_kolist">kofam_kolist</label>
               </div>
-              <div class="border border-success rounded shadow-sm p-2 kofam_kolist_path {{$kofam_kolist?'no-display':''}}">/mnt/scc8t/gongyh/jingxy/KofamKOALA/db/ko_list</div>
+              <div class="border db_path rounded shadow-sm p-2 kofam_kolist_path {{$kofam_kolist?'no-display':''}}">{{$pipelineParams->kofam_kolist_path}}</div>
             </div>
           </div>
           <div class="mt-5 d-flex justify-content-around">
             <button type="submit" class="btn btn-success">execute</button>
-            <button type="submit" class="btn bg-secondary" disabled>stop</button>
+            <button class="btn bg-secondary" disabled>stop</button>
           </div>
         </form>
       </div>

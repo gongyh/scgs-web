@@ -68,12 +68,20 @@ Route::group(['prefix' => 'workspace/applications'], function () {
     Route::any('/delete', 'ApplicationsController@delete')->middleware('ban_operation');
 });
 
+Route::group(['prefix' => 'workspace/pipelineParams'], function () {
+    Route::get('/', 'PipelineParamsController@index');
+    Route::any('/update', 'PipelineParamsController@update');
+});
+
+Route::group(['prefix' => 'execute'], function () {
+    Route::any('/', 'ExecparamsController@index');
+    Route::any('/run', 'ExecparamsController@run');
+});
+
 Route::get('/aboutus', function () {
     return view('aboutus');
 });
 
 Auth::routes();
-
-Route::any('/workspace/execparams', 'ExecparamsController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
