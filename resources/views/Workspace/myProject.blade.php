@@ -29,6 +29,7 @@
                     <th scope="col" class="table-header">Project</th>
                     <th scope="col" class="table-header">projectID</th>
                     <th scope="col" class="table-header">Description</th>
+                    <th scope="col" class="table-header">Lab</th>
                     <th></th>
                     <th scope="col" class="add"><a href="/projects/create?from=myProject">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -49,6 +50,7 @@
                     </td>
                     <td class="table-item">{{$myProject->doi}}</td>
                     <td class="table-item">{{strlen($myProject->description)>30?substr($myProject->description,0,30).'...':$myProject->description}}</td>
+                    <td class="table-item">{{$myProject->getLabName($myProject->labs_id)}}</td>
                     <td class="delete">
                       <a href="/projects/delete?projectID={{$myProject->id}}&from=myProject" onclick="if(confirm('Are you sure to delete?')==false) return false;">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

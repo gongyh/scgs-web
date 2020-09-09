@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\InstitutionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -67,6 +66,16 @@ Route::group(['prefix' => 'workspace/applications'], function () {
     Route::any('/update', 'ApplicationsController@update')->middleware('ban_operation');
     Route::any('/create', 'ApplicationsController@create')->middleware('ban_operation');
     Route::any('/delete', 'ApplicationsController@delete')->middleware('ban_operation');
+});
+
+Route::group(['prefix' => 'workspace/pipelineParams'], function () {
+    Route::get('/', 'PipelineParamsController@index');
+    Route::any('/update', 'PipelineParamsController@update');
+});
+
+Route::group(['prefix' => 'execute'], function () {
+    Route::any('/', 'ExecparamsController@index');
+    Route::any('/run', 'ExecparamsController@run');
 });
 
 Route::get('/aboutus', function () {

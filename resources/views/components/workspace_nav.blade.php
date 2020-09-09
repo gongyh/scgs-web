@@ -13,6 +13,7 @@
      <a class="nav-item nav-link workspace-nav" id="nav-home-tab" href="/workspace/institutions" aria-selected="false">Manage Institutions</a>
      <a class="nav-item nav-link workspace-nav" id="nav-home-tab" href="/workspace/species" aria-selected="false">Manage Species</a>
      <a class="nav-item nav-link workspace-nav" id="nav-home-tab" href="/workspace/applications" aria-selected="false">Manage Applications</a>
+     <a class="nav-item nav-link workspace-nav" id="nav-home-tab" href="/workspace/pipelineParams" aria-selected="false">Basic Pipeline Params</a>
      @endif
      <a class="nav-item nav-link workspace-nav" id="nav-profile-tab" href="/workspace/myLab" aria-selected="false">My Labs</a>
      <a class="nav-item nav-link workspace-nav" id="nav-contact-tab" href="/workspace/myProject" aria-selected="false">My Projects</a>

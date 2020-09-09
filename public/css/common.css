@@ -1,5 +1,6 @@
 body {
   background-color: rgb(239, 239, 240);
+  font-family: 'Comic Sans MS';
 }
 
 a:hover,
@@ -92,15 +93,16 @@ a:link {
   text-align: center;
 }
 
-.delete {
-  padding-right: 0 !important;
-  text-align: right;
-}
-
 .add,
+.delete,
 .update {
   padding: 0.75rem 0 !important;
   text-align: right;
+}
+
+.exec {
+  padding: 0.75rem 0 !important;
+  text-align: center;
 }
 
 .pagination {
@@ -191,4 +193,22 @@ a:link {
 .tips {
   color: #ef470f;
   font-size: 1.0rem;
+}
+
+/* execute params setting */
+.no-display {
+  display: none;
+}
+
+.exec-title {
+  font-size: 1.5rem;
+}
+
+.exec-params {
+  font-size: 1.0rem;
+}
+
+.db_path {
+  background: linear-gradient(to right, rgba(250, 185, 6, 0.384) 30%, rgba(172, 114, 7, 0.849) 60%, rgba(250, 185, 6, 0.384) 100%);
+  background-size: 100%;
 }

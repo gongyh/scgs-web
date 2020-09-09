@@ -82,6 +82,79 @@ $('.nav-menu').hover(function () {
 //workspace用户卡片淡出
 $(document).ready(
   function () {
-    $('.workspace-menu-nodisplay').fadeIn(1500);
+    $('.workspace-menu-nodisplay').fadeIn(1000);
   }
 )
+
+// execute params setting
+const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
+for (let i = 0; i < db_list.length; i++) {
+  if ($('#' + db_list[i]).is(':checked')) {
+    $('.' + db_list[i] + '_path').show();
+  } else {
+    $('.' + db_list[i] + '_path').hide();
+  }
+}
+
+if ($('#genus').is(':checked')) {
+  $('.genus_name').show();
+} else {
+  $('.genus_name').hide();
+}
+
+
+$('#genus').on('change', function () {
+  if ($('#genus').is(':checked')) {
+    $('.genus_name').show();
+  } else {
+    $('.genus_name').hide();
+  }
+})
+
+$('#resfinder_db').on('change', function () {
+  if ($('#resfinder_db').is(':checked')) {
+    $('.resfinder_db_path').show();
+  } else {
+    $('.resfinder_db_path').hide();
+  }
+})
+
+$('#nt_db').on('change', function () {
+  if ($('#nt_db').is(':checked')) {
+    $('.nt_db_path').show();
+  } else {
+    $('.nt_db_path').hide();
+  }
+})
+
+$('#eggnog_db').on('change', function () {
+  if ($('#eggnog_db').is(':checked')) {
+    $('.eggnog_db_path').show();
+  } else {
+    $('.eggnog_db_path').hide();
+  }
+})
+
+$('#kraken_db').on('change', function () {
+  if ($('#kraken_db').is(':checked')) {
+    $('.kraken_db_path').show();
+  } else {
+    $('.kraken_db_path').hide();
+  }
+})
+
+$('#kofam_profile').on('change', function () {
+  if ($('#kofam_profile').is(':checked')) {
+    $('.kofam_profile_path').show();
+  } else {
+    $('.kofam_profile_path').hide();
+  }
+})
+
+$('#kofam_kolist').on('change', function () {
+  if ($('#kofam_kolist').is(':checked')) {
+    $('.kofam_kolist_path').show();
+  } else {
+    $('.kofam_kolist_path').hide();
+  }
+})

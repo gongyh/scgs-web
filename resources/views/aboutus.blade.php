@@ -25,7 +25,7 @@
         </div>
         <div>
           <h2 class="card-pattern"><span class="badge badge-warning">Disclaimer</span></h2>
-          <p class="card-text">The data processed by nf-scgs pipeline can not be guaranteed and assured to be accurate for all and we can not be held responsiblity for any error derived there from.</p>
+          <p class="card-text">The data processed by nf-scgs pipeline can not be guaranted and assured to be accurate for all and we can not be held responsiblity for any error derived there from.</p>
         </div>
       </div>
     </div>

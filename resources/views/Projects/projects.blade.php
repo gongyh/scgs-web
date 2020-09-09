@@ -90,7 +90,7 @@
                     <td class="table-item"><a href="/samples?projectID={{$findProject->id}}">{{$findProject->name}}</a></td>
                     <td class="table-item">{{$findProject->doi}}</td>
                     <td class="table-item desc">{{strlen($findProject->description)>30?substr($findProject->description,0,30).'...':$findProject->description}}</td>
-
+                    <td class="table-item">{{$findProject->getLabName($findProject->labs_id)}}</td>
                     <td class="delete">
                       @if($isAdmin || $isPI->contains($findProject->labs_id))
                       <a href="projects/delete?projectID={{$findProject->id}}" onclick="if(confirm('Are you sure to delete?')==false) return false;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
