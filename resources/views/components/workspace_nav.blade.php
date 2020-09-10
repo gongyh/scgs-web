@@ -1,4 +1,5 @@
  <!-- navbar -->
+ @if(Auth::check())
  <div class="workspace-menu shadow p-3 bg-white rounded overflow-auto">
    <div class="border-bottom">
      <div class="user-box"><img src="{{asset('image/user.jpg')}}" class="user-image" alt="Responsive image"></div>
@@ -19,3 +20,7 @@
      <a class="nav-item nav-link workspace-nav" id="nav-contact-tab" href="/workspace/myProject" aria-selected="false">My Projects</a>
    </nav>
  </div>
+ @else
+ <div></div>
+
+ @endif

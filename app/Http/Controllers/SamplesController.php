@@ -20,6 +20,7 @@ class SamplesController extends Controller
      */
     public function index(Request $request)
     {
+
         $projectID = $request->input('projectID');
         $project = Projects::find($projectID);
         $current_lab_id = Projects::where('id', $projectID)->value('labs_id');

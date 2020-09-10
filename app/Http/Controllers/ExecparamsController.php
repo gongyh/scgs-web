@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Execparams;
 use App\pipelineParams;
+use App\Jobs\RunPipeline;
 
 class ExecparamsController extends Controller
 {
@@ -88,6 +89,7 @@ class ExecparamsController extends Controller
             $execparams->kofam_kolist = $kofam_kolist;
             $execparams->save();
         }
+        RunPipeline::dispatch($sample_id);
         return view('Pipeline.pipelineRun', compact('ass', 'cnv', 'snv', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
     }
 }

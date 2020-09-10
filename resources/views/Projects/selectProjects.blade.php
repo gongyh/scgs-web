@@ -5,15 +5,11 @@
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
-    <div class="col-sm-3 left-column">
-      <div class="list-group list">
-
-      </div>
+    <div class="col-md-2">
+      @include('components.workspace_nav')
     </div>
-    <div class="col-sm-6 middle-column">
-      <div class="middle-info">
-        Welcome!
-      </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-6">
       <div class="result">
         <div class="result-info">
 

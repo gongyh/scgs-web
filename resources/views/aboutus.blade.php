@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="row middle-area">
-  <div class="col-sm-3 left-column">
+  <div class="col-md-3 left-column">
     <div class="list-group list">
 
     </div>
   </div>
-  <div class="col-sm-6 middle-column">
+  <div class="col-md-6 middle-column">
     <div class="card" style="width:100%;">
       <img src="{{asset('image/Contact_us.jpg')}}" class="card-img-top" alt="Qibebt">
       <div class="card-body">
@@ -31,7 +31,7 @@
     </div>
   </div>
   <!-- right-column -->
-  <div class="col-sm-3 right-column">
+  <div class="col-md-3 right-column">
 
     <div class="other-info">
 

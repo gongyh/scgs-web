@@ -6,9 +6,7 @@
   <!-- left column -->
   <div class="row middle-area">
     <div class="col-md-2">
-      @if(strpos(url()->full(),'from'))
       @include('components.workspace_nav')
-      @endif
     </div>
     <div class="col-md-6">
       <!-- <div class="middle-info">

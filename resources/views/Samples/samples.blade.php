@@ -6,12 +6,10 @@
   <!-- left column -->
   <div class="row middle-area">
     <div class="col-md-2">
+      @include('components.workspace_nav')
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-6">
-      <!-- <div class="middle-info">
-
-      </div> -->
       <div class="result">
         <div class="result-detail">
           <div class="project_name">
