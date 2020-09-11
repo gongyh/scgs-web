@@ -209,6 +209,10 @@ a:link {
 }
 
 .db_path {
-  background: linear-gradient(to right, rgba(250, 185, 6, 0.384) 30%, rgba(172, 114, 7, 0.849) 60%, rgba(250, 185, 6, 0.384) 100%);
+  background: linear-gradient(to right, rgba(178, 241, 222, 0.979) 30%, rgba(163, 211, 233, 0.849) 60%, rgba(159, 222, 233, 0.918) 100%);
   background-size: 100%;
+}
+
+.console-header {
+  font-size: 1.5rem;
 }
