@@ -44,6 +44,15 @@
           </ul>
         </div>
         @endif
+        @if (isset($db_path_errors))
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($db_path_errors as $db_path_error)
+            <li>{{ $db_path_error }}</li>
+              @endforeach
+          </ul>
+        </div>
+        @endif
         <div class="mt-5 d-flex justify-content-around">
           <button class="btn btn-secondary" disabled>Edit</button>
           <button class="btn btn-success" type="submit">Save</button>

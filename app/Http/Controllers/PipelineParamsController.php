@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\pipelineParams;
+use Illuminate\Support\Facades\Storage;
 
 class PipelineParamsController extends Controller
 {
@@ -34,6 +35,26 @@ class PipelineParamsController extends Controller
             $eggnog_db_path = $request->input('eggnog_db_path');
             $kofam_profile_path = $request->input('kofam_profile_path');
             $kofam_kolist_path = $request->input('kofam_kolist_path');
+            $resfinder_db_exist = Storage::disk('local')->exists($resfinder_db_path);
+            $nt_db_exist = Storage::disk('local')->exists($nt_db_path);
+            $eggnog_db_exist = Storage::disk('local')->exists($eggnog_db_path);
+            $kraken_db_exist = Storage::disk('local')->exists($kraken_db_path);
+            $kofam_profile_exist = Storage::disk('local')->exists($kofam_profile_path);
+            $kofam_kolist_exist = Storage::disk('local')->exists($resfinder_db_path);
+
+            $resfinder_error = $resfinder_db_exist ? null : 'resfinder db path doesn\'t exist';
+            $nt_error = $nt_db_exist ? null : 'nt db path doesn\'t exist';
+            $kraken_error = $kraken_db_exist ? null : 'kraken db path doesn\'t exist';
+            $eggnog_error = $eggnog_db_exist ? null : 'eggnog db path doesn\'t exist';
+            $kofam_profile_error = $kofam_profile_exist ? null : 'kofam profile path doesn\'t exist';
+            $kofam_kolist_error = $kofam_kolist_exist ? null : 'kofam kolist path doesn\'t exist';
+            $db_path_errors = array($resfinder_error, $nt_error, $kraken_error, $eggnog_error, $kofam_profile_error, $kofam_kolist_error);
+            $db_path_errors = array_filter($db_path_errors);
+
+            if (count($db_path_errors) > 0) {
+                return view('Workspace.pipelineParamsEdit', ['db_path_errors' => $db_path_errors]);
+            }
+
             if (pipelineParams::where('id', 1)->exists()) {
                 $pipelineParams = pipelineParams::find(1);
                 $pipelineParams->resfinder_db_path = $resfinder_db_path;

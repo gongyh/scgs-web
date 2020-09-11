@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use App\Execparams;
 use App\pipelineParams;
 use App\Jobs\RunPipeline;
@@ -90,6 +91,7 @@ class ExecparamsController extends Controller
             $execparams->save();
         }
         RunPipeline::dispatch($sample_id);
+        Artisan::call('queue:work');
         return view('Pipeline.pipelineRun', compact('ass', 'cnv', 'snv', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
     }
 }
