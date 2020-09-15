@@ -9,6 +9,14 @@ a:link {
   text-decoration: none;
 }
 
+.rem1 {
+  font-size: 1.0rem;
+}
+
+.rem15 {
+  font-size: 1.5rem;
+}
+
 /* navbar */
 .nav-menu:first-child {
   margin-left: 1.0rem;
@@ -215,4 +223,35 @@ a:link {
 
 .console-header {
   font-size: 1.5rem;
+}
+
+/* Running Sample省略号闪烁 */
+.dot {
+  display: inline-block;
+  width: 1.5em;
+  vertical-align: bottom;
+  overflow: hidden;
+  animation: dot 3s infinite step-start;
+}
+
+@keyframes dot {
+  0% {
+    width: 0;
+    margin-right: 1.5em;
+  }
+
+  33% {
+    width: .5em;
+    margin-right: 1em;
+  }
+
+  66% {
+    width: 1em;
+    margin-right: .5em;
+  }
+
+  100% {
+    width: 1.5em;
+    margin-right: 0;
+  }
 }

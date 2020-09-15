@@ -39,12 +39,12 @@ class RunPipeline implements ShouldQueue
     {
         /*  Execparams */
         $run_sample = $execparams->where('samples_id', $this->run_sample_id);
-        $ass = $run_sample->value('ass') ? '--ass' : '';
-        $cnv = $run_sample->value('cnv') ? '--cnv' : '';
-        $snv = $run_sample->value('snv') ? '--snv' : '';
+        $ass = $run_sample->value('ass') ? '--ass ' : '';
+        $cnv = $run_sample->value('cnv') ? '--cnv ' : '';
+        $snv = $run_sample->value('snv') ? '--snv ' : '';
         if ($run_sample->value('genus')) {
             $genus_name = $run_sample->value('genus_name');
-            $genus = '--genus ' . $genus_name;
+            $genus = '--genus ' . $genus_name . ' ';
         } else {
             $genus = '';
         }
@@ -59,12 +59,12 @@ class RunPipeline implements ShouldQueue
         $kofam_kolist_path = $pipeline_params->kofam_kolist_path;
 
 
-        $resfinder_db = $run_sample->value('resfinder_db') ? '--resfinder_db ' . $resfinder_db_path : '';
-        $nt_db = $run_sample->value('nt_db') ? '--nt_db ' . $nt_db_path : '';
-        $kraken_db = $run_sample->value('kraken_db') ? '--kraken_db ' . $kraken_db_path : '';
-        $eggnog_db = $run_sample->value('eggnog') ? '--eggnog_db ' . $eggnog_db_path : '';
-        $kofam_profile = $run_sample->value('kofam_profile') ? '--kofam_profile ' . $kofam_profile_path : '';
-        $kofam_kolist = $run_sample->value('kofam_kolist') ? '--kofam_kolist ' . $kofam_kolist_path : '';
+        $resfinder_db = $run_sample->value('resfinder_db') ? '--resfinder_db ' . $resfinder_db_path . ' ' : '';
+        $nt_db = $run_sample->value('nt_db') ? '--nt_db ' . $nt_db_path . ' ' : '';
+        $kraken_db = $run_sample->value('kraken_db') ? '--kraken_db ' . $kraken_db_path . ' ' : '';
+        $eggnog_db = $run_sample->value('eggnog') ? '--eggnog_db ' . $eggnog_db_path . ' ' : '';
+        $kofam_profile = $run_sample->value('kofam_profile') ? '--kofam_profile ' . $kofam_profile_path . ' ' : '';
+        $kofam_kolist = $run_sample->value('kofam_kolist') ? '--kofam_kolist ' . $kofam_kolist_path . ' ' : '';
 
         //Species
         $species_id = Samples::where('id', $this->run_sample_id)->value('species_id');
@@ -74,8 +74,8 @@ class RunPipeline implements ShouldQueue
             $gff_path = Species::where('id', $species_id)->value('gff');
             $fasta_path = $base_path . '' . $fasta_path;
             $gff_path = $base_path . '' . $gff_path;
-            $fasta = '--fasta ' . $fasta_path;
-            $gff = '--gff ' . $gff_path;
+            $fasta = '--fasta ' . $fasta_path . ' ';
+            $gff = '--gff ' . $gff_path . ' ';
         } else {
             $fasta = $gff = '';
         }
@@ -95,14 +95,13 @@ class RunPipeline implements ShouldQueue
         $filename = $base_path . '' . $filename;
 
         if ($filename2 != null) {
-            $reads = '--reads ' . $filename;      //pairEnds
-            $cmd = 'nextflow run nf-core-scgs ' . $reads . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--saturation --acquired --profile docker,base -resume --outdir results -w work';
-            shell_exec($cmd);
+            //pairEnds
+            $cmd = 'cd /mnt/scc8t/zhousq/ && /opt/images/bin/nextflow run nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--saturation --acquired -profile docker,base -resume --outdir results -w work';
+            system($cmd);
         } else {
-            $reads = '--reads ' . $filename;      //singleEnds
-            $reads = '--reads ' . $filename1;
-            $cmd = 'nextflow run nf-core-scgs ' . $reads . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds --saturation --acquired --profile docker,base -resume --outdir results -w work';
-            shell_exec($cmd);
+            //singleEnds
+            $cmd = 'cd /mnt/scc8t/zhousq/ && /opt/images/bin/nextflow run nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds --saturation --acquired -profile docker,base -resume --outdir results -w work';
+            system($cmd);
         }
     }
 }

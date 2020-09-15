@@ -18,6 +18,9 @@
      @endif
      <a class="nav-item nav-link workspace-nav" id="nav-profile-tab" href="/workspace/myLab" aria-selected="false">My Labs</a>
      <a class="nav-item nav-link workspace-nav" id="nav-contact-tab" href="/workspace/myProject" aria-selected="false">My Projects</a>
+     @if(DB::table('status')->where('user_id',Auth::user()->id)->count() > 0)
+     <a class="nav-item nav-link workspace-nav" id="nav-contact-tab" href="/workspace/runningSample" aria-selected="false"><span>Running Sample</span><span class="dot">...</span></a>
+     @endif
    </nav>
  </div>
  @else
