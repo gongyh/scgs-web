@@ -158,3 +158,15 @@ $('#kofam_kolist').on('change', function () {
     $('.kofam_kolist_path').hide();
   }
 })
+
+var started = $(".run_time").text();
+var started = parseInt(started) * 1000;
+setInterval(function () {
+  var now = new Date().getTime();
+  var run_period = now - started;
+  var hours = Math.floor(run_period / 3600000);
+  var minutes = Math.floor((run_period % 3600000) / 60000);
+  var seconds = Math.floor((run_period - hours * 3600 * 1000 - minutes * 60 * 1000) / 1000);
+  var period = hours + ' Hours ' + minutes + ' Minutes ' + seconds + ' Seconds ';
+  $(".run_period").text(period);
+}, 1000)

@@ -15,10 +15,13 @@ class CreateStatusTable extends Migration
     {
         Schema::create('status', function (Blueprint $table) {
             $table->id();
-            $table->integer('runId')->unique();
-            $table->dateTime('started');
-            $table->dateTime('finished');
-            $table->string('status',20);
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('sample_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('sample_id')->references('id')->on('samples')->onDelete('cascade');
+            $table->unsignedInteger('started');
+            $table->unsignedInteger('finished')->nullable();
+            $table->boolean('status');
             $table->timestamps();
         });
     }

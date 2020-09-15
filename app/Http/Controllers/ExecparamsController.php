@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 use App\Execparams;
 use App\pipelineParams;
+use App\Status;
 use App\Jobs\RunPipeline;
 
 class ExecparamsController extends Controller
@@ -37,7 +39,7 @@ class ExecparamsController extends Controller
         }
     }
 
-    public function run(Request $request)
+    public function start(Request $request)
     {
         $pipelineParams = pipelineParams::find(1);
         $sample_id = $request->input('sampleID');
@@ -91,7 +93,16 @@ class ExecparamsController extends Controller
             $execparams->save();
         }
         RunPipeline::dispatch($sample_id);
-        Artisan::call('queue:work');
-        return view('Pipeline.pipelineRun', compact('ass', 'cnv', 'snv', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
+
+        // Status表
+        $start = time();
+        $user_id = Auth::user()->id;
+        Status::create([
+            'user_id' => $user_id,
+            'sample_id' => $sample_id,
+            'started' => $start,
+            'status' => false
+        ]);
+        return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
     }
 }
