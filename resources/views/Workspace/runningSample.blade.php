@@ -15,7 +15,7 @@
           <div class="rem1 text-primary">{{$samples->where('id',$sample_user->sample_id)->value('sampleLabel')}}</div>
           <div class="rem15">Time Period</div>
           <div class="rem1 text-primary run_period">
-            <div class="run_time invisible">{{$status->where('sample_id',$sample_user->sample_id)->value('started')}}</div>
+            <div class="run_time invisible">{{$now - $status->where('sample_id',$sample_user->sample_id)->value('started')}}</div>
           </div>
         </div>
         <div class="rem15 run_params">Pipeline params</div>
