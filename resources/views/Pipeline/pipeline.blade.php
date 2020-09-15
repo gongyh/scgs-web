@@ -13,7 +13,7 @@
 
       </div> -->
       <div class="bg-white rounded shadow-sm p-3 exec-params">
-        <form action="/execute/run?sampleID={{$sample_id}}" method="POST">
+        <form action="/execute/start?sampleID={{$sample_id}}" method="POST">
           @csrf
           <div class="exec-title">execute params setting</div>
           <div>
@@ -90,8 +90,8 @@
             </div>
           </div>
           <div class="mt-5 d-flex justify-content-around">
-            <button type="submit" class="btn btn-success">execute</button>
-            <button class="btn bg-secondary" disabled>stop</button>
+            <button type="submit" class="w-50 btn btn-success d-inline-block">execute</button>
+            <button class="w-25 btn bg-secondary" disabled>stop</button>
           </div>
         </form>
       </div>

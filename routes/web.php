@@ -45,6 +45,7 @@ Route::group(['prefix' => 'workspace'], function () {
     Route::get('/myProject', 'WorkspaceController@myProject')->middleware('auth');
     Route::get('/myLab/projects', 'WorkspaceController@selectMyProj')->middleware('auth');
     Route::get('/samples', 'WorkspaceController@selectSamples')->middleware('auth');
+    Route::get('/runningSample', 'RunController@index')->middleware('auth');
 });
 
 Route::group(['prefix' => 'workspace/institutions'], function () {
@@ -75,7 +76,7 @@ Route::group(['prefix' => 'workspace/pipelineParams'], function () {
 
 Route::group(['prefix' => 'execute'], function () {
     Route::any('/', 'ExecparamsController@index');
-    Route::any('/run', 'ExecparamsController@run');
+    Route::any('/start', 'ExecparamsController@start');
 });
 
 Route::get('/aboutus', function () {

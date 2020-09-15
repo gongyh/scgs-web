@@ -12,4 +12,5 @@ class Status extends Model
      * @var string
      */
     protected $table = 'status';
+    protected $fillable = ['id', 'user_id', 'sample_id', 'started', 'finished', 'status'];
 }
