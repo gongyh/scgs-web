@@ -10,9 +10,7 @@ use App\Species;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\pipelineParams;
-use App\Execparams;
+
 
 class SamplesController extends Controller
 {

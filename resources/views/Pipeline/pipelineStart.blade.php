@@ -99,6 +99,9 @@
         <div class="progress mt-2">
           <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+        <div class="command_out">
+
+        </div>
       </div>
     </div>
   </div>

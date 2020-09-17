@@ -169,3 +169,20 @@ setInterval(function () {
   $(".run_period").text(period);
   run_period += 1000;
 }, 1000)
+
+
+function showCommand() {
+  $(function () {
+    $.ajax({
+      url: 'command.text',
+      dataType: 'text',
+      success: function (msg) {
+        $('.command_out').text(msg);
+      },
+    })
+  });
+}
+
+$('.execute').onclick(setInterval(
+  showCommand()
+), 1000);
