@@ -24,7 +24,7 @@ $(function () {
   var run_period = parseInt(time) * 1000;
   var run_sample_user = $('.user-name').text();
   var sample_label = $('.running-sample-label').text();
-  var running_command_url = 'pipeline_state/' + run_sample_user + '_' + sample_label + '_command.txt'
+  var running_command_url = '/pipeline_state/' + run_sample_user + '_' + sample_label + '_command.txt'
 
   /**
    * 任务运行时长动态时间显示

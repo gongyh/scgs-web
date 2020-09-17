@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 use App\Execparams;
 use App\pipelineParams;
 use App\Status;
+use App\Samples;
 use App\Jobs\RunPipeline;
 
 class ExecparamsController extends Controller
@@ -41,6 +42,7 @@ class ExecparamsController extends Controller
 
     public function start(Request $request)
     {
+        $samples = new Samples();
         $pipelineParams = pipelineParams::find(1);
         $sample_id = $request->input('sampleID');
         $ass = $request->input('ass') == 'ass' ? true : false;
@@ -110,6 +112,6 @@ class ExecparamsController extends Controller
             $status->started = $start;
             $status->save();
         }
-        return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
+        return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
     }
 }

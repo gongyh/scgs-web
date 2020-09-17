@@ -13,7 +13,10 @@
 
       </div> -->
       <div class="bg-white rounded shadow-sm p-3 exec-params">
-        <div class="exec-title">execute params chosen</div>
+        <div class="d-flex">
+          <div class="rem15">execute params chosen</div>
+          <div class="rem15 text-primary running-sample-label">&nbsp;({{$samples->where('id',$sample_id)->value('sampleLabel')}})</div>
+        </div>
         <div>
           <div class="custom-control custom-checkbox mt-2">
             <input type="checkbox" class="custom-control-input" id="ass" name="ass" value="ass" {{$ass?'checked':''}} disabled>
