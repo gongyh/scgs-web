@@ -97,12 +97,19 @@ class ExecparamsController extends Controller
         // Status表
         $start = time();
         $user_id = Auth::user()->id;
-        Status::create([
-            'user_id' => $user_id,
-            'sample_id' => $sample_id,
-            'started' => $start,
-            'status' => false
-        ]);
+        if (Status::where('sample_id', $sample_id)->get()->count() == 0) {
+            Status::create([
+                'user_id' => $user_id,
+                'sample_id' => $sample_id,
+                'started' => $start,
+                'status' => false
+            ]);
+        } else {
+            $status_id = Status::where('sample_id', $sample_id)->value('id');
+            $status = Status::find($status_id);
+            $status->started = $start;
+            $status->save();
+        }
         return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
     }
 }

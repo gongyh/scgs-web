@@ -1,8 +1,7 @@
-/**
- * workspace 链接激活状态
- */
-
 window.onload = function () {
+  /**
+   * workspace 链接激活状态
+   */
   var index = 0;
   var current_url = window.location.href;
   var url = current_url.split('/').pop();
@@ -19,12 +18,159 @@ window.onload = function () {
   }
 }
 
-/**
- * project description文本展开与折叠
- */
 
 $(function () {
+  var time = $(".run_time").text();
+  var run_period = parseInt(time) * 1000;
+  var run_sample_user = $('.user-name').text();
+  var sample_label = $('.running-sample-label').text();
+  var running_command_url = 'pipeline_state/' + run_sample_user + '_' + sample_label + '_command.txt'
+
+  /**
+   * 任务运行时长动态时间显示
+   */
+  setInterval(function () {
+    var hours = Math.floor(run_period / 3600000);
+    var minutes = Math.floor((run_period % 3600000) / 60000);
+    var seconds = Math.floor((run_period - hours * 3600 * 1000 - minutes * 60 * 1000) / 1000);
+    var period = hours + ' Hours ' + minutes + ' Minutes ' + seconds + ' Seconds ';
+    $(".run_period").text(period);
+    run_period += 1000;
+  }, 1000)
+
   text_folded('.proj_desc', 200);
+
+  /**
+   * sample根据pairends控制上传file数量
+   */
+  if ($("input[type='radio']:checked").val() == 'singleEnds') {
+    $(".file_two").hide();
+  } else {
+    $(".file_two").show();
+  }
+
+  $("input[type = 'radio']").change(function () {
+    if ($("input[type='radio']:checked").val() == 'singleEnds') {
+      $(".file_two").hide();
+    } else {
+      $(".file_two").show();
+    }
+  })
+
+  /**
+   * workspace-nav选中时的阴影效果
+   */
+  $('.workspace-nav').hover(function () {
+    $(this).addClass('shadow p-3 rounded');
+  }, function () {
+    $(this).removeClass('shadow p-3 rounded');
+  })
+
+  $('.nav-menu').hover(function () {
+    $(this).addClass('shadow rounded');
+  }, function () {
+    $(this).removeClass('shadow rounded');
+  })
+
+  /**
+   * workspace用户卡片淡出
+   */
+  $(document).ready(
+    function () {
+      $('.workspace-menu-nodisplay').fadeIn(1000);
+    }
+  )
+
+  /**
+   * execute params设置
+   */
+  const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
+  for (let i = 0; i < db_list.length; i++) {
+    if ($('#' + db_list[i]).is(':checked')) {
+      $('.' + db_list[i] + '_path').show();
+    } else {
+      $('.' + db_list[i] + '_path').hide();
+    }
+  }
+
+  if ($('#genus').is(':checked')) {
+    $('.genus_name').show();
+  } else {
+    $('.genus_name').hide();
+  }
+
+
+  $('#genus').on('change', function () {
+    if ($('#genus').is(':checked')) {
+      $('.genus_name').show();
+    } else {
+      $('.genus_name').hide();
+    }
+  })
+
+  $('#resfinder_db').on('change', function () {
+    if ($('#resfinder_db').is(':checked')) {
+      $('.resfinder_db_path').show();
+    } else {
+      $('.resfinder_db_path').hide();
+    }
+  })
+
+  $('#nt_db').on('change', function () {
+    if ($('#nt_db').is(':checked')) {
+      $('.nt_db_path').show();
+    } else {
+      $('.nt_db_path').hide();
+    }
+  })
+
+  $('#eggnog_db').on('change', function () {
+    if ($('#eggnog_db').is(':checked')) {
+      $('.eggnog_db_path').show();
+    } else {
+      $('.eggnog_db_path').hide();
+    }
+  })
+
+  $('#kraken_db').on('change', function () {
+    if ($('#kraken_db').is(':checked')) {
+      $('.kraken_db_path').show();
+    } else {
+      $('.kraken_db_path').hide();
+    }
+  })
+
+  $('#kofam_profile').on('change', function () {
+    if ($('#kofam_profile').is(':checked')) {
+      $('.kofam_profile_path').show();
+    } else {
+      $('.kofam_profile_path').hide();
+    }
+  })
+
+  $('#kofam_kolist').on('change', function () {
+    if ($('#kofam_kolist').is(':checked')) {
+      $('.kofam_kolist_path').show();
+    } else {
+      $('.kofam_kolist_path').hide();
+    }
+  })
+
+  /**
+   * 刷新shell运行任务输出
+   */
+  $('.detail').on('click', function (e) {
+    e.preventDefault();
+    setInterval(() => {
+      $.ajax({
+        url: running_command_url,
+        dataType: 'text',
+        success: function (data) {
+          $('.command_out').html(data);
+        }
+      })
+    }, 3000);
+  })
 });
 
 /**
@@ -50,138 +196,3 @@ function text_folded(clas, num) {
     $(this).parent().hide().siblings().show();
   }
 }
-
-// sample根据pairends控制上传file数量
-if ($("input[type='radio']:checked").val() == 'singleEnds') {
-  $(".file_two").hide();
-} else {
-  $(".file_two").show();
-}
-
-$("input[type = 'radio']").change(function () {
-  if ($("input[type='radio']:checked").val() == 'singleEnds') {
-    $(".file_two").hide();
-  } else {
-    $(".file_two").show();
-  }
-})
-
-// workspace-nav选中时的阴影效果
-$('.workspace-nav').hover(function () {
-  $(this).addClass('shadow p-3 rounded');
-}, function () {
-  $(this).removeClass('shadow p-3 rounded');
-})
-
-$('.nav-menu').hover(function () {
-  $(this).addClass('shadow rounded');
-}, function () {
-  $(this).removeClass('shadow rounded');
-})
-
-//workspace用户卡片淡出
-$(document).ready(
-  function () {
-    $('.workspace-menu-nodisplay').fadeIn(1000);
-  }
-)
-
-// execute params setting
-const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
-for (let i = 0; i < db_list.length; i++) {
-  if ($('#' + db_list[i]).is(':checked')) {
-    $('.' + db_list[i] + '_path').show();
-  } else {
-    $('.' + db_list[i] + '_path').hide();
-  }
-}
-
-if ($('#genus').is(':checked')) {
-  $('.genus_name').show();
-} else {
-  $('.genus_name').hide();
-}
-
-
-$('#genus').on('change', function () {
-  if ($('#genus').is(':checked')) {
-    $('.genus_name').show();
-  } else {
-    $('.genus_name').hide();
-  }
-})
-
-$('#resfinder_db').on('change', function () {
-  if ($('#resfinder_db').is(':checked')) {
-    $('.resfinder_db_path').show();
-  } else {
-    $('.resfinder_db_path').hide();
-  }
-})
-
-$('#nt_db').on('change', function () {
-  if ($('#nt_db').is(':checked')) {
-    $('.nt_db_path').show();
-  } else {
-    $('.nt_db_path').hide();
-  }
-})
-
-$('#eggnog_db').on('change', function () {
-  if ($('#eggnog_db').is(':checked')) {
-    $('.eggnog_db_path').show();
-  } else {
-    $('.eggnog_db_path').hide();
-  }
-})
-
-$('#kraken_db').on('change', function () {
-  if ($('#kraken_db').is(':checked')) {
-    $('.kraken_db_path').show();
-  } else {
-    $('.kraken_db_path').hide();
-  }
-})
-
-$('#kofam_profile').on('change', function () {
-  if ($('#kofam_profile').is(':checked')) {
-    $('.kofam_profile_path').show();
-  } else {
-    $('.kofam_profile_path').hide();
-  }
-})
-
-$('#kofam_kolist').on('change', function () {
-  if ($('#kofam_kolist').is(':checked')) {
-    $('.kofam_kolist_path').show();
-  } else {
-    $('.kofam_kolist_path').hide();
-  }
-})
-
-$(function () {
-  $('.detail').on('click', function (e) {
-    e.preventDefault();
-    setInterval(() => {
-      $.ajax({
-        url: 'command.txt',
-        dataType: 'text',
-        success: function (data) {
-          $('.command_out').html(data);
-        }
-      })
-    }, 3000);
-  })
-})
-
-
-var time = $(".run_time").text();
-var run_period = parseInt(time) * 1000;
-setInterval(function () {
-  var hours = Math.floor(run_period / 3600000);
-  var minutes = Math.floor((run_period % 3600000) / 60000);
-  var seconds = Math.floor((run_period - hours * 3600 * 1000 - minutes * 60 * 1000) / 1000);
-  var period = hours + ' Hours ' + minutes + ' Minutes ' + seconds + ' Seconds ';
-  $(".run_period").text(period);
-  run_period += 1000;
-}, 1000)

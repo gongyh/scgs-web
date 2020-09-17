@@ -4,8 +4,10 @@ namespace App\Jobs;
 
 use App\Execparams;
 use App\pipelineParams;
+use App\User;
 use App\Species;
 use App\Samples;
+use App\Status;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -94,14 +96,19 @@ class RunPipeline implements ShouldQueue
         $filename = substr_replace($filename, '[1,2]', $replace_num_position, 1);
         $filename = $base_path . '' . $filename;
 
+        //保存目录格式 : 用户名 + 物种名(sampleLabel)
+        $sample_label = Samples::where('id', $this->run_sample_id)->value('sampleLabel');
+        $sample_user_id = Status::where('sample_id', $this->run_sample_id)->value('user_id');
+        $sample_user_name = User::where('id', $sample_user_id)->value('name');
+
         if ($filename2 != null) {
             //pairEnds
-            $cmd = 'cd /mnt/scc8t/zhousq/ && /opt/images/bin/nextflow run nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--saturation --acquired -profile docker,base -resume --outdir results -w work';
-            system($cmd . '> /var/www/scgs-web/public/js/command.txt');
+            $cmd = 'cd /mnt/scc8t/zhousq/ && /opt/images/bin/nextflow run nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--saturation --acquired -profile docker,base -resume --outdir ' . $sample_user_name . '_' . $sample_label . 'results -w ' . $sample_user_name . '_' . $sample_label . 'work';
+            system($cmd . '> /var/www/scgs-web/public/pipeline_state/' . $sample_user_name . '_' . $sample_label . '_command.txt');
         } else {
             //singleEnds
-            $cmd = 'cd /mnt/scc8t/zhousq/ && /opt/images/bin/nextflow run nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds --saturation --acquired -profile docker,base -resume --outdir results -w work';
-            system($cmd . '> /var/www/scgs-web/public/js/command.txt');
+            $cmd = 'cd /mnt/scc8t/zhousq/ && /opt/images/bin/nextflow run nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds --saturation --acquired -profile docker,base -resume --outdir ' . $sample_user_name . '_' . $sample_label . 'results -w ' . $sample_user_name . '_' . $sample_label . 'work';
+            system($cmd . '> /var/www/scgs-web/public/pipeline_state/' . $sample_user_name . '_' . $sample_label . '_command.txt');
         }
     }
 }
