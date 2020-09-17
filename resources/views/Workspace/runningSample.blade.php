@@ -12,7 +12,7 @@
         @foreach ($samples_user as $sample_user)
         <div class="border-bottom pb-2">
           <div class="rem15 run_label">Sample Label</div>
-          <div class="rem1 text-primary running-sample-label">{{$samples->where('id',$sample_user->sample_id)->value('sampleLabel')}}</div>
+          <div class="rem1 text-primary">{{$samples->where('id',$sample_user->sample_id)->value('sampleLabel')}}</div>
           <div class="rem15">Time Period</div>
           <div class="rem1 text-primary run_period">
             <div class="run_time invisible">{{$now - $status->where('sample_id',$sample_user->sample_id)->value('started')}}</div>
