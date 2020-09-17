@@ -171,20 +171,16 @@ setInterval(function () {
 }, 1000)
 
 
-function showCommand() {
-  $(function () {
-    $.ajax({
-      url: 'command.text',
-      dataType: 'text',
-      success: function (msg) {
-        $('.command_out').text(msg);
-      },
-    })
-  });
-}
-
-$('.execute').onclick(function () {
-  setInterval(function () {
-    showCommand();
-  }, 1000)
-});
+$(function () {
+  $('.execute').click(function () {
+    setInterval(() => {
+      $.ajax({
+        url: 'command.txt',
+        dataType: 'text',
+        success: function (data) {
+          $('.command_out').html(data);
+        }
+      })
+    }, 1000);
+  })
+})
