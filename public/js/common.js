@@ -183,6 +183,8 @@ function showCommand() {
   });
 }
 
-$('.execute').onclick(setInterval(
-  showCommand()
-), 1000);
+$('.execute').onclick(function () {
+  setInterval(function () {
+    showCommand();
+  }, 1000)
+});
