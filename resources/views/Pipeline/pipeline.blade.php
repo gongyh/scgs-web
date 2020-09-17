@@ -90,8 +90,8 @@
             </div>
           </div>
           <div class="mt-5 d-flex justify-content-around">
-            <button type="submit" class="w-50 btn btn-success d-inline-block execute">execute</button>
-            <button class="w-25 btn bg-secondary" disabled>stop</button>
+            <button class="w-50 btn btn-success d-inline-block">execute</button>
+            <button class=" w-25 btn bg-secondary" disabled>stop</button>
           </div>
         </form>
       </div>

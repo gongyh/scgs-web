@@ -79,8 +79,9 @@
           </div>
         </div>
         <div class="mt-5 d-flex justify-content-around">
-          <button class="btn btn-secondary" disabled>execute</button>
-          <button class="btn btn-success">stop</button>
+          <button class="btn btn-secondary w-25" disabled>execute</button>
+          <button class="btn btn-success w-25 detail">detail</button>
+          <button class="btn btn-success w-25">stop</button>
         </div>
         </form>
       </div>

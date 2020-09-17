@@ -97,11 +97,11 @@ class RunPipeline implements ShouldQueue
         if ($filename2 != null) {
             //pairEnds
             $cmd = 'cd /mnt/scc8t/zhousq/ && /opt/images/bin/nextflow run nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--saturation --acquired -profile docker,base -resume --outdir results -w work';
-            system($cmd . '> /var/www/scgs-web/command.txt');
+            system($cmd . '> /var/www/scgs-web/public/js/command.txt');
         } else {
             //singleEnds
             $cmd = 'cd /mnt/scc8t/zhousq/ && /opt/images/bin/nextflow run nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds --saturation --acquired -profile docker,base -resume --outdir results -w work';
-            system($cmd . '> /var/www/scgs-web/command.txt');
+            system($cmd . '> /var/www/scgs-web/public/js/command.txt');
         }
     }
 }

@@ -159,6 +159,22 @@ $('#kofam_kolist').on('change', function () {
   }
 })
 
+$(function () {
+  $('.detail').on('click', function (e) {
+    e.preventDefault();
+    setInterval(() => {
+      $.ajax({
+        url: 'command.txt',
+        dataType: 'text',
+        success: function (data) {
+          $('.command_out').html(data);
+        }
+      })
+    }, 3000);
+  })
+})
+
+
 var time = $(".run_time").text();
 var run_period = parseInt(time) * 1000;
 setInterval(function () {
@@ -169,18 +185,3 @@ setInterval(function () {
   $(".run_period").text(period);
   run_period += 1000;
 }, 1000)
-
-
-$(function () {
-  $('.execute').click(function () {
-    setInterval(() => {
-      $.ajax({
-        url: 'command.txt',
-        dataType: 'text',
-        success: function (data) {
-          $('.command_out').html(data);
-        }
-      })
-    }, 1000);
-  })
-})
