@@ -251,3 +251,7 @@ a:link {
     margin-right: 0;
   }
 }
+
+.command_out {
+  height: 40rem;
+}

@@ -15,7 +15,7 @@
       <div class="bg-white rounded shadow-sm p-3 exec-params">
         <div class="d-flex">
           <div class="rem15">execute params chosen</div>
-          <div class="rem15 text-primary running-sample-label">&nbsp;({{$samples->where('id',$sample_id)->value('sampleLabel')}})</div>
+          <div class="rem15 text-primary running-sample-label">{{$samples->where('id',$sample_id)->value('sampleLabel')}}</div>
         </div>
         <div>
           <div class="custom-control custom-checkbox mt-2">
@@ -94,16 +94,14 @@
     <div class="col-md-3 right-column">
 
       <div class="bg-white rounded shadow-sm p-2">
-        <div class="console-header text-primary">
+        <div class="console-header text-success">
           Pipeline is running...
         </div>
-        <div class="mt-3 text-muted">
-          progress
-        </div>
-        <div class="progress mt-2">
+        <div class="progress">
           <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <div class="command_out">
+        <div class="rem15 text-primary border-bottom">Pipeline Status</div>
+        <div class="command_out overflow-auto">
 
         </div>
       </div>

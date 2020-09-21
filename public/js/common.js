@@ -24,7 +24,6 @@ $(function () {
   var run_period = parseInt(time) * 1000;
   var run_sample_user = $('.user-name').text();
   var sample_label = $('.running-sample-label').text();
-  var running_command_url = '/pipeline_state/' + run_sample_user + '_' + sample_label + '_command.txt'
 
   /**
    * 任务运行时长动态时间显示
@@ -162,11 +161,19 @@ $(function () {
   $('.detail').on('click', function (e) {
     e.preventDefault();
     setInterval(() => {
-      $.ajax({
-        url: running_command_url,
-        dataType: 'text',
+      $.post({
+        url: '/read_command.php',
+        data: {
+          'run_sample_user': run_sample_user,
+          'sample_label': sample_laber
+        },
+        dataType: 'json',
         success: function (data) {
-          $('.command_out').html(data);
+          let message = data.data;
+          for (let i = 0; i < message.length; i++) {
+            let insert_message = message[i] + "</br>"
+            $('.command_out').append(insert_message);
+          }
         }
       })
     }, 3000);
