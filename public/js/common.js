@@ -165,13 +165,13 @@ $(function () {
         url: '/read_command.php',
         data: {
           'run_sample_user': run_sample_user,
-          'sample_label': sample_laber
+          'sample_label': sample_label
         },
         dataType: 'json',
         success: function (data) {
           let message = data.data;
           for (let i = 0; i < message.length; i++) {
-            let insert_message = message[i] + "</br>"
+            let insert_message = message[i] + "<br>"
             $('.command_out').append(insert_message);
           }
         }
