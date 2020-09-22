@@ -13,7 +13,7 @@
 
       </div> -->
       <div class="bg-white rounded shadow-sm p-3 exec-params">
-        <form action="/execute/start?sampleID={{$sample_id}}" method="POST">
+        <form action="" method="POST">
           @csrf
           <div class="exec-title">execute params setting</div>
           <div>

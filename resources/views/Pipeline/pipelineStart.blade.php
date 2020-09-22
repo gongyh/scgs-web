@@ -83,10 +83,9 @@
         </div>
         <div class="mt-5 d-flex justify-content-around">
           <button class="btn btn-secondary w-25" disabled>execute</button>
-          <button class="btn btn-success w-25 detail">detail</button>
+          <button class="btn btn-success w-25 detail">Check Progress</button>
           <button class="btn btn-success w-25">stop</button>
         </div>
-        </form>
       </div>
 
     </div>
@@ -101,7 +100,7 @@
           <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
         <div class="rem15 text-primary border-bottom">Pipeline Status</div>
-        <div class="command_out text-nowrap overflow-auto">
+        <div class="command_out d-none text-nowrap overflow-auto">
 
         </div>
       </div>

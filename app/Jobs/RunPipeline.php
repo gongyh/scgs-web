@@ -103,16 +103,16 @@ class RunPipeline implements ShouldQueue
 
         if ($filename2 != null) {
             //pairEnds
-            $mkdir = 'if [ ! -d "/mnt/scc8t/zhousq/' . $sample_user_name . '" ]; then mkdir /mnt/scc8t/zhousq/' . $sample_user_name . '; fi';
-            $cmd = 'cd /mnt/scc8t/zhousq/' . $sample_user_name . '&& /opt/images/bin/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--saturation --acquired -profile docker,base -resume --outdir ' . $sample_user_name . '_' . $sample_label . 'results -w ' . $sample_user_name . '_' . $sample_label . 'work';
+            $mkdir = 'if [ ! -d "' . $base_path . $sample_user_name . '" ]; then mkdir ' . $base_path . $sample_user_name . '; fi';
+            $cmd = 'cd ' . $base_path . $sample_user_name . '&& /opt/images/bin/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--saturation --acquired -profile docker,base -resume --outdir ' . $sample_user_name . '_' . $sample_label . 'results -w ' . $sample_user_name . '_' . $sample_label . 'work';
             system($mkdir);
-            system($cmd . '> /mnt/scc8t/zhousq/pipeline_state/' . $sample_user_name . '_' . $sample_label . '_command.txt');
+            system($cmd);
         } else {
             //singleEnds
-            $mkdir = 'if [ ! -d "/mnt/scc8t/zhousq/' . $sample_user_name . '" ]; then mkdir /mnt/scc8t/zhousq/' . $sample_user_name . '; fi';
-            $cmd = 'cd /mnt/scc8t/zhousq/' . $sample_user_name . '&& /opt/images/bin/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds --saturation --acquired -profile docker,base -resume --outdir ' . $sample_user_name . '_' . $sample_label . 'results -w ' . $sample_user_name . '_' . $sample_label . 'work';
+            $mkdir = 'if [ ! -d "' . $base_path . $sample_user_name . '" ]; then mkdir ' . $base_path . $sample_user_name . '; fi';
+            $cmd = 'cd ' . $base_path . $sample_user_name . '&& /opt/images/bin/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds --saturation --acquired -profile docker,base -resume --outdir ' . $sample_user_name . '_' . $sample_label . 'results -w ' . $sample_user_name . '_' . $sample_label . 'work';
             system($mkdir);
-            system($cmd . '> /mnt/scc8t/zhousq/pipeline_state/' . $sample_user_name . '_' . $sample_label . '_command.txt');
+            system($cmd);
         }
     }
 }

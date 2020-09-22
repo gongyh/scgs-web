@@ -23,8 +23,8 @@ $(function () {
   var time = $(".run_time").text();
   var run_period = parseInt(time) * 1000;
   var run_sample_user = $('.user-name').text();
-  var sample_label = $('.running-sample-label').text();
-
+  var check_progress = false;
+  var read_progress;
   /**
    * 任务运行时长动态时间显示
    */
@@ -158,49 +158,67 @@ $(function () {
   /**
    * 刷新shell运行任务输出
    */
-  $('.detail').on('click', function (e) {
-    e.preventDefault();
-    setInterval(() => {
-      $.ajax({
-        url: '/read_command.php',
-        type: 'POST',
-        data: {
-          'run_sample_user': run_sample_user,
-          'sample_label': sample_label
-        },
-        dataType: 'json',
-        success: function (data) {
-          let message = data.data;
-          for (let i = 0; i < message.length; i++) {
-            let insert_message = message[i] + "<br>"
-            $('.command_out').append(insert_message);
-          }
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  function read_nextflowlog() {
+    $.ajax({
+      url: "/execute/start",
+      type: 'POST',
+      data: {
+        'run_sample_user': run_sample_user,
+      },
+      dataType: 'json',
+      success: function (data) {
+        let message = data.data.split('\r\n');
+        for (let i = 0; i < message.length; i++) {
+          let insert_message = message[i] + "<br>"
+          $('.command_out').append(insert_message);
         }
-      })
-    }, 3000);
+      },
+      error: function (data) {
+        $('.command_out').text(data).addClass('text-danger');
+      }
+    })
+  }
+
+  $(".detail").on('click', function (e) {
+    e.preventDefault();
+    check_progress = !check_progress;
+    if (check_progress) {
+      $('.command_out').removeClass('d-none');
+      read_progress = setInterval(() => { read_nextflowlog() }, 3000);
+    } else {
+      $('.command_out').addClass('d-none');
+      clearInterval(read_progress);
+    }
   })
-});
 
-/**
- * jQuery 文本折叠展开特效
- * @param clas：存放文本的容器
- * @param num：要显示的字数
- */
 
-function text_folded(clas, num) {
-  var num = num;
-  var a_unfold = $("<a></a>").on('click', showText).addClass('text-primary').text("[spread]");
-  var a_fold = $("<a></a>").on('click', showText).addClass('text-primary').text("[fold]");
-  var div = $("<div></div>").addClass('project_desc_hidden');
-  var str = $(clas).text();
-  $(clas).after(div);
-  if (str.length > num) {
-    var text = str.substring(0, num) + "...";
-    $(clas).html(text).append(a_unfold);
+  /**
+   * jQuery 文本折叠展开特效
+   * @param clas：存放文本的容器
+   * @param num：要显示的字数
+   */
+
+  function text_folded(clas, num) {
+    var num = num;
+    var a_unfold = $("<a></a>").on('click', showText).addClass('text-primary').text("[spread]");
+    var a_fold = $("<a></a>").on('click', showText).addClass('text-primary').text("[fold]");
+    var div = $("<div></div>").addClass('project_desc_hidden');
+    var str = $(clas).text();
+    $(clas).after(div);
+    if (str.length > num) {
+      var text = str.substring(0, num) + "...";
+      $(clas).html(text).append(a_unfold);
+    }
+    $('.project_desc_hidden').html(str).append(a_fold);
+
+    function showText() {
+      $(this).parent().hide().siblings().show();
+    }
   }
-  $('.project_desc_hidden').html(str).append(a_fold);
-
-  function showText() {
-    $(this).parent().hide().siblings().show();
-  }
-}
+})
