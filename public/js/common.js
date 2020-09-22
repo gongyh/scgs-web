@@ -161,8 +161,9 @@ $(function () {
   $('.detail').on('click', function (e) {
     e.preventDefault();
     setInterval(() => {
-      $.post({
+      $.ajax({
         url: '/read_command.php',
+        type: 'POST',
         data: {
           'run_sample_user': run_sample_user,
           'sample_label': sample_label
