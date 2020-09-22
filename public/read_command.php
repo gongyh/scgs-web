@@ -1,7 +1,7 @@
 <?php
 
 $run_sample_user = $_POST['run_sample_user'];
-$sample_laber = $_POSR['sample_label'];
+$sample_laber = $_POST['sample_label'];
 $file_path = '/mnt/scc8t/zhousq/pipeline_state/' . $run_sample_user . '_' . $sample_label . '_command.txt';
 $file = fopen($file_path, 'r');
 $arr = array();
