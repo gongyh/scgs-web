@@ -72,15 +72,6 @@ $(function () {
   })
 
   /**
-   * workspace用户卡片淡出
-   */
-  $(document).ready(
-    function () {
-      $('.workspace-menu-nodisplay').fadeIn(1000);
-    }
-  )
-
-  /**
    * execute params设置
    */
   const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
@@ -174,13 +165,14 @@ $(function () {
       dataType: 'json',
       success: function (data) {
         let message = data.data.split('\r\n');
-        for (let i = 0; i < message.length; i++) {
-          let insert_message = message[i] + "<br>"
-          $('.command_out').append(insert_message);
+        if (message != 'can not read .nextflow.log!') {
+          for (let i = 0; i < message.length; i++) {
+            let insert_message = message[i] + "<br>"
+            $('.command_out').append(insert_message);
+          }
+        } else {
+          $('.command_out').addClass('text-danger').text(message);
         }
-      },
-      error: function (data) {
-        $('.command_out').text(data).addClass('text-danger');
       }
     })
   }

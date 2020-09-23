@@ -26,7 +26,7 @@
           </div>
           <div class="project_sample">
             <div class="proj_title">Sample List:</div>
-            <div class="table-responsive">
+            <div class="mt-3 table-responsive bg-light shadow-sm rounded-lg">
               <table class="table table-condense">
                 <thead>
                   <tr>

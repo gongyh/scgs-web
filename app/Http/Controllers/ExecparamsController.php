@@ -141,7 +141,7 @@ class ExecparamsController extends Controller
             $data = Storage::get($nextflow_log_path);
             return response()->json(['success' => true, 'data' => $data]);
         } else {
-            return response()->json(['error' => true, 'data' => 'can not read .nextflow.log!']);
+            return response()->json(['success' => true, 'data' => 'can not read .nextflow.log!']);
         }
     }
 }
