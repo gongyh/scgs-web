@@ -12,24 +12,46 @@
       <!-- <div class="middle-info">
 
       </div> -->
-      <div class="bg-white rounded shadow-sm p-3 exec-params">
+      <div class="bg-white rounded shadow-sm p-3 rem1">
         <div class="d-flex">
           <div class="rem15">execute params chosen</div>
-          <div class="rem15 text-primary running-sample-label">{{$samples->where('id',$sample_id)->value('sampleLabel')}}</div>
+          <div class="p-2 rem1 ml-3 text-dark">{{$samples->where('id',$sample_id)->value('sampleLabel')}}<span class="badge badge-success badge-pill">Running</span></div>
         </div>
-        <div>
+        <div class="d-flex flex-wrap">
           <div class="custom-control custom-checkbox mt-2">
             <input type="checkbox" class="custom-control-input" id="ass" name="ass" value="ass" {{$ass?'checked':''}} disabled>
             <label class="custom-control-label" for="ass">ass</label>
           </div>
-          <div class="custom-control custom-checkbox mt-2">
+          <div class="custom-control custom-checkbox mt-2 ml-3">
             <input type="checkbox" class="custom-control-input" id="cnv" name="cnv" value="cnv" {{$cnv?'checked':''}} disabled>
             <label class="custom-control-label" for="cnv">cnv</label>
           </div>
-          <div class="custom-control custom-checkbox mt-2">
+          <div class="custom-control custom-checkbox mt-2 ml-3">
             <input type="checkbox" class="custom-control-input" id="snv" name="snv" value="snv" {{$snv?'checked':''}} disabled>
             <label class="custom-control-label" for="snv">snv</label>
           </div>
+          <div class="custom-control custom-checkbox mt-2 ml-3">
+            <input type="checkbox" class="custom-control-input" id="bulk" name="bulk" value="bulk" {{$bulk?'checked':''}} disabled>
+            <label class="custom-control-label" for="bulk">bulk</label>
+          </div>
+          <div class="custom-control custom-checkbox mt-2 ml-3">
+            <input type="checkbox" class="custom-control-input" id="saturation" name="saturation" value="saturation" {{$saturation?'checked':''}} disabled>
+            <label class="custom-control-label" for="saturation">saturation</label>
+          </div>
+          <div class="custom-control custom-checkbox mt-2 ml-3">
+            <input type="checkbox" class="custom-control-input" id="acquired" name="acquired" value="acquired" {{$acquired?'checked':''}} disabled>
+            <label class="custom-control-label" for="acquired ml-3">acquired</label>
+          </div>
+          <div class="custom-control custom-checkbox mt-2">
+            <input type="checkbox" class="custom-control-input" id="saveTrimmed" name="saveTrimmed" value="saveTrimmed" {{$saveTrimmed?'checked':''}} disabled>
+            <label class="custom-control-label" for="saveTrimmed"><span>saveTrimmed</span><span class="text-danger">(Save the trimmed Fastq files in the the Results directory.)</span></label>
+          </div>
+          <div class="custom-control custom-checkbox mt-2">
+            <input type="checkbox" class="custom-control-input" id="saveAlignedIntermediates" name="saveAlignedIntermediates" value="saveAlignedIntermediates" {{$saveAlignedIntermediates?'checked':''}} disabled>
+            <label class="custom-control-label" for="saveAlignedIntermediates"><span>saveAlignedIntermediates</span><span class="text-danger">(Save the intermediate BAM files from the Alignment step - not done by default)</span></label>
+          </div>
+        </div>
+        <div>
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
               <input type="checkbox" class="custom-control-input" id="genus" name="genus" value="genus" {{$genus?'checked':''}} disabled>
