@@ -29,16 +29,16 @@
           </div>
           <div class="project_sample">
             <div class="proj_title">Sample List:</div>
-            <div class="table-responsive">
+            <div class="mt-3 table-responsive bg-light shadow-sm rounded-lg">
               <table class="table table-condense">
                 <thead>
                   <tr>
-                    <th scope="col">SampleID</th>
-                    <th scope="col">SampleLabel</th>
-                    <th scope="col">Application</th>
-                    <th scope="col">Species</th>
-                    <th scope="col">Pairends</th>
-                    <th scope="col"></th>
+                    <th scope="col" class="table-header">SampleID</th>
+                    <th scope="col" class="table-header">SampleLabel</th>
+                    <th scope="col" class="table-header">Application</th>
+                    <th scope="col" class="table-header">Species</th>
+                    <th scope="col" class="table-header">Pairends</th>
+                    <th></th>
                     <th scope="col" class="add">
                       <a href="/samples/create?projectID={{$projectID}}&from=workspace">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -54,13 +54,13 @@
                   @if($selectSamples != null)
                   @foreach($selectSamples as $selectSample)
                   <tr>
-                    <th scope="row">{{$selectSample->id}}</th>
-                    <td>
+                    <th scope="row" class="table-item">{{$selectSample->id}}</th>
+                    <td class="table-item">
                       <a href="#">{{$selectSample->sampleLabel}}</a>
                     </td>
-                    <td>{{$sample->getAppName($selectSample->applications_id)}}</td>
-                    <td>{{$sample->getSpeciesName($selectSample->species_id)}}</td>
-                    <td>{{$selectSample->pairends == 1 ? 'Yes':'No'}}</td>
+                    <td class="table-item">{{$sample->getAppName($selectSample->applications_id)}}</td>
+                    <td class="table-item">{{$sample->getSpeciesName($selectSample->species_id)}}</td>
+                    <td class="table-item">{{$selectSample->pairends == 1 ? 'Yes':'No'}}</td>
                     <td class="delete">
                       <a href="/samples/delete?projectID={{$projectID}}&sampleID={{$selectSample->id}}&from=workspace" onclick="if(confirm('Are you sure to delete?')==false) return false;">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
