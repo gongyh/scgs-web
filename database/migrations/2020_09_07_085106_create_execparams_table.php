@@ -20,6 +20,11 @@ class CreateExecparamsTable extends Migration
             $table->boolean('ass');
             $table->boolean('cnv');
             $table->boolean('snv');
+            $table->boolean('bulk');
+            $table->boolean('saturation');
+            $table->boolean('saveTrimmed');
+            $table->boolean('acquired');
+            $table->boolean('saveAlignedIntermediates');
             $table->boolean('genus');
             $table->string('genus_name', 200)->nullable();
             $table->boolean('resfinder_db');
