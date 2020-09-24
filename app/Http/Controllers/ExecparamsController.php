@@ -160,16 +160,13 @@ class ExecparamsController extends Controller
 
     public function ajax(Request $request)
     {
-        // $run_sample_user = $request->input('run_sample_user');
-        // $nextflow_log_path = $run_sample_user . '/.nextflow.log';
-        // if (Storage::disk('local')->exists($nextflow_log_path)) {
-        //     $data = Storage::get($nextflow_log_path);
-        //     return response()->json(['success' => true, 'data' => $data]);
-        // } else {
-        //     return response()->json(['success' => true, 'data' => 'can not read .nextflow.log!']);
-        // }
-
-        $data = Storage::get('.nextflow.log');
-        return response()->json(['success' => true, 'data' => $data]);
+        $run_sample_user = $request->input('run_sample_user');
+        $nextflow_log_path = $run_sample_user . '/.nextflow.log';
+        if (Storage::disk('local')->exists($nextflow_log_path)) {
+            $data = Storage::get($nextflow_log_path);
+            return response()->json(['success' => true, 'data' => $data]);
+        } else {
+            return response()->json(['success' => true, 'data' => 'can not read .nextflow.log!']);
+        }
     }
 }
