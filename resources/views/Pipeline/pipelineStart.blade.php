@@ -121,7 +121,7 @@
           <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
         <div class="mt-2 rem15 text-primary border-bottom">Pipeline Status</div>
-        <div class="command_out d-none text-nowrap overflow-auto">
+        <div class="command_out d-none text-wrap overflow-auto text-break">
         </div>
       </div>
     </div>

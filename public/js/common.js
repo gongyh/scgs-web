@@ -164,12 +164,11 @@ $(function () {
       },
       dataType: 'json',
       success: function (data) {
-        let message = data.data.split('\r\n');
+        let message = data.data;
         if (message != 'can not read .nextflow.log!') {
-          for (let i = 0; i < message.length; i++) {
-            let insert_message = message[i] + "<br>"
-            $('.command_out').append(insert_message);
-          }
+          let insert_message = "<p>" + message + "</p> "
+          $('.command_out').html(insert_message);
+
         } else {
           $('.command_out').addClass('text-danger').text(message);
         }
@@ -182,7 +181,7 @@ $(function () {
     check_progress = !check_progress;
     if (check_progress) {
       $('.command_out').removeClass('d-none');
-      read_progress = setInterval(() => { read_nextflowlog() }, 3000);
+      read_progress = setInterval(() => { read_nextflowlog() }, 5000);
     } else {
       $('.command_out').addClass('d-none');
       clearInterval(read_progress);
