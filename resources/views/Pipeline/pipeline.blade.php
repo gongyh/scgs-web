@@ -39,7 +39,7 @@
             </div>
             <div class="custom-control custom-checkbox mt-2 ml-3">
               <input type="checkbox" class="custom-control-input" id="acquired" name="acquired" value="acquired" {{$acquired?'checked':''}}>
-              <label class="custom-control-label" for="acquired ml-3">acquired</label>
+              <label class="custom-control-label" for="acquired">acquired</label>
             </div>
             <div class="custom-control custom-checkbox mt-2">
               <input type="checkbox" class="custom-control-input" id="saveTrimmed" name="saveTrimmed" value="saveTrimmed" {{$saveTrimmed?'checked':''}}>
