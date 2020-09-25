@@ -111,15 +111,12 @@
               <div class="mt-2 w-50 border border-info db_path rounded shadow p-2 kofam_kolist_path {{$kofam_kolist?'no-display':''}}">{{isset($pipelineParams->kofam_kolist_path)?$pipelineParams->kofam_kolist_path:'kofam kolist path has not set!please call administor'}}</div>
             </div>
           </div>
-          <div class="mt-5 d-flex justify-content-around">
-            <button class="w-50 btn btn-success d-inline-block">execute</button>
-            <button class=" w-25 btn bg-secondary" disabled>stop</button>
-          </div>
+          <button class="mt-5 ml-3 w-50 btn btn-success d-inline-block" onclick="if(confirm('when pipeline start,params can\' be modified until pipeline finished,Are you sure to execute?')==false) return false;">execute</button>
         </form>
       </div>
     </div>
     <!-- right-column -->
-    <div class="col-md-3 right-column">
+    <div class=" col-md-3 right-column">
       <div class="other-info">
       </div>
     </div>

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Execparams;
 use App\pipelineParams;
-use App\Status;
 use App\Samples;
+use App\Species;
+use App\Jobs;
 use App\Jobs\RunPipeline;
 
 class ExecparamsController extends Controller
@@ -18,6 +20,9 @@ class ExecparamsController extends Controller
     public function index(Request $request)
     {
         if ($request->isMethod('POST')) {
+            /**
+             * 接收表单post的数据
+             */
             $samples = new Samples();
             $pipelineParams = pipelineParams::find(1);
             $sample_id = $request->input('sampleID');
@@ -44,6 +49,9 @@ class ExecparamsController extends Controller
             } else {
                 $genus_name = null;
             }
+            /**
+             * 判断execparams表中是否有该sample运行的参数，如果没有就添加记录，如果有就修改记录
+             */
             if (Execparams::where('samples_id', $sample_id)->get()->count() == 0) {
                 Execparams::create([
                     'samples_id' => $sample_id,
@@ -85,24 +93,95 @@ class ExecparamsController extends Controller
                 $execparams->kofam_kolist = $kofam_kolist;
                 $execparams->save();
             }
-            RunPipeline::dispatch($sample_id);
 
-            // Status表
-            $start = time();
-            $user_id = Auth::user()->id;
-            if (Status::where('sample_id', $sample_id)->get()->count() == 0) {
-                Status::create([
-                    'user_id' => $user_id,
-                    'sample_id' => $sample_id,
-                    'started' => $start,
-                    'status' => false
-                ]);
+            /**
+             * execparams参数表读取，拼接command
+             */
+            $execparams = new Execparams();
+            $run_sample = $execparams->where('samples_id', $sample_id);
+            $ass = $run_sample->value('ass') ? '--ass ' : '';
+            $cnv = $run_sample->value('cnv') ? '--cnv ' : '';
+            $snv = $run_sample->value('snv') ? '--snv ' : '';
+            $bulk = $run_sample->value('bulk') ? '--bulk ' : '';
+            $saturation = $run_sample->value('saturation') ? '--saturation ' : '';
+            $acquired = $run_sample->value('acquired') ? '--acquired ' : '';
+            $saveTrimmed = $run_sample->value('saveTrimmed') ? '--saveTrimmed ' : '';
+            $saveAlignedIntermediates = $run_sample->value('saveAlignedIntermediates') ? '--saveAlignedIntermediates ' : '';
+            if ($run_sample->value('genus')) {
+                $genus_name = $run_sample->value('genus_name');
+                $genus = '--genus ' . $genus_name . ' ';
             } else {
-                $status_id = Status::where('sample_id', $sample_id)->value('id');
-                $status = Status::find($status_id);
-                $status->started = $start;
-                $status->save();
+                $genus = '';
             }
+            $pipeline_params = pipelineParams::find(1);
+            $resfinder_db_path = $pipeline_params->resfinder_db_path;
+            $nt_db_path = $pipeline_params->nt_db_path;
+            $eggnog_db_path = $pipeline_params->eggnog_db_path;
+            $kraken_db_path = $pipeline_params->kraken_db_path;
+            $kofam_profile_path = $pipeline_params->kofam_profile_path;
+            $kofam_kolist_path = $pipeline_params->kofam_kolist_path;
+
+            $resfinder_db = $run_sample->value('resfinder_db') ? '--resfinder_db ' . $resfinder_db_path . ' ' : '';
+            $nt_db = $run_sample->value('nt_db') ? '--nt_db ' . $nt_db_path . ' ' : '';
+            $kraken_db = $run_sample->value('kraken_db') ? '--kraken_db ' . $kraken_db_path . ' ' : '';
+            $eggnog_db = $run_sample->value('eggnog') ? '--eggnog_db ' . $eggnog_db_path . ' ' : '';
+            $kofam_profile = $run_sample->value('kofam_profile') ? '--kofam_profile ' . $kofam_profile_path . ' ' : '';
+            $kofam_kolist = $run_sample->value('kofam_kolist') ? '--kofam_kolist ' . $kofam_kolist_path . ' ' : '';
+
+            $species_id = Samples::where('id', $sample_id)->value('species_id');
+            $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+            if (isset($species_id)) {
+                $fasta_path = Species::where('id', $species_id)->value('fasta');
+                $gff_path = Species::where('id', $species_id)->value('gff');
+                $fasta_path = $base_path . '' . $fasta_path;
+                $gff_path = $base_path . '' . $gff_path;
+                $fasta = '--fasta ' . $fasta_path . ' ';
+                $gff = '--gff ' . $gff_path . ' ';
+            } else {
+                $fasta = $gff = '';
+            }
+
+            $sample = Samples::find($sample_id);
+            $filename1 = $sample->filename1;
+            $filename1 = $base_path . '' . $filename1;
+
+            $sample->pairends ? $filename2 = $sample->filename2 : $filename2 = null;
+            preg_match('/(_trimmed)?(_combined)?(\.R1)?(_1)?(_R1)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$/', $filename1, $matches);
+            $file_postfix = $matches[0];
+            $file_prefix = Str::before($filename1, $file_postfix);
+            $filename = str_replace($file_prefix, '*', $filename1);
+            $replace_num_position = strrpos($filename, '1');
+            $filename = substr_replace($filename, '[1,2]', $replace_num_position, 1);
+            $filename = $base_path . '' . $filename;
+
+            //保存目录格式 : 用户名 + 物种名(sampleLabel)
+            $sample_label = Samples::where('id', $sample_id)->value('sampleLabel');
+            $sample_user_name = Auth::user()->name;
+
+            if ($filename2 != null) {
+                //pairEnds
+                $cmd = '/mnt/scc8t/zhousq/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '-profile docker,base -resume --outdir results -w work';
+            } else {
+                //singleEnds
+                $cmd = '/mnt/scc8t/zhousq/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds -profile docker,base -resume --outdir results -w work';
+            }
+
+            /**
+             * jobs表中添加记录
+             */
+            $user_id = Auth::user()->id;
+            $sample_id = $request->input('sampleID');
+            Jobs::create([
+                'user_id' => $user_id,
+                'sample_id' => $sample_id,
+                'uuid' => 'default',
+                'started' => '000',
+                'command' => $cmd,
+                'output_work' => 'default',
+                'output_results' => 'default',
+                'status' => 0   // 0:未开始
+            ]);
+            RunPipeline::dispatch($sample_id);
             return redirect('/execute/start?sampleID=' . $sample_id);
         }
         $pipelineParams = pipelineParams::find(1);
@@ -164,9 +243,9 @@ class ExecparamsController extends Controller
         $nextflow_log_path = $run_sample_user . '/.nextflow.log';
         if (Storage::disk('local')->exists($nextflow_log_path)) {
             $data = Storage::get($nextflow_log_path);
-            return response()->json(['success' => true, 'data' => $data]);
+            return response()->json(['code' => '200', 'data' => $data]);
         } else {
-            return response()->json(['success' => true, 'data' => 'can not read .nextflow.log!']);
+            return response()->json(['code' => '201', 'data' => '']);
         }
     }
 }
