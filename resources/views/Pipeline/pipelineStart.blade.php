@@ -15,7 +15,7 @@
       <div class="bg-white rounded shadow-sm p-3 rem1">
         <div class="d-flex">
           <div class="rem15">execute params chosen</div>
-          <div class="p-2 rem1 ml-3 text-dark">{{$samples->where('id',$sample_id)->value('sampleLabel')}}<span class="badge badge-success badge-pill">Running</span></div>
+          <div class="p-2 ml-3"><span class="badge badge-warning rem1">{{$samples->where('id',$sample_id)->value('sampleLabel')}}<span class="ml-1 badge badge-success badge-pill">Running</span></span></div>
         </div>
         <div class="d-flex flex-wrap">
           <div class="custom-control custom-checkbox mt-2">
@@ -106,7 +106,6 @@
         <div class="mt-5 d-flex justify-content-around">
           <button class="btn btn-secondary w-25" disabled>execute</button>
           <button class="btn btn-success w-25 detail">Check Progress</button>
-          <button class="btn btn-success w-25">stop</button>
         </div>
       </div>
 

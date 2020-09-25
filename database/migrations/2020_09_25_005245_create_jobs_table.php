@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStatusTable extends Migration
+class CreateJobsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,18 @@ class CreateStatusTable extends Migration
      */
     public function up()
     {
-        Schema::create('status', function (Blueprint $table) {
+        Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('sample_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('sample_id')->references('id')->on('samples')->onDelete('cascade');
-            $table->unsignedInteger('started');
-            $table->unsignedInteger('finished')->nullable();
-            $table->boolean('status');
             $table->timestamps();
+            $table->string('uuid', 150);
+            $table->unsignedBigInteger('sample_id');
+            $table->foreign('sample_id')->references('id')->on('samples')->onDelete('cascade');
+            $table->integer('status');
+            $table->string('command', 500);
+            $table->unsignedInteger('started')->nullable();
+            $table->unsignedInteger('finished')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -33,6 +35,6 @@ class CreateStatusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('status');
+        Schema::dropIfExists('jobs');
     }
 }

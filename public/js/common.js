@@ -25,6 +25,14 @@ $(function () {
   var run_sample_user = $('.user-name').text();
   var check_progress = false;
   var read_progress;
+  var job_start_time = $(".start_time").text();
+  var job_start_time = parseInt(job_start_time) * 1000;
+  var start_time = Sec2Time(job_start_time);
+
+
+  text_folded('.proj_desc', 200);
+  $(".started_time").text(start_time);
+
   /**
    * 任务运行时长动态时间显示
    */
@@ -37,7 +45,16 @@ $(function () {
     run_period += 1000;
   }, 1000)
 
-  text_folded('.proj_desc', 200);
+
+  /**
+   * 任务开始时间秒转换年,月,日
+   */
+  function Sec2Time(time) {
+    let datetime = new Date(time).getTime();
+    var format_time = new Date(datetime) + '';
+    var format_time = format_time.replace('GMT+0800 (中国标准时间)', '');
+    return format_time;
+  }
 
   /**
    * sample根据pairends控制上传file数量
@@ -163,14 +180,12 @@ $(function () {
         'run_sample_user': run_sample_user,
       },
       dataType: 'json',
-      success: function (data) {
-        let message = data.data;
-        if (message != 'can not read .nextflow.log!') {
-          let insert_message = "<p>" + message + "</p> "
+      success: function (res) {
+        if (res.code == 200) {
+          let insert_message = "<p>" + res.data + "</p> "
           $('.command_out').html(insert_message);
-
         } else {
-          $('.command_out').addClass('text-danger').text(message);
+
         }
       }
     })
@@ -181,7 +196,11 @@ $(function () {
     check_progress = !check_progress;
     if (check_progress) {
       $('.command_out').removeClass('d-none');
-      read_progress = setInterval(() => { read_nextflowlog() }, 5000);
+      read_progress = setInterval(() => {
+        read_nextflowlog();
+        let scrollHeight = $(".command_out").prop('scrollHeight');
+        $(".command_out").scrollTop(scrollHeight);
+      }, 5000);
     } else {
       $('.command_out').addClass('d-none');
       clearInterval(read_progress);

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Status;
+use App\Jobs;
 use App\Samples;
 use App\Execparams;
 
@@ -14,11 +14,11 @@ class RunController extends Controller
     public function index()
     {
         $samples = new Samples();
-        $status = new Status();
+        $jobs = new Jobs();
         $execparams = new Execparams();
         $user_id = Auth::user()->id;
         $now = time();
-        $samples_user = Status::where([['user_id', $user_id], ['status', false]])->get();
-        return view('Workspace.runningSample', ['samples_user' => $samples_user, 'samples' => $samples, 'status' => $status, 'now' => $now, 'execparams' => $execparams]);
+        $user_jobs = Jobs::where([['user_id', $user_id], ['status', 1]])->get();
+        return view('Workspace.runningSample', ['user_jobs' => $user_jobs, 'samples' => $samples, 'jobs' => $jobs, 'now' => $now, 'execparams' => $execparams]);
     }
 }

@@ -9,19 +9,19 @@
   </div>
   <div class="col-md-6 middle-column">
     <div class="card" style="width:100%;">
-      <img src="{{asset('image/Contact_us.jpg')}}" class="card-img-top" alt="Qibebt">
       <div class="card-body">
         <div class="border-bottom">
+          <h2>How to cite this program?</h2>
+          <p class="card-text">We have uploaded this project to the github.</p>
+          <p class="card-text">Github Address : <a href="https://github.com/gongyh/scgs-web">https://github.com/gongyh/scgs-web</a></p>
+          <p class="card-text card-last-child">Contact : 13854291622@163.com</p>
+        </div>
+        <div class="border-bottom card-pattern">
           <h2>How to contact us?</h2>
           <p class="card-text">phone/fax : 86-532-80662653/2654</p>
           <p class="card-text">Email : singlecell@qibebt.ac.cn</p>
           <p class="card-text">Postal Code : 266101</p>
           <p class="card-text card-last-child">Address : No.189 Songling Road, Laoshan District, Qingdao, Shandong, 266101, China</p>
-        </div>
-        <div class="border-bottom card-pattern">
-          <h2>How to cite this program?</h2>
-          <p class="card-text">We have uploaded this project to the github.</p>
-          <p class="card-text card-last-child">Github Address : <a href="https://github.com/gongyh/scgs-web">https://github.com/gongyh/scgs-web</a></p>
         </div>
         <div>
           <h2 class="card-pattern"><span class="badge badge-warning">Disclaimer</span></h2>

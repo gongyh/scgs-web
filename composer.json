@@ -17,7 +17,8 @@
         "laravel/horizon": "^4",
         "laravel/telescope": "v3.5.1",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.0"
+        "laravel/ui": "^2.0",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
