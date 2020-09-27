@@ -35,6 +35,7 @@ class ExecparamsController extends Controller
             $acquired = $request->input('acquired') == 'acquired' ? true : false;
             $saveTrimmed = $request->input('saveTrimmed') == 'saveTrimmed' ? true : false;
             $saveAlignedIntermediates = $request->input('saveAlignedIntermediates') == 'saveAlignedIntermediates' ? true : false;
+            $resume = $request->input('resume') == 'resume' ? true : false;
             $genus = $request->input('genus') == 'genus' ? true : false;
             $resfinder_db = $request->input('resfinder_db') == 'resfinder_db' ? true : false;
             $nt_db = $request->input('nt_db') == 'nt_db' ? true : false;
@@ -64,6 +65,7 @@ class ExecparamsController extends Controller
                     'acquired' => $acquired,
                     'saveTrimmed' => $saveTrimmed,
                     'saveAlignedIntermediates' => $saveAlignedIntermediates,
+                    'resume' => $resume,
                     'genus' => $genus,
                     'genus_name' => $genus_name,
                     'resfinder_db' => $resfinder_db,
@@ -84,6 +86,7 @@ class ExecparamsController extends Controller
                 $execparams->acquired = $acquired;
                 $execparams->saveTrimmed = $saveTrimmed;
                 $execparams->saveAlignedIntermediates = $saveAlignedIntermediates;
+                $execparams->resume = $resume;
                 $execparams->genus = $genus;
                 $execparams->genus_name = $genus_name;
                 $execparams->resfinder_db = $resfinder_db;
@@ -108,6 +111,7 @@ class ExecparamsController extends Controller
             $acquired = $run_sample->value('acquired') ? '--acquired ' : '';
             $saveTrimmed = $run_sample->value('saveTrimmed') ? '--saveTrimmed ' : '';
             $saveAlignedIntermediates = $run_sample->value('saveAlignedIntermediates') ? '--saveAlignedIntermediates ' : '';
+            $resume = $run_sample->value('resume') ? '-resume ' : '';
             if ($run_sample->value('genus')) {
                 $genus_name = $run_sample->value('genus_name');
                 $genus = '--genus ' . $genus_name . ' ';
@@ -161,10 +165,10 @@ class ExecparamsController extends Controller
 
             if ($filename2 != null) {
                 //pairEnds
-                $cmd = '/mnt/scc8t/zhousq/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '-profile docker,base -resume --outdir results -w work';
+                $cmd = '/mnt/scc8t/zhousq/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '-profile docker,base ' . $resume . '--outdir results -w work';
             } else {
                 //singleEnds
-                $cmd = '/mnt/scc8t/zhousq/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds -profile docker,base -resume --outdir results -w work';
+                $cmd = '/mnt/scc8t/zhousq/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
             }
 
             /**
@@ -177,6 +181,7 @@ class ExecparamsController extends Controller
                 'sample_id' => $sample_id,
                 'uuid' => 'default',
                 'started' => '000',
+                'finished' => '000',
                 'command' => $cmd,
                 'output_work' => 'default',
                 'output_results' => 'default',
@@ -197,6 +202,7 @@ class ExecparamsController extends Controller
             $acquired = $data->value('acquired');    //boolean
             $saveTrimmed = $data->value('saveTrimmed');    //boolean
             $saveAlignedIntermediates = $data->value('saveAlignedIntermediates');    //boolean
+            $resume = $data->value('resume');    //boolean
             $genus = $data->value('genus');     //boolean
             $genus_name = $data->value('genus_name');    //string
             $resfinder_db = $data->value('resfinder_db');     //boolean
@@ -205,11 +211,11 @@ class ExecparamsController extends Controller
             $eggnog = $data->value('eggnog');    //boolean
             $kofam_profile = $data->value('kofam_profile');    //boolean
             $kofam_kolist = $data->value('kofam_kolist');     //boolean
-            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
+            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
         } else {
-            $ass = $cnv = $snv = $bulk = $saturation = $acquired = $saveTrimmed = $saveAlignedIntermediates = $genus = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = false;
+            $ass = $cnv = $snv = $bulk = $saturation = $acquired = $saveTrimmed = $saveAlignedIntermediates = $resume = $genus = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = false;
             $genus_name = null;
-            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
+            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
         }
     }
 
@@ -227,6 +233,7 @@ class ExecparamsController extends Controller
         $acquired = $data->value('acquired');    //boolean
         $saveTrimmed = $data->value('saveTrimmed');    //boolean
         $saveAlignedIntermediates = $data->value('saveAlignedIntermediates');    //boolean
+        $resume = $data->value('resume');    //boolean
         $genus = $data->value('genus');     //boolean
         $genus_name = $data->value('genus_name');    //string
         $resfinder_db = $data->value('resfinder_db');     //boolean
@@ -235,7 +242,7 @@ class ExecparamsController extends Controller
         $eggnog = $data->value('eggnog');    //boolean
         $kofam_profile = $data->value('kofam_profile');    //boolean
         $kofam_kolist = $data->value('kofam_kolist');     //boolean
-        return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
+        return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
     }
 
     public function ajax(Request $request)

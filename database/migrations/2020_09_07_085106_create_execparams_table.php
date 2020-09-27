@@ -24,6 +24,7 @@ class CreateExecparamsTable extends Migration
             $table->boolean('saturation');
             $table->boolean('saveTrimmed');
             $table->boolean('acquired');
+            $table->boolean('resume');
             $table->boolean('saveAlignedIntermediates');
             $table->boolean('genus');
             $table->string('genus_name', 200)->nullable();

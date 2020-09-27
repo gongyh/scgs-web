@@ -20,8 +20,6 @@ window.onload = function () {
 
 
 $(function () {
-  var time = $(".run_time").text();
-  var run_period = parseInt(time) * 1000;
   var run_sample_user = $('.user-name').text();
   var check_progress = false;
   var read_progress;
@@ -34,19 +32,22 @@ $(function () {
     $(this).text(start_time);
   })
 
+  $('.finish_time').each(function () {
+    var finish_time = $(this).text();
+    var finish_time = parseInt(finish_time) * 1000;
+    var finish_time = Sec2Time(finish_time);
+    $(this).text(finish_time);
+  })
 
-  /**
-   * 任务运行时长动态时间显示
-   */
-  setInterval(function () {
-    var hours = Math.floor(run_period / 3600000);
-    var minutes = Math.floor((run_period % 3600000) / 60000);
-    var seconds = Math.floor((run_period - hours * 3600 * 1000 - minutes * 60 * 1000) / 1000);
-    var period = hours + ' Hours ' + minutes + ' Minutes ' + seconds + ' Seconds ';
-    $(".run_period").text(period);
-    run_period += 1000;
-  }, 1000)
-
+  $('.Run_time').each(function () {
+    var run_time = $(this).text();
+    var run_time = parseInt(run_time) * 1000;
+    var hours = Math.floor(run_time / 3600000);
+    var minutes = Math.floor((run_time % 3600000) / 60000);
+    var seconds = Math.floor((run_time - hours * 3600 * 1000 - minutes * 60 * 1000) / 1000);
+    var run_time = hours + ' Hours ' + minutes + ' Minutes ' + seconds + ' Seconds ';
+    $(this).text(run_time);
+  })
 
   /**
    * 任务开始时间秒转换年,月,日

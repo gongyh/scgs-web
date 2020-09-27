@@ -12,17 +12,38 @@
         <div class="rem15 font-weight-bold font-italic text-success border-bottom pb-2">Job List</div>
         @foreach ($user_jobs as $user_job)
         <div class="border-bottom pb-2">
-          @if(DB::table('jobs')->where('sample_id',$user_job->sample_id)->value('status') == 1)
-          <div class="rem15 font-italic">Sample Label<div class="badge"><span class="badge badge-primary"><span>Running</span><span class="dot">...</span></span></div>
+          @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 1)
+          <div class="rem15 font-italic">Sample Label<div class="badge">
+              <span class="badge badge-primary">
+                <span>Running</span>
+                <span class="dot">...</span>
+              </span>
+            </div>
           </div>
-          <a class="rem1 text-primary" href="/execute/start?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('sampleLabel')}}</a>
-          @elseif(DB::table('jobs')->where('sample_id',$user_job->sample_id)->value('status') == 2)
-          <div class="rem15 font-italic">Sample Label<div class="badge"><span class="badge badge-danger">failed</span></div>
+          <a class="rem1 text-primary" href="/execute/start?sampleID={{$user_job->sample_id}}">
+            {{$samples->where('id',$user_job->sample_id)->value('sampleLabel')}}
+          </a>
+          @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 2)
+          <div class="rem15 font-italic">Sample Label<div class="badge">
+              <span class="badge badge-danger">failed</span>
+            </div>
           </div>
-          <a class="rem1 text-danger" href="/execute/start?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('sampleLabel')}}</a>
+          <a class="rem1 text-danger" href="/execute/start?sampleID={{$user_job->sample_id}}">
+            {{$samples->where('id',$user_job->sample_id)->value('sampleLabel')}}
+          </a>
+          @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 3)
+          <div class="rem15 font-italic">Sample Label<div class="badge">
+              <span class="badge badge-success">success</span>
+            </div>
+          </div>
+          <a class="rem1 text-success" href="/execute/start?sampleID={{$user_job->sample_id}}">
+            {{$samples->where('id',$user_job->sample_id)->value('sampleLabel')}}
+          </a>
           @endif
+
           &nbsp;
           <img src="{{asset('image/finger_to_left.jpg')}}" class="finger_to_left"> point to see current progress status
+
           <div class="rem15 font-italic">Start</div>
           @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 1)
           <div class="rem1 text-primary started_time">
@@ -32,11 +53,29 @@
           <div class="rem1 text-danger started_time">
             <div class="start_time">{{$user_job->started}}</div>
           </div>
-          @endif
-          <div class=" rem15 font-italic">Time Period</div>
-          <div class="rem1 text-primary run_period">
-            <div class="run_time invisible">{{$now - $user_job->started}}</div>
+          @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 3)
+          <div class="rem1 text-success started_time">
+            <div class="start_time">{{$user_job->started}}</div>
           </div>
+          @endif
+
+          <div class="rem15 font-italic">finish</div>
+          @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 1)
+          <div class="rem1 text-primary"> - - : - - </div>
+          @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 2)
+          <div class="rem1 text-danger finish_time">{{$user_job->finished}}</div>
+          @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 3)
+          <div class="rem1 text-success finish_time">{{$user_job->finished}}</div>
+          @endif
+
+          <div class=" rem15 font-italic">Time Period</div>
+          @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 1)
+          <div class="rem1 text-primary Run_time">{{$now - $user_job->started}}</div>
+          @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 2)
+          <div class="rem1 text-danger Run_time">{{$user_job->finished - $user_job->started}}</div>
+          @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 3)
+          <div class="rem1 text-success Run_time">{{$user_job->finished - $user_job->started}}</div>
+          @endif
         </div>
         @endforeach
         <!-- <div class="rem15 run_params">Pipeline params</div>

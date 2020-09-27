@@ -12,12 +12,12 @@
       <!-- <div class="middle-info">
 
       </div> -->
-      <div class="bg-white rounded shadow-sm p-3 rem1">
+      <div class="bg-white rounded shadow-sm p-3 rem1 overflow-auto">
         <div class="d-flex">
           <div class="rem15">execute params chosen</div>
           <div class="p-2 ml-3"><span class="badge badge-info rem1">{{$samples->where('id',$sample_id)->value('sampleLabel')}}</span></div>
         </div>
-        <div class="d-flex flex-wrap">
+        <div class="d-flex">
           <div class="custom-control custom-checkbox mt-2">
             <input type="checkbox" class="custom-control-input" id="ass" name="ass" value="ass" {{$ass?'checked':''}} disabled>
             <label class="custom-control-label" for="ass">ass</label>
@@ -42,13 +42,24 @@
             <input type="checkbox" class="custom-control-input" id="acquired" name="acquired" value="acquired" {{$acquired?'checked':''}} disabled>
             <label class="custom-control-label" for="acquired ml-3">acquired</label>
           </div>
+        </div>
+        <div class="d-flex flex-wrap">
           <div class="custom-control custom-checkbox mt-2">
             <input type="checkbox" class="custom-control-input" id="saveTrimmed" name="saveTrimmed" value="saveTrimmed" {{$saveTrimmed?'checked':''}} disabled>
-            <label class="custom-control-label" for="saveTrimmed"><span>saveTrimmed</span><span class="text-danger">(Save the trimmed Fastq files in the the Results directory.)</span></label>
+            <label class="custom-control-label" for="saveTrimmed">saveTrimmed</label>
           </div>
-          <div class="custom-control custom-checkbox mt-2">
+          <div class="custom-control custom-checkbox mt-2 ml-3">
             <input type="checkbox" class="custom-control-input" id="saveAlignedIntermediates" name="saveAlignedIntermediates" value="saveAlignedIntermediates" {{$saveAlignedIntermediates?'checked':''}} disabled>
-            <label class="custom-control-label" for="saveAlignedIntermediates"><span>saveAlignedIntermediates</span><span class="text-danger">(Save the intermediate BAM files from the Alignment step - not done by default)</span></label>
+            <label class="custom-control-label" for="saveAlignedIntermediates">saveAlignedIntermediates</label>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap">
+          <div class="custom-control custom-checkbox mt-2">
+            <input type="checkbox" class="custom-control-input" id="resume" name="resume" value="resume" {{$resume?'checked':''}} disabled>
+            <label class="custom-control-label" for="resume">
+              <span>resume</span>
+              <span class="text-danger">(pipeline will restart where terminated last time)</span>
+            </label>
           </div>
         </div>
         <div>
@@ -65,42 +76,42 @@
               <input type="checkbox" class="custom-control-input" id="resfinder_db" name="resfinder_db" value="resfinder_db" {{$resfinder_db?'checked':''}} disabled>
               <label class="custom-control-label" for="resfinder_db">resfinder_db</label>
             </div>
-            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 resfinder_db_path {{$resfinder_db?'no-display':''}}">{{$pipelineParams->resfinder_db_path}}</div>
+            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 resfinder_db_path overflow-auto {{$resfinder_db?'no-display':''}}">{{$pipelineParams->resfinder_db_path}}</div>
           </div>
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
               <input type="checkbox" class="custom-control-input" id="nt_db" name="nt_db" value="nt_db" {{$nt_db?'checked':''}} disabled>
               <label class="custom-control-label" for="nt_db">nt_db</label>
             </div>
-            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 nt_db_path {{$nt_db? 'no-display':''}}">{{$pipelineParams->nt_db_path}}</div>
+            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 nt_db_path overflow-auto {{$nt_db? 'no-display':''}}">{{$pipelineParams->nt_db_path}}</div>
           </div>
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
               <input type="checkbox" class="custom-control-input" id="kraken_db" name="kraken_db" value="kraken_db" {{$kraken_db?'checked':''}} disabled>
               <label class="custom-control-label" for="kraken_db">kraken_db</label>
             </div>
-            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 kraken_db_path {{$kraken_db ?'no-display':''}}">{{$pipelineParams->kraken_db_path}}</div>
+            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 kraken_db_path overflow-auto {{$kraken_db ?'no-display':''}}">{{$pipelineParams->kraken_db_path}}</div>
           </div>
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
               <input type="checkbox" class="custom-control-input" id="eggnog_db" name="eggnog_db" value="eggnog_db" {{$eggnog?'checked':''}} disabled>
               <label class="custom-control-label" for="eggnog_db">eggnog_db</label>
             </div>
-            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 eggnog_db_path {{$eggnog ?'no-display':''}}">{{$pipelineParams->eggnog_db_path}}</div>
+            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 eggnog_db_path overflow-auto {{$eggnog ?'no-display':''}}">{{$pipelineParams->eggnog_db_path}}</div>
           </div>
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
               <input type="checkbox" class="custom-control-input" id="kofam_profile" name="kofam_profile" value="kofam_profile" {{$kofam_profile?'checked':''}} disabled>
               <label class="custom-control-label" for="kofam_profile">kofam_profile</label>
             </div>
-            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 kofam_profile_path {{$kofam_profile?'no-display':''}}">{{$pipelineParams->kofam_profile_path}}</div>
+            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 kofam_profile_path overflow-auto {{$kofam_profile?'no-display':''}}">{{$pipelineParams->kofam_profile_path}}</div>
           </div>
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
               <input type="checkbox" class="custom-control-input" id="kofam_kolist" name="kofam_kolist" value="kofam_kolist" {{$kofam_kolist?'checked':''}} disabled>
               <label class="custom-control-label" for="kofam_kolist">kofam_kolist</label>
             </div>
-            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 kofam_kolist_path {{$kofam_kolist?'no-display':''}}">{{$pipelineParams->kofam_kolist_path}}</div>
+            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 kofam_kolist_path overflow-auto {{$kofam_kolist?'no-display':''}}">{{$pipelineParams->kofam_kolist_path}}</div>
           </div>
         </div>
         <div class="mt-5 d-flex justify-content-around">

@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 
 use App\Jobs;
-use Illuminate\Support\Facades\Auth;
+use App\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -59,7 +59,8 @@ class RunPipeline implements ShouldQueue
          * 执行命令
          */
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
-        $sample_user_name = Auth::user()->name;
+        $sample_user_id = $current_job->user_id;
+        $sample_user_name = User::where('id', $sample_user_id)->value('name');
         $command = $current_job->command;
         $mkdir = 'if [ ! -d "' . $base_path . $sample_user_name . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $sample_user_name . '/' . $job_uuid . '; fi';
         $cd_and_command = 'cd ' . $base_path . $sample_user_name . '/' . $job_uuid . ' && ' . $command;

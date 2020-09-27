@@ -14,7 +14,7 @@
           <h2>How to cite this program?</h2>
           <p class="card-text">We have uploaded this project to the github.</p>
           <p class="card-text">Github Address : <a href="https://github.com/gongyh/scgs-web">https://github.com/gongyh/scgs-web</a></p>
-          <p class="card-text card-last-child">Contact : 13854291622@163.com</p>
+          <p class="card-text card-last-child">Contact : zhousq@qibebt.ac.cn</p>
         </div>
         <div class="border-bottom card-pattern">
           <h2>How to contact us?</h2>
