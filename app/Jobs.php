@@ -8,5 +8,5 @@ class Jobs extends Model
 {
     //
     protected $table = 'jobs';
-    protected $fillable = ['id', 'uuid', 'sample_id', 'user_id', 'status', 'command'];
+    protected $fillable = ['id', 'uuid', 'sample_id', 'user_id', 'status', 'command', 'started', 'finished'];
 }

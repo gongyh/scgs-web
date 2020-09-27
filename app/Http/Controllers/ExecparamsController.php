@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 use App\Execparams;
 use App\pipelineParams;
 use App\Samples;
@@ -240,7 +241,9 @@ class ExecparamsController extends Controller
     public function ajax(Request $request)
     {
         $run_sample_user = $request->input('run_sample_user');
-        $nextflow_log_path = $run_sample_user . '/.nextflow.log';
+        $run_user_id = User::where('name', $run_sample_user)->value('id');
+        $uuid = Jobs::where([['user_id', '=', $run_user_id], ['status', '=', 1]])->value('uuid');
+        $nextflow_log_path = $run_sample_user . '/' . $uuid . '/.nextflow.log';
         if (Storage::disk('local')->exists($nextflow_log_path)) {
             $data = Storage::get($nextflow_log_path);
             return response()->json(['code' => '200', 'data' => $data]);

@@ -66,4 +66,14 @@ class RunPipeline implements ShouldQueue
         system($mkdir);
         system($cd_and_command);
     }
+
+    public function failed()
+    {
+        $finished = time();
+        $current_job_id = Jobs::where([['sample_id', '=', $this->run_sample_id], ['status', '=', 1]])->value('id');
+        $current_job = Jobs::find($current_job_id);
+        $current_job->status = 2; //任务失败
+        $current_job->finished = $finished;  //结束时间
+        $current_job->save();
+    }
 }

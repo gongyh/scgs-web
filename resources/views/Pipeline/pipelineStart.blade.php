@@ -15,7 +15,7 @@
       <div class="bg-white rounded shadow-sm p-3 rem1">
         <div class="d-flex">
           <div class="rem15">execute params chosen</div>
-          <div class="p-2 ml-3"><span class="badge badge-warning rem1">{{$samples->where('id',$sample_id)->value('sampleLabel')}}<span class="ml-1 badge badge-success badge-pill">Running</span></span></div>
+          <div class="p-2 ml-3"><span class="badge badge-info rem1">{{$samples->where('id',$sample_id)->value('sampleLabel')}}</span></div>
         </div>
         <div class="d-flex flex-wrap">
           <div class="custom-control custom-checkbox mt-2">
@@ -120,7 +120,7 @@
           <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
         <div class="mt-2 rem15 text-primary border-bottom">Pipeline Status</div>
-        <div class="command_out d-none text-wrap overflow-auto text-break">
+        <div class="command_out d-none text-wrap overflow-auto text-break rounded">
         </div>
       </div>
     </div>
