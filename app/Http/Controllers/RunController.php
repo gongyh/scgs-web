@@ -18,7 +18,7 @@ class RunController extends Controller
         $execparams = new Execparams();
         $user_id = Auth::user()->id;
         $now = time();
-        $user_jobs = Jobs::where([['user_id', $user_id], ['status', 1]])->get();
+        $user_jobs = Jobs::where('user_id', $user_id)->get();
         return view('Workspace.runningSample', ['user_jobs' => $user_jobs, 'samples' => $samples, 'jobs' => $jobs, 'now' => $now, 'execparams' => $execparams]);
     }
 }

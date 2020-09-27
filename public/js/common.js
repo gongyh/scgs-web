@@ -25,13 +25,15 @@ $(function () {
   var run_sample_user = $('.user-name').text();
   var check_progress = false;
   var read_progress;
-  var job_start_time = $(".start_time").text();
-  var job_start_time = parseInt(job_start_time) * 1000;
-  var start_time = Sec2Time(job_start_time);
-
 
   text_folded('.proj_desc', 200);
-  $(".started_time").text(start_time);
+  $('.start_time').each(function () {
+    var start_time = $(this).text();
+    var start_time = parseInt(start_time) * 1000;
+    var start_time = Sec2Time(start_time);
+    $(this).text(start_time);
+  })
+
 
   /**
    * 任务运行时长动态时间显示

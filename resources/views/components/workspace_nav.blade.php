@@ -18,9 +18,23 @@
      @endif
      <a class="nav-item nav-link rem1 workspace-nav" id="nav-profile-tab" href="/workspace/myLab" aria-selected="false">My Labs</a>
      <a class="nav-item nav-link rem1 workspace-nav" id="nav-contact-tab" href="/workspace/myProject" aria-selected="false">My Projects</a>
-     @if(DB::table('jobs')->where('user_id',Auth::user()->id)->count() > 0)
-     <a class="nav-item nav-link rem1 workspace-nav" id="nav-contact-tab" href="/workspace/runningSample" aria-selected="false"><span>Running Sample</span><span class="dot">...</span></a>
+     @if(DB::table('jobs')->where('user_id',Auth::user()->id)->count() > 0 && DB::table('jobs')->where('user_id',Auth::user()->id)->value('status') == 1)
+     <a class="nav-item nav-link rem1 workspace-nav" id="nav-contact-tab" href="/workspace/runningSample" aria-selected="false">
+       Pipeline Status
+       <span class="badge badge-pill badge-warning">
+         <span>running</span>
+         <span class="dot">...</span>
+       </span>
+     </a>
+     @elseif(DB::table('jobs')->where('user_id',Auth::user()->id)->count() > 0 && DB::table('jobs')->where('user_id',Auth::user()->id)->value('status') == 2)
+     <a class="nav-item nav-link rem1 workspace-nav" id="nav-contact-tab" href="/workspace/runningSample" aria-selected="false">
+       Pipeline Status
+       <span class="badge badge-pill badge-danger">
+         <span>failed</span>
+       </span>
+     </a>
      @endif
+
    </nav>
  </div>
  @else

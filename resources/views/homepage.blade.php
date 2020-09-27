@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-6 middle-column">
       <div class="middle-info">
-        Welcome to SCGS-Web!
+        Welcome to SCGS-Web
       </div>
       <div class="result">
         <div class="result-info">

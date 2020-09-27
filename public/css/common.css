@@ -80,9 +80,8 @@ a:link {
   margin-top: -20px;
   margin-bottom: 20px;
   text-align: center;
-  font-family: "Courier New", Courier, monospace;
   font-size: 35px;
-  color: #369;
+  color: rgb(118, 73, 223);
 }
 
 .others {
@@ -181,6 +180,12 @@ a:link {
   margin: 0 auto;
 }
 
+.finger_to_left {
+  display: inline-block;
+  width: 1.0rem;
+  height: 1.0rem;
+}
+
 .user-name {
   text-align: center;
   font-size: 1.5rem;
@@ -236,4 +241,8 @@ a:link {
 
 .command_out {
   height: 40rem;
+}
+
+.command_out {
+  background-color: rgba(245, 216, 173, 0.932);
 }
