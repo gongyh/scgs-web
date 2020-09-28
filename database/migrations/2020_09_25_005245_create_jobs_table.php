@@ -20,7 +20,7 @@ class CreateJobsTable extends Migration
             $table->unsignedBigInteger('sample_id');
             $table->foreign('sample_id')->references('id')->on('samples')->onDelete('cascade');
             $table->integer('status');
-            $table->string('command', 500);
+            $table->string('command', 5000);
             $table->unsignedInteger('started')->nullable();
             $table->unsignedInteger('finished')->nullable();
             $table->unsignedBigInteger('user_id');

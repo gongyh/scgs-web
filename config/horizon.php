@@ -173,6 +173,7 @@ return [
                 'processes' => 10,
                 'tries' => 1,
                 'nice' => 0,
+                'timeout' => 86400,
             ],
         ],
 
@@ -184,6 +185,7 @@ return [
                 'processes' => 3,
                 'tries' => 1,
                 'nice' => 0,
+                'timeout' => 86400,
             ],
         ],
     ],
