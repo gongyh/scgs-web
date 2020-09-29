@@ -192,6 +192,7 @@ class ExecparamsController extends Controller
         }
         $pipelineParams = pipelineParams::find(1);
         $sample_id = $request->input('sampleID');
+        $can_exec = Jobs::where('sample_id', $sample_id)->count() == 0 || Jobs::where('sample_id', $sample_id)->orderBy('id', 'desc')->value('status') == 2 || Jobs::where('sample_id', $sample_id)->orderBy('id', 'desc')->value('status') == 3;
         if (Execparams::where('samples_id', $sample_id)->get()->count() != 0) {
             $data = Execparams::where('samples_id', $sample_id);
             $ass = $data->value('ass');    //boolean
@@ -211,11 +212,11 @@ class ExecparamsController extends Controller
             $eggnog = $data->value('eggnog');    //boolean
             $kofam_profile = $data->value('kofam_profile');    //boolean
             $kofam_kolist = $data->value('kofam_kolist');     //boolean
-            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
+            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams', 'can_exec'));
         } else {
             $ass = $cnv = $snv = $bulk = $saturation = $acquired = $saveTrimmed = $saveAlignedIntermediates = $resume = $genus = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = false;
             $genus_name = null;
-            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
+            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams', 'can_exec'));
         }
     }
 
