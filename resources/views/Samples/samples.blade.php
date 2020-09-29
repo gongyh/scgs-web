@@ -35,6 +35,7 @@
                     <th scope="col" class="table-header">Application</th>
                     <th scope="col" class="table-header">Species</th>
                     <th scope="col" class="table-header">Pairends</th>
+                    <th scope="col" class="table-header">Status</th>
                     <th></th>
                     @if($isAdmin || $isPI)
                     <th scope="col" class="add"><a href="/samples/create?projectID={{$projectID}}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -51,11 +52,46 @@
                   <tr>
                     <th scope="row" class="table-item">{{$selectSample->id}}</th>
                     <td class="table-item">
+                      @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() == 0 || DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 0)
+                      <span>{{$selectSample->sampleLabel}}</span>
+                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 1)
+                      <a href="/execute/start?sampleID={{$selectSample->id}}">{{$selectSample->sampleLabel}}</a>
+                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 2)
+                      <a href="/failedRunning?uuid={{DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('uuid')}}">{{$selectSample->sampleLabel}}</a>
+                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 3)
                       <a href="#">{{$selectSample->sampleLabel}}</a>
+                      @endif
                     </td>
                     <td class="table-item">{{$sample->getAppName($selectSample->applications_id)}}</td>
                     <td class="table-item">{{$sample->getSpeciesName($selectSample->species_id)}}</td>
                     <td class="table-item">{{$selectSample->pairends == 1 ? 'Yes':'No'}}</td>
+                    @if(Auth::check())
+                    <td class="table-item">
+                      @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 0)
+                      <span class="badge badge-warning">
+                        <span>Waiting</span>
+                        <span class="dot">...</span>
+                      </span>
+                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 1)
+                      <span class="badge badge-info">
+                        <span>Running</span>
+                        <span class="dot">...</span>
+                      </span>
+                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 2)
+                      <span class="badge badge-danger">
+                        <span>failed</span>
+                      </span>
+
+                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 3)
+                      <span class="badge badge-success">
+                        <span>success</span>
+                      </span>
+
+                      @else
+                      <span class="badge badge-dark">haven't ran</span>
+                      @endif
+                    </td>
+                    @endif
                     @if($isAdmin || $isPI)
                     <td class="delete">
                       <a href="/samples/delete?projectID={{$projectID}}&sampleID={{$selectSample->id}}" onclick="if(confirm('Are you sure to delete?')==false) return false;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -70,11 +106,13 @@
                         </svg></a>
                     </td>
                     <td class="exec" title="execute the sample">
+                      @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() == 0 || DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 2 || DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 3)
                       <a href="/execute?sampleID={{$selectSample->id}}">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
                         </svg>
                       </a>
+                      @endif
                     </td>
                     @endif
                   </tr>

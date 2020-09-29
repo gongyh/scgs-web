@@ -122,7 +122,7 @@
               <div class="mt-2 w-50 border border-info rounded shadow p-2 kofam_kolist_path overflow-auto {{$kofam_kolist?'no-display':''}}">{{isset($pipelineParams->kofam_kolist_path)?$pipelineParams->kofam_kolist_path:'kofam kolist path has not set!please call administor'}}</div>
             </div>
           </div>
-          <button class="mt-5 ml-3 w-50 btn btn-success d-inline-block" onclick="if(confirm('when pipeline start,params can\' be modified until pipeline finished,Are you sure to execute?')==false) return false;">execute</button>
+          <button type="submit" class="mt-5 ml-3 w-50 btn btn-success d-inline-block" onclick="if(confirm('when pipeline start,params can\' be modified until pipeline finished,Are you sure to execute?')==false) return false;" {{$can_exec?'':'disabled'}}>execute</button>
         </form>
       </div>
     </div>

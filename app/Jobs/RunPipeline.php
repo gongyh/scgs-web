@@ -64,8 +64,9 @@ class RunPipeline implements ShouldQueue
         $command = $current_job->command;
         $mkdir = 'if [ ! -d "' . $base_path . $sample_user_name . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $sample_user_name . '/' . $job_uuid . '; fi';
         $cd_and_command = 'cd ' . $base_path . $sample_user_name . '/' . $job_uuid . ' && ' . $command;
-        system($mkdir);
-        system($cd_and_command);
+        // system($mkdir);
+        // system($cd_and_command);
+        echo ($mkdir . $cd_and_command);
     }
 
     public function failed()

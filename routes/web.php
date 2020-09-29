@@ -84,6 +84,8 @@ Route::get('/aboutus', function () {
     return view('aboutus');
 });
 
+Route::get('/failedRunning', 'ResultController@index');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
