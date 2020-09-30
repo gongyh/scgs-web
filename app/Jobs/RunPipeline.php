@@ -38,9 +38,13 @@ class RunPipeline implements ShouldQueue
         /**
          * 获取uuid
          */
-        $job_rawbody = $this->job->getRawBody();
-        $job_rawbody = json_decode($job_rawbody, true);
-        $job_uuid = $job_rawbody['uuid'];
+        if (Jobs::where('sample_id', $this->run_sample_id)->count() == 0 || Jobs::where('sample_id', $this->run_sample_id)->value('uuid') == 'default') {
+            $job_rawbody = $this->job->getRawBody();
+            $job_rawbody = json_decode($job_rawbody, true);
+            $job_uuid = $job_rawbody['uuid'];
+        } else {
+            $job_uuid = Jobs::where('sample_id', $this->run_sample_id)->value('uuid');
+        }
         /**
          * 获取当前时间--job开始时间
          */
@@ -64,15 +68,14 @@ class RunPipeline implements ShouldQueue
         $command = $current_job->command;
         $mkdir = 'if [ ! -d "' . $base_path . $sample_user_name . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $sample_user_name . '/' . $job_uuid . '; fi';
         $cd_and_command = 'cd ' . $base_path . $sample_user_name . '/' . $job_uuid . ' && ' . $command;
-        // system($mkdir);
-        // system($cd_and_command);
-        echo ($mkdir . $cd_and_command);
+        system($mkdir);
+        system($cd_and_command);
     }
 
     public function failed()
     {
         $finished = time();
-        $current_job_id = Jobs::where([['sample_id', '=', $this->run_sample_id], ['status', '=', 1]])->value('id');
+        $current_job_id = Jobs::where('sample_id', '=', $this->run_sample_id)->value('id');
         $current_job = Jobs::find($current_job_id);
         $current_job->status = 2; //任务失败
         $current_job->finished = $finished;  //结束时间

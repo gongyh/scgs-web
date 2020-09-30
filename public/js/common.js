@@ -18,7 +18,6 @@ window.onload = function () {
   }
 }
 
-
 $(function () {
   var run_sample_user = $('.user-name').text();
   var check_progress = false;
@@ -234,4 +233,5 @@ $(function () {
       $(this).parent().hide().siblings().show();
     }
   }
+
 })

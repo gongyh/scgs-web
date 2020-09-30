@@ -52,14 +52,18 @@
                   <tr>
                     <th scope="row" class="table-item">{{$selectSample->id}}</th>
                     <td class="table-item">
-                      @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() == 0 || DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 0)
+                      @if(Auth::check())
+                      @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() == 0 || DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 0)
                       <span>{{$selectSample->sampleLabel}}</span>
-                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 1)
+                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 1)
                       <a href="/execute/start?sampleID={{$selectSample->id}}">{{$selectSample->sampleLabel}}</a>
-                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 2)
+                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 2)
                       <a href="/failedRunning?uuid={{DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('uuid')}}">{{$selectSample->sampleLabel}}</a>
-                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 3)
-                      <a href="#">{{$selectSample->sampleLabel}}</a>
+                      @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 3)
+                      <a href="/successRunning?sampleID={{$selectSample->id}}">{{$selectSample->sampleLabel}}</a>
+                      @endif
+                      @else
+                      <span>{{$selectSample->sampleLabel}}</span>
                       @endif
                     </td>
                     <td class="table-item">{{$sample->getAppName($selectSample->applications_id)}}</td>
@@ -130,7 +134,6 @@
     </div>
     <!-- right-column -->
     <div class="col-md-3 right-column">
-
       <div class="other-info">
 
       </div>

@@ -80,12 +80,12 @@ Route::group(['prefix' => 'execute'], function () {
     Route::post('/start', 'ExecparamsController@ajax');
 });
 
-Route::get('/aboutus', function () {
-    return view('aboutus');
-});
-
-Route::get('/failedRunning', 'ResultController@index');
+Route::get('/failedRunning', 'ResultController@failed_running');
+Route::get('/successRunning', 'ResultController@success_running');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/aboutus', function () {
+    return view('aboutus');
+});
