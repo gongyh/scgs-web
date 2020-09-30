@@ -36,7 +36,7 @@
               <span class="badge badge-success">success</span>
             </div>
           </div>
-          <a class="rem1 text-success" href="/execute/start?sampleID={{$user_job->sample_id}}">
+          <a class="rem1 text-success" href="/successRunning?sampleID={{$user_job->sample_id}}">
             {{$samples->where('id',$user_job->sample_id)->value('sampleLabel')}}
           </a>
           @endif

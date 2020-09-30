@@ -176,17 +176,27 @@ class ExecparamsController extends Controller
              */
             $user_id = Auth::user()->id;
             $sample_id = $request->input('sampleID');
-            Jobs::create([
-                'user_id' => $user_id,
-                'sample_id' => $sample_id,
-                'uuid' => 'default',
-                'started' => '000',
-                'finished' => '000',
-                'command' => $cmd,
-                'output_work' => 'default',
-                'output_results' => 'default',
-                'status' => 0   // 0:未开始
-            ]);
+            if (Jobs::where('sample_id', $sample_id)->count() == 0) {
+                Jobs::create([
+                    'user_id' => $user_id,
+                    'sample_id' => $sample_id,
+                    'uuid' => 'default',
+                    'started' => '000',
+                    'finished' => '000',
+                    'command' => $cmd,
+                    'status' => 0   // 0:未开始
+                ]);
+            } else {
+                $job_id = Jobs::where('sample_id', $sample_id)->value('id');
+                $job = Jobs::find($job_id);
+                $job->user_id = $user_id;
+                $job->sample_id = $sample_id;
+                $job->started = '000';
+                $job->finished = '000';
+                $job->command = $cmd;
+                $job->status = 0;
+                $job->save();
+            }
             RunPipeline::dispatch($sample_id);
             return redirect('/execute/start?sampleID=' . $sample_id);
         }
