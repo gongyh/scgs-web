@@ -2,7 +2,7 @@
  @if(Auth::check())
  <div class="workspace-menu shadow p-3 bg-white rounded overflow-auto">
    <div class="border-bottom">
-     <div class="user-box"><img src="{{asset('image/user.png')}}" class="user-image" alt="Responsive image"></div>
+     <div class="user-box"><img src="{{asset('/images/user.png')}}" class="user-image" alt="Responsive image"></div>
      @if(Auth::user()->email == 'admin@123.com')
      <div class="user-name">Administor</div>
      @else

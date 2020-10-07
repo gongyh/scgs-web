@@ -42,7 +42,7 @@
           @endif
 
           &nbsp;
-          <img src="{{asset('image/finger_to_left.jpg')}}" class="finger_to_left"> point to see current progress status
+          <img src="{{asset('images/finger_to_left.jpg')}}" class="finger_to_left"> point to see current progress status
 
           <div class="rem15 font-italic">Start</div>
           @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 1)

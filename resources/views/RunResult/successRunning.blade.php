@@ -31,9 +31,7 @@
     </div>
     <!-- right-column -->
     <div class="col-sm-3">
-      <div class="other-info">
 
-      </div>
 
     </div>
     @endsection

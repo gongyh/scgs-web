@@ -49669,6 +49669,91 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/animate-bg.js":
+/*!************************************!*\
+  !*** ./resources/js/animate-bg.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * @author Alexander Farkas
+ * v. 1.21
+ */
+(function ($) {
+  if (!document.defaultView || !document.defaultView.getComputedStyle) {
+    // IE6-IE8
+    var oldCurCSS = jQuery.curCSS;
+
+    jQuery.curCSS = function (elem, name, force) {
+      if (name === 'background-position') {
+        name = 'backgroundPosition';
+      }
+
+      if (name !== 'backgroundPosition' || !elem.currentStyle || elem.currentStyle[name]) {
+        return oldCurCSS.apply(this, arguments);
+      }
+
+      var style = elem.style;
+
+      if (!force && style && style[name]) {
+        return style[name];
+      }
+
+      return oldCurCSS(elem, 'backgroundPositionX', force) + ' ' + oldCurCSS(elem, 'backgroundPositionY', force);
+    };
+  }
+
+  var oldAnim = $.fn.animate;
+
+  $.fn.animate = function (prop) {
+    if ('background-position' in prop) {
+      prop.backgroundPosition = prop['background-position'];
+      delete prop['background-position'];
+    }
+
+    if ('backgroundPosition' in prop) {
+      prop.backgroundPosition = '(' + prop.backgroundPosition;
+    }
+
+    return oldAnim.apply(this, arguments);
+  };
+
+  function toArray(strg) {
+    strg = strg.replace(/left|top/g, '0px');
+    strg = strg.replace(/right|bottom/g, '100%');
+    strg = strg.replace(/([0-9\.]+)(\s|\)|$)/g, "$1px$2");
+    var res = strg.match(/(-?[0-9\.]+)(px|\%|em|pt)\s(-?[0-9\.]+)(px|\%|em|pt)/);
+    return [parseFloat(res[1], 10), res[2], parseFloat(res[3], 10), res[4]];
+  }
+
+  $.fx.step.backgroundPosition = function (fx) {
+    if (!fx.bgPosReady) {
+      var start = $.curCSS(fx.elem, 'backgroundPosition');
+
+      if (!start) {
+        //FF2 no inline-style fallback
+        start = '0px 0px';
+      }
+
+      start = toArray(start);
+      fx.start = [start[0], start[2]];
+      var end = toArray(fx.options.curAnim.backgroundPosition);
+      fx.end = [end[0], end[2]];
+      fx.unit = [end[1], end[3]];
+      fx.bgPosReady = true;
+    } //return;
+
+
+    var nowPosX = [];
+    nowPosX[0] = (fx.end[0] - fx.start[0]) * fx.pos + fx.start[0] + fx.unit[0];
+    nowPosX[1] = (fx.end[1] - fx.start[1]) * fx.pos + fx.start[1] + fx.unit[1];
+    fx.elem.style.backgroundPosition = nowPosX[0] + ' ' + nowPosX[1];
+  };
+})(jQuery);
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -49682,6 +49767,10 @@ module.exports = function(module) {
  * building robust, powerful web applications using Vue and Laravel.
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+__webpack_require__(/*! ./animate-bg */ "./resources/js/animate-bg.js");
+
+__webpack_require__(/*! ./common */ "./resources/js/common.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /**
@@ -49749,6 +49838,243 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/common.js":
+/*!********************************!*\
+  !*** ./resources/js/common.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+window.onload = function () {
+  /**
+   * workspace 链接激活状态
+   */
+  var index = 0;
+  var current_url = window.location.href;
+  var url = current_url.split('/').pop();
+  var url_noparams = url.indexOf('?') != -1 ? url.slice(0, url.indexOf('?')) : url;
+  var workspace_nav = document.getElementsByClassName('workspace-nav');
+
+  if (url) {
+    for (var i = 0; i < workspace_nav.length; i++) {
+      if (workspace_nav[i].getAttribute('href').split('/').pop().indexOf(url_noparams) != -1) {
+        index = i;
+        workspace_nav[index].className = 'nav-item nav-link workspace-nav active';
+        break;
+      }
+    }
+  }
+};
+
+$(function () {
+  var run_sample_user = $('.user-name').text();
+  var check_progress = false;
+  var read_progress;
+  text_folded('.proj_desc', 200);
+  $('.start_time').each(function () {
+    var start_time = $(this).text();
+    var start_time = parseInt(start_time) * 1000;
+    var start_time = Sec2Time(start_time);
+    $(this).text(start_time);
+  });
+  $('.finish_time').each(function () {
+    var finish_time = $(this).text();
+    var finish_time = parseInt(finish_time) * 1000;
+    var finish_time = Sec2Time(finish_time);
+    $(this).text(finish_time);
+  });
+  $('.Run_time').each(function () {
+    var run_time = $(this).text();
+    var run_time = parseInt(run_time) * 1000;
+    var hours = Math.floor(run_time / 3600000);
+    var minutes = Math.floor(run_time % 3600000 / 60000);
+    var seconds = Math.floor((run_time - hours * 3600 * 1000 - minutes * 60 * 1000) / 1000);
+    var run_time = hours + ' Hours ' + minutes + ' Minutes ' + seconds + ' Seconds ';
+    $(this).text(run_time);
+  });
+  /**
+   * 任务开始时间秒转换年,月,日
+   */
+
+  function Sec2Time(time) {
+    var datetime = new Date(time).getTime();
+    var format_time = new Date(datetime) + '';
+    var format_time = format_time.replace('GMT+0800 (中国标准时间)', '');
+    return format_time;
+  }
+  /**
+   * sample根据pairends控制上传file数量
+   */
+
+
+  if ($("input[type='radio']:checked").val() == 'singleEnds') {
+    $(".file_two").hide();
+  } else {
+    $(".file_two").show();
+  }
+
+  $("input[type = 'radio']").change(function () {
+    if ($("input[type='radio']:checked").val() == 'singleEnds') {
+      $(".file_two").hide();
+    } else {
+      $(".file_two").show();
+    }
+  });
+  /**
+   * workspace-nav选中时的阴影效果
+   */
+
+  $('.workspace-nav').hover(function () {
+    $(this).addClass('shadow p-3 rounded');
+  }, function () {
+    $(this).removeClass('shadow p-3 rounded');
+  });
+  $('.nav-menu').hover(function () {
+    $(this).addClass('shadow rounded');
+  }, function () {
+    $(this).removeClass('shadow rounded');
+  });
+  /**
+   * execute params设置
+   */
+
+  var db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
+
+  for (var i = 0; i < db_list.length; i++) {
+    if ($('#' + db_list[i]).is(':checked')) {
+      $('.' + db_list[i] + '_path').show();
+    } else {
+      $('.' + db_list[i] + '_path').hide();
+    }
+  }
+
+  if ($('#genus').is(':checked')) {
+    $('.genus_name').show();
+  } else {
+    $('.genus_name').hide();
+  }
+
+  $('#genus').on('change', function () {
+    if ($('#genus').is(':checked')) {
+      $('.genus_name').show();
+    } else {
+      $('.genus_name').hide();
+    }
+  });
+  $('#resfinder_db').on('change', function () {
+    if ($('#resfinder_db').is(':checked')) {
+      $('.resfinder_db_path').show();
+    } else {
+      $('.resfinder_db_path').hide();
+    }
+  });
+  $('#nt_db').on('change', function () {
+    if ($('#nt_db').is(':checked')) {
+      $('.nt_db_path').show();
+    } else {
+      $('.nt_db_path').hide();
+    }
+  });
+  $('#eggnog_db').on('change', function () {
+    if ($('#eggnog_db').is(':checked')) {
+      $('.eggnog_db_path').show();
+    } else {
+      $('.eggnog_db_path').hide();
+    }
+  });
+  $('#kraken_db').on('change', function () {
+    if ($('#kraken_db').is(':checked')) {
+      $('.kraken_db_path').show();
+    } else {
+      $('.kraken_db_path').hide();
+    }
+  });
+  $('#kofam_profile').on('change', function () {
+    if ($('#kofam_profile').is(':checked')) {
+      $('.kofam_profile_path').show();
+    } else {
+      $('.kofam_profile_path').hide();
+    }
+  });
+  $('#kofam_kolist').on('change', function () {
+    if ($('#kofam_kolist').is(':checked')) {
+      $('.kofam_kolist_path').show();
+    } else {
+      $('.kofam_kolist_path').hide();
+    }
+  });
+  /**
+   * 刷新shell运行任务输出
+   */
+
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
+  function read_nextflowlog() {
+    $.ajax({
+      url: "/execute/start",
+      type: 'POST',
+      data: {
+        'run_sample_user': run_sample_user
+      },
+      dataType: 'json',
+      success: function success(res) {
+        if (res.code == 200) {
+          var insert_message = "<p>" + res.data + "</p> ";
+          $('.command_out').html(insert_message);
+        } else {}
+      }
+    });
+  }
+
+  $(".detail").on('click', function (e) {
+    e.preventDefault();
+    check_progress = !check_progress;
+
+    if (check_progress) {
+      $('.command_out').removeClass('d-none');
+      read_progress = setInterval(function () {
+        read_nextflowlog();
+        var scrollHeight = $(".command_out").prop('scrollHeight');
+        $(".command_out").scrollTop(scrollHeight);
+      }, 5000);
+    } else {
+      $('.command_out').addClass('d-none');
+      clearInterval(read_progress);
+    }
+  });
+  /**
+   * jQuery 文本折叠展开特效
+   * @param clas：存放文本的容器
+   * @param num：要显示的字数
+   */
+
+  function text_folded(clas, num) {
+    var num = num;
+    var a_unfold = $("<a></a>").on('click', showText).addClass('text-primary').text("[spread]");
+    var a_fold = $("<a></a>").on('click', showText).addClass('text-primary').text("[fold]");
+    var div = $("<div></div>").addClass('project_desc_hidden');
+    var str = $(clas).text();
+    $(clas).after(div);
+
+    if (str.length > num) {
+      var text = str.substring(0, num) + "...";
+      $(clas).html(text).append(a_unfold);
+    }
+
+    $('.project_desc_hidden').html(str).append(a_fold);
+
+    function showText() {
+      $(this).parent().hide().siblings().show();
+    }
+  }
+});
 
 /***/ }),
 
@@ -49839,8 +50165,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/scgs-web/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/scgs-web/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\scgs-web\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\scgs-web\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
