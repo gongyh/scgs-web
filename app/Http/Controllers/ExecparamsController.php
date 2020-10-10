@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Execparams;
@@ -151,13 +150,11 @@ class ExecparamsController extends Controller
             $filename1 = $base_path . '' . $filename1;
 
             $sample->pairends ? $filename2 = $sample->filename2 : $filename2 = null;
-            preg_match('/(_trimmed)?(_combined)?(\.R1)?(_1)?(_R1)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$/', $filename1, $matches);
-            $file_postfix = $matches[0];
-            $file_prefix = Str::before($filename1, $file_postfix);
-            $filename = str_replace($file_prefix, '*', $filename1);
-            $replace_num_position = strrpos($filename, '1');
-            $filename = substr_replace($filename, '[1,2]', $replace_num_position, 1);
-            $filename = $base_path . '' . $filename;
+            if (strpos($filename1, '_R1')) {
+                $filename = str_replace('_R1', '_R[1,2]', $filename1);
+            } elseif (strpos($filename1, '_1')) {
+                $filename = str_replace('_1', '_[1,2]', $filename1);
+            }
 
             //保存目录格式 : 用户名 + 物种名(sampleLabel)
             $sample_label = Samples::where('id', $sample_id)->value('sampleLabel');
@@ -168,7 +165,7 @@ class ExecparamsController extends Controller
                 $cmd = '/mnt/scc8t/zhousq/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '-profile docker,base ' . $resume . '--outdir results -w work';
             } else {
                 //singleEnds
-                $cmd = '/mnt/scc8t/zhousq/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
+                $cmd = '/mnt/scc8t/zhousq/nextflow run /mnt/scc8t/zhousq/nf-core-scgs ' . '--reads ' . '"' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $genus . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
             }
 
             /**

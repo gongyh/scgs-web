@@ -7,9 +7,12 @@ use App\Projects;
 use App\Labs;
 use App\Applications;
 use App\Species;
+use App\Imports\SamplesImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+
 
 
 class SamplesController extends Controller
@@ -290,5 +293,22 @@ class SamplesController extends Controller
             }
         }
         return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
+    }
+
+    public function upload(Request $request)
+    {
+        $projectID = $request->input('projectID');
+        if ($request->file('sample_file')->isValid()) {
+            $filename = $projectID . '_samples_temp.xls';
+            $request->file('sample_file')->storeAs('', $filename);
+            Excel::import(new SamplesImport, $filename);
+            Storage::delete($filename);
+            return response()->json(['code' => '200']);
+        }
+    }
+
+    public function download()
+    {
+        return response()->download(storage_path('sample_template.xls'));
     }
 }
