@@ -19,6 +19,17 @@ window.onload = function () {
 }
 
 $(function () {
+    var sample_url = window.location.href;
+    var projectID_pos = sample_url.indexOf('projectID');
+    if(projectID_pos != -1){
+        var projectID = sample_url.substr(projectID_pos);
+    }else{
+        var projectID = '';
+    }
+    sample_url = '/samples/upload?' + projectID;
+    var sample_file = FileInput();
+    sample_file.Init('sample_file',sample_url);
+
   var run_sample_user = $('.user-name').text();
   var check_progress = false;
   var read_progress;
@@ -235,3 +246,37 @@ $(function () {
   }
 
 })
+
+var FileInput = function() {
+    var oFile = new Object();
+
+    //初始化fileinput控件（第一次初始化）
+    oFile.Init = function(ctrlName, uploadUrl) {
+    var control = $('#' + ctrlName);
+
+    //初始化上传控件的样式
+    control.fileinput({
+        uploadUrl: uploadUrl, //上传的地址
+        allowedFileExtensions: ['xls','xlsx'],//接收的文件后缀
+        showUpload: true, //是否显示上传按钮
+        showCaption: false,//是否显示标题
+        browseClass: "btn btn-primary", //按钮样式
+        maxFileCount: 10, //表示允许同时上传的最大文件个数
+        enctype: 'multipart/form-data',
+        validateInitialCount:true,
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+    });
+
+    //导入文件上传完成之后的事件
+    $("#sample_file").on("fileuploaded", function (event, data, previewId, index) {
+        $("#myModal").modal("hide");
+        if (data == undefined) {
+            console.log('文件格式类型不正确');
+            return;
+        }
+        location.reload();
+    });
+}
+    return oFile;
+};

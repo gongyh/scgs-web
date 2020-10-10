@@ -37,6 +37,8 @@ Route::group(['prefix' => 'samples'], function () {
     Route::any('/update', 'SamplesController@update');
     Route::any('/create', 'SamplesController@create');
     Route::any('/delete', 'SamplesController@delete');
+    Route::any('/upload', 'SamplesController@upload');
+    Route::get('/template/download', 'SamplesController@download');
 });
 
 Route::group(['prefix' => 'workspace'], function () {
@@ -44,7 +46,7 @@ Route::group(['prefix' => 'workspace'], function () {
     Route::get('/myLab', 'WorkspaceController@myLab')->middleware('auth');
     Route::get('/myProject', 'WorkspaceController@myProject')->middleware('auth');
     Route::get('/myLab/projects', 'WorkspaceController@selectMyProj')->middleware('auth');
-    Route::get('/samples', 'WorkspaceController@selectSamples')->middleware('auth');
+    Route::any('/samples', 'WorkspaceController@selectSamples')->middleware('auth');
     Route::get('/runningSample', 'RunController@index')->middleware('auth');
 });
 
