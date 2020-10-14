@@ -24,7 +24,6 @@ class SamplesController extends Controller
      */
     public function index(Request $request)
     {
-
         $projectID = $request->input('projectID');
         $project = Projects::find($projectID);
         $current_lab_id = Projects::where('id', $projectID)->value('labs_id');
@@ -55,11 +54,21 @@ class SamplesController extends Controller
     {
         $applications = Applications::all();
         $all_species = Species::all();
+        $library_strategies = array('WGA', 'WGS', 'WXS', 'RNA-Seq', 'miRNA-Seq', 'WCS', 'CLONE', 'POOLCLONE', 'AMPLICON', 'FINISHING', 'CLONEEND', 'CHIP-Seq', 'MNase-Seq', 'DNase-Hypersensitivity', 'Bisulfite-Seq', 'Tn-Seq', 'EST', 'FL-cDNA', 'CTS', 'MRE-Seq', 'MeDIP-Seq', 'MBD-Seq', 'Synthetic-Long-Read', 'ATAC-Seq', 'ChIA-PET', 'FAIRE-seq', 'Hi-C', 'ncRNA-Seq', 'RAD-Seq', 'RIP-Seq', 'SELEX', 'ssRNA-seq', 'Targeted-Capture', 'Tethered Chromation Conformation Capture', 'OTHER');
+        $library_sources = array('GENOMIC', 'TRANSCRIPTOMIC', 'METAGENOMIC', 'METATRANSCRIPTOMIC', 'SYNTHETIC', 'VIRAL RNA', 'GENOMIC SINGLE CELL', 'TRANSCRIPTOMIC SINGLE CELL', 'OTHER');
+        $library_selections = array('RANDOM', 'PCR', 'RANDOM PCR', 'HMPR', 'MF', 'CF-S', 'CF-M', 'CF-H', 'CF-T', 'MDA', 'MSLL', 'cDNA', 'CHIP', 'MNase', 'DNAse', 'Hybrid Selection', 'Reduced Representation', 'Restriction Digest', '5-methylcytidine antibody', 'MBD2 protein methyl-CpG binding domain', 'CAGE', 'RACE', 'size fractionation', 'Padlock probes capture method', 'other', 'unspecified', 'cDNA_oligo_dT', 'cDNA_randomPriming', 'Oligo-dT', 'PolyA', 'repeat fractionation');
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         if ($request->isMethod('POST')) {
             // samples create validate
             $this->validate($request, [
                 'new_sample_label' => 'required|max:250',
+                'new_library_id' => 'required|max:150',
+                'library_strategy' => 'required',
+                'library_source' => 'required',
+                'library_selection' => 'required',
+                'platform' => 'required',
+                'instrument_model' => 'required',
+                'design_description' => 'required|max:500',
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
@@ -68,6 +77,13 @@ class SamplesController extends Controller
             ]);
             $projectID = $request->input('projectID');
             $new_sample_label = $request->input('new_sample_label');
+            $new_library_id = $request->input('new_library_id');
+            $library_strategy = $request->input('library_strategy');
+            $library_source = $request->input('library_source');
+            $library_selection = $request->input('library_selection');
+            $platform = $request->input('platform');
+            $instrument_model = $request->input('instrument_model');
+            $design_description = $request->input('design_description');
             $select_application = $request->input('select_application');
             $select_species = $request->input('select_species');
             switch ($request->input('isPairends')) {
@@ -98,6 +114,14 @@ class SamplesController extends Controller
                     $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
                     Samples::create([
                         'sampleLabel' => $new_sample_label,
+                        'library_id' => $new_library_id,
+                        'library_strategy' => $library_strategy,
+                        'library_source' => $library_source,
+                        'library_selection' => $library_selection,
+                        'platform' => $platform,
+                        'design_description' => $design_description,
+                        'instrument_model' => $instrument_model,
+                        'filetype' => 'fastq',
                         'applications_id' => $select_application,
                         'projects_id' => $projectID,
                         'species_id' => $select_species,
@@ -149,6 +173,14 @@ class SamplesController extends Controller
 
                     Samples::create([
                         'sampleLabel' => $new_sample_label,
+                        'library_id' => $new_library_id,
+                        'library_strategy' => $library_strategy,
+                        'library_source' => $library_source,
+                        'library_selection' => $library_selection,
+                        'platform' => $platform,
+                        'design_description' => $design_description,
+                        'instrument_model' => $instrument_model,
+                        'filetype' => 'fastq',
                         'applications_id' => $select_application,
                         'projects_id' => $projectID,
                         'species_id' => $select_species,
@@ -164,7 +196,7 @@ class SamplesController extends Controller
                 }
             }
         }
-        return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'base_path' => $base_path]);
+        return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
     }
 
     public function delete(Request $request)
@@ -187,11 +219,21 @@ class SamplesController extends Controller
         $app = Applications::find($sample['applications_id']);
         $applications = Applications::all();
         $all_species = Species::all();
+        $library_strategies = array('WGA', 'WGS', 'WXS', 'RNA-Seq', 'miRNA-Seq', 'WCS', 'CLONE', 'POOLCLONE', 'AMPLICON', 'FINISHING', 'CLONEEND', 'CHIP-Seq', 'MNase-Seq', 'DNase-Hypersensitivity', 'Bisulfite-Seq', 'Tn-Seq', 'EST', 'FL-cDNA', 'CTS', 'MRE-Seq', 'MeDIP-Seq', 'MBD-Seq', 'Synthetic-Long-Read', 'ATAC-Seq', 'ChIA-PET', 'FAIRE-seq', 'Hi-C', 'ncRNA-Seq', 'RAD-Seq', 'RIP-Seq', 'SELEX', 'ssRNA-seq', 'Targeted-Capture', 'Tethered Chromation Conformation Capture', 'OTHER');
+        $library_sources = array('GENOMIC', 'TRANSCRIPTOMIC', 'METAGENOMIC', 'METATRANSCRIPTOMIC', 'SYNTHETIC', 'VIRAL RNA', 'GENOMIC SINGLE CELL', 'TRANSCRIPTOMIC SINGLE CELL', 'OTHER');
+        $library_selections = array('RANDOM', 'PCR', 'RANDOM PCR', 'HMPR', 'MF', 'CF-S', 'CF-M', 'CF-H', 'CF-T', 'MDA', 'MSLL', 'cDNA', 'CHIP', 'MNase', 'DNAse', 'Hybrid Selection', 'Reduced Representation', 'Restriction Digest', '5-methylcytidine antibody', 'MBD2 protein methyl-CpG binding domain', 'CAGE', 'RACE', 'size fractionation', 'Padlock probes capture method', 'other', 'unspecified', 'cDNA_oligo_dT', 'cDNA_randomPriming', 'Oligo-dT', 'PolyA', 'repeat fractionation');
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         if ($request->isMethod('POST')) {
             // sample update validate
             $this->validate($request, [
                 'sample_label' => 'required|max:50',
+                'library_id' => 'required|max:150',
+                'library_strategy' => 'required',
+                'library_source' => 'required',
+                'library_selection' => 'required',
+                'platform' => 'required',
+                'instrument_model' => 'required',
+                'design_description' => 'required|max:500',
                 'select_application' => 'required',
                 'select_species' => 'nullable',
                 'isPairends' => 'required',
@@ -200,6 +242,13 @@ class SamplesController extends Controller
             ]);
             $projectID = $request->input('projectID');
             $sample_label = $request->input('sample_label');
+            $library_id = $request->input('library_id');
+            $library_strategy = $request->input('library_strategy');
+            $library_source = $request->input('library_source');
+            $library_selection = $request->input('library_selection');
+            $platform = $request->input('platform');
+            $instrument_model = $request->input('instrument_model');
+            $design_description = $request->input('design_description');
             $select_application = $request->input('select_application');
             $select_species = $request->input('select_species');
             switch ($request->input('isPairends')) {
@@ -228,6 +277,13 @@ class SamplesController extends Controller
                     //  判断是否存在反斜杠\
                     $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
                     $sample['sampleLabel'] = $sample_label;
+                    $sample['library_id'] = $library_id;
+                    $sample['library_strategy'] = $library_strategy;
+                    $sample['library_source'] = $library_source;
+                    $sample['library_selection'] = $library_selection;
+                    $sample['platform'] = $platform;
+                    $sample['instrument_model'] = $instrument_model;
+                    $sample['design_description'] = $design_description;
                     $sample['applications_id'] = $select_application;
                     $sample['species_id'] = $select_species;
                     $sample['pairends'] = $isPairends;
@@ -243,7 +299,7 @@ class SamplesController extends Controller
                     }
                 } else {
                     $file_error = 'file1 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
                 }
             } else {
                 // 验证file1,file2是否存在
@@ -262,13 +318,13 @@ class SamplesController extends Controller
                 // 判断返回错误信息
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
                 } elseif ($file1_exist && !$file2_exist) {
                     $file_error = 'file2 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
                 } elseif (!$file1_exist && !$file2_exist) {
                     $file_error = 'file1 and file2 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
+                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
                 } else {
                     //  判断输入是否是相对路径
                     $fileOne = $file1_path ? $file1_path : $fileOne;
@@ -278,6 +334,13 @@ class SamplesController extends Controller
                     $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
                     $fileTwo = strpos($fileTwo, '\\') !== false ? str_replace('\\', '/', $fileTwo) : $fileTwo;
                     $sample['sampleLabel'] = $sample_label;
+                    $sample['library_id'] = $library_id;
+                    $sample['library_strategy'] = $library_strategy;
+                    $sample['library_source'] = $library_source;
+                    $sample['library_selection'] = $library_selection;
+                    $sample['platform'] = $platform;
+                    $sample['instrument_model'] = $instrument_model;
+                    $sample['design_description'] = $design_description;
                     $sample['applications_id'] = $select_application;
                     $sample['species_id'] = $select_species;
                     $sample['pairends'] = $isPairends;
@@ -292,14 +355,14 @@ class SamplesController extends Controller
                 }
             }
         }
-        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path]);
+        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
     }
 
     public function upload(Request $request)
     {
         $projectID = $request->input('projectID');
         if ($request->file('sample_file')->isValid()) {
-            $filename = $projectID . '_samples_temp.xls';
+            $filename = $projectID . '_samples_temp.xlsx';
             $request->file('sample_file')->storeAs('', $filename);
             Excel::import(new SamplesImport, $filename);
             Storage::delete($filename);
@@ -309,6 +372,6 @@ class SamplesController extends Controller
 
     public function download()
     {
-        return response()->download(storage_path('sample_template.xls'));
+        return response()->download(storage_path('Sample_template.xlsx'));
     }
 }

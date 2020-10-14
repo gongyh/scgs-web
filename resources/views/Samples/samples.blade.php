@@ -27,9 +27,11 @@
           <div class="project_sample">
             <div class="d-flex">
               <div class="proj_title">Sample List:</div>
+              @if($isAdmin || $isPI)
               <div class="text-danger mt-1">
                 (You can upload a excel file to save sample list)
               </div>
+              @endif
             </div>
             @if($isAdmin || $isPI)
             <div class="d-flex">
@@ -63,6 +65,13 @@
                   <tr>
                     <th scope="col" class="table-header">SampleID</th>
                     <th scope="col" class="table-header">SampleLabel</th>
+                    <th scope="col" class="table-header">Library_id</th>
+                    <th scope="col" class="table-header">Library_strategy</th>
+                    <th scope="col" class="table-header">Library_source</th>
+                    <th scope="col" class="table-header">Library_selection</th>
+                    <th scope="col" class="table-header">Platform</th>
+                    <th scope="col" class="table-header">Instrument_model</th>
+                    <th scope="col" class="table-header">Filetype</th>
                     <th scope="col" class="table-header">Application</th>
                     <th scope="col" class="table-header">Species</th>
                     <th scope="col" class="table-header">Pairends</th>
@@ -97,10 +106,16 @@
                       <span>{{$selectSample->sampleLabel}}</span>
                       @endif
                     </td>
+                    <td class="table-item">{{$selectSample->library_id}}</td>
+                    <td class="table-item">{{$selectSample->library_strategy}}</td>
+                    <td class="table-item">{{$selectSample->library_source}}</td>
+                    <td class="table-item">{{$selectSample->library_selection}}</td>
+                    <td class="table-item">{{$selectSample->platform}}</td>
+                    <td class="table-item">{{$selectSample->instrument_model}}</td>
+                    <td class="table-item">{{$selectSample->filetype}}</td>
                     <td class="table-item">{{$sample->getAppName($selectSample->applications_id)}}</td>
                     <td class="table-item">{{$sample->getSpeciesName($selectSample->species_id)}}</td>
                     <td class="table-item">{{$selectSample->pairends == 1 ? 'Yes':'No'}}</td>
-                    @if(Auth::check())
                     <td class="table-item">
                       @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 0)
                       <span class="badge badge-warning">
@@ -126,7 +141,6 @@
                       <span class="badge badge-dark">haven't ran</span>
                       @endif
                     </td>
-                    @endif
                     @if($isAdmin || $isPI)
                     <td class="delete">
                       <a href="/samples/delete?projectID={{$projectID}}&sampleID={{$selectSample->id}}" onclick="if(confirm('Are you sure to delete?')==false) return false;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
