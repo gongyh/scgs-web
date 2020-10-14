@@ -18,7 +18,7 @@
         </div>
         <div class="border-bottom card-pattern">
           <h2>How to contact us?</h2>
-          <p class="card-text">phone/fax : 86-532-80662653/2654</p>
+          <p class="card-text">Phone/Fax : 86-532-80662653/2654</p>
           <p class="card-text">Email : singlecell@qibebt.ac.cn</p>
           <p class="card-text">Postal Code : 266101</p>
           <p class="card-text card-last-child">Address : No.189 Songling Road, Laoshan District, Qingdao, Shandong, 266101, China</p>

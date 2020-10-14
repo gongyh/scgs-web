@@ -86,6 +86,54 @@ $(function () {
     }
   })
 
+/**
+ * sample platform选中时instrument model选项改变
+ */
+$("#platform").change(function(){
+    switch($(this).children("option:selected").val()){
+        case "_LS454":
+            $("#instrument_model").children("option").show();
+            $(".Illumina,.Helicos,.ABI_SOLID,.Complete_genomics,.Pacbio_smrt,.Ion_torrent,.Capillary,.Oxford_nanopore,.BgiSeq").hide();
+            break;
+        case "ABI_SOLID":
+            $("#instrument_model").children("option").show();
+            $(".Illumina,.Helicos,._LS454,.Complete_genomics,.Pacbio_smrt,.Ion_torrent,.Capillary,.Oxford_nanopore,.BgiSeq").hide();
+            break;
+        case "BGISEQ":
+            $("#instrument_model").children("option").show();
+            $(".Illumina,.Helicos,._LS454,.Complete_genomics,.Pacbio_smrt,.Ion_torrent,.Capillary,.Oxford_nanopore,.ABI_SOLID").hide();
+            break;
+        case "CAPILLARY":
+            $("#instrument_model").children("option").show();
+            $(".Illumina,.Helicos,._LS454,.Complete_genomics,.Pacbio_smrt,.Ion_torrent,.BgiSeq,.Oxford_nanopore,.ABI_SOLID").hide();
+            break;
+        case "COMPLETE_GENOMICS":
+            $("#instrument_model").children("option").show();
+            $(".Illumina,.Helicos,._LS454,.Capillary,.Pacbio_smrt,.Ion_torrent,.BgiSeq,.Oxford_nanopore,.ABI_SOLID").hide();
+            break;
+        case "HELICOS":
+            $("#instrument_model").children("option").show();
+            $(".Illumina,.Complete_genomics,._LS454,.Capillary,.Pacbio_smrt,.Ion_torrent,.BgiSeq,.Oxford_nanopore,.ABI_SOLID").hide();
+            break;
+        case "ILLUMINA":
+            $("#instrument_model").children("option").show();
+            $(".Helicos,.Complete_genomics,._LS454,.Capillary,.Pacbio_smrt,.Ion_torrent,.BgiSeq,.Oxford_nanopore,.ABI_SOLID").hide();
+            break;
+        case "ION_TORRENT":
+            $("#instrument_model").children("option").show();
+            $(".Helicos,.Complete_genomics,._LS454,.Capillary,.Pacbio_smrt,.Illumina,.BgiSeq,.Oxford_nanopore,.ABI_SOLID").hide();
+            break;
+        case "OXFORD_NANOPORE":
+            $("#instrument_model").children("option").show();
+            $(".Helicos,.Complete_genomics,._LS454,.Capillary,.Pacbio_smrt,.Illumina,.BgiSeq,.Ion_torrent,.ABI_SOLID").hide();
+            break;
+        case "PACBIO_SMRT":
+            $("#instrument_model").children("option").show();
+            $(".Helicos,.Complete_genomics,._LS454,.Capillary,.Oxford_nanopore,.Illumina,.BgiSeq,.Ion_torrent,.ABI_SOLID").hide();
+            break;
+    }
+})
+
   /**
    * workspace-nav选中时的阴影效果
    */
@@ -244,6 +292,7 @@ $(function () {
       $(this).parent().hide().siblings().show();
     }
   }
+
 
 })
 
