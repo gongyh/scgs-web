@@ -57,7 +57,6 @@
           <a class="fancy-hover border-bottom">eggnog</a>
           <a class="fancy-hover border-bottom">acdc</a>
           <a class="fancy-hover border-bottom">pipeline_info</a>
-
         </div>
       </div>
 

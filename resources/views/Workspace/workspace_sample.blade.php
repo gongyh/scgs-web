@@ -31,7 +31,7 @@
             <div class="d-flex">
               <div class="proj_title">Sample List:</div>
               <div class="text-danger mt-1">
-                (You can upload a excel file to save sample list)
+                (You can upload an excel file to save sample list)
               </div>
             </div>
             <div class="d-flex">
