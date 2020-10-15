@@ -56,7 +56,7 @@
               <label for="platform">Platform</label><span class="text-danger"> *</span>
               <select class="custom-select" name="platform" id="platform">
                 <option selected></option>
-                <option value="_LS454">_LSE454</option>
+                <option value="_LS454">_LS454</option>
                 <option value="ABI_SOLID">ABI_SOLID</option>
                 <option value="BGISEQ">BGISEQ</option>
                 <option value="CAPILLARY">CAPILLARY</option>

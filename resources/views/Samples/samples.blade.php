@@ -29,7 +29,7 @@
               <div class="proj_title">Sample List:</div>
               @if($isAdmin || $isPI)
               <div class="text-danger mt-1">
-                (You can upload a excel file to save sample list)
+                (You can upload an excel file to save sample list)
               </div>
               @endif
             </div>
