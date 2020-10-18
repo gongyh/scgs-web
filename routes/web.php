@@ -62,6 +62,8 @@ Route::group(['prefix' => 'workspace/species'], function () {
     Route::any('/update', 'SpeciesController@update')->middleware('ban_operation');
     Route::any('/create', 'SpeciesController@create')->middleware('ban_operation');
     Route::any('/delete', 'SpeciesController@delete')->middleware('ban_operation');
+    Route::any('/download/template', 'SpeciesController@download')->middleware('ban_operation');
+    Route::any('/upload', 'SpeciesController@upload')->middleware('ban_operation');
 });
 
 Route::group(['prefix' => 'workspace/applications'], function () {

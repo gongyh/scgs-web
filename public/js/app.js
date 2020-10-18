@@ -49950,6 +49950,8 @@ $(function () {
   sample_url = '/samples/upload?' + projectID;
   var sample_file = FileInput();
   sample_file.Init('sample_file', sample_url);
+  var species_file = FileInput();
+  species_file.Init('species_file', '/workspace/species/upload');
   var run_sample_user = $('.user-name').text();
   var check_progress = false;
   var read_progress;
@@ -50238,8 +50240,8 @@ var FileInput = function FileInput() {
       msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！"
     }); //导入文件上传完成之后的事件
 
-    $("#sample_file").on("fileuploaded", function (event, data, previewId, index) {
-      $("#myModal").modal("hide");
+    control.on("fileuploaded", function (event, data, previewId, index) {
+      $("#myModal_" + ctrlName).modal("hide");
 
       if (data == undefined) {
         console.log('文件格式类型不正确');
