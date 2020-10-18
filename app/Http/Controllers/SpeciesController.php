@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Species;
 use Illuminate\Http\Request;
+use App\Imports\SpeciesImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
 class SpeciesController extends Controller
@@ -164,5 +166,21 @@ class SpeciesController extends Controller
             }
         }
         return view('Species.species_update', ['species' => $species, 'base_path' => $base_path]);
+    }
+
+    public function upload(Request $request)
+    {
+        if ($request->file('species_file')->isValid()) {
+            $filename = 'Species_temp.xlsx';
+            $request->file('species_file')->storeAs('', $filename);
+            Excel::import(new SpeciesImport, $filename);
+            Storage::delete($filename);
+            return response()->json(['code' => '200']);
+        }
+    }
+
+    public function download()
+    {
+        return response()->download(storage_path('Species_template.xlsx'));
     }
 }
