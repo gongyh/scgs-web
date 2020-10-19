@@ -21,7 +21,7 @@ class BanLabsUpdate
             $user = Auth::user();
             $labID = $request->input('labID');
             $isPI = Labs::where([['id', $labID], ['principleInvestigator', $user->name]])->get()->count() > 0;
-            if ($user->email == 'admin@123.com' || $isPI) {
+            if ($user->email == env('ADMIN_EMAIL') || $isPI) {
                 return $next($request);
             } else {
                 return abort(403);
