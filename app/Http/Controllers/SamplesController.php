@@ -35,7 +35,7 @@ class SamplesController extends Controller
             if (auth::check()) {
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->name]])->get()->count() > 0;
-                $isAdmin = $user->email == 'admin@123.com';
+                $isAdmin = $user->email == env('ADMIN_EMAIL');
                 return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
             } else {
                 // 未登录用户显示
