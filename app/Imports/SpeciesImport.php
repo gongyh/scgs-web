@@ -6,16 +6,14 @@ use App\Species;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 
-
-class FirstSheetImport implements ToCollection
+class SpeciesImport implements ToCollection
 {
     /**
-     * @param array $row
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @param Collection $rows
      */
     public function collection(Collection $rows)
     {
+        //
         unset($rows[0]);
 
         $this->createData($rows);
