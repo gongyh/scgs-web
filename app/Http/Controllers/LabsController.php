@@ -26,7 +26,7 @@ class LabsController extends Controller
                 if (auth::check()) {
                     $user = Auth::user();
                     $isPI = Labs::where('principleInvestigator', $user->name)->get();
-                    $isAdmin = $user->email == 'admin@123.com';
+                    $isAdmin = $user->email == env('ADMIN_EMAIL');
                     return view('Labs.labs', compact('findLabs', 'isPI', 'isAdmin', 'current_page'));
                 } else {
                     $isPI  = collect();
@@ -45,7 +45,7 @@ class LabsController extends Controller
                 if (auth::check()) {
                     $user = Auth::user();
                     $isPI = Labs::where('principleInvestigator', $user->name)->get();
-                    $isAdmin = $user->email == 'admin@123.com';
+                    $isAdmin = $user->email == env('ADMIN_EMAIL');
                     return view('Labs.labs', compact('Labs', 'isPI', 'isAdmin', 'current_page'));
                 } else {
                     $isPI  = collect();

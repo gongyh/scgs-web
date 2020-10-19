@@ -3,14 +3,14 @@
  <div class="workspace-menu shadow p-3 bg-white rounded overflow-auto">
    <div class="border-bottom">
      <div class="user-box"><img src="{{asset('/images/user.png')}}" class="user-image" alt="Responsive image"></div>
-     @if(Auth::user()->email == 'admin@123.com')
+     @if(Auth::user()->email == env('ADMIN_EMAIL'))
      <div class="user-name">Administor</div>
      @else
      <div class="user-name">{{Auth::user()->name}}</div>
      @endif
    </div>
    <nav class=" nav nav-pills nav-fill flex-column">
-     @if(Auth::user()->email == 'admin@123.com')
+     @if(Auth::user()->email == env('ADMIN_EMAIL'))
      <a class="nav-item nav-link rem1 workspace-nav" id="nav-home-tab" href="/workspace/institutions" aria-selected="false">Manage Institutions</a>
      <a class="nav-item nav-link rem1 workspace-nav" id="nav-home-tab" href="/workspace/species" aria-selected="false">Manage Species</a>
      <a class="nav-item nav-link rem1 workspace-nav" id="nav-home-tab" href="/workspace/applications" aria-selected="false">Manage Applications</a>

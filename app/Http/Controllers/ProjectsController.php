@@ -26,7 +26,7 @@ class ProjectsController extends Controller
                 if (auth::check()) {
                     $user = Auth::user();
                     $isPI = Labs::where('principleInvestigator', $user->name)->get();
-                    $isAdmin = $user->email == 'admin@123.com';
+                    $isAdmin = $user->email == env('ADMIN_EMAIL');
                     return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin'));
                 } else {
                     $isPI  = collect();
@@ -45,7 +45,7 @@ class ProjectsController extends Controller
                 if (auth::check()) {
                     $user = Auth::user();
                     $isPI = Labs::where('principleInvestigator', $user->name)->get();
-                    $isAdmin = $user->email == 'admin@123.com';
+                    $isAdmin = $user->email == env('ADMIN_EMAIL');
                     return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page'));
                 } else {
                     $isPI  = collect();
@@ -65,7 +65,7 @@ class ProjectsController extends Controller
         $labs = Labs::all();
         if ($request->isMethod('POST')) {
             $user = Auth::user();
-            $isAdmin = $user->email == 'admin@123.com';
+            $isAdmin = $user->email == env('ADMIN_EMAIL');
             $labId = $request->input('selectLab');
             $isPI = Labs::where([['id', $labId], ['principleInvestigator', $user->name]])->get()->count() > 0;
             if ($request->input('labID')) {
@@ -204,7 +204,7 @@ class ProjectsController extends Controller
             if (auth::check()) {
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $labID], ['principleInvestigator', $user->name]])->get()->count() > 0;
-                $isAdmin = $user->email == 'admin@123.com';
+                $isAdmin = $user->email == env('ADMIN_EMAIL');
                 return view('Projects.selectProjects', compact('selectProjects', 'isPI', 'isAdmin', 'labID'));
             } else {
                 $isPI  = false;
