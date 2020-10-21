@@ -316,7 +316,11 @@ a:hover {
   opacity: 0.958;
 }
 
-
 .menu :last-child {
   margin-bottom: 0;
+}
+
+.download_result {
+  height: 80px;
+  width: 80px;
 }
