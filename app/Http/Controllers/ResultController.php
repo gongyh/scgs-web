@@ -6,7 +6,7 @@ use App\Jobs;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use ZipArchive;
 
 class ResultController extends Controller
 {
@@ -28,6 +28,43 @@ class ResultController extends Controller
         $finished = Jobs::where('sample_id', $sample_id)->value('finished');
         $period = $finished - $started;
         $command = Jobs::where('sample_id', $sample_id)->value('command');
-        return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command]);
+        return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id]);
+    }
+
+    public function download_result(Request $request)
+    {
+        $sample_id = $request->input('sampleID');
+        $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
+        $user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
+        $sample_username = User::where('id', $user_id)->value('name');
+        $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+        $result_path  = $sample_username . '/' . $uuid . '/results';
+
+        function addFileToZip($path, $zip)
+        {
+            $handler = opendir($path);
+            while (($filename = readdir($handler)) !== false) {
+                if ($filename != '.' && $filename != '..') {
+                    if (is_dir($path . '/' . $filename)) {
+                        addFileToZip($path . '/' . $filename, $zip);
+                    } elseif (is_file($path . '/' . $filename)) {
+                        $zip->addFile($path . '/' . $filename);
+                    }
+                }
+            }
+            @closedir($path);
+        }
+        if (Storage::disk('local')->exists($result_path)) {
+            $zip_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
+            $zip = new ZipArchive();
+            $path = $base_path . $sample_username . '/' . $uuid . '/results';
+            if ($zip->open($zip_name, ZipArchive::CREATE  | ZipArchive::OVERWRITE) == true) {
+                addFileToZip($path, $zip);
+                $zip->close();
+            }
+            return response()->download($zip_name);
+        } else {
+            return 'sorry!can not read result.zip!';
+        }
     }
 }

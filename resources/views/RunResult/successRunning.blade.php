@@ -26,7 +26,13 @@
           <div class="text-success Run_time">{{$period}}</div>
         </div>
         <div class="rem15 font-italic">command</div>
-        <div class="rem1 bg-light">{{$command}}</div>
+        <div class="rem1 bg-light rounded">{{$command}}</div>
+      </div>
+      <div class="download_zip mt-5">
+        <a href="/successRunning/resultDownload?sampleID={{$sample_id}}">
+          <img src="{{asset('/images/zip.jpg')}}" class="download_result" alt="Responsive image">
+          <span class="rem1">download results.zip</span>
+        </a>
       </div>
     </div>
     <!-- right-column -->
@@ -43,23 +49,7 @@
           <a class="fancy-hover border-bottom">preseq</a>
           <a class="fancy-hover border-bottom">monovar</a>
           <a class="fancy-hover border-bottom">aneufinder</a>
-          <a class="fancy-hover border-bottom">saturation</a>
-          <a class="fancy-hover border-bottom">kraken</a>
-          <a class="fancy-hover border-bottom">qualimap</a>
-          <a class="fancy-hover border-bottom">spades</a>
-          <a class="fancy-hover border-bottom">prodigal</a>
-          <a class="fancy-hover border-bottom">prokka</a>
-          <a class="fancy-hover border-bottom">checkM</a>
-          <a class="fancy-hover border-bottom">quest</a>
-          <a class="fancy-hover border-bottom">multiQC</a>
-          <a class="fancy-hover border-bottom">kofam</a>
-          <a class="fancy-hover border-bottom">blob</a>
-          <a class="fancy-hover border-bottom">eggnog</a>
-          <a class="fancy-hover border-bottom">acdc</a>
-          <a class="fancy-hover border-bottom">pipeline_info</a>
         </div>
       </div>
-
-
     </div>
     @endsection

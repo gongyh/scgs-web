@@ -64,12 +64,7 @@
                   <tr>
                     <th scope="col" class="table-header">SampleID</th>
                     <th scope="col" class="table-header">SampleLabel</th>
-                    <th scope="col" class="table-header">Library_id</th>
-                    <th scope="col" class="table-header">Library_strategy</th>
-                    <th scope="col" class="table-header">Library_source</th>
-                    <th scope="col" class="table-header">Library_selection</th>
                     <th scope="col" class="table-header">Platform</th>
-                    <th scope="col" class="table-header">Instrument_model</th>
                     <th scope="col" class="table-header">Filetype</th>
                     <th scope="col" class="table-header">Application</th>
                     <th scope="col" class="table-header">Species</th>
@@ -104,12 +99,7 @@
                       <a href="/successRunning?sampleID={{$selectSample->id}}">{{$selectSample->sampleLabel}}</a>
                       @endif
                     </td>
-                    <td class="table-item">{{$selectSample->library_id}}</td>
-                    <td class="table-item">{{$selectSample->library_strategy}}</td>
-                    <td class="table-item">{{$selectSample->library_source}}</td>
-                    <td class="table-item">{{$selectSample->library_selection}}</td>
                     <td class="table-item">{{$selectSample->platform}}</td>
-                    <td class="table-item">{{$selectSample->instrument_model}}</td>
                     <td class="table-item">{{$selectSample->filetype}}</td>
                     <td class="table-item">{{$sample->getAppName($selectSample->applications_id)}}</td>
                     <td class="table-item">{{$sample->getSpeciesName($selectSample->species_id)}}</td>

@@ -86,6 +86,7 @@ Route::group(['prefix' => 'execute'], function () {
 
 Route::get('/failedRunning', 'ResultController@failed_running');
 Route::get('/successRunning', 'ResultController@success_running');
+Route::get('/successRunning/resultDownload', 'ResultController@download_result');
 
 Auth::routes();
 
