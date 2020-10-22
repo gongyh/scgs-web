@@ -16,11 +16,10 @@ echo "Please input database username ..."
 read DATABASE_USERNAME
 echo "Please input database password ..."
 read DATABASE_PASSWD
-echo "Please input administor e-mail ..."
+echo "Please input administor email ..."
 read ADMIN_EMAIL
 echo "Please input administor password ..."
 read ADMIN_PASSWD
-
 
 sed -i 's/DB_DATABASE=/DB_DATABASE={$DATABASE_NAME}' .env
 sed -i 's/DB_USERNAME=/DB_USERNAME={$DATABASE_USERNAME}' .env
@@ -32,7 +31,7 @@ php artisan migrate
 time=$(date "+%Y-%m-%d %H:%M:%S")
 mysql -u {$DATABASE_USERNAME} -p {$DATABASE_PASSWD}
 use {$DATABASE_NAME};
-insert into Users (name,email,password,created_at,updated_at) values ('Admin',{$ADMIN_EMAIL},{$ADMIN_PASSWD},{$time},{$time});
+insert into Users (name,username,email,password,created_at,updated_at) values ('admin','admin',{$ADMIN_EMAIL},{$ADMIN_PASSWD},{$time},{$time});
 exit;
 
 php artisan cache:clear
