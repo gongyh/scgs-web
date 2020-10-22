@@ -13,15 +13,15 @@
 
               <div class="form-group row">
                 <label for="login" class="col-sm-4 col-form-label text-md-right">
-                  {{ __('Username') }}
+                  {{ __('Name') }}
                             </label>
 
                   <div class="col-md-6">
-                    <input id="login" type="text" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="login" value="{{ old('username') }}" required autofocus>
+                    <input id="login" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="login" value="{{ old('name') }}" required autofocus>
 
-                    @if ($errors->has('username'))
+                    @if ($errors->has('name'))
                     <span class="invalid-feedback">
-                      <strong>{{ $errors->first('username') }}</strong>
+                      <strong>{{ $errors->first('name') }}</strong>
                     </span>
                     @endif
                   </div>
