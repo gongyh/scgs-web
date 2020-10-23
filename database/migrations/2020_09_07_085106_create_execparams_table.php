@@ -23,6 +23,8 @@ class CreateExecparamsTable extends Migration
             $table->boolean('bulk');
             $table->boolean('saturation');
             $table->boolean('saveTrimmed');
+            $table->boolean('euk');
+            $table->boolean('fungus');
             $table->boolean('acquired');
             $table->boolean('resume');
             $table->boolean('saveAlignedIntermediates');

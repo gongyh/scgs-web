@@ -55,6 +55,16 @@
         </div>
         <div class="d-flex flex-wrap">
           <div class="custom-control custom-checkbox mt-2">
+            <input type="checkbox" class="custom-control-input" id="euk" name="euk" value="euk" {{$euk?'checked':''}} disabled>
+            <label class="custom-control-label" for="euk">euk</label>
+          </div>
+          <div class="custom-control custom-checkbox mt-2 ml-3">
+            <input type="checkbox" class="custom-control-input" id="fungus" name="fungus" value="fungus" {{$fungus?'checked':''}} disabled>
+            <label class="custom-control-label" for="fungus">fungus</label>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap">
+          <div class="custom-control custom-checkbox mt-2">
             <input type="checkbox" class="custom-control-input" id="resume" name="resume" value="resume" {{$resume?'checked':''}} disabled>
             <label class="custom-control-label" for="resume">
               <span>resume</span>

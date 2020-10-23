@@ -48,9 +48,7 @@ class ResultController extends Controller
                     if (is_dir($path . '/' . $filename)) {
                         addFileToZip($path . '/' . $filename, $zip);
                     } elseif (is_file($path . '/' . $filename)) {
-                        $relative_path = explode('/', $path);
-                        $relative_path = array_pop($relative_path);
-                        $zip->addFile('/' . $relative_path . '/' . $filename);
+                        $zip->addFile($path . '/' . $filename);
                     }
                 }
             }
