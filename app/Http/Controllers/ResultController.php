@@ -56,17 +56,18 @@ class ResultController extends Controller
             }
             @closedir($path);
         }
-        $zip_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
+        $zip_name = $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
+        $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
         if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name) !== true) {
             $zip = new ZipArchive();
             $path = $base_path . $sample_username . '/' . $uuid . '/results';
-            if ($zip->open($zip_name, ZipArchive::CREATE  | ZipArchive::OVERWRITE) == true) {
+            if ($zip->open($zip_full_name, ZipArchive::CREATE  | ZipArchive::OVERWRITE) == true) {
                 addFileToZip($path, $zip);
                 $zip->close();
             }
-            return response()->download($zip_name);
+            return response()->download($zip_full_name);
         } elseif (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
-            return response()->download($zip_name);
+            return response()->download($zip_full_name);
         } else {
             return 'sorry!can not read result.zip!';
         }
