@@ -155,13 +155,13 @@ class SamplesController extends Controller
                 // 判断返回错误信息
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
-                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'base_path' => $base_path]);
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
                 } elseif ($file1_exist && !$file2_exist) {
                     $file_error = 'file2 doesn\'t exist';
-                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'base_path' => $base_path]);
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
                 } elseif (!$file1_exist && !$file2_exist) {
                     $file_error = 'file1 and file2 doesn\'t exist';
-                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'base_path' => $base_path]);
+                    return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
                 } else {
                     //  统一保存为相对路径
                     $fileOne = $file1_path ? $file1_path : $fileOne;

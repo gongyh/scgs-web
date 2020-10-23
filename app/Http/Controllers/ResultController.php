@@ -48,20 +48,24 @@ class ResultController extends Controller
                     if (is_dir($path . '/' . $filename)) {
                         addFileToZip($path . '/' . $filename, $zip);
                     } elseif (is_file($path . '/' . $filename)) {
-                        $zip->addFile($path . '/' . $filename);
+                        $relative_path = explode('/', $path);
+                        $relative_path = array_pop($relative_path);
+                        $zip->addFile('/' . $relative_path . '/' . $filename);
                     }
                 }
             }
             @closedir($path);
         }
-        if (Storage::disk('local')->exists($result_path)) {
-            $zip_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
+        $zip_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
+        if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name) !== true) {
             $zip = new ZipArchive();
             $path = $base_path . $sample_username . '/' . $uuid . '/results';
             if ($zip->open($zip_name, ZipArchive::CREATE  | ZipArchive::OVERWRITE) == true) {
                 addFileToZip($path, $zip);
                 $zip->close();
             }
+            return response()->download($zip_name);
+        } elseif (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
             return response()->download($zip_name);
         } else {
             return 'sorry!can not read result.zip!';
