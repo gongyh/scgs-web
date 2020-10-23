@@ -17,7 +17,7 @@ class BanOperation
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            if (Auth::user()->email == env('ADMIN_EMAIL')) {
+            if (Auth::user()->name == 'admin') {
                 return $next($request);
             } else {
                 return abort('403');

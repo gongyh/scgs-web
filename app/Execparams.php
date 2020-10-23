@@ -8,5 +8,5 @@ class Execparams extends Model
 {
     //
     protected $table = 'execparams';
-    protected $fillable = ['id', 'samples_id', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db', 'eggnog', 'kofam_profile', 'kofam_kolist'];
+    protected $fillable = ['id', 'samples_id', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'resfinder_db', 'nt_db', 'kraken_db', 'eggnog', 'kofam_profile', 'kofam_kolist'];
 }
