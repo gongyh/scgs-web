@@ -32,10 +32,9 @@ $(function () {
     sample_file.Init('sample_file',sample_url);
     var species_file = FileInput();
     species_file.Init('species_file','/workspace/species/upload');
-
-  var run_sample_user = $('.user-name').text();
-  var check_progress = false;
-  var read_progress;
+    var running_sample_id = getQueryVariable('sampleID');
+    var check_progress = false;
+    var read_progress;
 
   text_folded('.proj_desc', 200);
   $('.start_time').each(function () {
@@ -61,6 +60,19 @@ $(function () {
     var run_time = hours + ' Hours ' + minutes + ' Minutes ' + seconds + ' Seconds ';
     $(this).text(run_time);
   })
+
+  /**
+   * 获取url中的参数
+   */
+  function getQueryVariable(variable){
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+    }
 
   /**
    * 任务开始时间秒转换年,月,日
@@ -228,7 +240,7 @@ $("#platform").change(function(){
   })
 
   /**
-   * 刷新shell运行任务输出
+   * .nextflow.log读取
    */
   $.ajaxSetup({
     headers: {
@@ -241,14 +253,14 @@ $("#platform").change(function(){
       url: "/execute/start",
       type: 'POST',
       data: {
-        'run_sample_user': run_sample_user,
+        'running_sample_id': running_sample_id,
       },
       dataType: 'json',
       success: function (res) {
         if (res.code == 200) {
           let insert_message = "<p>" + res.data + "</p> "
           $('.command_out').html(insert_message);
-        } else {
+        }else{
 
         }
       }

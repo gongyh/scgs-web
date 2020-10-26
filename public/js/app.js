@@ -49952,7 +49952,7 @@ $(function () {
   sample_file.Init('sample_file', sample_url);
   var species_file = FileInput();
   species_file.Init('species_file', '/workspace/species/upload');
-  var run_sample_user = $('.user-name').text();
+  var running_sample_id = getQueryVariable('sampleID');
   var check_progress = false;
   var read_progress;
   text_folded('.proj_desc', 200);
@@ -49978,8 +49978,27 @@ $(function () {
     $(this).text(run_time);
   });
   /**
+   * 获取url中的参数
+   */
+
+  function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split("=");
+
+      if (pair[0] == variable) {
+        return pair[1];
+      }
+    }
+
+    return false;
+  }
+  /**
    * 任务开始时间秒转换年,月,日
    */
+
 
   function Sec2Time(time) {
     var datetime = new Date(time).getTime();
@@ -50146,7 +50165,7 @@ $(function () {
     }
   });
   /**
-   * 刷新shell运行任务输出
+   * .nextflow.log读取
    */
 
   $.ajaxSetup({
@@ -50160,7 +50179,7 @@ $(function () {
       url: "/execute/start",
       type: 'POST',
       data: {
-        'run_sample_user': run_sample_user
+        'running_sample_id': running_sample_id
       },
       dataType: 'json',
       success: function success(res) {

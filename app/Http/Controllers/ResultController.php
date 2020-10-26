@@ -39,32 +39,10 @@ class ResultController extends Controller
         $sample_username = User::where('id', $user_id)->value('name');
         $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
         $result_path  = $sample_username . '/' . $uuid . '/results';
-
-        function addFileToZip($path, $zip)
-        {
-            $handler = opendir($path);
-            while (($filename = readdir($handler)) !== false) {
-                if ($filename != '.' && $filename != '..') {
-                    if (is_dir($path . '/' . $filename)) {
-                        addFileToZip($path . '/' . $filename, $zip);
-                    } elseif (is_file($path . '/' . $filename)) {
-                        $zip->addFile($path . '/' . $filename);
-                    }
-                }
-            }
-            @closedir($path);
-        }
         $zip_name = $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
         $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
-        if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name) !== true) {
-            $zip = new ZipArchive();
-            $path = $base_path . $sample_username . '/' . $uuid . '/results';
-            if ($zip->open($zip_full_name, ZipArchive::CREATE  | ZipArchive::OVERWRITE) == true) {
-                addFileToZip($path, $zip);
-                $zip->close();
-            }
-            return response()->download($zip_full_name);
-        } elseif (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
+
+        if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
             return response()->download($zip_full_name);
         } else {
             return 'sorry!can not read result.zip!';
