@@ -6,8 +6,8 @@
     <div class="col-md-2">
       @include('components.workspace_nav')
     </div>
-    <div class="col-md-2"></div>
-    <div class="col-md-4">
+    <div class="col-md-1"></div>
+    <div class="col-md-3">
       <form action=" " method="post">
         @csrf
         <div class="card">
