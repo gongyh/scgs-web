@@ -157,7 +157,6 @@ $("#platform").change(function(){
   }, function () {
     $(this).removeClass('shadow p-3 rounded');
   })
-
   $('.nav-menu').hover(function () {
     $(this).addClass('shadow rounded');
   }, function () {
@@ -167,7 +166,7 @@ $("#platform").change(function(){
   /**
    * execute params设置
    */
-  const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
+  const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist','funannotate_db'];
   for (let i = 0; i < db_list.length; i++) {
     if ($('#' + db_list[i]).is(':checked')) {
       $('.' + db_list[i] + '_path').show();
@@ -182,6 +181,11 @@ $("#platform").change(function(){
     $('.genus_name').hide();
   }
 
+  if ($('#busco_seed_species').is(':checked')) {
+    $('.busco_seed_species_name').show();
+  } else {
+    $('.busco_seed_species_name').hide();
+  }
 
   $('#genus').on('change', function () {
     if ($('#genus').is(':checked')) {
@@ -190,7 +194,13 @@ $("#platform").change(function(){
       $('.genus_name').hide();
     }
   })
-
+  $('#busco_seed_species').on('change', function () {
+    if ($('#busco_seed_species').is(':checked')) {
+      $('.busco_seed_species_name').show();
+    } else {
+      $('.busco_seed_species_name').hide();
+    }
+  })
   $('#resfinder_db').on('change', function () {
     if ($('#resfinder_db').is(':checked')) {
       $('.resfinder_db_path').show();
@@ -198,7 +208,6 @@ $("#platform").change(function(){
       $('.resfinder_db_path').hide();
     }
   })
-
   $('#nt_db').on('change', function () {
     if ($('#nt_db').is(':checked')) {
       $('.nt_db_path').show();
@@ -206,7 +215,6 @@ $("#platform").change(function(){
       $('.nt_db_path').hide();
     }
   })
-
   $('#eggnog_db').on('change', function () {
     if ($('#eggnog_db').is(':checked')) {
       $('.eggnog_db_path').show();
@@ -214,7 +222,6 @@ $("#platform").change(function(){
       $('.eggnog_db_path').hide();
     }
   })
-
   $('#kraken_db').on('change', function () {
     if ($('#kraken_db').is(':checked')) {
       $('.kraken_db_path').show();
@@ -222,7 +229,6 @@ $("#platform").change(function(){
       $('.kraken_db_path').hide();
     }
   })
-
   $('#kofam_profile').on('change', function () {
     if ($('#kofam_profile').is(':checked')) {
       $('.kofam_profile_path').show();
@@ -230,12 +236,18 @@ $("#platform").change(function(){
       $('.kofam_profile_path').hide();
     }
   })
-
   $('#kofam_kolist').on('change', function () {
     if ($('#kofam_kolist').is(':checked')) {
       $('.kofam_kolist_path').show();
     } else {
       $('.kofam_kolist_path').hide();
+    }
+  })
+  $('#funannotate_db').on('change', function () {
+    if ($('#funannotate_db').is(':checked')) {
+      $('.funannotate_db_path').show();
+    } else {
+      $('.funannotate_db_path').hide();
     }
   })
 

@@ -80,7 +80,13 @@
             </div>
             <input type="text" name="genus_name" class="w-50 form-control genus_name text-secondary {{$genus_name == null?'no-display':''}}" value={{$genus_name == null?'':$genus_name}}>
           </div>
-
+          <div class="mt-2">
+            <div class="custom-control custom-checkbox mr-4">
+              <input type="checkbox" class="custom-control-input" id="busco_seed_species" name="busco_seed_species" value="busco_seed_species" {{$busco_seed_species?'checked':''}} disabled>
+              <label class="custom-control-label" for="busco_seed_species">busco_seed_species</label>
+            </div>
+            <input type="text" name="busco_seed_species_name" class="w-50 form-control busco_seed_species_name text-secondary {{$busco_seed_species_name == null?'no-display':''}}" value={{$busco_seed_species_name == null?'':$busco_seed_species_name}}>
+          </div>
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
               <input type="checkbox" class="custom-control-input" id="resfinder_db" name="resfinder_db" value="resfinder_db" {{$resfinder_db?'checked':''}} disabled>
@@ -123,6 +129,13 @@
             </div>
             <div class="mt-2 w-50 border text-secondary rounded shadow p-2 kofam_kolist_path overflow-auto {{$kofam_kolist?'no-display':''}}">{{$pipelineParams->kofam_kolist_path}}</div>
           </div>
+          <div class="mt-2">
+            <div class="custom-control custom-checkbox mr-4">
+              <input type="checkbox" class="custom-control-input" id="funannotate_db" name="funannotate_db" value="funannotate_db" {{$funannotate_db?'checked':''}} disabled>
+              <label class="custom-control-label" for="funannotate_db">funannotate_db</label>
+            </div>
+            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 funannotate_db_path overflow-auto {{$funannotate_db?'no-display':''}}">{{$pipelineParams->funannotate_db_path}}</div>
+          </div>
         </div>
         <div class="mt-5 d-flex justify-content-around">
           <button class="btn btn-secondary w-25" disabled>execute</button>
@@ -134,12 +147,6 @@
     <!-- right-column -->
     <div class="col-md-3 right-column">
       <div class="bg-white rounded shadow-sm p-2">
-        <div class="console-header text-success">
-          <span>Pipeline is running</span><span class="dot">...</span>
-        </div>
-        <div class="mt-2 progress">
-          <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
         <div class="mt-2 rem15 text-primary border-bottom">Pipeline Status</div>
         <div class="command_out d-none text-wrap overflow-auto text-break rounded">
         </div>

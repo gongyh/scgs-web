@@ -50099,7 +50099,7 @@ $(function () {
    * execute params设置
    */
 
-  var db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
+  var db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist', 'funannotate_db'];
 
   for (var i = 0; i < db_list.length; i++) {
     if ($('#' + db_list[i]).is(':checked')) {
@@ -50115,11 +50115,24 @@ $(function () {
     $('.genus_name').hide();
   }
 
+  if ($('#busco_seed_species').is(':checked')) {
+    $('.busco_seed_species_name').show();
+  } else {
+    $('.busco_seed_species_name').hide();
+  }
+
   $('#genus').on('change', function () {
     if ($('#genus').is(':checked')) {
       $('.genus_name').show();
     } else {
       $('.genus_name').hide();
+    }
+  });
+  $('#busco_seed_species').on('change', function () {
+    if ($('#busco_seed_species').is(':checked')) {
+      $('.busco_seed_species_name').show();
+    } else {
+      $('.busco_seed_species_name').hide();
     }
   });
   $('#resfinder_db').on('change', function () {
@@ -50162,6 +50175,13 @@ $(function () {
       $('.kofam_kolist_path').show();
     } else {
       $('.kofam_kolist_path').hide();
+    }
+  });
+  $('#funannotate_db').on('change', function () {
+    if ($('#funannotate_db').is(':checked')) {
+      $('.funannotate_db_path').show();
+    } else {
+      $('.funannotate_db_path').hide();
     }
   });
   /**
