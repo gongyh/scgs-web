@@ -39,16 +39,16 @@
     <div class="col-sm-3">
       <div class="result-info">
         <div class="rem15 text-info">Results</div>
-        <div class="menu overflow-auto rem1">
-          <a class="fancy-hover border-bottom">reference genome</a>
-          <a class="fancy-hover border-bottom">fastqc</a>
-          <a class="fancy-hover border-bottom">trim_galore</a>
-          <a class="fancy-hover border-bottom">bowtie2</a>
-          <a class="fancy-hover border-bottom">circlize</a>
-          <a class="fancy-hover border-bottom">gatk</a>
-          <a class="fancy-hover border-bottom">preseq</a>
-          <a class="fancy-hover border-bottom">monovar</a>
-          <a class="fancy-hover border-bottom">aneufinder</a>
+        <div class="d-flex flex-column menu overflow-auto rem1">
+          <a class="btn btn-default btn-md btn-round font-weight-bold">reference genome</a>
+          <a class="btn btn-default btn-md btn-round font-weight-bold">fastqc</a>
+          <a class="btn btn-default btn-md btn-round font-weight-bold">trim_galore</a>
+          <a class="btn btn-default btn-md btn-round font-weight-bold">bowtie2</a>
+          <a class="btn btn-default btn-md btn-round font-weight-bold">circlize</a>
+          <a class="btn btn-default btn-md btn-round font-weight-bold">gatk</a>
+          <a class="btn btn-default btn-md btn-round font-weight-bold">preseq</a>
+          <a class="btn btn-default btn-md btn-round font-weight-bold">monovar</a>
+          <a class="btn btn-default btn-md btn-round font-weight-bold">aneufinder</a>
         </div>
       </div>
     </div>
