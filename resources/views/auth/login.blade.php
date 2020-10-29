@@ -42,6 +42,22 @@
               </div>
 
               <div class="form-group row">
+                <label for="captcha" class="col-md-4 col-form-label text-md-right">Captcha</label>
+
+                <div class="col-md-6">
+                  <input id="captcha" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" required>
+
+                  <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="click to get a new captcha">
+
+                  @if ($errors->has('captcha'))
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first('captcha') }}</strong>
+                  </span>
+                  @endif
+                </div>
+              </div>
+
+              <div class="form-group row">
                 <div class="col-md-6 offset-md-4">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>

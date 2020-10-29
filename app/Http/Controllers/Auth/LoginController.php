@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -52,5 +53,17 @@ class LoginController extends Controller
     public function username()
     {
         return $this->username;
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            'captcha' => 'required|captcha',
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+        ], [
+            'captcha.required' => 'Captcha can\'t be none',
+            'captcha.captcha' => 'Please input right captcha',
+        ]);
     }
 }

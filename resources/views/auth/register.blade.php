@@ -62,7 +62,7 @@
               </div>
 
               <div class="form-group row">
-                <label for="captcha" class="col-md-4 col-form-label text-md-right">验证码</label>
+                <label for="captcha" class="col-md-4 col-form-label text-md-right">Captcha</label>
 
                 <div class="col-md-6">
                   <input id="captcha" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" required>
