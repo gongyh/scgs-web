@@ -34,16 +34,6 @@ class AppServiceProvider extends ServiceProvider
 
         Queue::after(function () {
             /**
-             * 修改运行job status
-             */
-            $current_job_id = Jobs::where('status', 1)->value('id');
-            $current_job = Jobs::find($current_job_id);
-            $finished = time();
-            $current_job->status = 3;   //任务完成
-            $current_job->finished = $finished;  //任务完成时间
-            $current_job->save();
-
-            /**
              * 压缩results.zip
              */
             $sample_id = Jobs::where('status', 1)->value('sample_id');
@@ -62,7 +52,9 @@ class AppServiceProvider extends ServiceProvider
                         if (is_dir($path . '/' . $filename)) {
                             addFileToZip($path . '/' . $filename, $zip);
                         } elseif (is_file($path . '/' . $filename)) {
-                            $zip->addFile($path . '/' . $filename);
+                            $results_position = strpos($path, 'results');
+                            $relative_path = substr($path, $results_position);
+                            $zip->addFile($path . '/' . $filename, $relative_path . '/' . $filename);
                         }
                     }
                 }
@@ -72,6 +64,16 @@ class AppServiceProvider extends ServiceProvider
                 addFileToZip($path, $zip);
                 $zip->close();
             }
+
+            /**
+             * 修改运行job status
+             */
+            $current_job_id = Jobs::where('status', 1)->value('id');
+            $current_job = Jobs::find($current_job_id);
+            $finished = time();
+            $current_job->status = 3;   //任务完成
+            $current_job->finished = $finished;  //任务完成时间
+            $current_job->save();
         });
     }
 }
