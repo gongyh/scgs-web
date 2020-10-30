@@ -91,13 +91,13 @@
             @endif
             <div class="mt-2">
               <div class="custom-control custom-checkbox mr-4">
-                <input type="checkbox" class="custom-control-input" id="busco_seed_species" name="busco_seed_species" value="busco_seed_species" {{$busco_seed_species?'checked':''}}>
-                <label class="custom-control-label" for="busco_seed_species">busco seed species</label>
+                <input type="checkbox" class="custom-control-input" id="augustus_species" name="augustus_species" value="augustus_species" {{$augustus_species?'checked':''}}>
+                <label class="custom-control-label" for="augustus_species">augustus species</label>
               </div>
-              <select class="custom-select mt-2 w-50 busco_seed_species_name {{$busco_seed_species_name == null?'no-display':''}}" name=" busco_seed_species_name" id="busco_seed_species_name">
+              <select class="custom-select mt-2 w-50 augustus_species_name {{$augustus_species_name == null?'no-display':''}}" name=" augustus_species_name" id="augustus_species_name">
                 <option selected value="saccharomyces">saccharomyces</option>
-                @foreach($busco_seed_species_lists as $busco_seed_species_list)
-                <option value={{$busco_seed_species_list}}>{{$busco_seed_species_list}}</option>
+                @foreach($augustus_species_lists as $augustus_species_list)
+                <option value={{$augustus_species_list}}>{{$augustus_species_list}}</option>
                 @endforeach
               </select>
             </div>
@@ -142,13 +142,6 @@
                 <label class="custom-control-label" for="kofam_kolist">kofam_kolist</label>
               </div>
               <div class="mt-2 w-50 border border-info rounded shadow p-2 kofam_kolist_path overflow-auto {{$kofam_kolist?'no-display':''}}">{{isset($pipelineParams->kofam_kolist_path)?$pipelineParams->kofam_kolist_path:'kofam kolist path has not set!please call administor'}}</div>
-            </div>
-            <div class="mt-2">
-              <div class="custom-control custom-checkbox mr-4">
-                <input type="checkbox" class="custom-control-input" id="funannotate_db" name="funannotate_db" value="funannotate_db" {{$funannotate_db?'checked':''}}>
-                <label class="custom-control-label" for="funannotate_db">funannotate_db</label>
-              </div>
-              <div class="mt-2 w-50 border border-info rounded shadow p-2 funannotate_db_path overflow-auto {{$funannotate_db?'no-display':''}}">{{isset($pipelineParams->funannotate_db_path)?$pipelineParams->funannotate_db_path:'funannotate database path has not set!please call administor'}}</div>
             </div>
           </div>
           <button type="submit" class="mt-5 ml-3 w-50 btn btn-success d-inline-block" onclick="if(confirm('when pipeline start,params can\' be modified until pipeline finished,Are you sure to execute?')==false) return false;" {{$can_exec?'':'disabled'}}>execute</button>

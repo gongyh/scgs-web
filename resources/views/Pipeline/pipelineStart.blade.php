@@ -82,10 +82,10 @@
           </div>
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
-              <input type="checkbox" class="custom-control-input" id="busco_seed_species" name="busco_seed_species" value="busco_seed_species" {{$busco_seed_species?'checked':''}} disabled>
-              <label class="custom-control-label" for="busco_seed_species">busco_seed_species</label>
+              <input type="checkbox" class="custom-control-input" id="augustus_species" name="augustus_species" value="augustus_species" {{$augustus_species?'checked':''}} disabled>
+              <label class="custom-control-label" for="augustus_species">augustus_species</label>
             </div>
-            <input type="text" name="busco_seed_species_name" class="w-50 form-control busco_seed_species_name text-secondary {{$busco_seed_species_name == null?'no-display':''}}" value={{$busco_seed_species_name == null?'':$busco_seed_species_name}}>
+            <input type="text" name="augustus_species_name" class="w-50 form-control augustus_species_name text-secondary {{$augustus_species_name == null?'no-display':''}}" value={{$augustus_species_name == null?'':$augustus_species_name}}>
           </div>
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
@@ -128,13 +128,6 @@
               <label class="custom-control-label" for="kofam_kolist">kofam_kolist</label>
             </div>
             <div class="mt-2 w-50 border text-secondary rounded shadow p-2 kofam_kolist_path overflow-auto {{$kofam_kolist?'no-display':''}}">{{$pipelineParams->kofam_kolist_path}}</div>
-          </div>
-          <div class="mt-2">
-            <div class="custom-control custom-checkbox mr-4">
-              <input type="checkbox" class="custom-control-input" id="funannotate_db" name="funannotate_db" value="funannotate_db" {{$funannotate_db?'checked':''}} disabled>
-              <label class="custom-control-label" for="funannotate_db">funannotate_db</label>
-            </div>
-            <div class="mt-2 w-50 border text-secondary rounded shadow p-2 funannotate_db_path overflow-auto {{$funannotate_db?'no-display':''}}">{{$pipelineParams->funannotate_db_path}}</div>
           </div>
         </div>
         <div class="mt-5 d-flex justify-content-around">

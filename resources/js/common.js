@@ -166,7 +166,7 @@ $("#platform").change(function(){
   /**
    * execute params设置
    */
-  const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist','funannotate_db'];
+  const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
   for (let i = 0; i < db_list.length; i++) {
     if ($('#' + db_list[i]).is(':checked')) {
       $('.' + db_list[i] + '_path').show();
@@ -181,10 +181,10 @@ $("#platform").change(function(){
     $('.genus_name').hide();
   }
 
-  if ($('#busco_seed_species').is(':checked')) {
-    $('.busco_seed_species_name').show();
+  if ($('#augustus_species').is(':checked')) {
+    $('.augustus_species_name').show();
   } else {
-    $('.busco_seed_species_name').hide();
+    $('.augustus_species_name').hide();
   }
 
   $('#genus').on('change', function () {
@@ -194,11 +194,11 @@ $("#platform").change(function(){
       $('.genus_name').hide();
     }
   })
-  $('#busco_seed_species').on('change', function () {
-    if ($('#busco_seed_species').is(':checked')) {
-      $('.busco_seed_species_name').show();
+  $('#augustus_species').on('change', function () {
+    if ($('#augustus_species').is(':checked')) {
+      $('.augustus_species_name').show();
     } else {
-      $('.busco_seed_species_name').hide();
+      $('.augustus_species_name').hide();
     }
   })
   $('#resfinder_db').on('change', function () {
@@ -241,13 +241,6 @@ $("#platform").change(function(){
       $('.kofam_kolist_path').show();
     } else {
       $('.kofam_kolist_path').hide();
-    }
-  })
-  $('#funannotate_db').on('change', function () {
-    if ($('#funannotate_db').is(':checked')) {
-      $('.funannotate_db_path').show();
-    } else {
-      $('.funannotate_db_path').hide();
     }
   })
 

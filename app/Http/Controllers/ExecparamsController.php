@@ -38,14 +38,13 @@ class ExecparamsController extends Controller
             $fungus = $request->input('fungus') == 'fungus' ? true : false;
             $resume = $request->input('resume') == 'resume' ? true : false;
             $genus = $request->input('genus') == 'genus' ? true : false;
-            $busco_seed_species = $request->input('busco_seed_species') == 'busco_seed_species' ? true : false;
+            $augustus_species = $request->input('augustus_species') == 'augustus_species' ? true : false;
             $resfinder_db = $request->input('resfinder_db') == 'resfinder_db' ? true : false;
             $nt_db = $request->input('nt_db') == 'nt_db' ? true : false;
             $eggnog = $request->input('eggnog_db') == 'eggnog_db' ? true : false;
             $kraken_db = $request->input('kraken_db') == 'kraken_db' ? true : false;
             $kofam_profile = $request->input('kofam_profile') == 'kofam_profile' ? true : false;
             $kofam_kolist = $request->input('kofam_kolist') == 'kofam_kolist' ? true : false;
-            $funannotate_db = $request->input('funannotate_db') == 'funannotate_db' ? true : false;
             if ($request->input('genus') != null) {
                 $this->validate($request, [
                     'genus_name' => 'required|max:200'
@@ -54,10 +53,10 @@ class ExecparamsController extends Controller
             } else {
                 $genus_name = null;
             }
-            if ($request->input('busco_seed_species') != null) {
-                $busco_seed_species_name = $request->input('busco_seed_species_name');
+            if ($request->input('augustus_species') != null) {
+                $augustus_species_name = $request->input('augustus_species_name');
             } else {
-                $busco_seed_species_name = null;
+                $augustus_species_name = null;
             }
             /**
              * 判断execparams表中是否有该sample运行的参数，如果没有就添加记录，如果有就修改记录
@@ -78,15 +77,14 @@ class ExecparamsController extends Controller
                     'resume' => $resume,
                     'genus' => $genus,
                     'genus_name' => $genus_name,
-                    'busco_seed_species' => $busco_seed_species,
-                    'busco_seed_species_name' => $busco_seed_species_name,
+                    'augustus_species' => $augustus_species,
+                    'augustus_species_name' => $augustus_species_name,
                     'resfinder_db' => $resfinder_db,
                     'nt_db' => $nt_db,
                     'eggnog' => $eggnog,
                     'kraken_db' => $kraken_db,
                     'kofam_profile' => $kofam_profile,
                     'kofam_kolist' => $kofam_kolist,
-                    'funannotate_db' => $funannotate_db
                 ]);
             } else {
                 $id = Execparams::where('samples_id', $sample_id)->value('id');
@@ -104,15 +102,14 @@ class ExecparamsController extends Controller
                 $execparams->resume = $resume;
                 $execparams->genus = $genus;
                 $execparams->genus_name = $genus_name;
-                $execparams->busco_seed_species = $busco_seed_species;
-                $execparams->busco_seed_species_name = $busco_seed_species_name;
+                $execparams->augustus_species = $augustus_species;
+                $execparams->augustus_species_name = $augustus_species_name;
                 $execparams->resfinder_db = $resfinder_db;
                 $execparams->kraken_db = $kraken_db;
                 $execparams->nt_db = $nt_db;
                 $execparams->eggnog = $eggnog;
                 $execparams->kofam_profile = $kofam_profile;
                 $execparams->kofam_kolist = $kofam_kolist;
-                $execparams->funannotate_db = $funannotate_db;
                 $execparams->save();
             }
 
@@ -138,11 +135,11 @@ class ExecparamsController extends Controller
             } else {
                 $genus = '';
             }
-            if ($run_sample->value('busco_seed_species')) {
-                $busco_seed_species_name = $run_sample->value('busco_seed_species_name');
-                $busco_seed_species = '--busco_seed_species ' . $busco_seed_species_name . ' ';
+            if ($run_sample->value('augustus_species')) {
+                $augustus_species_name = $run_sample->value('augustus_species_name');
+                $augustus_species = '--augustus_species ' . $augustus_species_name . ' ';
             } else {
-                $busco_seed_species = '';
+                $augustus_species = '';
             }
             /**
              * pipeline params读取数据库路径
@@ -154,14 +151,12 @@ class ExecparamsController extends Controller
             $kraken_db_path = $pipeline_params->kraken_db_path;
             $kofam_profile_path = $pipeline_params->kofam_profile_path;
             $kofam_kolist_path = $pipeline_params->kofam_kolist_path;
-            $funannotate_db_path = $pipeline_params->funannotate_db_path;
             $resfinder_db = $run_sample->value('resfinder_db') ? '--resfinder_db ' . $resfinder_db_path . ' ' : '';
             $nt_db = $run_sample->value('nt_db') ? '--nt_db ' . $nt_db_path . ' ' : '';
             $kraken_db = $run_sample->value('kraken_db') ? '--kraken_db ' . $kraken_db_path . ' ' : '';
             $eggnog_db = $run_sample->value('eggnog') ? '--eggnog_db ' . $eggnog_db_path . ' ' : '';
             $kofam_profile = $run_sample->value('kofam_profile') ? '--kofam_profile ' . $kofam_profile_path . ' ' : '';
             $kofam_kolist = $run_sample->value('kofam_kolist') ? '--kofam_kolist ' . $kofam_kolist_path . ' ' : '';
-            $funannotate_db = $run_sample->value('funannotate_db') ? '--funannotate_db ' . $funannotate_db_path . ' ' : '';
 
             $species_id = Samples::where('id', $sample_id)->value('species_id');
             $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
@@ -193,10 +188,10 @@ class ExecparamsController extends Controller
 
             if ($filename2 != null) {
                 //pairEnds
-                $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $busco_seed_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $funannotate_db . '-profile docker,base ' . $resume . '--outdir results -w work';
+                $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '-profile docker,base ' . $resume . '--outdir results -w work';
             } else {
                 //singleEnds
-                $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $busco_seed_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $funannotate_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
+                $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
             }
 
             /**
@@ -246,28 +241,27 @@ class ExecparamsController extends Controller
             $resume = $data->value('resume');    //boolean
             $genus = $data->value('genus');     //boolean
             $genus_name = $data->value('genus_name');    //string
-            $busco_seed_species = $data->value('busco_seed_species');    //boolean
-            $busco_seed_species_name = $data->value('busco_seed_species_name');    //string
+            $augustus_species = $data->value('augustus_species');    //boolean
+            $augustus_species_name = $data->value('augustus_species_name');    //string
             $resfinder_db = $data->value('resfinder_db');     //boolean
             $nt_db = $data->value('nt_db');     //boolean
             $kraken_db = $data->value('kraken_db');     //boolean
             $eggnog = $data->value('eggnog');    //boolean
             $kofam_profile = $data->value('kofam_profile');    //boolean
             $kofam_kolist = $data->value('kofam_kolist');     //boolean
-            $funannotate_db = $data->value('funannotate_db');     //boolean
-            $busco_seed_species_lists = array(
+            $augustus_species_lists = array(
                 'Conidiobolus_coronatus', 'E_coli_K12', 'Xipophorus_maculatus', 'adorsata', 'aedes', 'amphimedon', 'ancylostoma_ceylanicum', 'anidulans', 'arabidopsis', 'aspergillus_fumigatus', 'aspergillus_nidulans', 'aspergillus_oryzae', 'aspergillus_terreus', 'b_pseudomallei', 'bombus_impatiens1', ' bombus_terrestris2', 'botrytis_cinerea', 'brugia', 'c_elegans_trsk', 'cacao', 'caenorhabditis', 'camponotus_floridanus', 'candida_albicans', 'candida_guilliermondii', 'candida_tropicalis', 'chaetomium_globosum', 'chicken', 'chiloscyllium', 'chlamy2011', 'chlamydomonas', 'chlorella', 'ciona', 'coccidioides_immitis', 'coprinus', 'coprinus_cinereus', 'coyote_tobacco', 'cryptococcus', 'cryptococcus_neoformans_gattii', 'cryptococcus_neoformans_neoformans_B', 'cryptococcus_neoformans_neoformans_JEC21', 'culex', 'debaryomyces_hansenii', 'elephant_shark', 'encephalitozoon_cuniculi_GB', 'eremothecium_gossypii', 'fly', 'fly_exp', 'fusarium', 'fusarium_graminearum', 'galdieria', 'generic', 'heliconius_melpomene1', 'histoplasma', 'histoplasma_capsulatum', 'honeybee1', 'human', 'japaneselamprey', 'kluyveromyces_lactis',
                 'laccaria_bicolor', 'leishmania_tarentolae', 'lodderomyces_elongisporus', 'magnaporthe_grisea', 'maize', 'maize5', 'mnemiopsis_leidyi', 'nasonia', 'nematostella_vectensis', 'neurospora', 'neurospora_crassa', 'parasteatoda', 'pchrysosporium', 'pea_aphid', 'pfalciparum', 'phanerochaete_chrysosporium', 'pichia_stipitis', 'pisaster', 'pneumocystis', 'rhincodon', 'rhizopus_oryzae', 'rhodnius', 'rice', 's_aureus', 's_pneumoniae', 'saccharomyces', 'saccharomyces_cerevisiae_S288C', 'saccharomyces_cerevisiae_rm11-1a_1', 'schistosoma', 'schistosoma2', 'schizosaccharomyces_pombe', 'scyliorhinus', 'sealamprey', 'strongylocentrotus_purpuratus', 'sulfolobus_solfataricus', 'template_prokaryotic', 'tetrahymena', 'thermoanaerobacter_tengcongensis', 'tomato', 'toxoplasma', 'tribolium2012', 'trichinella', 'ustilago', 'ustilago_maydis', 'verticillium_albo_atrum1', 'verticillium_longisporum1', 'volvox', 'wheat', 'yarrowia_lipolytica', 'zebrafish'
             );
-            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'busco_seed_species', 'busco_seed_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'funannotate_db', 'sample_id', 'pipelineParams', 'can_exec', 'busco_seed_species_lists'));
+            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams', 'can_exec', 'augustus_species_lists'));
         } else {
-            $ass = $cnv = $snv = $bulk = $saturation = $acquired = $saveTrimmed = $saveAlignedIntermediates = $resume = $euk = $fungus = $genus = $busco_seed_species = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = $funannotate_db = false;
-            $genus_name = $busco_seed_species_name = null;
-            $busco_seed_species_lists = array(
+            $ass = $cnv = $snv = $bulk = $saturation = $acquired = $saveTrimmed = $saveAlignedIntermediates = $resume = $euk = $fungus = $genus = $augustus_species = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = false;
+            $genus_name = $augustus_species_name = null;
+            $augustus_species_lists = array(
                 'Conidiobolus_coronatus', 'E_coli_K12', 'Xipophorus_maculatus', 'adorsata', 'aedes', 'amphimedon', 'ancylostoma_ceylanicum', 'anidulans', 'arabidopsis', 'aspergillus_fumigatus', 'aspergillus_nidulans', 'aspergillus_oryzae', 'aspergillus_terreus', 'b_pseudomallei', 'bombus_impatiens1', ' bombus_terrestris2', 'botrytis_cinerea', 'brugia', 'c_elegans_trsk', 'cacao', 'caenorhabditis', 'camponotus_floridanus', 'candida_albicans', 'candida_guilliermondii', 'candida_tropicalis', 'chaetomium_globosum', 'chicken', 'chiloscyllium', 'chlamy2011', 'chlamydomonas', 'chlorella', 'ciona', 'coccidioides_immitis', 'coprinus', 'coprinus_cinereus', 'coyote_tobacco', 'cryptococcus', 'cryptococcus_neoformans_gattii', 'cryptococcus_neoformans_neoformans_B', 'cryptococcus_neoformans_neoformans_JEC21', 'culex', 'debaryomyces_hansenii', 'elephant_shark', 'encephalitozoon_cuniculi_GB', 'eremothecium_gossypii', 'fly', 'fly_exp', 'fusarium', 'fusarium_graminearum', 'galdieria', 'generic', 'heliconius_melpomene1', 'histoplasma', 'histoplasma_capsulatum', 'honeybee1', 'human', 'japaneselamprey', 'kluyveromyces_lactis',
                 'laccaria_bicolor', 'leishmania_tarentolae', 'lodderomyces_elongisporus', 'magnaporthe_grisea', 'maize', 'maize5', 'mnemiopsis_leidyi', 'nasonia', 'nematostella_vectensis', 'neurospora', 'neurospora_crassa', 'parasteatoda', 'pchrysosporium', 'pea_aphid', 'pfalciparum', 'phanerochaete_chrysosporium', 'pichia_stipitis', 'pisaster', 'pneumocystis', 'rhincodon', 'rhizopus_oryzae', 'rhodnius', 'rice', 's_aureus', 's_pneumoniae', 'saccharomyces', 'saccharomyces_cerevisiae_S288C', 'saccharomyces_cerevisiae_rm11-1a_1', 'schistosoma', 'schistosoma2', 'schizosaccharomyces_pombe', 'scyliorhinus', 'sealamprey', 'strongylocentrotus_purpuratus', 'sulfolobus_solfataricus', 'template_prokaryotic', 'tetrahymena', 'thermoanaerobacter_tengcongensis', 'tomato', 'toxoplasma', 'tribolium2012', 'trichinella', 'ustilago', 'ustilago_maydis', 'verticillium_albo_atrum1', 'verticillium_longisporum1', 'volvox', 'wheat', 'yarrowia_lipolytica', 'zebrafish'
             );
-            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'busco_seed_species', 'busco_seed_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'funannotate_db', 'sample_id', 'pipelineParams', 'can_exec', 'busco_seed_species_lists'));
+            return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams', 'can_exec', 'augustus_species_lists'));
         }
     }
 
@@ -290,16 +284,15 @@ class ExecparamsController extends Controller
         $resume = $data->value('resume');    //boolean
         $genus = $data->value('genus');     //boolean
         $genus_name = $data->value('genus_name');    //string
-        $busco_seed_species = $data->value('busco_seed_species');    //string
-        $busco_seed_species_name = $data->value('busco_seed_species_name');    //string
+        $augustus_species = $data->value('augustus_species');    //string
+        $augustus_species_name = $data->value('augustus_species_name');    //string
         $resfinder_db = $data->value('resfinder_db');     //boolean
         $nt_db = $data->value('nt_db');     //boolean
         $kraken_db = $data->value('kraken_db');     //boolean
         $eggnog = $data->value('eggnog');    //boolean
         $kofam_profile = $data->value('kofam_profile');    //boolean
         $kofam_kolist = $data->value('kofam_kolist');     //boolean
-        $funannotate_db = $data->value('funannotate_db');     //boolean
-        return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'busco_seed_species', 'busco_seed_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'funannotate_db', 'sample_id', 'pipelineParams'));
+        return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
     }
 
     public function ajax(Request $request)

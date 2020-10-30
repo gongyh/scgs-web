@@ -34,10 +34,6 @@
           <label for="kofam_kolist_path" class="rem1">kofam kolist path</label>
           <input type="text" class="form-control" id="kofam_kolist_path" name="kofam_kolist_path" value={{isset($pipelineParams)?$pipelineParams->kofam_kolist_path:''}}>
         </div>
-        <div class="form-group">
-          <label for="funannotate_db_path" class="rem1">funannotate database path</label>
-          <input type="text" class="form-control" id="funannotate_db_path" name="funannotate_db_path" value={{isset($pipelineParams)?$pipelineParams->funannotate_db_path:''}}>
-        </div>
         <!-- error message -->
         @if (count($errors) > 0)
         <div class="alert alert-danger">
