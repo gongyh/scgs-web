@@ -32,10 +32,6 @@
         <label for="kofam_kolist_path" class="rem1">kofam kolist path</label>
         <input type="text" class="form-control" id="kofam_kolist_path" readonly value={{isset($pipelineParams)?$pipelineParams->kofam_kolist_path:''}}>
       </div>
-      <div class="form-group">
-        <label for="funannotate_db_path" class="rem1">funannotate database path</label>
-        <input type="text" class="form-control" id="funannotate_db_path" readonly value={{isset($pipelineParams)?$pipelineParams->funannotate_db_path:''}}>
-      </div>
       <!-- error message -->
       <div class="mt-4 d-flex justify-content-around">
         <a href="/workspace/pipelineParams/update" class="btn btn-success">Edit</a>

@@ -21,7 +21,6 @@ class CreatePipelineParamsTable extends Migration
             $table->string('kraken_db_path', 200);
             $table->string('kofam_profile_path', 200);
             $table->string('kofam_kolist_path', 200);
-            $table->string('funannotate_db_path', 200);
             $table->timestamps();
         });
     }

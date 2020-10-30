@@ -30,15 +30,14 @@ class CreateExecparamsTable extends Migration
             $table->boolean('saveAlignedIntermediates');
             $table->boolean('genus');
             $table->string('genus_name', 200)->nullable();
-            $table->boolean('busco_seed_species');
-            $table->string('busco_seed_species_name', 200)->nullable();
+            $table->boolean('augustus_species');
+            $table->string('augustus_species_name', 200)->nullable();
             $table->boolean('resfinder_db');
             $table->boolean('nt_db');
             $table->boolean('kraken_db');
             $table->boolean('eggnog');
             $table->boolean('kofam_profile');
             $table->boolean('kofam_kolist');
-            $table->boolean('funannotate_db');
             $table->timestamps();
         });
     }
