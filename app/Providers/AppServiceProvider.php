@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -32,11 +33,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        Queue::after(function () {
+        Queue::after(function (JobProcessed $event) {
             /**
              * 压缩results.zip
              */
-            $sample_id = Jobs::where('status', 1)->value('sample_id');
+            $job_uuid = $event->job->uuid();
+            $sample_id = Jobs::where('current_uuid', $job_uuid)->value('sample_id');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
             $user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
             $sample_username = User::where('id', $user_id)->value('name');
@@ -68,7 +70,7 @@ class AppServiceProvider extends ServiceProvider
             /**
              * 修改运行job status
              */
-            $current_job_id = Jobs::where('status', 1)->value('id');
+            $current_job_id = Jobs::where('current_uuid', $job_uuid)->value('id');
             $current_job = Jobs::find($current_job_id);
             $finished = time();
             $current_job->status = 3;   //任务完成
