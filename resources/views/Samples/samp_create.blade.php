@@ -14,18 +14,22 @@
           <div class="w-50 pr-5">
             <div class="form-group">
               <label for="new_sample_label">SampleLabel</label><span class="text-danger"> *</span>
-              <input type="text" class="form-control" name="new_sample_label" id="new_sample_label">
+              <input type="text" class="form-control" name="new_sample_label" id="new_sample_label" value={{old('new_sample_label')?old('new_sample_label'):''}}>
             </div>
 
             <div class="form-group">
               <label for="new_library_id">LibraryID</label><span class="text-danger"> *</span>
-              <input type="text" class="form-control" name="new_library_id" id="new_library_id">
+              <input type="text" class="form-control" name="new_library_id" id="new_library_id" value={{old('new_library_id')?old('new_library_id'):''}}>
             </div>
 
             <div class="form-group">
               <label for="library_strategy">Library Strategy</label><span class="text-danger"> *</span>
               <select class="custom-select" name="library_strategy" id="library_strategy">
-                <option selected></option>
+                @if(old('library_strategy'))
+                <option value={{old('library_strategy')?old('library_strategy'):''}} selected>{{old('library_strategy)?old('library_strategy'):''}}</option>
+                @else
+                <option value="WGS" selected>WGS</option>
+                @endif
                 @foreach($library_strategies as $library_strategy)
                 <option value={{$library_strategy}}>{{$library_strategy}}</option>
                 @endforeach
@@ -35,7 +39,11 @@
             <div class="form-group">
               <label for="library_source">Library Source</label><span class="text-danger"> *</span>
               <select class="custom-select" name="library_source" id="library_source">
-                <option selected></option>
+                @if(old('library_source'))
+                <option value={{old('library_source')?old('library_source'):''}} selected>{{old('library_source')?old('library_source'):''}}</option>
+                @else
+                <option value="GENOMIC" selected>GENOMIC</option>
+                @endif
                 @foreach($library_sources as $library_source)
                 <option value={{$library_source}}>{{$library_source}}</option>
                 @endforeach

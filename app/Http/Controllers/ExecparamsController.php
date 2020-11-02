@@ -204,6 +204,7 @@ class ExecparamsController extends Controller
                     'user_id' => $user_id,
                     'sample_id' => $sample_id,
                     'uuid' => 'default',
+                    'current_uuid' => 'default',
                     'started' => '000',
                     'finished' => '000',
                     'command' => $cmd,

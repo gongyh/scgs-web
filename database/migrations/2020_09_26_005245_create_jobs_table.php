@@ -17,6 +17,7 @@ class CreateJobsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('uuid', 150);
+            $table->string('current_uuid', 150);
             $table->unsignedBigInteger('sample_id');
             $table->foreign('sample_id')->references('id')->on('samples')->onDelete('cascade');
             $table->integer('status');
