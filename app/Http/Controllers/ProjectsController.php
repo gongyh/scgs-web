@@ -71,17 +71,17 @@ class ProjectsController extends Controller
             if ($request->input('labID')) {
                 $this->validate($request, [
                     'new_proj_name' => 'required',
-                    'new_doi_num' => 'required|unique:projects,doi',
+                    'new_project_id' => 'required|unique:projects,doi',
                     'new_proj_desc' => 'required|max:2000'
                 ]);
                 $new_proj_name = $request->input('new_proj_name');
-                $new_doi_num = $request->input('new_doi_num');
+                $new_project_id = $request->input('new_project_id');
                 $new_proj_desc = $request->input('new_proj_desc');
                 $labID = $request->input('labID');
                 Projects::create([
                     'labs_id' => $labID,
                     'name' => $new_proj_name,
-                    'doi' => $new_doi_num,
+                    'doi' => $new_project_id,
                     'description' => $new_proj_desc
                 ]);
                 if ($request->input('from')) {
@@ -93,17 +93,17 @@ class ProjectsController extends Controller
                 $this->validate($request, [
                     'selectLab' => 'required',
                     'new_proj_name' => 'required',
-                    'new_doi_num' => 'required|unique:projects,doi',
+                    'new_project_id' => 'required|unique:projects,doi',
                     'new_proj_desc' => 'required|max:2000'
                 ]);
                 $labId = $request->input('selectLab');
                 $new_proj_name = $request->input('new_proj_name');
-                $new_doi_num = $request->input('new_doi_num');
+                $new_project_id = $request->input('new_project_id');
                 $new_proj_desc = $request->input('new_proj_desc');
                 Projects::create([
                     'labs_id' => $labId,
                     'name' => $new_proj_name,
-                    'doi' => $new_doi_num,
+                    'doi' => $new_project_id,
                     'description' => $new_proj_desc
                 ]);
                 if ($request->input('from')) {

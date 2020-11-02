@@ -26,7 +26,7 @@
               <label for="library_strategy">Library Strategy</label><span class="text-danger"> *</span>
               <select class="custom-select" name="library_strategy" id="library_strategy">
                 @if(old('library_strategy'))
-                <option value={{old('library_strategy')?old('library_strategy'):''}} selected>{{old('library_strategy)?old('library_strategy'):''}}</option>
+                <option value={{old('library_strategy')?old('library_strategy'):''}} selected>{{old('library_strategy')?old('library_strategy'):''}}</option>
                 @else
                 <option value="WGS" selected>WGS</option>
                 @endif
@@ -53,7 +53,11 @@
             <div class="form-group">
               <label for="library_selection">Library Selection</label><span class="text-danger"> *</span>
               <select class="custom-select" name="library_selection" id="library_selection">
-                <option selected></option>
+                @if(old('library_selection'))
+                <option value={{old('library_selection')?old('library_selection'):''}} selected>{{old('library_selection')?old('library_selection'):''}}</option>
+                @else
+                <option value="MDA" selected>MDA</option>
+                @endif
                 @foreach($library_selections as $library_selection)
                 <option value={{$library_selection}}>{{$library_selection}}</option>
                 @endforeach
@@ -63,24 +67,29 @@
             <div class="form-group">
               <label for="platform">Platform</label><span class="text-danger"> *</span>
               <select class="custom-select" name="platform" id="platform">
-                <option selected></option>
+                @if(old('platform'))
+                <option value={{old('platform')?old('platform'):''}} selected>{{old('platform')?old('platform'):''}}</option>
+                @else
                 <option value="_LS454">_LS454</option>
                 <option value="ABI_SOLID">ABI_SOLID</option>
                 <option value="BGISEQ">BGISEQ</option>
                 <option value="CAPILLARY">CAPILLARY</option>
                 <option value="COMPLETE_GENOMICS">COMPLETE_GENOMICS</option>
                 <option value="HELICOS">HELICOS</option>
-                <option value="ILLUMINA">ILLUMINA</option>
+                <option value="ILLUMINA" selected>ILLUMINA</option>
                 <option value="ION_TORRENT">ION_TORRENT</option>
                 <option value="OXFORD_NANOPORE">OXFORD_NANOPORE</option>
                 <option value="PACBIO_SMRT">PACBIO_SMRT</option>
+                @endif
               </select>
             </div>
 
             <div class="form-group">
               <label for="instrument_model">Instrument_model</label><span class="text-danger"> *</span>
               <select class="custom-select" name="instrument_model" id="instrument_model">
-                <option selected></option>
+                @if(old('instrument_model'))
+                <option value={{old('instrument_model')?old('instrument_model'):''}} selected>{{old('instrument_model')?old('instrument_model'):''}}</option>
+                @else
                 <option value="454 GS" class="_LS454">454 GS</option>
                 <option value="454 GS 20" class="_LS454">454 GS 20</option>
                 <option value="454 GS FLX" class="_LS454">454 GS FLX</option>
@@ -95,7 +104,7 @@
                 <option value="Illumina HiScanSQ" class="Illumina">Illumina HiScanSQ</option>
                 <option value="Illumina HiSeq 1000" class="Illumina">Illumina HiSeq 1000</option>
                 <option value="Illumina HiSeq 1500" class="Illumina">Illumina HiSeq 1500</option>
-                <option value="Illumina HiSeq 2000" class="Illumina">Illumina HiSeq 2000</option>
+                <option value="Illumina HiSeq 2000" class="Illumina" selected>Illumina HiSeq 2000</option>
                 <option value="Illumina HiSeq 2500" class="Illumina">Illumina HiSeq 2500</option>
                 <option value="Illumina HiSeq 3000" class="Illumina">Illumina HiSeq 3000</option>
                 <option value="Illumina HiSeq 4000" class="Illumina">Illumina HiSeq 4000</option>
@@ -136,12 +145,13 @@
                 <option value="MinION" class="Oxford_nanopore">MinION</option>
                 <option value="PromethION" class="Oxford_nanopore">PromethION</option>
                 <option value="BGISEQ-500" class="BgiSeq">BGISEQ-500</option>
+                @endif
               </select>
             </div>
 
             <div class="form-group">
               <label for="design_description">Design Description</label><span class="text-danger"> *</span>
-              <textarea class="form-control" name="design_description" id="design_description"></textarea>
+              <textarea class="form-control" name="design_description" id="design_description">{{old('design_description')?old('design_description'):''}}</textarea>
             </div>
 
             <div class="form-group">
@@ -154,7 +164,9 @@
             <div class="form-group">
               <label for="select_application">Choose a application</label><span class="text-danger"> *</span>
               <select class="custom-select" name="select_application" id="select_application">
-                <option selected></option>
+                @if(old('select_application'))
+                <option value={{old('select_application')?old('select_application'):''}} selected>{{old('select_application')?old('select_application'):''}}</option>
+                @endif
                 @foreach($applications as $application)
                 <option value="{{$application->id}}">{{$application->name}}</option>
                 @endforeach
@@ -164,6 +176,9 @@
             <div class="form-group">
               <label for="select_species">Choose a species</label>
               <select class="custom-select" name="select_species" id="select_species">
+                @if(old('select_species'))
+                <option value={{old('select_species')?old('select_species'):''}} selected>{{old('select_species')?old('select_species'):''}}</option>
+                @endif
                 <option selected></option>
                 @foreach($all_species as $species)
                 <option value="{{$species->id}}">{{$species->name}}</option>
@@ -185,12 +200,12 @@
             <p class="tips"><strong>Tips:</strong>1.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
             <div class="form-group">
               <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
-              <input type="text" class="form-control" name="new_fileOne" id="new_fileOne">
+              <input type="text" class="form-control" name="new_fileOne" id="new_fileOne" value={{old('new_fileOne')?old('new_fileOne'):''}}>
             </div>
 
             <div class="form-group file_two">
               <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
-              <input type="text" class="form-control fileTwo" name="new_fileTwo" id="new_fileTwo">
+              <input type="text" class="form-control fileTwo" name="new_fileTwo" id="new_fileTwo" value={{old('new_fileTwo')?old('new_fileTwo'):''}}>
             </div>
             <!-- error message -->
             @if (count($errors) > 0)
