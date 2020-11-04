@@ -24,11 +24,13 @@ class ResultController extends Controller
     public function success_running(Request $request)
     {
         $sample_id = $request->input('sampleID');
+        $sample_user = User::where('id', $sample_id)->value('name');
+        $sample_uuid = Jobs::where('sample_id', $sample_id);
         $started = Jobs::where('sample_id', $sample_id)->value('started');
         $finished = Jobs::where('sample_id', $sample_id)->value('finished');
         $period = $finished - $started;
         $command = Jobs::where('sample_id', $sample_id)->value('command');
-        return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id]);
+        return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid]);
     }
 
     public function download_result(Request $request)

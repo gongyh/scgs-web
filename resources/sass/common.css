@@ -260,3 +260,55 @@ a:hover {
   height: 80px;
   width: 80px;
 }
+
+#iframe_browser {
+  width: 100%;
+  height: 100%;
+  margin: 30px 0;
+  background: #ddd;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  border-bottom: 2px solid #ccc;
+  box-shadow: 2px 3px 4px rgba(51, 51, 51, 0.2);
+}
+
+#iframe_browser_header {
+  height: 30px;
+  padding: 7px 5px;
+}
+
+#iframe_browser_buttons span {
+  height: 12px;
+  width: 12px;
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: #eee;
+  border: 1px solid #bbb;
+  float: left;
+  margin: 2px 0 0 4px;
+}
+
+#iframe_browser_buttons span:first-of-type {
+  background-color: #fa5657;
+  border-color: #ec4840;
+}
+
+#iframe_browser_buttons span:nth-of-type(2) {
+  background-color: #ffb845;
+  border-color: #e79d48;
+}
+
+#iframe_browser_buttons span:last-of-type {
+  background-color: #54c953;
+  border-color: #52ab3f;
+}
+
+#iframe_browser_title {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 400;
+  color: #666;
+  margin: 1px 10px;
+  vertical-align: top;
+  padding-left: 10px;
+}
