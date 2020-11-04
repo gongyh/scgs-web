@@ -46,29 +46,13 @@ class AppServiceProvider extends ServiceProvider
             $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
             $zip = new ZipArchive();
             $path = $base_path . $sample_username . '/' . $uuid . '/results';
-            function addFileToZip($path, $zip)
-            {
-                $handler = opendir($path);
-                while (($filename = readdir($handler)) !== false) {
-                    if ($filename != '.' && $filename != '..') {
-                        if (is_dir($path . '/' . $filename)) {
-                            addFileToZip($path . '/' . $filename, $zip);
-                        } elseif (is_file($path . '/' . $filename)) {
-                            $results_position = strpos($path, 'results');
-                            $relative_path = substr($path, $results_position);
-                            $zip->addFile($path . '/' . $filename, $relative_path . '/' . $filename);
-                        }
-                    }
-                }
-                @closedir($path);
-            }
             if ($zip->open($zip_full_name, ZipArchive::CREATE  | ZipArchive::OVERWRITE) == true) {
                 addFileToZip($path, $zip);
                 $zip->close();
             }
 
             /**
-             * 修改运行job status
+             * change job status
              */
             $current_job_id = Jobs::where('current_uuid', $job_uuid)->value('id');
             $current_job = Jobs::find($current_job_id);
@@ -77,5 +61,22 @@ class AppServiceProvider extends ServiceProvider
             $current_job->finished = $finished;  //任务完成时间
             $current_job->save();
         });
+
+        function addFileToZip($path, $zip)
+        {
+            $handler = opendir($path);
+            while (($filename = readdir($handler)) !== false) {
+                if ($filename != '.' && $filename != '..') {
+                    if (is_dir($path . '/' . $filename)) {
+                        addFileToZip($path . '/' . $filename, $zip);
+                    } elseif (is_file($path . '/' . $filename)) {
+                        $results_position = strpos($path, 'results');
+                        $relative_path = substr($path, $results_position);
+                        $zip->addFile($path . '/' . $filename, $relative_path . '/' . $filename);
+                    }
+                }
+            }
+            @closedir($path);
+        }
     }
 }

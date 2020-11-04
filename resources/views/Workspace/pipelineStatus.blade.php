@@ -47,7 +47,7 @@
                   <span class="badge badge-danger">failed</span>
                 </td>
                 <td class="start_time">{{$user_job->started}}</td>
-                <td class="finish_time">{{$user_job->started}}</td>
+                <td class="finish_time">{{$user_job->finished}}</td>
                 <td class="Run_time">{{$now - $user_job->started}}</td>
               </tr>
               @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 3)
@@ -59,7 +59,7 @@
                   <span class="badge badge-success">success</span>
                 </td>
                 <td class="start_time">{{$user_job->started}}</td>
-                <td class="finish_time">{{$user_job->started}}</td>
+                <td class="finish_time">{{$user_job->finished}}</td>
                 <td class="Run_time">{{$now - $user_job->started}}</td>
               </tr>
               @endif
