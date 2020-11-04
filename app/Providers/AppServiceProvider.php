@@ -51,6 +51,10 @@ class AppServiceProvider extends ServiceProvider
                 $zip->close();
             }
 
+            $multiqc_mkdir = 'cd ' . public_path() . 'results && mkdir -p ' . $sample_username . '/' . $uuid;
+            $cp_multiqc = 'cp ' . $path . '/MultiQC ' . public_path() . 'results/' . $sample_username . '/' . $uuid;
+            system($multiqc_mkdir);
+            system($cp_multiqc);
             /**
              * change job status
              */
