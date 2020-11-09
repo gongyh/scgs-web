@@ -313,7 +313,6 @@ $("#platform").change(function(){
     }
   }
 
-
 })
 
 var FileInput = function() {

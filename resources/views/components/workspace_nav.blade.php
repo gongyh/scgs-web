@@ -4,7 +4,7 @@
    <div class="border-bottom">
      <div class="user-box"><img src="{{asset('/images/user.png')}}" class="user-image" alt="Responsive image"></div>
      @if(Auth::user()->name == 'admin')
-     <div class="user-name">Administor</div>
+     <div class="user-name">Administrator</div>
      @else
      <div class="user-name">{{Auth::user()->name}}</div>
      @endif

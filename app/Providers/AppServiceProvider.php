@@ -52,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $multiqc_mkdir = 'cd ' . public_path() . 'results && mkdir -p ' . $sample_username . '/' . $uuid;
-            $cp_multiqc = 'cp ' . $path . '/MultiQC ' . public_path() . 'results/' . $sample_username . '/' . $uuid;
+            $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp ' . $path . '/MultiQC ' . public_path() . 'results/' . $sample_username . '/' . $uuid . '; fi';
             system($multiqc_mkdir);
             system($cp_multiqc);
             /**
@@ -61,8 +61,8 @@ class AppServiceProvider extends ServiceProvider
             $current_job_id = Jobs::where('current_uuid', $job_uuid)->value('id');
             $current_job = Jobs::find($current_job_id);
             $finished = time();
-            $current_job->status = 3;   //任务完成
-            $current_job->finished = $finished;  //任务完成时间
+            $current_job->status = 3;   //job finished
+            $current_job->finished = $finished;  //job finished time
             $current_job->save();
         });
 

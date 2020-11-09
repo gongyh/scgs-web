@@ -9,8 +9,7 @@
     <div class="col-md-2">
       @include('components.workspace_nav')
     </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-6">
+    <div class="col-md-9">
       <div class="tab-content" id="v-pills-tabContent">
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
           <div class="bg-white p-3 rounded shadow">
@@ -39,8 +38,8 @@
               <div class="text-success Run_time">{{$period}}</div>
             </div>
             <p class="mt-3">
-              <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Command
-              </button>
+              <a class="btn btn-light" type="a" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Command >>
+              </a>
             </p>
             <div class="collapse" id="collapseExample">
               <div class="card card-body">
@@ -60,7 +59,7 @@
               <span id="iframe_browser_title">MultiQC Example Reports</span>
             </div>
             <div class="embed-responsive embed-responsive-4by3">
-              <iframe class="embed-responsive-item" src="results/{{$sample_user}}/{{$sample_uuid}}/MultiQC/multiqc_report.html" allowfullscreen></iframe>
+              <iframe class="embed-responsive-item" src={{'results/'.$sample_user.'/'.$sample_uuid.'/MultiQC/multiqc_report.html'}} allowfullscreen></iframe>
             </div>
           </div>
         </div>
@@ -68,12 +67,12 @@
 
     </div>
     <!-- right-column -->
-    <div class="col-md-3">
+    <div class="col-md-1">
       <div class="result-info">
-        <div class="rem15 text-info">Results</div>
-        <div class="w-50 nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <a class="font-weight-bold btn btn-default active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
-          <a class="font-weight-bold btn btn-default" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">MultiQC</a>
+        <div class="ml-3 rem15 text-info">Results</div>
+        <div class="w-50 nav flex-column nav-pills list-switch left demo-chooser" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          <a class="active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
+          <a id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">MultiQC</a>
         </div>
       </div>
 
