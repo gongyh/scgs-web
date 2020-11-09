@@ -24,8 +24,9 @@ class ResultController extends Controller
     public function success_running(Request $request)
     {
         $sample_id = $request->input('sampleID');
-        $sample_user = User::where('id', $sample_id)->value('name');
-        $sample_uuid = Jobs::where('sample_id', $sample_id);
+        $sample_user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
+        $sample_user = User::where('id', $sample_user_id)->value('name');
+        $sample_uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
         $started = Jobs::where('sample_id', $sample_id)->value('started');
         $finished = Jobs::where('sample_id', $sample_id)->value('finished');
         $period = $finished - $started;
