@@ -87,7 +87,7 @@
                   <tr>
                     <th scope="row" class="table-item">{{$selectSample->id}}</th>
                     <td class="table-item">
-                      @if(Auth::check())
+                      @if($isPI && $isAdmin)
                       @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() == 0 || DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 0)
                       <span>{{$selectSample->sampleLabel}}</span>
                       @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 1)
