@@ -36,6 +36,9 @@ $(function () {
     var check_progress = false;
     var read_progress;
 
+    //iframe MultiQC report render page onload
+    $('.hc-plot').removeClass('.not_rendered');
+
   text_folded('.proj_desc', 200);
   $('.start_time').each(function () {
     var start_time = $(this).text();
@@ -62,7 +65,7 @@ $(function () {
   })
 
   /**
-   * 获取url中的参数
+   * Get url params
    */
   function getQueryVariable(variable){
        var query = window.location.search.substring(1);
@@ -75,7 +78,7 @@ $(function () {
     }
 
   /**
-   * 任务开始时间秒转换年,月,日
+   * Convert task start time to year:month:second
    */
   function Sec2Time(time) {
     let datetime = new Date(time).getTime();
@@ -85,7 +88,7 @@ $(function () {
   }
 
   /**
-   * sample根据pairends控制上传file数量
+   * Pairend control upload files number
    */
   if ($("input[type='radio']:checked").val() == 'singleEnds') {
     $(".file_two").hide();
@@ -102,7 +105,7 @@ $(function () {
   })
 
 /**
- * sample platform选中时instrument model选项改变
+ * Sample platform selected change instrument model options
  */
 $("#platform").change(function(){
     switch($(this).children("option:selected").val()){
@@ -150,7 +153,7 @@ $("#platform").change(function(){
 })
 
   /**
-   * workspace-nav选中时的阴影效果
+   * Workspace-nav selected shadow
    */
   $('.workspace-nav').hover(function () {
     $(this).addClass('shadow p-3 rounded');
@@ -164,7 +167,7 @@ $("#platform").change(function(){
   })
 
   /**
-   * execute params设置
+   * Execute params setting
    */
   const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
   for (let i = 0; i < db_list.length; i++) {
@@ -245,7 +248,7 @@ $("#platform").change(function(){
   })
 
   /**
-   * .nextflow.log读取
+   * Read .nextflow.log
    */
   $.ajaxSetup({
     headers: {
@@ -290,9 +293,9 @@ $("#platform").change(function(){
 
 
   /**
-   * jQuery 文本折叠展开特效
-   * @param clas：存放文本的容器
-   * @param num：要显示的字数
+   * jQuery text fold/unfold
+   * @param clas：text container
+   * @param num：font number
    */
 
   function text_folded(clas, num) {
@@ -318,11 +321,11 @@ $("#platform").change(function(){
 var FileInput = function() {
     var oFile = new Object();
 
-    //初始化fileinput控件（第一次初始化）
+    //Init fileInput
     oFile.Init = function(ctrlName, uploadUrl) {
     var control = $('#' + ctrlName);
 
-    //初始化上传控件的样式
+    //Init fileUpload
     control.fileinput({
         uploadUrl: uploadUrl, //上传的地址
         allowedFileExtensions: ['xls','xlsx'],//接收的文件后缀
@@ -336,7 +339,7 @@ var FileInput = function() {
         msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
     });
 
-    //导入文件上传完成之后的事件
+    //Event after upload file
     control.on("fileuploaded", function (event, data, previewId, index) {
         $("#myModal_" + ctrlName).modal("hide");
         if (data == undefined) {
