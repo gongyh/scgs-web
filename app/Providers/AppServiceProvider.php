@@ -51,10 +51,6 @@ class AppServiceProvider extends ServiceProvider
                 $zip->close();
             }
 
-            $multiqc_mkdir = 'cd ' . public_path() . 'results && mkdir -p ' . $sample_username . '/' . $uuid;
-            $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp ' . $path . '/MultiQC ' . public_path() . 'results/' . $sample_username . '/' . $uuid . '; fi';
-            system($multiqc_mkdir);
-            system($cp_multiqc);
             /**
              * change job status
              */
@@ -64,6 +60,11 @@ class AppServiceProvider extends ServiceProvider
             $current_job->status = 3;   //job finished
             $current_job->finished = $finished;  //job finished time
             $current_job->save();
+
+            $multiqc_mkdir = 'cd ' . public_path() . 'results && mkdir -p ' . $sample_username . '/' . $uuid;
+            $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp ' . $path . '/MultiQC ' . public_path() . 'results/' . $sample_username . '/' . $uuid . '; fi';
+            system($multiqc_mkdir);
+            system($cp_multiqc);
         });
 
         function addFileToZip($path, $zip)
