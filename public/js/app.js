@@ -49954,9 +49954,7 @@ $(function () {
   species_file.Init('species_file', '/workspace/species/upload');
   var running_sample_id = getQueryVariable('sampleID');
   var check_progress = false;
-  var read_progress; //iframe MultiQC report render page onload
-
-  $('.hc-plot').removeClass('.not_rendered');
+  var read_progress;
   text_folded('.proj_desc', 200);
   $('.start_time').each(function () {
     var start_time = $(this).text();

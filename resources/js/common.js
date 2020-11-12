@@ -7,6 +7,7 @@ window.onload = function () {
   var url = current_url.split('/').pop();
   var url_noparams = url.indexOf('?') != -1 ? url.slice(0, url.indexOf('?')) : url;
   var workspace_nav = document.getElementsByClassName('workspace-nav');
+
   if (url) {
     for (var i = 0; i < workspace_nav.length; i++) {
       if (workspace_nav[i].getAttribute('href').split('/').pop().indexOf(url_noparams) != -1) {
@@ -35,9 +36,6 @@ $(function () {
     var running_sample_id = getQueryVariable('sampleID');
     var check_progress = false;
     var read_progress;
-
-    //iframe MultiQC report render page onload
-    $('.hc-plot').removeClass('.not_rendered');
 
   text_folded('.proj_desc', 200);
   $('.start_time').each(function () {
