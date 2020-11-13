@@ -49926,13 +49926,15 @@ window.onload = function () {
   var url_noparams = url.indexOf('?') != -1 ? url.slice(0, url.indexOf('?')) : url;
   var workspace_nav = document.getElementsByClassName('workspace-nav');
   var iframe = document.getElementsByTagName('iframe')[0];
-  var MultiQC = document.getElementById('v-pills-profile-tab');
+  var MultiQC = document.getElementById('v-pills-multiqc-tab');
 
-  MultiQC.onclick = function () {
-    setTimeout(function () {
-      iframe.contentWindow.location.reload(true);
-    }, 1000);
-  };
+  if (MultiQC !== null) {
+    MultiQC.onclick = function () {
+      setTimeout(function () {
+        iframe.contentWindow.location.reload(true);
+      }, 1000);
+    };
+  }
 
   if (url) {
     for (var i = 0; i < workspace_nav.length; i++) {
