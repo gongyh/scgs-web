@@ -48,18 +48,27 @@
             </div>
           </div>
         </div>
-        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+        <div class="tab-pane fade" id="v-pills-multiqc" role="tabpanel" aria-labelledby="v-pills-multiqc-tab">
           <div id="iframe_browser">
             <div id="iframe_browser_header">
               <div id="iframe_browser_buttons">
-                <span></span>
-                <span></span>
-                <span></span>
               </div>
-              <span id="iframe_browser_title">MultiQC Example Reports</span>
+              <span id="iframe_browser_title">MultiQC Reports</span>
             </div>
             <div class="embed-responsive embed-responsive-4by3">
               <iframe class="embed-responsive-item" src={{'results/'.$sample_user.'/'.$sample_uuid.'/MultiQC/multiqc_report.html'}} allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="v-pills-krona" role="tabpanel" aria-labelledby="v-pills-krona-tab">
+          <div id="iframe_browser">
+            <div id="iframe_browser_header">
+              <div id="iframe_browser_buttons">
+              </div>
+              <span id="iframe_browser_title">Kraken Reports</span>
+            </div>
+            <div class="embed-responsive embed-responsive-4by3">
+              <iframe class="embed-responsive-item" src={{'results/'.$sample_user.'/'.$sample_uuid.'/kraken/'.$file_prefix.'.krona.html'}} allowfullscreen></iframe>
             </div>
           </div>
         </div>
@@ -72,7 +81,8 @@
         <div class="ml-3 rem15 text-info">Results</div>
         <div class="w-50 nav flex-column nav-pills list-switch left demo-chooser" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
-          <a id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">MultiQC</a>
+          <a id="v-pills-multiqc-tab" data-toggle="pill" href="#v-pills-multiqc" role="tab" aria-controls="v-pills-multiqc" aria-selected="false">MultiQC</a>
+          <a id="v-pills-krona-tab" data-toggle="pill" href="#v-pills-krona" role="tab" aria-controls="v-pills-krona" aria-selected="false">Krona</a>
         </div>
       </div>
 

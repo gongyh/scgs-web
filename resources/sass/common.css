@@ -276,32 +276,6 @@ a:hover {
   padding: 7px 5px;
 }
 
-#iframe_browser_buttons span {
-  height: 12px;
-  width: 12px;
-  border: 1px solid;
-  border-radius: 5px;
-  background-color: #eee;
-  border: 1px solid #bbb;
-  float: left;
-  margin: 2px 0 0 4px;
-}
-
-#iframe_browser_buttons span:first-of-type {
-  background-color: #fa5657;
-  border-color: #ec4840;
-}
-
-#iframe_browser_buttons span:nth-of-type(2) {
-  background-color: #ffb845;
-  border-color: #e79d48;
-}
-
-#iframe_browser_buttons span:last-of-type {
-  background-color: #54c953;
-  border-color: #52ab3f;
-}
-
 #iframe_browser_title {
   display: inline-block;
   font-size: 12px;
