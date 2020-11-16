@@ -51,8 +51,6 @@
         <div class="tab-pane fade" id="v-pills-multiqc" role="tabpanel" aria-labelledby="v-pills-multiqc-tab">
           <div id="iframe_browser">
             <div id="iframe_browser_header">
-              <div id="iframe_browser_buttons">
-              </div>
               <span id="iframe_browser_title">MultiQC Reports</span>
             </div>
             <div class="embed-responsive embed-responsive-4by3">
@@ -78,7 +76,6 @@
     <!-- right-column -->
     <div class="col-md-1">
       <div class="result-info">
-        <div class="ml-3 rem15 text-info">Results</div>
         <div class="w-50 nav flex-column nav-pills list-switch left demo-chooser" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
           <a id="v-pills-multiqc-tab" data-toggle="pill" href="#v-pills-multiqc" role="tab" aria-controls="v-pills-multiqc" aria-selected="false">MultiQC</a>
