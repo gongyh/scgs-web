@@ -24,7 +24,22 @@ class ResultController extends Controller
 
     public function success_running(Request $request)
     {
+        /**
+         * copy MultiQC and Kraken report to public/results
+         */
         $sample_id = $request->input('sampleID');
+        $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+        $user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
+        $sample_username = User::where('id', $user_id)->value('name');
+        $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
+        $path = $base_path . $sample_username . '/' . $uuid . '/results';
+        $multiqc_mkdir = 'cd ' . public_path() . '/results && mkdir -p ' . $sample_username . '/' . $uuid;
+        $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $sample_username . '/' . $uuid . '; fi';
+        $cp_kraken = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/kraken ' . public_path() . '/results/' . $sample_username . '/' . $uuid . '; fi';
+        system($multiqc_mkdir);
+        system($cp_multiqc);
+        system($cp_kraken);
+
         $filename = Samples::where('id', $sample_id)->value('filename1');
         preg_match('/(_trimmed)?(_combined)?(\.R1)?(_1)?(_R1)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$/', $filename, $matches);
         $file_postfix = $matches[0];

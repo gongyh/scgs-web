@@ -60,13 +60,6 @@ class AppServiceProvider extends ServiceProvider
             $current_job->status = 3;   //job finished
             $current_job->finished = $finished;  //job finished time
             $current_job->save();
-
-            $multiqc_mkdir = 'cd ' . public_path() . '/results && sudo mkdir -p ' . $sample_username . '/' . $uuid;
-            $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then sudo cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $sample_username . '/' . $uuid . '; fi';
-            $cp_kraken = 'if [ -d ' . $path . '/kraken ]; then sudo cp -r ' . $path . '/kraken ' . public_path() . '/results/' . $sample_username . '/' . $uuid . '; fi';
-            system($multiqc_mkdir);
-            system($cp_multiqc);
-            system($cp_kraken);
         });
 
         function addFileToZip($path, $zip)
