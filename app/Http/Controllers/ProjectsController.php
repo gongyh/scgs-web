@@ -22,16 +22,17 @@ class ProjectsController extends Controller
         if ($request->isMethod('POST')) {
             try {
                 $search_project = $request->input('search_project');
-                $findProjects = Projects::where('name', 'LIKE', '%' . $search_project . '%')->paginate(15);
+                $current_page = $request->input('page');
+                $findProjects = Projects::where('name', 'LIKE', '%' . $search_project . '%')->paginate(5);
                 if (auth::check()) {
                     $user = Auth::user();
                     $isPI = Labs::where('principleInvestigator', $user->name)->get();
                     $isAdmin = $user->email == env('ADMIN_EMAIL');
-                    return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin'));
+                    return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin', 'current_page'));
                 } else {
                     $isPI  = collect();
                     $isAdmin = false;
-                    return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin'));
+                    return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin', 'current_page'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
                 //未找到projects时显示
@@ -39,7 +40,7 @@ class ProjectsController extends Controller
                 return view('Projects.projects', compact('findProjects'));
             }
         } else {
-            $Projects = Projects::paginate(15);
+            $Projects = Projects::paginate(5);
             $current_page = $request->input('page');
             try {
                 if (auth::check()) {

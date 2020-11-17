@@ -18,6 +18,14 @@ a:hover {
   font-size: 1.5rem;
 }
 
+.font-normal {
+  font-size: 18px;
+}
+
+.font-large {
+  font-size: 25px;
+}
+
 /* navbar */
 .nav-menu:first-child {
   margin-left: 1.0rem;
@@ -210,7 +218,7 @@ a:hover {
   font-size: 1.5rem;
 }
 
-/* Running Sample省略号闪烁 */
+/* Running Sample dot flash */
 .dot {
   display: inline-block;
   width: 1.5em;
@@ -323,6 +331,12 @@ a:hover {
   background-color: #555;
 }
 
+@media only screen and (max-width: 768px) {
+  #side-nav-handle {
+    display: none;
+  }
+}
+
 @media (min-width: 992px) {
   .list-switch.left a {
     margin-left: 21px;
@@ -364,4 +378,27 @@ a:hover {
   .list-switch.right a:focus:before {
     border-left-color: #555;
   }
+
+  .project_title a {
+    color: #3564d1;
+  }
+
+  .project_title a:hover,
+  .project_title a:active {
+    color: #985735;
+  }
+
+  .project_detail {
+    width: 800px;
+  }
+
+  .project_info,
+  .project_desc {
+    width: 700px;
+  }
+
+  .add_project {
+    margin-left: 450px;
+  }
+
 }

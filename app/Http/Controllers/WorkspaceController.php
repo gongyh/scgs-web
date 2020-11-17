@@ -28,17 +28,18 @@ class WorkspaceController extends Controller
         }
     }
 
-    public function myProject()
+    public function myProject(Request $request)
     {
         try {
             $user = Auth::user();
             $myLabs = Labs::where('principleInvestigator', $user->name)->get('id');
+            $current_page = $request->input('page');
             $lab_id_list = array();
             foreach ($myLabs as $myLab) {
                 array_push($lab_id_list, $myLab->id);
             }
-            $myProjects = Projects::whereIn('labs_id', $lab_id_list)->paginate(15);
-            return view('Workspace.myProject', ['myProjects' => $myProjects]);
+            $myProjects = Projects::whereIn('labs_id', $lab_id_list)->paginate(5);
+            return view('Workspace.myProject', ['myProjects' => $myProjects, 'current_page' => $current_page]);
         } catch (\Illuminate\Database\QueryException $ex) {
             $myProjects = null;
             return view('Workspace.myProject', ['myProjects' => $myProjects]);

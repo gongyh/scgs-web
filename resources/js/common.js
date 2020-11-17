@@ -9,11 +9,23 @@ window.onload = function () {
   var workspace_nav = document.getElementsByClassName('workspace-nav');
   var iframe = document.getElementsByTagName('iframe')[0];
   var MultiQC = document.getElementById('v-pills-multiqc-tab');
+  var krona_tab = document.getElementById('v-pills-krona-tab');
+  var krona = document.createElement('iframe');
+  var krona_src = 'results/' + $('.iframe_sample_user').text() + '/' + $('.iframe_sample_uuid').text() + '/kraken/' + $('.iframe_sample_name').text() + '.krona.html';
+  krona.setAttribute('src',krona_src);
+  krona.setAttribute('class','embed-responsive-item');
   if(MultiQC !== null){
     MultiQC.onclick = function(){
         setTimeout(() => {
             iframe.contentWindow.location.reload(true);
         }, 1000);
+    }
+  }
+
+  if(krona_tab !== null){
+    krona_tab.onclick = function(){
+      var kraken_report = document.getElementsByClassName('kraken_report')[0];
+      kraken_report.appendChild(krona);
     }
   }
 

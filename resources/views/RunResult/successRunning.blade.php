@@ -9,7 +9,7 @@
     <div class="col-md-2">
       @include('components.workspace_nav')
     </div>
-    <div class="col-md-9">
+    <div class="col-md-8">
       <div class="tab-content" id="v-pills-tabContent">
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
           <div class="bg-white p-3 rounded shadow">
@@ -26,15 +26,27 @@
             </div>
 
             <div class="d-flex text-dark rem15 font-italic mt-2">
-              <div class="mr-3">started : </div>
+              <div class="mr-3">User : </div>
+              <div class="text-success iframe_sample_user">{{$sample_user}}</div>
+            </div>
+            <div class="d-flex text-dark rem15 font-italic mt-2">
+              <div class="mr-3">uuid : </div>
+              <div class="text-success iframe_sample_uuid">{{$sample_uuid}}</div>
+            </div>
+            <div class="d-flex text-dark rem15 font-italic mt-2">
+              <div class="mr-3">Sample : </div>
+              <div class="text-success iframe_sample_name">{{$file_prefix}}</div>
+            </div>
+            <div class="d-flex text-dark rem15 font-italic mt-2">
+              <div class="mr-3">Started : </div>
               <div class="text-success start_time">{{$started}}</div>
             </div>
             <div class="d-flex text-dark rem15 font-italic mt-2">
-              <div class="mr-3">finished : </div>
+              <div class="mr-3">Finished : </div>
               <div class="text-success finish_time">{{$finished}}</div>
             </div>
             <div class="d-flex rem15 font-italic mt-2 pb-2 border-bottom">
-              <div class="mr-3">time period : </div>
+              <div class="mr-3">Time Period : </div>
               <div class="text-success Run_time">{{$period}}</div>
             </div>
             <p class="mt-3">
@@ -74,9 +86,9 @@
 
     </div>
     <!-- right-column -->
-    <div class="col-md-1">
+    <div class="col-md-2">
       <div class="result-info">
-        <div class="w-50 nav flex-column nav-pills list-switch left demo-chooser" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <div class="w-75 nav flex-column nav-pills list-switch left demo-chooser" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
           <a id="v-pills-multiqc-tab" data-toggle="pill" href="#v-pills-multiqc" role="tab" aria-controls="v-pills-multiqc" aria-selected="false">MultiQC</a>
           <a id="v-pills-krona-tab" data-toggle="pill" href="#v-pills-krona" role="tab" aria-controls="v-pills-krona" aria-selected="false">Krona</a>
