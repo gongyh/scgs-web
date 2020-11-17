@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
         Queue::after(function (JobProcessed $event) {
             /**
-             * 压缩results.zip
+             * results.zip
              */
             $job_uuid = $event->job->uuid();
             $sample_id = Jobs::where('current_uuid', $job_uuid)->value('sample_id');
