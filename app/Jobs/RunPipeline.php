@@ -50,18 +50,18 @@ class RunPipeline implements ShouldQueue
          */
         $started = time();
         /**
-         * job表记录更新
+         * job table update
          */
         $current_job_id = $job->where([['sample_id', '=', $this->run_sample_id], ['status', '=', 0]])->value('id');
         $current_job = Jobs::find($current_job_id);
         $current_job->uuid = $job_uuid;
         $current_job->current_uuid = $job_rawbody['uuid'];
         $current_job->started = $started;
-        $current_job->status = 1; //正在运行
+        $current_job->status = 1; //Running
         $current_job->save();
 
         /**
-         * 执行命令
+         * execute params
          */
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         $sample_user_id = $current_job->user_id;
@@ -70,9 +70,9 @@ class RunPipeline implements ShouldQueue
         $mkdir = 'if [ ! -d "' . $base_path . $sample_user_name . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $sample_user_name . '/' . $job_uuid . '; fi';
         $chmod = 'cd ' . $base_path . ' && sudo chown -R apache:apache ' . $sample_user_name . ' && sudo chmod -R 777 ' . $sample_user_name;
         $cd_and_command = 'cd ' . $base_path . $sample_user_name . '/' . $job_uuid . ' && ' . $command;
-        echo ($mkdir);
-        echo ($chmod);
-        echo ($cd_and_command);
+        system($mkdir);
+        system($chmod);
+        system($cd_and_command);
     }
 
     public function failed()
@@ -80,8 +80,8 @@ class RunPipeline implements ShouldQueue
         $finished = time();
         $current_job_id = Jobs::where('sample_id', '=', $this->run_sample_id)->value('id');
         $current_job = Jobs::find($current_job_id);
-        $current_job->status = 2; //任务失败
-        $current_job->finished = $finished;  //结束时间
+        $current_job->status = 2; //job failed
+        $current_job->finished = $finished;  //finished time
         $current_job->save();
     }
 }

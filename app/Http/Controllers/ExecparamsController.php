@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Execparams;
 use App\pipelineParams;
+use App\Projects;
+use App\Labs;
 use App\Samples;
 use App\Species;
 use App\Jobs;
@@ -197,8 +199,11 @@ class ExecparamsController extends Controller
             /**
              * jobs表中添加记录
              */
-            $user_id = Auth::user()->id;
             $sample_id = $request->input('sampleID');
+            $project_id = Samples::where('id', $sample_id)->value('projects_id');
+            $lab_id = Projects::where('id', $project_id)->value('labs_id');
+            $user_name = Labs::where('id', $lab_id)->value('principleInvestigator');
+            $user_id = User::where('name', $user_name)->value('id');
             if (Jobs::where('sample_id', $sample_id)->count() == 0) {
                 Jobs::create([
                     'user_id' => $user_id,
@@ -208,7 +213,7 @@ class ExecparamsController extends Controller
                     'started' => '000',
                     'finished' => '000',
                     'command' => $cmd,
-                    'status' => 0   // 0:未开始
+                    'status' => 0   // 0:have't started
                 ]);
             } else {
                 $job_id = Jobs::where('sample_id', $sample_id)->value('id');

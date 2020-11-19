@@ -200,7 +200,7 @@ class ProjectsController extends Controller
     public function selectProj(Request $request)
     {
         $labID = $request->input('labID');
-        $selectProjects = Projects::where('labs_id', $labID)->paginate(15);
+        $selectProjects = Projects::where('labs_id', $labID)->paginate(5);
         try {
             if (auth::check()) {
                 $user = Auth::user();
