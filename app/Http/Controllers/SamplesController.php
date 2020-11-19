@@ -27,7 +27,7 @@ class SamplesController extends Controller
         $projectID = $request->input('projectID');
         $project = Projects::find($projectID);
         $current_lab_id = Projects::where('id', $projectID)->value('labs_id');
-        $selectSamples = Samples::where('projects_id', $projectID)->paginate(4);
+        $selectSamples = Samples::where('projects_id', $projectID)->paginate(8);
         $selectSamples->withPath('/samples?projectID=' . $projectID);
         $sample = new Samples();
         try {

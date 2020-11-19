@@ -11,11 +11,19 @@
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-6">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item"><a href="/workspace">Workspace</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Myprojects</li>
+          </li>
+        </ol>
+      </nav>
       <div class="mb-4">
-        <a class="btn btn-default pt-2 font-weight-bold font-italic ml-3" href="/projects/create?from=myProject">Add Project</a>
+        <a class="btn btn-default pt-2 font-weight-bold font-italic" href="/projects/create?from=myProject">Add Project</a>
         @if($myProjects != null)
         @foreach($myProjects as $myProject)
-        <div class="d-flex mt-3 ml-3 p-2 rounded-lg border shadow-sm overflow-auto">
+        <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm overflow-auto">
           <div class="project_id mr-4 font-large">{{$myProject->id}}</div>
           <div class="font-normal">
             <div class="project_title font-normal text-wrap text-break"><a href="/workspace/samples?projectID={{$myProject->id}}">{{$myProject->name}}</a></div>

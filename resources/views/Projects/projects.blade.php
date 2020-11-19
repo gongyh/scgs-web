@@ -10,6 +10,13 @@
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-6">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Projects</li>
+          </li>
+        </ol>
+      </nav>
       <div class="mb-4">
         <div class="d-flex justify-content-between">
           <!--search bar -->
@@ -31,7 +38,7 @@
         <div class="overflow-auto">
           @if(empty($findProjects) && $Projects != null)
           @foreach ($Projects as $Project)
-          <div class="d-flex mt-3 ml-3 p-2 rounded-lg border shadow-sm">
+          <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm">
             <div class="project_id mr-4 font-large">{{$Project->id}}</div>
             <div class="font-normal">
               <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$Project->id}}">{{$Project->name}}</a></div>

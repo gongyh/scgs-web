@@ -68,7 +68,7 @@ class WorkspaceController extends Controller
             $current_lab_id = Projects::where('id', $projectID)->value('labs_id');
             $sample = new Samples();
             try {
-                $selectSamples = Samples::where('projects_id', $projectID)->paginate(4);
+                $selectSamples = Samples::where('projects_id', $projectID)->paginate(8);
                 $selectSamples->withPath('/samples?projectID=' . $projectID);
                 return view('Workspace.workspace_sample', compact('selectSamples', 'projectID', 'project', 'sample'));
             } catch (\Illuminate\Database\QueryException $ex) {
