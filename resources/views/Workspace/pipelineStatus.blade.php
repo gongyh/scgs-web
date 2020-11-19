@@ -8,6 +8,14 @@
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-6">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item"><a href="/workspace">Workspace</a></li>
+          <li class="breadcrumb-item active" aria-current="page">PipelineStatus</li>
+          </li>
+        </ol>
+      </nav>
       <div class="bg-white p-3 rounded shadow-sm">
         <div class="rem15 font-weight-bold font-italic text-success border-bottom pb-2">Job List</div>
         <div class="table-response">
