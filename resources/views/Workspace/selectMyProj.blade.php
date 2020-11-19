@@ -11,14 +11,23 @@
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-6">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item"><a href="/workspace">Workspace</a></li>
+          <li class="breadcrumb-item"><a href="/workspace/myLab">MyLab</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Myprojects</li>
+          </li>
+        </ol>
+      </nav>
       <div class="mb-4">
-        <a class="btn btn-default pt-2 font-weight-bold font-italic ml-3" href="/projects/create?labID={{$labID}}&from=myProject">Add Project</a>
+        <a class="btn btn-default pt-2 font-weight-bold font-italic" href="/projects/create?labID={{$labID}}&from=myProject">Add Project</a>
         @if($selectMyProjs != null)
         @foreach($selectMyProjs as $selectMyProj)
-        <div class="project_detail d-flex mt-3 ml-3 p-2 rounded-lg border shadow-sm overflow-auto">
+        <div class="project_detail d-flex mt-3 p-2 rounded-lg border shadow-sm overflow-auto">
           <div class="project_id mr-4 font-large">{{$selectMyProj->id}}</div>
           <div class="project_info font-normal">
-            <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$selectMyProj->id}}">{{$selectMyProj->name}}</a></div>
+            <div class="project_title font-normal text-wrap text-break"><a href="/workspace/samples?projectID={{$selectMyProj->id}}">{{$selectMyProj->name}}</a></div>
             <div class="projectId mt-2">ProjectID : {{$selectMyProj->doi}}</div>
             <div class="project_desc text-wrap text-break">Project Description : {{strlen($selectMyProj->description)>30?substr($selectMyProj->description,0,30).'...':$selectMyProj->description}}</div>
             <div class="project_lab text-black-50">Labs : {{$selectMyProj->getLabName($selectMyProj->labs_id)}}</div>
