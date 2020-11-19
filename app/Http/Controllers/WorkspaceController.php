@@ -28,18 +28,17 @@ class WorkspaceController extends Controller
         }
     }
 
-    public function myProject(Request $request)
+    public function myProject()
     {
         try {
             $user = Auth::user();
             $myLabs = Labs::where('principleInvestigator', $user->name)->get('id');
-            $current_page = $request->input('page');
             $lab_id_list = array();
             foreach ($myLabs as $myLab) {
                 array_push($lab_id_list, $myLab->id);
             }
             $myProjects = Projects::whereIn('labs_id', $lab_id_list)->paginate(5);
-            return view('Workspace.myProject', ['myProjects' => $myProjects, 'current_page' => $current_page]);
+            return view('Workspace.myProject', ['myProjects' => $myProjects]);
         } catch (\Illuminate\Database\QueryException $ex) {
             $myProjects = null;
             return view('Workspace.myProject', ['myProjects' => $myProjects]);
@@ -49,9 +48,10 @@ class WorkspaceController extends Controller
     public function selectMyProj(Request $request)
     {
         try {
+            $current_page = $request->input('current_page');
             $labID = $request->input('labID');
-            $selectMyProjs = Projects::where('labs_id', $labID)->paginate(15);
-            return view('Workspace.selectMyProj', ['selectMyProjs' => $selectMyProjs, 'labID' => $labID]);
+            $selectMyProjs = Projects::where('labs_id', $labID)->paginate(5);
+            return view('Workspace.selectMyProj', ['selectMyProjs' => $selectMyProjs, 'labID' => $labID, 'current_page' => $current_page]);
         } catch (\Illuminate\Database\QueryException $ex) {
             $selectMyProjs = null;
             return view('Workspace.selectMyProj', ['selectMyProjs' => $selectMyProjs, 'labID' => $labID]);
@@ -62,18 +62,17 @@ class WorkspaceController extends Controller
     {
         if ($request->isMethod('POST')) {
             $sample_file = $request->file('sample_file');
-            dd($sample_file);
         } else {
             $projectID = $request->input('projectID');
             $project = Projects::find($projectID);
             $current_lab_id = Projects::where('id', $projectID)->value('labs_id');
             $sample = new Samples();
             try {
-                $selectSamples = Samples::where('projects_id', $projectID)->paginate(8);
+                $selectSamples = Samples::where('projects_id', $projectID)->paginate(4);
                 $selectSamples->withPath('/samples?projectID=' . $projectID);
                 return view('Workspace.workspace_sample', compact('selectSamples', 'projectID', 'project', 'sample'));
             } catch (\Illuminate\Database\QueryException $ex) {
-                // 数据库中没有samples时显示
+                // No Samples
                 $selectSamples = null;
                 return view('Workspace.workspace_sample', compact('selectSamples', 'projectID', 'project', 'sample'));
             }

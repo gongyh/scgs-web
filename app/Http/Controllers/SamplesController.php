@@ -27,18 +27,18 @@ class SamplesController extends Controller
         $projectID = $request->input('projectID');
         $project = Projects::find($projectID);
         $current_lab_id = Projects::where('id', $projectID)->value('labs_id');
-        $selectSamples = Samples::where('projects_id', $projectID)->paginate(8);
+        $selectSamples = Samples::where('projects_id', $projectID)->paginate(4);
         $selectSamples->withPath('/samples?projectID=' . $projectID);
         $sample = new Samples();
         try {
-            // 登录用户显示
+            // login users
             if (auth::check()) {
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->name]])->get()->count() > 0;
                 $isAdmin = $user->email == env('ADMIN_EMAIL');
                 return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
             } else {
-                // 未登录用户显示
+                // not login users
                 $isPI  = false;
                 $isAdmin = false;
                 return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
