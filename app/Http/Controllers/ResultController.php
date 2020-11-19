@@ -44,6 +44,8 @@ class ResultController extends Controller
         preg_match('/(_trimmed)?(_combined)?(\.R1)?(_1)?(_R1)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$/', $filename, $matches);
         $file_postfix = $matches[0];
         $file_prefix = Str::before($filename, $file_postfix);
+        $file_prefix = explode('/', $file_prefix);
+        $file_prefix = end($file_prefix);
         $sample_user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
         $sample_user = User::where('id', $sample_user_id)->value('name');
         $sample_uuid = Jobs::where('sample_id', $sample_id)->value('uuid');

@@ -77,8 +77,7 @@
               </div>
               <span id="iframe_browser_title">Kraken Reports</span>
             </div>
-            <div class="embed-responsive embed-responsive-4by3">
-              <iframe class="embed-responsive-item" src={{'results/'.$sample_user.'/'.$sample_uuid.'/kraken/'.$file_prefix.'.krona.html'}} allowfullscreen></iframe>
+            <div class="kraken_report embed-responsive embed-responsive-4by3">
             </div>
           </div>
         </div>
