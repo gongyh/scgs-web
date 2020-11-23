@@ -422,7 +422,13 @@ return [
         'material-ui' => [
             // If the value is set to false, this extension will be disabled
             'enable' => true
-        ]
+        ],
+
+        'media-manager' => [
+        
+            // Select a local disk that you configured in `config/filesystem.php`
+            'disk' => 'public'
+        ],
 
     ],
 ];

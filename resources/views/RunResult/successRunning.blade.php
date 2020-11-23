@@ -9,7 +9,7 @@
     <div class="col-md-2">
       @include('components.workspace_nav')
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
       <div class="tab-content" id="v-pills-tabContent">
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
           <div class="bg-white p-3 rounded shadow">
@@ -85,7 +85,7 @@
 
     </div>
     <!-- right-column -->
-    <div class="col-md-2">
+    <div class="col-md-1">
       <div class="result-info">
         <div class="w-75 nav flex-column nav-pills list-switch left demo-chooser" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
