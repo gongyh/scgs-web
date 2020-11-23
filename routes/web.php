@@ -86,6 +86,7 @@ Route::group(['prefix' => 'execute'], function () {
 
 Route::group(['prefix' => 'executeProj'], function () {
     Route::any('/', 'ExecProjController@index');
+    Route::get('/start', 'ExecProjController@start');
 });
 
 Route::get('/failedRunning', 'ResultController@failed_running');
