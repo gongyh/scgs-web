@@ -396,5 +396,39 @@ return [
     */
     'extensions' => [
 
+        'phpinfo' => [
+        
+            // Set this to false if you want to disable this extension
+            'enable' => true,
+            
+            // What information to show，see http://php.net/manual/en/function.phpinfo.php#refsect1-function.phpinfo-parameters
+            'what' => INFO_ALL,
+            
+            // Set access path，defaults to `phpinfo`
+            //'path' => '~phpinfo',
+        ],
+
+
+        'login-captcha' => [
+            // set to false if you want to disable this extension
+            'enable' => true,
+        ],
+
+        'env' => [
+            // set to false if you want to disable this extension
+            'enable' => true,
+        ],
+
+        'material-ui' => [
+            // If the value is set to false, this extension will be disabled
+            'enable' => true
+        ],
+
+        'media-manager' => [
+        
+            // Select a local disk that you configured in `config/filesystem.php`
+            'disk' => 'public'
+        ],
+
     ],
 ];

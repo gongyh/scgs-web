@@ -9,19 +9,7 @@
     <div class="col-md-2">
       @include('components.workspace_nav')
     </div>
-    <div class="col-md-8">
-      <div class="w-75">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/workspace">Workspace</a></li>
-            <li class="breadcrumb-item"><a href="/workspace/myProject">My Projects</a></li>
-            <li class="breadcrumb-item"><a href="/workspace/samples?projectID={{$project_id}}">My Samples</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Success</li>
-            </li>
-          </ol>
-        </nav>
-      </div>
+    <div class="col-md-9">
       <div class="tab-content" id="v-pills-tabContent">
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
           <div class="bg-white p-3 rounded shadow">
@@ -93,28 +81,27 @@
             </div>
           </div>
         </div>
-        <div class="tab-pane fade" id="v-pills-kron a" role="tabpanel" aria-labelledby="v-pills-krona-tab">
+        <div class="tab-pane fade" id="v-pills-blob" role="tabpanel" aria-labelledby="v-pills-blob-tab">
           <div id="iframe_browser">
             <div id="iframe_browser_header">
               <div id="iframe_browser_buttons">
               </div>
-              <span id="iframe_browser_title">Kraken Reports</span>
+              <span id="iframe_browser_title">Blob Reports</span>
             </div>
-            <div class="kraken_report embed-responsive embed-responsive-4by3">
-            </div>
+            <img src={{'results/'.$sample_user.'/'.$sample_uuid.'/blob/'.$file_prefix.'/'.$file_prefix.'.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png'}} alt="blob" width="100%" height="100%">
           </div>
         </div>
       </div>
 
     </div>
     <!-- right-column -->
-    <div class="col-md-2">
+    <div class="col-md-1">
       <div class="result-info">
-        <div class="ml-3 w-75 nav flex-column nav-pills list-switch left demo-chooser" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <div class="w-75 nav flex-column nav-pills list-switch left demo-chooser" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
           <a id="v-pills-multiqc-tab" data-toggle="pill" href="#v-pills-multiqc" role="tab" aria-controls="v-pills-multiqc" aria-selected="false">MultiQC</a>
           <a id="v-pills-krona-tab" data-toggle="pill" href="#v-pills-krona" role="tab" aria-controls="v-pills-krona" aria-selected="false">Krona</a>
-          <a id="v-pills-blob-tab" data-toggle="pill" href="#v-pills-blob" role="tab" aria-controls="v-pills-blob" aria-selected="false">Blob</a>
+          <a id="v-pills-blob-tab" data-toggle="pill" href="#v-pills-blob" role="tab" aria-controls="v-pills-blob" aria-selected="false">blob</a>
         </div>
       </div>
 
