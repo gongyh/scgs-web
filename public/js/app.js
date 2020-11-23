@@ -50033,14 +50033,14 @@ $(function () {
    */
 
 
-  if ($("input[type='radio']:checked").val() == 'singleEnds') {
+  if ($("input[type='radio']:checked").val() == 'Single') {
     $(".file_two").hide();
   } else {
     $(".file_two").show();
   }
 
   $("input[type = 'radio']").change(function () {
-    if ($("input[type='radio']:checked").val() == 'singleEnds') {
+    if ($("input[type='radio']:checked").val() == 'Single') {
       $(".file_two").hide();
     } else {
       $(".file_two").show();

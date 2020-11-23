@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'captcha' => ['required', 'captcha'],
         ], [
             'captcha.required' => 'Captcha can\'t be none',
-            'captcha.captcha' => 'Please input right captcha',
+            'captcha.captcha' => 'Incorrent captcha',
         ]);
     }
 

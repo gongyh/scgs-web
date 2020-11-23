@@ -12,7 +12,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item"><a href="/workspace">Workspace</a></li>
-          <li class="breadcrumb-item active" aria-current="page">PipelineStatus</li>
+          <li class="breadcrumb-item active" aria-current="page">Pipeline Status</li>
           </li>
         </ol>
       </nav>

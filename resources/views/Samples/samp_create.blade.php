@@ -13,12 +13,12 @@
         <div class="d-flex flex-around">
           <div class="w-50 pr-5">
             <div class="form-group">
-              <label for="new_sample_label">SampleLabel</label><span class="text-danger"> *</span>
+              <label for="new_sample_label" title="BioSample name">Sample Label</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="new_sample_label" id="new_sample_label" value={{old('new_sample_label')?old('new_sample_label'):''}}>
             </div>
 
             <div class="form-group">
-              <label for="new_library_id">LibraryID</label><span class="text-danger"> *</span>
+              <label for="new_library_id" title="Short unique identifier for sequencing library.Each library ID must be unique!">Library ID</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="new_library_id" id="new_library_id" value={{old('new_library_id')?old('new_library_id'):''}}>
             </div>
 
@@ -85,7 +85,7 @@
             </div>
 
             <div class="form-group">
-              <label for="instrument_model">Instrument_model</label><span class="text-danger"> *</span>
+              <label for="instrument_model">Instrument Model</label><span class="text-danger"> *</span>
               <select class="custom-select" name="instrument_model" id="instrument_model">
                 @if(old('instrument_model'))
                 <option value={{old('instrument_model')?old('instrument_model'):''}} selected>{{old('instrument_model')?old('instrument_model'):''}}</option>
@@ -150,7 +150,7 @@
             </div>
 
             <div class="form-group">
-              <label for="design_description">Design Description</label><span class="text-danger"> *</span>
+              <label for="design_description" title="Free-form description of the methods used to create the sequencing library">Design Description</label><span class="text-danger"> *</span>
               <textarea class="form-control" name="design_description" id="design_description">{{old('design_description')?old('design_description'):''}}</textarea>
             </div>
 
@@ -162,7 +162,7 @@
 
           <div class="w-50">
             <div class="form-group">
-              <label for="select_application">Choose a application</label><span class="text-danger"> *</span>
+              <label for="select_application">Choose a Application</label><span class="text-danger"> *</span>
               <select class="custom-select" name="select_application" id="select_application">
                 @if(old('select_application'))
                 <option value={{old('select_application')?old('select_application'):''}} selected>{{old('select_application')?old('select_application'):''}}</option>
@@ -174,7 +174,7 @@
             </div>
 
             <div class="form-group">
-              <label for="select_species">Choose a species</label>
+              <label for="select_species">Choose a Species</label>
               <select class="custom-select" name="select_species" id="select_species">
                 @if(old('select_species'))
                 <option value={{old('select_species')?old('select_species'):''}} selected>{{old('select_species')?old('select_species'):''}}</option>
@@ -187,14 +187,14 @@
             </div>
 
             <div class="form-group">
-              <label>PairEnds</label><span class="text-danger"> *</span>
+              <label title="Paired-end or Single">Paired-end</label><span class="text-danger"> *</span>
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="singleEnds">
-                <label class="custom-control-label" for="customRadio1">SingleEnds</label>
+                <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single">
+                <label class="custom-control-label" for="customRadio1">Single</label>
               </div>
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="pairEnds" checked>
-                <label class="custom-control-label" for="customRadio2">PairEnds</label>
+                <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" checked>
+                <label class="custom-control-label" for="customRadio2">Paired-end</label>
               </div>
             </div>
             <p class="tips"><strong>Tips:</strong>1.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>

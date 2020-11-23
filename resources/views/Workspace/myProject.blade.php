@@ -15,7 +15,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item"><a href="/workspace">Workspace</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Myprojects</li>
+          <li class="breadcrumb-item active" aria-current="page">My Projects</li>
           </li>
         </ol>
       </nav>
@@ -27,9 +27,9 @@
           <div class="project_id mr-4 font-large">{{$myProject->id}}</div>
           <div class="font-normal">
             <div class="project_title font-normal text-wrap text-break"><a href="/workspace/samples?projectID={{$myProject->id}}">{{$myProject->name}}</a></div>
-            <div class="projectId mt-2">ProjectID : {{$myProject->doi}}</div>
+            <div class="projectId mt-2">DOI : {{$myProject->doi}}</div>
             <div class="project_desc text-wrap text-break">Project Description : {{strlen($myProject->description)>30?substr($myProject->description,0,30).'...':$myProject->description}}</div>
-            <div class="project_lab text-black-50">Labs : {{$myProject->getLabName($myProject->labs_id)}}</div>
+            <div class="project_lab text-black-50">Lab : {{$myProject->getLabName($myProject->labs_id)}}</div>
             <div class="edit-delete">
               <a href="/projects/update?projectID={{$myProject->id}}&from=myProject">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

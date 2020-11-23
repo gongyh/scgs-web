@@ -69,12 +69,12 @@
 
                   <img class="thumbnail captcha ml-1" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="click to get a new captcha">
 
-                  @if ($errors->has('captcha'))
-                  <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('captcha') }}</strong>
-                  </span>
-                  @endif
                 </div>
+                @if($errors->has('captcha'))
+                <div class="col-md-12">
+                  <p class="text-danger text-center"><strong>{{$errors->first('captcha')}}</strong></p>
+                </div>
+                @endif
               </div>
 
               <div class="form-group row mb-0">
