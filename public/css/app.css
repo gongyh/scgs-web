@@ -516,6 +516,12 @@ a:hover {
 .project_title a:active {
   color: #985735;
 }
+
+.captcha-error {
+  width: 100%;
+  font-size: 80%;
+  color: #ef5753;
+}
 @charset "UTF-8";
 
 /*!

@@ -15,8 +15,10 @@ class CreateExecparamsTable extends Migration
     {
         Schema::create('execparams', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('samples_id');
-            $table->foreign('samples_id')->references('id')->on('samples')->onDelete('cascade');
+            $table->unsignedBigInteger('sample_id')->nullable();
+            $table->foreign('sample_id')->references('id')->on('samples')->onDelete('cascade');
+            $table->unsignedBigInteger('project_id')->nullable();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->boolean('ass');
             $table->boolean('cnv');
             $table->boolean('snv');

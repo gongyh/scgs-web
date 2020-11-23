@@ -39,10 +39,11 @@ class AppServiceProvider extends ServiceProvider
              */
             $job_uuid = $event->job->uuid();
             $sample_id = Jobs::where('current_uuid', $job_uuid)->value('sample_id');
+            $project_id = Jobs::where('current_uuid', $job_uuid)->value('project_id');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
+            isset($sample_id) ? $user_id = Jobs::where('sample_id', $sample_id)->value('user_id') : $user_id = Jobs::where('project_id', $project_id)->value('user_id');
             $sample_username = User::where('id', $user_id)->value('name');
-            $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+            isset($sample) ? $uuid = Jobs::where('sample_id', $sample_id)->value('uuid') : $uuid = Jobs::where('project_id', $project_id)->value('uuid');
             $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
             $zip = new ZipArchive();
             $path = $base_path . $sample_username . '/' . $uuid . '/results';
@@ -50,7 +51,6 @@ class AppServiceProvider extends ServiceProvider
                 addFileToZip($path, $zip);
                 $zip->close();
             }
-
             /**
              * change job status
              */

@@ -84,6 +84,10 @@ Route::group(['prefix' => 'execute'], function () {
     Route::post('/start', 'ExecparamsController@ajax');
 });
 
+Route::group(['prefix' => 'executeProj'], function () {
+    Route::any('/', 'ExecProjController@index');
+});
+
 Route::get('/failedRunning', 'ResultController@failed_running');
 Route::get('/successRunning', 'ResultController@success_running');
 Route::get('/successRunning/resultDownload', 'ResultController@download_result');

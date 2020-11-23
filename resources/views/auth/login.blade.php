@@ -54,8 +54,11 @@
 
                 </div>
                 @if($errors->has('captcha'))
-                <div class="col-md-12">
-                  <p class="text-danger text-center"><strong>{{$errors->first('captcha')}}</strong></p>
+                <div class="col-md-4"></div>
+                <div class="col-md-6">
+                  <span class="captcha-error">
+                    <strong>{{$errors->first('captcha')}}</strong>
+                  </span>
                 </div>
                 @endif
 
