@@ -27,7 +27,7 @@
           <div class="project_id mr-4 font-large">{{$myProject->id}}</div>
           <div class="font-normal">
             <div class="project_title font-normal text-wrap text-break"><a href="/workspace/samples?projectID={{$myProject->id}}">{{$myProject->name}}</a></div>
-            <div class="projectId mt-2">DOI : {{$myProject->doi}}</div>
+            <div class="projectId mt-2">Accession : {{$myProject->doi}}</div>
             <div class="project_desc text-wrap text-break">Project Description : {{strlen($myProject->description)>30?substr($myProject->description,0,30).'...':$myProject->description}}</div>
             <div class="project_lab text-black-50">Lab : {{$myProject->getLabName($myProject->labs_id)}}</div>
             <div class="edit-delete">

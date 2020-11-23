@@ -42,7 +42,7 @@
             <div class="project_id mr-4 font-large">{{$Project->id}}</div>
             <div class="font-normal">
               <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$Project->id}}">{{$Project->name}}</a></div>
-              <div class="projectId mt-2">DOI : {{$Project->doi}}</div>
+              <div class="projectId mt-2">Accession : {{$Project->doi}}</div>
               <div class="project_desc text-wrap text-break">Project Description : {{strlen($Project->description)>30?substr($Project->description,0,30).'...':$Project->description}}</div>
               <div class="project_lab text-black-50">Lab : {{$Project->getLabName($Project->labs_id)}}</div>
               <div class="edit-delete">
@@ -67,11 +67,11 @@
 
           @elseif(isset($findProjects))
           @foreach ($findProjects as $findProject)
-          <div class="d-flex mt-3 ml-3 p-2 rounded-lg border shadow-sm">
+          <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm">
             <div class="project_id mr-4 font-large">{{$findProject->id}}</div>
             <div class="font-normal">
               <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$findProject->id}}">{{$findProject->name}}</a></div>
-              <div class="projectId mt-2">ProjectID : {{$findProject->doi}}</div>
+              <div class="projectId mt-2">Accession : {{$findProject->doi}}</div>
               <div class="project_desc text-wrap text-break">Project Description : {{strlen($findProject->description)>30?substr($findProject->description,0,30).'...':$findProject->description}}</div>
               <div class="project_lab text-black-50">Lab : {{$findProject->getLabName($findProject->labs_id)}}</div>
               <div class="edit-delete">

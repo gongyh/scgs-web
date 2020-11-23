@@ -276,9 +276,8 @@ class ExecProjController extends Controller
     public function start(Request $request)
     {
         $pipelineParams = pipelineParams::find(1);
-        $samples = new Samples();
-        $sample_id = $request->input('sampleID');
-        $data = Execparams::where('samples_id', $sample_id);
+        $project_id = $request->input('projectID');
+        $data = Execparams::where('project_id', $project_id);
         $ass = $data->value('ass');    //boolean
         $cnv = $data->value('cnv');    //boolean
         $snv = $data->value('snv');    //boolean
@@ -300,7 +299,7 @@ class ExecProjController extends Controller
         $eggnog = $data->value('eggnog');    //boolean
         $kofam_profile = $data->value('kofam_profile');    //boolean
         $kofam_kolist = $data->value('kofam_kolist');     //boolean
-        return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'sample_id', 'pipelineParams'));
+        return view('Pipeline.projPipelineStart', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'project_id', 'pipelineParams'));
     }
 
     public function ajax(Request $request)
