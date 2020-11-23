@@ -28,6 +28,7 @@ class ResultController extends Controller
          * copy MultiQC and Kraken report to public/results
          */
         $sample_id = $request->input('sampleID');
+        $project_id = Samples::where('id', $sample_id)->value('projects_id');
         $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
         $user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
         $sample_username = User::where('id', $user_id)->value('name');
@@ -53,7 +54,7 @@ class ResultController extends Controller
         $finished = Jobs::where('sample_id', $sample_id)->value('finished');
         $period = $finished - $started;
         $command = Jobs::where('sample_id', $sample_id)->value('command');
-        return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid, 'file_prefix' => $file_prefix]);
+        return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid, 'project_id' => $project_id, 'file_prefix' => $file_prefix]);
     }
 
     public function download_result(Request $request)

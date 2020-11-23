@@ -15,7 +15,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item"><a href="/workspace">Workspace</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Mylabs</li>
+          <li class="breadcrumb-item active" aria-current="page">My Labs</li>
           </li>
         </ol>
       </nav>

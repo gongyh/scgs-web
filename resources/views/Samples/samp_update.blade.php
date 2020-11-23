@@ -13,12 +13,12 @@
         <div class="d-flex flex-around">
           <div class="w-50 pr-5">
             <div class="form-group">
-              <label for="sample_label">SampleLabel</label><span class="text-danger"> *</span>
+              <label for="sample_label" title="BioSample name">Sample Label</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="sample_label" id="sample_label" value={{$sample->sampleLabel}}>
             </div>
 
             <div class="form-group">
-              <label for="library_id">LibraryID</label><span class="text-danger"> *</span>
+              <label for="library_id" title="Short unique identifier for sequencing library.Each library ID must be unique!">LibraryID</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="library_id" id="library_id" value={{$sample->library_id}}>
             </div>
 
@@ -132,7 +132,7 @@
             </div>
 
             <div class="form-group">
-              <label for="design_description">Design Description</label><span class="text-danger"> *</span>
+              <label for="design_description" title="Free-form description of the methods used to create the sequencing library">Design Description</label><span class="text-danger"> *</span>
               <textarea class="form-control" name="design_description" id="design_description">{{$sample->design_description}}</textarea>
             </div>
 
@@ -144,7 +144,7 @@
 
           <div class="w-50">
             <div class="form-group">
-              <label for="select_application">Choose a application</label><span class="text-danger"> *</span>
+              <label for="select_application">Choose a Application</label><span class="text-danger"> *</span>
               <select class="custom-select" name="select_application" id="select_application">
                 @foreach($applications as $application)
                 <option value={{$application->id}} @if($sample->applications_id == $application->id)selected @endif>{{$application->name}}</option>
@@ -153,7 +153,7 @@
             </div>
 
             <div class="form-group">
-              <label for="select_species">Choose a species</label>
+              <label for="select_species">Choose a Species</label>
               <select class="custom-select" name="select_species" id="select_species">
                 <option selected></option>
                 @foreach($all_species as $species)
@@ -163,25 +163,25 @@
             </div>
 
             <div class="form-group">
-              <label>PairEnds?</label><span class="text-danger"> *</span>
+              <label title="Paired-end or Single">Paired-end</label><span class="text-danger"> *</span>
               @if($sample->pairends == 0)
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="singleEnds" checked="checked">
-                <label class="custom-control-label" for="customRadio1">SingleEnds</label>
+                <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single" checked="checked">
+                <label class="custom-control-label" for="customRadio1">Single</label>
               </div>
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="pairEnds">
-                <label class="custom-control-label" for="customRadio2">PairEnds</label>
+                <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end">
+                <label class="custom-control-label" for="customRadio2">Paired-end</label>
               </div>
 
               @else
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="singleEnds">
-                <label class="custom-control-label" for="customRadio1">SingleEnds</label>
+                <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single">
+                <label class="custom-control-label" for="customRadio1">Single</label>
               </div>
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="pairEnds" checked="checked">
-                <label class="custom-control-label" for="customRadio2">PairEnds</label>
+                <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" checked="checked">
+                <label class="custom-control-label" for="customRadio2">Paired-end</label>
               </div>
             </div>
             @endif

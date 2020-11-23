@@ -63,7 +63,7 @@ class LoginController extends Controller
             'password' => 'required|string',
         ], [
             'captcha.required' => 'Captcha can\'t be none',
-            'captcha.captcha' => 'Please input right captcha',
+            'captcha.captcha' => 'Incorrent captcha',
         ]);
     }
 }

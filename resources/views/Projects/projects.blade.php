@@ -42,9 +42,9 @@
             <div class="project_id mr-4 font-large">{{$Project->id}}</div>
             <div class="font-normal">
               <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$Project->id}}">{{$Project->name}}</a></div>
-              <div class="projectId mt-2">ProjectID : {{$Project->doi}}</div>
+              <div class="projectId mt-2">DOI : {{$Project->doi}}</div>
               <div class="project_desc text-wrap text-break">Project Description : {{strlen($Project->description)>30?substr($Project->description,0,30).'...':$Project->description}}</div>
-              <div class="project_lab text-black-50">Labs : {{$Project->getLabName($Project->labs_id)}}</div>
+              <div class="project_lab text-black-50">Lab : {{$Project->getLabName($Project->labs_id)}}</div>
               <div class="edit-delete">
                 @if($isAdmin || $isPI->contains($Project->labs_id))
                 <a href="projects/update?projectID={{$Project->id}}&page={{$current_page}}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -73,7 +73,7 @@
               <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$findProject->id}}">{{$findProject->name}}</a></div>
               <div class="projectId mt-2">ProjectID : {{$findProject->doi}}</div>
               <div class="project_desc text-wrap text-break">Project Description : {{strlen($findProject->description)>30?substr($findProject->description,0,30).'...':$findProject->description}}</div>
-              <div class="project_lab text-black-50">Labs : {{$findProject->getLabName($findProject->labs_id)}}</div>
+              <div class="project_lab text-black-50">Lab : {{$findProject->getLabName($findProject->labs_id)}}</div>
               <div class="edit-delete">
                 @if($isAdmin || $isPI->contains($findProject->labs_id))
                 <a href="projects/update?projectID={{$findProject->id}}&page={{$current_page}}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

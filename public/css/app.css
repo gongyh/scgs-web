@@ -399,7 +399,7 @@ a:hover {
 }
 
 .command_out {
-  height: 600px;
+  height: 800px;
 }
 
 .menu {
@@ -416,6 +416,10 @@ a:hover {
 .download_result {
   height: 80px;
   width: 80px;
+}
+
+.proj_title {
+  width: 100px;
 }
 
 #iframe_browser {

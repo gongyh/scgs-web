@@ -269,6 +269,10 @@ a:hover {
   width: 80px;
 }
 
+.proj_title {
+  width: 100px;
+}
+
 #iframe_browser {
   width: 100%;
   height: 100%;
