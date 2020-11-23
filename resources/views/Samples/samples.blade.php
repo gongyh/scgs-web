@@ -75,7 +75,7 @@
             <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm overflow-auto">
               <div class="project_id mr-4 font-large">{{$selectSample->id}}</div>
               <div class="font-normal text-wrap text-break">
-                <div class="projectId mt-2">SampleLabel :
+                <div class="projectId mt-2">Sample Label :
                   @if($isPI || $isAdmin)
                   @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() == 0 || DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 0)
                   {{$selectSample->sampleLabel}}

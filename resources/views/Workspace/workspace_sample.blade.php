@@ -29,9 +29,14 @@
             <div class="proj_title">DOI:</div>
             <div class="proj_detail">{{$project->doi}}</div>
           </div>
-          <div class="project_desc pb-3 border-bottom">
+          <div class="project_desc pb-3">
             <div class="proj_title">Description:</div>
             <div class="proj_desc">{{$project->description}}</div>
+          </div>
+          <div class="border-bottom pb-3">
+            <a href="/executeProj?projectID={{$projectID}}&from=workspace" class="mr-2 btn btn-primary">Execute the project <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+              </svg></a>
           </div>
           <div class="project_sample mt-3">
             <div class="d-flex">
@@ -72,7 +77,7 @@
             <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm overflow-auto">
               <div class="project_id mr-4 font-large">{{$selectSample->id}}</div>
               <div class="font-normal">
-                <div class="projectId mt-2 text-break text-wrap">SampleLabel :
+                <div class="projectId mt-2 text-break text-wrap">Sample Label :
                   @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() == 0 || DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 0)
                   {{$selectSample->sampleLabel}}
                   @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 1)

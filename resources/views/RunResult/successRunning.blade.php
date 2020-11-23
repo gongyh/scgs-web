@@ -104,7 +104,6 @@
           <a id="v-pills-blob-tab" data-toggle="pill" href="#v-pills-blob" role="tab" aria-controls="v-pills-blob" aria-selected="false">blob</a>
         </div>
       </div>
-
     </div>
   </div>
 </div>
