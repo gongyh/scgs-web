@@ -132,7 +132,7 @@
         </div>
         <div class="mt-5 d-flex justify-content-around">
           <button class="btn btn-secondary w-25" disabled>execute</button>
-          <button class="btn btn-success w-25 detail">Check Progress</button>
+          <button class="btn btn-success w-25 proj_detail">Check Progress</button>
         </div>
       </div>
 
@@ -141,7 +141,7 @@
     <div class="col-md-3 right-column">
       <div class="bg-white rounded shadow-sm p-2">
         <div class="mt-2 rem15 text-primary border-bottom">Pipeline Status</div>
-        <div class="command_out d-none text-wrap overflow-auto text-break rounded">
+        <div class="proj_command_out d-none text-wrap overflow-auto text-break rounded">
         </div>
       </div>
     </div>

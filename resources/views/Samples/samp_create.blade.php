@@ -12,13 +12,13 @@
         @csrf
         <div class="d-flex flex-around">
           <div class="w-50 pr-5">
-            <div class="form-group">
-              <label for="new_sample_label" title="BioSample name">Sample Label</label><span class="text-danger"> *</span>
+            <div class="form-group" title="BioSample name">
+              <label for="new_sample_label">Sample Label</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="new_sample_label" id="new_sample_label" value={{old('new_sample_label')?old('new_sample_label'):''}}>
             </div>
 
             <div class="form-group">
-              <label for="new_library_id" title="Short unique identifier for sequencing library.Each library ID must be unique!">Library ID</label><span class="text-danger"> *</span>
+              <label for="new_library_id">Accession</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="new_library_id" id="new_library_id" value={{old('new_library_id')?old('new_library_id'):''}}>
             </div>
 
@@ -149,8 +149,8 @@
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="design_description" title="Free-form description of the methods used to create the sequencing library">Design Description</label><span class="text-danger"> *</span>
+            <div class="form-group" title="Free-form description of the methods used to create the sequencing library">
+              <label for="design_description">Design Description</label><span class="text-danger"> *</span>
               <textarea class="form-control" name="design_description" id="design_description">{{old('design_description')?old('design_description'):''}}</textarea>
             </div>
 
@@ -186,8 +186,8 @@
               </select>
             </div>
 
-            <div class="form-group">
-              <label title="Paired-end or Single">Paired-end</label><span class="text-danger"> *</span>
+            <div class="form-group" title="Paired-end or Single">
+              <label>Paired-end</label><span class="text-danger"> *</span>
               <div class="custom-control custom-radio">
                 <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single">
                 <label class="custom-control-label" for="customRadio1">Single</label>

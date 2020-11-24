@@ -17,12 +17,12 @@
         </ol>
       </nav>
       <div class="bg-white p-3 rounded shadow-sm">
-        <div class="rem15 font-weight-bold font-italic text-success border-bottom pb-2">Job List</div>
+        <div class="rem15 font-weight-bold text-success border-bottom pb-2">Job List</div>
         <div class="table-response">
           <table class="table table-condense">
             <thead>
               <tr>
-                <th scope="col">Sample Label</th>
+                <th scope="col">Sample</th>
                 <th scope="col">Job Status</th>
                 <th scope="col">Start Time</th>
                 <th scope="col">Finish Time</th>

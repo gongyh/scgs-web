@@ -32,7 +32,7 @@
             </form>
           </nav>
           @if($isAdmin || $isPI)
-          <a class="btn btn-default pt-3 font-weight-bold font-italic add_project" href="projects/create">Add Project</a>
+          <a class="btn btn-default pt-3 font-weight-bold add_project" href="projects/create">Add Project</a>
           @endif
         </div>
         <div class="overflow-auto">
