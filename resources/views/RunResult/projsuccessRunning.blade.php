@@ -24,7 +24,7 @@
           <div class="bg-white p-3 rounded shadow">
             <div class="d-flex justify-content-between font-weight-bold text-dark border-bottom pb-2">
               <div class="rem15">Job Information</div>
-              <a class="btn btn-default" href="/successRunning/resultDownload?sampleID={{$sample_id}}">
+              <a class="btn btn-default" href="/projsuccessRunning/resultDownload?projectID={{$project_id}}">
                 <span class="rem1">Download results.zip </span>
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
@@ -36,15 +36,11 @@
 
             <div class="d-flex text-dark rem15 mt-2">
               <div class="mr-3">User : </div>
-              <div class="text-success iframe_sample_user">{{$sample_user}}</div>
+              <div class="text-success iframe_project_user">{{$project_user}}</div>
             </div>
             <div class="d-flex text-dark rem15 mt-2">
               <div class="mr-3">uuid : </div>
-              <div class="text-success iframe_sample_uuid">{{$sample_uuid}}</div>
-            </div>
-            <div class="d-flex text-dark rem15 mt-2">
-              <div class="mr-3">Sample : </div>
-              <div class="text-success iframe_sample_name">{{$file_prefix}}</div>
+              <div class="text-success iframe_project_uuid">{{$project_uuid}}</div>
             </div>
             <div class="d-flex text-dark rem15 mt-2">
               <div class="mr-3">Started : </div>
@@ -75,29 +71,8 @@
               <span id="iframe_browser_title">MultiQC Reports</span>
             </div>
             <div class="embed-responsive embed-responsive-4by3">
-              <iframe class="embed-responsive-item" src={{'results/'.$sample_user.'/'.$sample_uuid.'/MultiQC/multiqc_report.html'}} allowfullscreen></iframe>
+              <iframe class="embed-responsive-item" src={{'results/'.$project_user.'/'.$project_uuid.'/MultiQC/multiqc_report.html'}} allowfullscreen></iframe>
             </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="v-pills-krona" role="tabpanel" aria-labelledby="v-pills-krona-tab">
-          <div id="iframe_browser">
-            <div id="iframe_browser_header">
-              <div id="iframe_browser_buttons">
-              </div>
-              <span id="iframe_browser_title">Kraken Reports</span>
-            </div>
-            <div class="kraken_report embed-responsive embed-responsive-4by3">
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="v-pills-blob" role="tabpanel" aria-labelledby="v-pills-blob-tab">
-          <div id="iframe_browser">
-            <div id="iframe_browser_header">
-              <div id="iframe_browser_buttons">
-              </div>
-              <span id="iframe_browser_title">Blob Reports</span>
-            </div>
-            <img src={{'results/'.$sample_user.'/'.$sample_uuid.'/blob/'.$file_prefix.'/'.$file_prefix.'.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png'}} alt="blob" width="100%" height="100%">
           </div>
         </div>
       </div>
@@ -108,9 +83,7 @@
       <div class="result-info">
         <div class="w-75 nav flex-column nav-pills list-switch left demo-chooser" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
-          <a id="v-pills-multiqc-tab" data-toggle="pill" href="#v-pills-multiqc" role="tab" aria-controls="v-pills-multiqc" aria-selected="false">MultiQC</a>
-          <a id="v-pills-krona-tab" data-toggle="pill" href="#v-pills-krona" role="tab" aria-controls="v-pills-krona" aria-selected="false">Krona</a>
-          <a id="v-pills-blob-tab" data-toggle="pill" href="#v-pills-blob" role="tab" aria-controls="v-pills-blob" aria-selected="false">Blob</a>
+          <a id="v-pills-proj-multiqc-tab" data-toggle="pill" href="#v-pills-multiqc" role="tab" aria-controls="v-pills-multiqc" aria-selected="false">MultiQC</a>
         </div>
       </div>
     </div>

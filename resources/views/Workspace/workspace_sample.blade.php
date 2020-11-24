@@ -26,17 +26,47 @@
             <div class="proj_detail">{{$project->name}}</div>
           </div>
           <div class="project_doi">
-            <div class="proj_title">DOI:</div>
+            <div class="proj_title">Accession:</div>
             <div class="proj_detail">{{$project->doi}}</div>
           </div>
           <div class="project_desc pb-3">
             <div class="proj_title">Description:</div>
             <div class="proj_desc">{{$project->description}}</div>
           </div>
+          <div class="project_desc pb-3">
+            <div class="proj_title">Project Status:</div>
+            <div>
+              @if(DB::table('jobs')->where('project_id',$project->id)->count() > 0 && DB::table('jobs')->where('project_id',$project->id)->orderBy('id','desc')->value('status') == 0)
+              <span class="badge badge-warning mt-2">
+                <span>Waiting</span>
+                <span class="dot">...</span>
+              </span>
+              @elseif(DB::table('jobs')->where('project_id',$project->id)->count() > 0 && DB::table('jobs')->where('project_id',$project->id)->orderBy('id','desc')->value('status') == 1)
+              <span class="badge badge-info mt-2">
+                <span>Running</span>
+                <span class="dot">...</span>
+              </span>
+              @elseif(DB::table('jobs')->where('project_id',$project->id)->count() > 0 && DB::table('jobs')->where('project_id',$project->id)->orderBy('id','desc')->value('status') == 2)
+              <span class="badge badge-danger mt-2">
+                <span>failed</span>
+              </span>
+              @elseif(DB::table('jobs')->where('project_id',$project->id)->count() > 0 && DB::table('jobs')->where('project_id',$project->id)->orderBy('id','desc')->value('status') == 3)
+              <span class="badge badge-success mt-2">
+                <span>success</span>
+              </span>
+              @else
+              <span class="badge badge-dark mt-2">haven't ran</span>
+              @endif
+            </div>
+          </div>
           <div class="border-bottom pb-3">
             <a href="/executeProj?projectID={{$projectID}}&from=workspace" class="mr-2 btn btn-primary">Execute the project <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
-              </svg></a>
+              </svg>
+            </a>
+            @if(DB::table('jobs')->where('project_id',$project->id)->count() > 0 && DB::table('jobs')->where('project_id',$project->id)->orderBy('id','desc')->value('status') == 3)
+            <a href="/projsuccessRunning?projectID={{$projectID}}" class="mr-2 btn btn-success">Show Project Report </a>
+            @endif
           </div>
           <div class="project_sample mt-3">
             <div class="d-flex">

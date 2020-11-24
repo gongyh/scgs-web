@@ -20,7 +20,7 @@
         </ol>
       </nav>
       <div class="mb-4">
-        <a class="btn btn-default pt-2 font-weight-bold font-italic" href="/projects/create?from=myProject">Add Project</a>
+        <a class="btn btn-default pt-2 font-weight-bold" href="/projects/create?from=myProject">Add Project</a>
         @if($myProjects != null)
         @foreach($myProjects as $myProject)
         <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm overflow-auto">

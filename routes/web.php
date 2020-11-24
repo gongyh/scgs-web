@@ -87,11 +87,15 @@ Route::group(['prefix' => 'execute'], function () {
 Route::group(['prefix' => 'executeProj'], function () {
     Route::any('/', 'ExecProjController@index');
     Route::get('/start', 'ExecProjController@start');
+    Route::post('/start', 'ExecProjController@ajax');
 });
 
 Route::get('/failedRunning', 'ResultController@failed_running');
 Route::get('/successRunning', 'ResultController@success_running');
 Route::get('/successRunning/resultDownload', 'ResultController@download_result');
+Route::get('/projsuccessRunning', 'ProjResultController@success_running');
+Route::get('/projsuccessRunning/resultDownload', 'ProjResultController@download_result');
+
 
 Auth::routes();
 

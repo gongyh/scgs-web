@@ -49927,6 +49927,7 @@ window.onload = function () {
   var workspace_nav = document.getElementsByClassName('workspace-nav');
   var iframe = document.getElementsByTagName('iframe')[0];
   var MultiQC = document.getElementById('v-pills-multiqc-tab');
+  var proj_MultiQC = document.getElementById('v-pills-proj-multiqc-tab');
   var krona_tab = document.getElementById('v-pills-krona-tab');
   var krona = document.createElement('iframe');
   var krona_src = 'results/' + $('.iframe_sample_user').text() + '/' + $('.iframe_sample_uuid').text() + '/kraken/' + $('.iframe_sample_name').text() + '.krona.html';
@@ -49935,6 +49936,14 @@ window.onload = function () {
 
   if (MultiQC !== null) {
     MultiQC.onclick = function () {
+      setTimeout(function () {
+        iframe.contentWindow.location.reload(true);
+      }, 1000);
+    };
+  }
+
+  if (proj_MultiQC !== null) {
+    proj_MultiQC.onclick = function () {
       setTimeout(function () {
         iframe.contentWindow.location.reload(true);
       }, 1000);
@@ -49975,8 +49984,10 @@ $(function () {
   var species_file = FileInput();
   species_file.Init('species_file', '/workspace/species/upload');
   var running_sample_id = getQueryVariable('sampleID');
+  var running_project_id = getQueryVariable('projectID');
   var check_progress = false;
-  var read_progress;
+  var check_proj_progress = false;
+  var read_progress, read_proj_progress;
   text_folded('.proj_desc', 200);
   $('.start_time').each(function () {
     var start_time = $(this).text();
@@ -50226,6 +50237,23 @@ $(function () {
     });
   }
 
+  function read_proj_nextflowlog() {
+    $.ajax({
+      url: "/executeProj/start",
+      type: 'POST',
+      data: {
+        'running_project_id': running_project_id
+      },
+      dataType: 'json',
+      success: function success(res) {
+        if (res.code == 200) {
+          var insert_message = "<p>" + res.data + "</p> ";
+          $('.proj_command_out').html(insert_message);
+        } else {}
+      }
+    });
+  }
+
   $(".detail").on('click', function (e) {
     e.preventDefault();
     check_progress = !check_progress;
@@ -50240,6 +50268,22 @@ $(function () {
     } else {
       $('.command_out').addClass('d-none');
       clearInterval(read_progress);
+    }
+  });
+  $(".proj_detail").on('click', function (e) {
+    e.preventDefault();
+    check_proj_progress = !check_proj_progress;
+
+    if (check_proj_progress) {
+      $('.proj_command_out').removeClass('d-none');
+      read_proj_progress = setInterval(function () {
+        read_proj_nextflowlog();
+        var scrollHeight = $(".proj_command_out").prop('scrollHeight');
+        $(".proj_command_out").scrollTop(scrollHeight);
+      }, 5000);
+    } else {
+      $('.proj_command_out').addClass('d-none');
+      clearInterval(read_proj_progress);
     }
   });
   /**

@@ -249,7 +249,8 @@ a:hover {
   }
 }
 
-.command_out {
+.command_out,
+.proj_command_out {
   height: 800px;
 }
 
