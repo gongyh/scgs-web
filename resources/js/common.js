@@ -386,7 +386,7 @@ var FileInput = function() {
 
     //Init fileInput
     oFile.Init = function(ctrlName, uploadUrl) {
-    var control = $('#' + ctrlName);
+    var control = $('.' + ctrlName);
 
     //Init fileUpload
     control.fileinput({
@@ -414,3 +414,4 @@ var FileInput = function() {
 }
     return oFile;
 };
+

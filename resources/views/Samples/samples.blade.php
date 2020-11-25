@@ -98,7 +98,7 @@
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                      <input type="file" name="sample_file" id="sample_file" multiple class="file-loading">
+                      <input type="file" name="sample_file" id="sample_file" multiple class="sample_file file-loading">
                     </div>
                   </div>
                 </div>

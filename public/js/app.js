@@ -50317,7 +50317,7 @@ var FileInput = function FileInput() {
   var oFile = new Object(); //Init fileInput
 
   oFile.Init = function (ctrlName, uploadUrl) {
-    var control = $('#' + ctrlName); //Init fileUpload
+    var control = $('.' + ctrlName); //Init fileUpload
 
     control.fileinput({
       uploadUrl: uploadUrl,
