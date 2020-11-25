@@ -22,6 +22,7 @@
           <table class="table table-condense">
             <thead>
               <tr>
+                <th scope="col">Project</th>
                 <th scope="col">Sample</th>
                 <th scope="col">Job Status</th>
                 <th scope="col">Start Time</th>
@@ -33,9 +34,17 @@
               @foreach ($user_jobs as $user_job)
               @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 1)
               <tr class="table-warning">
+                @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('sample_id') !== null)
+                <td></td>
                 <th>
-                  <a href="/execute/start?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('sampleLabel')}}</a>
+                  <a href="/execute/start?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('library_id')}}</a>
                 </th>
+                @else
+                <th>
+                  <a href="/executeProj/start?projectID={{$user_job->project_id}}">{{$projects->where('id',$user_job->project_id)->value('doi')}}</a>
+                </th>
+                <td></td>
+                @endif
                 <td>
                   <span class="badge badge-primary">
                     <span>Running</span>
@@ -48,9 +57,17 @@
               </tr>
               @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 2)
               <tr class="table-danger">
+                @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('sample_id') !== null)
+                <td></td>
                 <th>
-                  <a href="/failedRunning?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('sampleLabel')}}</a>
+                  <a href="/failedRunning?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('library_id')}}</a>
                 </th>
+                @else
+                <th>
+                  <a href="">{{$projects->where('id',$user_job->project_id)->value('doi')}}</a>
+                </th>
+                <td></td>
+                @endif
                 <td>
                   <span class="badge badge-danger">failed</span>
                 </td>
@@ -60,9 +77,17 @@
               </tr>
               @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 3)
               <tr class="table-success">
+                @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('sample_id') !== null)
+                <td></td>
                 <th>
-                  <a href="/successRunning?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('sampleLabel')}}</a>
+                  <a href="/successRunning?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('library_id')}}</a>
                 </th>
+                @else
+                <th>
+                  <a href="/projsuccessRunning?projectID={{$user_job->project_id}}">{{$projects->where('id',$user_job->project_id)->value('doi')}}</a>
+                </th>
+                <td></td>
+                @endif
                 <td>
                   <span class="badge badge-success">success</span>
                 </td>

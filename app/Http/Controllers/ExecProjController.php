@@ -14,7 +14,6 @@ use App\Labs;
 use App\Samples;
 use App\Species;
 use App\Jobs;
-use App\Jobs\RunPipeline;
 use App\Jobs\RunProjPipeline;
 
 class ExecProjController extends Controller
@@ -66,7 +65,7 @@ class ExecProjController extends Controller
              */
             if (Execparams::where('project_id', $project_id)->get()->count() == 0) {
                 Execparams::create([
-                    'sample_id' => null,
+                    'samples_id' => null,
                     'project_id' => $project_id,
                     'ass' => $ass,
                     'snv' => $snv,

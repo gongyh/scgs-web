@@ -44,7 +44,7 @@ class SamplesController extends Controller
                 return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
             }
         } catch (\Illuminate\Database\QueryException $ex) {
-            // 数据库中没有samples时显示
+            // No samples
             $selectSamples = null;
             return view('Sample.samples', compact('selectSamples', 'projectID', 'project', 'applications'));
         }
