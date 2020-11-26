@@ -89,6 +89,15 @@
               </ul>
             </div>
             @endif
+            <div class="mt-2 d-flex">
+              <div class="ml-1 mb-2 mr-3">reference genome : </div>
+              <select class="form-control w-25 mt-1" name="reference_genome">
+                <option value="denove">denove</option>
+                @foreach($species_list as $species)
+                <option value={{$species->name}} {{$species->name == $default_reference?'selected':''}}>{{$species->name}}</option>
+                @endforeach
+              </select>
+            </div>
             <div class="mt-2">
               <div class="custom-control custom-checkbox mr-4">
                 <input type="checkbox" class="custom-control-input" id="augustus_species" name="augustus_species" value="augustus_species" {{$augustus_species?'checked':''}}>
