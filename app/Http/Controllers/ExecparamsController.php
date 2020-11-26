@@ -79,6 +79,7 @@ class ExecparamsController extends Controller
                     'resume' => $resume,
                     'genus' => $genus,
                     'genus_name' => $genus_name,
+                    'reference_genome' => null,
                     'augustus_species' => $augustus_species,
                     'augustus_species_name' => $augustus_species_name,
                     'resfinder_db' => $resfinder_db,
@@ -104,6 +105,7 @@ class ExecparamsController extends Controller
                 $execparams->resume = $resume;
                 $execparams->genus = $genus;
                 $execparams->genus_name = $genus_name;
+                $execparams->reference_genome = null;
                 $execparams->augustus_species = $augustus_species;
                 $execparams->augustus_species_name = $augustus_species_name;
                 $execparams->resfinder_db = $resfinder_db;
@@ -116,7 +118,7 @@ class ExecparamsController extends Controller
             }
 
             /**
-             * execparams参数表读取，拼接command
+             * execparams reading, concat command
              */
             $execparams = new Execparams();
             $run_sample = $execparams->where('samples_id', $sample_id);

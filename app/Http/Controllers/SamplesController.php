@@ -87,10 +87,10 @@ class SamplesController extends Controller
             $select_application = $request->input('select_application');
             $select_species = $request->input('select_species');
             switch ($request->input('isPairends')) {
-                case 'singleEnds':
+                case 'Single':
                     $isPairends = 0;
                     break;
-                case 'pairEnds':
+                case 'Paired-end':
                     $isPairends = 1;
                     break;
             }
@@ -252,10 +252,10 @@ class SamplesController extends Controller
             $select_application = $request->input('select_application');
             $select_species = $request->input('select_species');
             switch ($request->input('isPairends')) {
-                case 'singleEnds':
+                case 'Single':
                     $isPairends = 0;
                     break;
-                case 'pairEnds':
+                case 'Paired-end':
                     $isPairends = 1;
                     break;
             }

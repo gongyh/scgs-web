@@ -80,6 +80,12 @@
             </div>
             <input type="text" name="genus_name" class="w-50 form-control genus_name text-secondary {{$genus_name == null?'no-display':''}}" value={{$genus_name == null?'':$genus_name}}>
           </div>
+          <div class="mt-2 d-flex">
+            <div class="ml-1 mb-2 mr-3">reference genome : </div>
+            <select class="form-control w-25 mt-1" name="reference_genome" disabled>
+              <option value={{$reference_genome}} selected>{{$reference_genome}}</option>
+            </select>
+          </div>
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
               <input type="checkbox" class="custom-control-input" id="augustus_species" name="augustus_species" value="augustus_species" {{$augustus_species?'checked':''}} disabled>

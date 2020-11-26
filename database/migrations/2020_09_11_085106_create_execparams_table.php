@@ -32,6 +32,7 @@ class CreateExecparamsTable extends Migration
             $table->boolean('saveAlignedIntermediates');
             $table->boolean('genus');
             $table->string('genus_name', 200)->nullable();
+            $table->string('reference_genome', 200)->nullable();
             $table->boolean('augustus_species');
             $table->string('augustus_species_name', 200)->nullable();
             $table->boolean('resfinder_db');

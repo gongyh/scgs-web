@@ -69,9 +69,9 @@ class RunProjPipeline implements ShouldQueue
         $mkdir = 'if [ ! -d "' . $base_path . $sample_user_name . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $sample_user_name . '/' . $job_uuid . '; fi';
         $chmod = 'cd ' . $base_path . ' && sudo chown -R apache:apache ' . $sample_user_name . ' && sudo chmod -R 777 ' . $sample_user_name;
         $cd_and_command = 'cd ' . $base_path . $sample_user_name . '/' . $job_uuid . ' && ' . $command;
-        echo ($mkdir);
-        echo ($chmod);
-        echo ($cd_and_command);
+        system($mkdir);
+        system($chmod);
+        system($cd_and_command);
     }
 
     public function failed()
