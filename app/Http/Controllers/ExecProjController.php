@@ -40,7 +40,12 @@ class ExecProjController extends Controller
             $fungus = $request->input('fungus') == 'fungus' ? true : false;
             $resume = $request->input('resume') == 'resume' ? true : false;
             $genus = $request->input('genus') == 'genus' ? true : false;
-            $reference_genome = $request->input('reference_genome');
+            if ($request->input('reference_genome') == 'denove') {
+                $reference_genome = 'denove';
+            } else {
+                $reference_genome_id = $request->input('reference_genome');
+                $reference_genome = Species::where('id', $reference_genome_id)->value('name');
+            }
             $augustus_species = $request->input('augustus_species') == 'augustus_species' ? true : false;
             $resfinder_db = $request->input('resfinder_db') == 'resfinder_db' ? true : false;
             $nt_db = $request->input('nt_db') == 'nt_db' ? true : false;
@@ -170,7 +175,7 @@ class ExecProjController extends Controller
             if ($run_project->value('reference_genome') == 'denove') {
                 $fasta = $gff = '';
             } else {
-                $reference_genome = $request->input('reference_genome');
+                $reference_genome = $run_project->value('reference_genome');
                 $fasta_path = Species::where('name', $reference_genome)->value('fasta');
                 $gff_path = Species::where('name', $reference_genome)->value('gff');
                 $fasta_path = $base_path . '' . $fasta_path;

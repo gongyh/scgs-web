@@ -94,7 +94,7 @@
               <select class="form-control w-25 mt-1" name="reference_genome">
                 <option value="denove">denove</option>
                 @foreach($species_list as $species)
-                <option value={{$species->name}} {{$species->name == $default_reference?'selected':''}}>{{$species->name}}</option>
+                <option value={{$species->id}} {{$species->name == $default_reference?'selected':''}}>{{$species->name}}</option>
                 @endforeach
               </select>
             </div>
