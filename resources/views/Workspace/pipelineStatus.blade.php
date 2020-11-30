@@ -84,7 +84,7 @@
                 </th>
                 @else
                 <th>
-                  <a href="/projsuccessRunning?projectID={{$user_job->project_id}}">{{$projects->where('id',$user_job->project_id)->value('doi')}}</a>
+                  <a href="/successRunning?projectID={{$user_job->project_id}}">{{$projects->where('id',$user_job->project_id)->value('doi')}}</a>
                 </th>
                 <td></td>
                 @endif
