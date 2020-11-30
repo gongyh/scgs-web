@@ -91,6 +91,20 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'host' => env('MDB_HOST', '127.0.0.1'),
+            'port' => env('MDB_PORT', 27017),
+            'database' => env('MDB_DATABASE', 'homestead'),
+            'username' => env('MDB_USERNAME', 'homestead'),
+            'password' => env('MDB_PASSWORD', 'secret'),
+            'options' => [
+                // here you can pass more settings to the Mongo Driver Manager
+                // see https://www.php.net/manual/en/mongodb-driver-manager.construct.php under "Uri Options" for a list of complete parameters that you can use
+                'database' => env('MDB_AUTHENTICATION_DATABASE', 'admin'), // required with Mongo 3+
+            ],
+        ],
+
     ],
 
     /*
