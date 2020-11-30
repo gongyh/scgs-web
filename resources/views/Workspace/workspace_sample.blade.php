@@ -65,7 +65,7 @@
               </svg>
             </a>
             @if(DB::table('jobs')->where('project_id',$projectID)->count() > 0 && DB::table('jobs')->where('project_id',$projectID)->orderBy('id','desc')->value('status') == 3)
-            <a href="/projsuccessRunning?projectID={{$projectID}}" class="mr-2 btn btn-success">Show Project Report </a>
+            <a href="/successRunning?projectID={{$projectID}}" class="mr-2 btn btn-success">Show Project Report </a>
             @elseif(DB::table('jobs')->where('project_id',$projectID)->count() > 0 && DB::table('jobs')->where('project_id',$projectID)->orderBy('id','desc')->value('status') == 1)
             <a href="/executeProj/start?projectID={{$projectID}}" class="mr-2 btn btn-default">Show Pipeline Status</a>
             @endif

@@ -20,7 +20,7 @@ class SpeciesController extends Controller
             $current_page = $request->input('page');
             return view('Species.species', ['all_species' => $all_species, 'current_page' => $current_page]);
         } catch (\Illuminate\Database\QueryException $ex) {
-            // 数据库中没有species显示
+            // if there are no species in database
             $all_species = null;
             $current_page = null;
             return view('Species.species', ['all_species' => $all_species, 'current_page' => $current_page]);

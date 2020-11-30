@@ -24,6 +24,7 @@
           <div class="bg-white p-3 rounded shadow">
             <div class="d-flex justify-content-between font-weight-bold text-dark border-bottom pb-2">
               <div class="rem15">Job Information</div>
+              @if(isset($sample_id))
               <a class="btn btn-default" href="/successRunning/resultDownload?sampleID={{$sample_id}}">
                 <span class="rem1">Download results.zip </span>
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -32,20 +33,46 @@
                   <path fill-rule="evenodd" d="M8 6a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 10.293V6.5A.5.5 0 0 1 8 6z" />
                 </svg>
               </a>
+              @elseif(isset($project_user))
+              <a class="btn btn-default" href="/successRunning/resultDownload?projectID={{$project_id}}">
+                <span class="rem1">Download results.zip </span>
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                  <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
+                  <path fill-rule="evenodd" d="M8 6a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 10.293V6.5A.5.5 0 0 1 8 6z" />
+                </svg>
+              </a>
+              @endif
             </div>
 
+            @if(isset($sample_user))
             <div class="d-flex text-dark rem15 mt-2">
               <div class="mr-3">User : </div>
               <div class="text-success iframe_sample_user">{{$sample_user}}</div>
             </div>
+            @elseif(isset($project_user))
+            <div class="d-flex text-dark rem15 mt-2">
+              <div class="mr-3">User : </div>
+              <div class="text-success iframe_project_user">{{$project_user}}</div>
+            </div>
+            @endif
+            @if(isset($sample_uuid))
             <div class="d-flex text-dark rem15 mt-2">
               <div class="mr-3">uuid : </div>
               <div class="text-success iframe_sample_uuid">{{$sample_uuid}}</div>
             </div>
+            @elseif(isset($project_uuid))
+            <div class="d-flex text-dark rem15 mt-2">
+              <div class="mr-3">uuid : </div>
+              <div class="text-success iframe_project_uuid">{{$project_uuid}}</div>
+            </div>
+            @endif
+            @if(isset($file_prefix))
             <div class="d-flex text-dark rem15 mt-2">
               <div class="mr-3">Sample : </div>
               <div class="text-success iframe_sample_name">{{$file_prefix}}</div>
             </div>
+            @endif
             <div class="d-flex text-dark rem15 mt-2">
               <div class="mr-3">Started : </div>
               <div class="text-success start_time">{{$started}}</div>
@@ -75,7 +102,11 @@
               <span id="iframe_browser_title">MultiQC Reports</span>
             </div>
             <div class="embed-responsive embed-responsive-4by3">
+              @if(isset($sample_id))
               <iframe class="embed-responsive-item" src={{'results/'.$sample_user.'/'.$sample_uuid.'/MultiQC/multiqc_report.html'}} allowfullscreen></iframe>
+              @elseif(isset($project_user))
+              <iframe class="embed-responsive-item" src={{'results/'.$project_user.'/'.$project_uuid.'/MultiQC/multiqc_report.html'}} allowfullscreen></iframe>
+              @endif
             </div>
           </div>
         </div>
@@ -85,8 +116,15 @@
               <div id="iframe_browser_buttons">
               </div>
               <span id="iframe_browser_title">Kraken Reports</span>
+              @if(isset($project_user))
+              <ul id="kraken_tabs">
+                @foreach($filename_array as $filename)
+                <li><a href="#">{{$filename}}</a></li>
+                @endforeach
+              </ul>
+              @endif
             </div>
-            <div class="kraken_report embed-responsive embed-responsive-4by3">
+            <div id="kraken_report" class="kraken_report embed-responsive embed-responsive-4by3">
             </div>
           </div>
         </div>
@@ -96,8 +134,17 @@
               <div id="iframe_browser_buttons">
               </div>
               <span id="iframe_browser_title">Blob Reports</span>
+              @if(isset($project_user))
+              <ul id="blob_tabs">
+                @foreach($filename_array as $filename)
+                <li><a href="#">{{$filename}}</a></li>
+                @endforeach
+              </ul>
+              @endif
             </div>
+            @if(isset($sample_id))
             <img src={{'results/'.$sample_user.'/'.$sample_uuid.'/blob/'.$file_prefix.'/'.$file_prefix.'.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png'}} alt="blob" width="100%" height="100%">
+            @endif
           </div>
         </div>
       </div>

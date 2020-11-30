@@ -49916,10 +49916,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-window.onload = function () {
-  /**
-   * workspace 链接激活状态
-   */
+$(function () {
   var index = 0;
   var current_url = window.location.href;
   var url = current_url.split('/').pop();
@@ -49930,45 +49927,44 @@ window.onload = function () {
   var proj_MultiQC = document.getElementById('v-pills-proj-multiqc-tab');
   var krona_tab = document.getElementById('v-pills-krona-tab');
   var krona = document.createElement('iframe');
-  var krona_src = 'results/' + $('.iframe_sample_user').text() + '/' + $('.iframe_sample_uuid').text() + '/kraken/' + $('.iframe_sample_name').text() + '.krona.html';
-  krona.setAttribute('src', krona_src);
-  krona.setAttribute('class', 'embed-responsive-item');
+  var iframe_krona_tabs = $('#kraken_tabs li a');
 
-  if (MultiQC !== null) {
-    MultiQC.onclick = function () {
-      setTimeout(function () {
-        iframe.contentWindow.location.reload(true);
-      }, 1000);
-    };
-  }
+  if (window.location.href.indexOf('sampleID') != -1) {
+    var krona_src = 'results/' + $('.iframe_sample_user').text() + '/' + $('.iframe_sample_uuid').text() + '/kraken/' + $('.iframe_sample_name').text() + '.krona.html';
+    krona.setAttribute('src', krona_src);
+    krona.setAttribute('class', 'embed-responsive-item');
 
-  if (proj_MultiQC !== null) {
-    proj_MultiQC.onclick = function () {
-      setTimeout(function () {
-        iframe.contentWindow.location.reload(true);
-      }, 1000);
-    };
-  }
-
-  if (krona_tab !== null) {
-    krona_tab.onclick = function () {
-      var kraken_report = document.getElementsByClassName('kraken_report')[0];
-      kraken_report.appendChild(krona);
-    };
-  }
-
-  if (url) {
-    for (var i = 0; i < workspace_nav.length; i++) {
-      if (workspace_nav[i].getAttribute('href').split('/').pop().indexOf(url_noparams) != -1) {
-        index = i;
-        workspace_nav[index].className = 'nav-item nav-link workspace-nav active';
-        break;
-      }
+    if (krona_tab != null) {
+      krona_tab.onclick = function () {
+        var kraken_report = document.getElementsByClassName('kraken_report')[0];
+        kraken_report.appendChild(krona);
+      };
     }
-  }
-};
+  } else {
+    var krona_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/kraken/' + iframe_krona_tabs.first().text() + '.krona.html';
+    krona.setAttribute('src', krona_src);
+    krona.setAttribute('class', 'embed-responsive-item');
 
-$(function () {
+    if (krona_tab != null) {
+      krona_tab.onclick = function () {
+        $('#kraken_tabs li').first().addClass('active');
+        var kraken_report = document.getElementsByClassName('kraken_report')[0];
+        kraken_report.appendChild(krona);
+      };
+    }
+
+    iframe_krona_tabs.on('click', function (e) {
+      e.preventDefault();
+      $('#kraken_tabs li').removeClass('active');
+      $(this).parent().addClass('active');
+      var krona_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/kraken/' + $(this).text() + '.krona.html';
+      krona.setAttribute('src', krona_src);
+      krona.setAttribute('class', 'embed-responsive-item');
+      $('#kraken_report').empty();
+      $('#kraken_report').append(krona);
+    });
+  }
+
   var sample_url = window.location.href;
   var projectID_pos = sample_url.indexOf('projectID');
 
@@ -49988,6 +49984,33 @@ $(function () {
   var check_progress = false;
   var check_proj_progress = false;
   var read_progress, read_proj_progress;
+
+  if (MultiQC != null) {
+    MultiQC.onclick = function () {
+      setTimeout(function () {
+        iframe.contentWindow.location.reload(true);
+      }, 1000);
+    };
+  }
+
+  if (proj_MultiQC != null) {
+    proj_MultiQC.onclick = function () {
+      setTimeout(function () {
+        iframe.contentWindow.location.reload(true);
+      }, 1000);
+    };
+  }
+
+  if (url) {
+    for (var i = 0; i < workspace_nav.length; i++) {
+      if (workspace_nav[i].getAttribute('href').split('/').pop().indexOf(url_noparams) != -1) {
+        index = i;
+        workspace_nav[index].className = 'nav-item nav-link workspace-nav active';
+        break;
+      }
+    }
+  }
+
   text_folded('.proj_desc', 200);
   $('.start_time').each(function () {
     var start_time = $(this).text();
@@ -50134,11 +50157,11 @@ $(function () {
 
   var db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
 
-  for (var i = 0; i < db_list.length; i++) {
-    if ($('#' + db_list[i]).is(':checked')) {
-      $('.' + db_list[i] + '_path').show();
+  for (var _i = 0; _i < db_list.length; _i++) {
+    if ($('#' + db_list[_i]).is(':checked')) {
+      $('.' + db_list[_i] + '_path').show();
     } else {
-      $('.' + db_list[i] + '_path').hide();
+      $('.' + db_list[_i] + '_path').hide();
     }
   }
 
@@ -50342,7 +50365,7 @@ var FileInput = function FileInput() {
       $("#myModal_" + ctrlName).modal("hide");
 
       if (data == undefined) {
-        console.log('文件格式类型不正确');
+        console.log('incorrect file type!');
         return;
       }
 

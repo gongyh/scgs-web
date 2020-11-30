@@ -448,6 +448,89 @@ a:hover {
   padding-left: 10px;
 }
 
+#kraken_tabs {
+  font-size: 12px;
+  margin: -9px 0 0;
+  list-style-type: none;
+  line-height: 32px;
+  max-height: 32px;
+  overflow: hidden;
+  display: inline-block;
+  padding: 0 20px;
+}
+
+#kraken_tabs li.active,
+#kraken_tabs li:active {
+  z-index: 2;
+  background: #efefef;
+}
+
+#kraken_tabs li:hover,
+#kraken_tabs li:focus {
+  background: #eee;
+}
+
+#kraken_tabs li {
+  float: right;
+  margin: 5px -10px 0;
+  border-top-right-radius: 35px 140px;
+  border-top-left-radius: 20px 40px;
+  padding: 0 33px 0 19px;
+  height: 140px;
+  background: #ddd;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .5);
+  transition: background-color 0.1s;
+}
+
+#kraken_tabs li a {
+  display: inline-block;
+  max-width: 100%;
+  text-decoration: none;
+  color: #222;
+}
+
+#blob_tabs {
+  font-size: 12px;
+  margin: -9px 0 0;
+  list-style-type: none;
+  line-height: 32px;
+  max-height: 32px;
+  overflow: hidden;
+  display: inline-block;
+  padding: 0 20px;
+}
+
+#blob_tabs li.active,
+#blob_tabs li:active {
+  z-index: 2;
+  background: #efefef;
+}
+
+#blob_tabs li:hover,
+#blob_tabs li:focus {
+  background: #eee;
+}
+
+#blob_tabs li {
+  float: right;
+  margin: 5px -10px 0;
+  border-top-right-radius: 35px 140px;
+  border-top-left-radius: 20px 40px;
+  padding: 0 33px 0 19px;
+  height: 140px;
+  background: #ddd;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .5);
+  transition: background-color 0.1s;
+}
+
+#blob_tabs li a {
+  display: inline-block;
+  max-width: 100%;
+  text-decoration: none;
+  color: #222;
+}
 
 .list-switch,
 .list-switch li {
