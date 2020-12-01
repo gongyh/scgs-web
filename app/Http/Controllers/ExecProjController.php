@@ -40,8 +40,8 @@ class ExecProjController extends Controller
             $fungus = $request->input('fungus') == 'fungus' ? true : false;
             $resume = $request->input('resume') == 'resume' ? true : false;
             $genus = $request->input('genus') == 'genus' ? true : false;
-            if ($request->input('reference_genome') == 'denove') {
-                $reference_genome = 'denove';
+            if ($request->input('reference_genome') == 'denovo') {
+                $reference_genome = 'denovo';
             } else {
                 $reference_genome_id = $request->input('reference_genome');
                 $reference_genome = Species::where('id', $reference_genome_id)->value('name');
@@ -172,7 +172,7 @@ class ExecProjController extends Controller
             $first_sample = Samples::where('projects_id', $project_id)->first();
             $first_sample_id = $first_sample->id;
             $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
-            if ($run_project->value('reference_genome') == 'denove') {
+            if ($run_project->value('reference_genome') == 'denovo') {
                 $fasta = $gff = '';
             } else {
                 $reference_genome = $run_project->value('reference_genome');
@@ -245,7 +245,7 @@ class ExecProjController extends Controller
         $species_list = Species::all();
         $first_sample = Samples::where('projects_id', $project_id)->first();
         $first_sample_species_id = $first_sample->species_id;
-        $default_reference = isset($first_sample_species_id) ? Species::where('id', $first_sample_species_id)->value('name') : 'denove';
+        $default_reference = isset($first_sample_species_id) ? Species::where('id', $first_sample_species_id)->value('name') : 'denovo';
         if (Execparams::where('project_id', $project_id)->get()->count() != 0) {
             $data = Execparams::where('project_id', $project_id);
             $ass = $data->value('ass');
