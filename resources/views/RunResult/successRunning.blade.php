@@ -144,6 +144,8 @@
             </div>
             @if(isset($sample_id))
             <img src={{'results/'.$sample_user.'/'.$sample_uuid.'/blob/'.$file_prefix.'/'.$file_prefix.'.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png'}} alt="blob" width="100%" height="100%">
+            @elseif(isset($project_user))
+            <img id="blob_image" src="" alt="blob" width="100%" height="100%">
             @endif
           </div>
         </div>

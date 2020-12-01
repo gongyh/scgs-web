@@ -49926,6 +49926,8 @@ $(function () {
   var MultiQC = document.getElementById('v-pills-multiqc-tab');
   var proj_MultiQC = document.getElementById('v-pills-proj-multiqc-tab');
   var krona_tab = document.getElementById('v-pills-krona-tab');
+  var blob_tab = document.getElementById('v-pills-blob-tab');
+  var image_blob_tabs = $('#blob_tabs li a');
   var krona = document.createElement('iframe');
   var iframe_krona_tabs = $('#kraken_tabs li a');
 
@@ -49942,6 +49944,7 @@ $(function () {
     }
   } else {
     var krona_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/kraken/' + iframe_krona_tabs.first().text() + '.krona.html';
+    var blob_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/blob/' + image_blob_tabs.first().text() + '/' + image_blob_tabs.first().text() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
     krona.setAttribute('src', krona_src);
     krona.setAttribute('class', 'embed-responsive-item');
 
@@ -49950,6 +49953,13 @@ $(function () {
         $('#kraken_tabs li').first().addClass('active');
         var kraken_report = document.getElementsByClassName('kraken_report')[0];
         kraken_report.appendChild(krona);
+      };
+    }
+
+    if (blob_tab != null) {
+      blob_tab.onclick = function () {
+        $('#blob_tabs li').first().addClass('active');
+        $('#blob_image').attr('src', blob_src);
       };
     }
 
@@ -49962,6 +49972,13 @@ $(function () {
       krona.setAttribute('class', 'embed-responsive-item');
       $('#kraken_report').empty();
       $('#kraken_report').append(krona);
+    });
+    image_blob_tabs.on('click', function (e) {
+      e.preventDefault();
+      $('#blob_tabs li').removeClass('active');
+      $(this).parent().addClass('active');
+      var blob_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/blob/' + $(this).text() + '/' + $(this).text() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
+      $('#blob_image').attr('src', blob_src);
     });
   }
 

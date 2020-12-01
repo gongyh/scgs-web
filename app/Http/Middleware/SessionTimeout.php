@@ -19,7 +19,7 @@ class SessionTimeout
     private $key_session_last_active = 'last_activity';
     private $list_except_path = ['login'];
 
-    //超时时长
+    //Timeout
     private $time_out = 3000;
 
     private function determineLogout()
@@ -31,7 +31,7 @@ class SessionTimeout
     public function handle($request, Closure $next)
     {
         $path = $request->path();
-        //未登陆 或者 正在登陆
+        //unlog or login
         if (!auth()->check() || in_array($path, $this->list_except_path)) {
             return $next($request);
         }
@@ -42,12 +42,12 @@ class SessionTimeout
             if ($time_decay > $this->time_out) {
                 Auth::logout();
                 session()->forget($this->key_session_last_active);
-                flash('login timeout,please login again')->warning();
+                flash('Login timeout, please login again')->warning();
                 return redirect('/login');
             }
         }
 
-        //登出状态
+        //log out
         if ($this->determineLogout()) {
             session()->has($this->key_session_last_active) && session()->forget($this->key_session_last_active);
         } else {

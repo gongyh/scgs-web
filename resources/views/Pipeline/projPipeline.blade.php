@@ -92,7 +92,7 @@
             <div class="mt-2 d-flex">
               <div class="ml-1 mb-2 mr-3">reference genome : </div>
               <select class="form-control w-25 mt-1" name="reference_genome">
-                <option value="denove">denove</option>
+                <option class="font-italic" value="denovo">de novo</option>
                 @foreach($species_list as $species)
                 <option value={{$species->id}} {{$species->name == $default_reference?'selected':''}}>{{$species->name}}</option>
                 @endforeach
