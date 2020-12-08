@@ -69,10 +69,12 @@ class ResultController extends Controller
             $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $project_username . '/' . $uuid . '; fi';
             $cp_kraken = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/kraken ' . public_path() . '/results/' . $project_username . '/' . $uuid . '; fi';
             $cp_blob = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/blob ' . public_path() . '/results/' . $project_username . '/' . $uuid . '; fi';
+            $cp_preseq = 'if [ -d ' . $path . '/preseq ]; then cp -r ' . $path . '/preseq ' . public_path() . '/results/' . $project_username . '/' . $uuid . '; fi';
             system($multiqc_mkdir);
             system($cp_multiqc);
             system($cp_kraken);
             system($cp_blob);
+            system($cp_preseq);
 
             $project_user_id = Jobs::where('project_id', $project_id)->value('user_id');
             $project_user = User::where('id', $project_user_id)->value('name');
@@ -82,6 +84,7 @@ class ResultController extends Controller
             $period = $finished - $started;
             $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
             $filename_array = array();
+            $preseq_array = array();
             foreach ($project_sample_filenames as $sample_filename) {
                 $sample_filename = $sample_filename['filename1'];
                 preg_match('/(_trimmed)?(_combined)?(\.R1)?(_1)?(_R1)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$/', $sample_filename, $matches);
@@ -90,9 +93,10 @@ class ResultController extends Controller
                 $file_prefix = explode('/', $file_prefix);
                 $file_prefix = end($file_prefix);
                 array_push($filename_array, $file_prefix);
+                array_push($preseq_array, $file_prefix . '_c', $file_prefix . '_lc', $file_prefix . '_gc');
             }
             $command = Jobs::where('project_id', $project_id)->value('command');
-            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'project_user' => $project_user, 'project_uuid' => $project_uuid, 'project_id' => $project_id, 'filename_array' => $filename_array]);
+            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'project_user' => $project_user, 'project_uuid' => $project_uuid, 'project_id' => $project_id, 'filename_array' => $filename_array, 'preseq_array' => $preseq_array]);
         }
     }
 
@@ -128,6 +132,37 @@ class ResultController extends Controller
             } else {
                 return 'sorry!can not read result.zip!';
             }
+        }
+    }
+
+    public function preseq_ajax(Request $request)
+    {
+        $preseq = $request->input('preseq');
+        $project_id = $request->input('projectID');
+        $user_id = Jobs::where('project_id', $project_id)->value('user_id');
+        $project_username = User::where('id', $user_id)->value('name');
+        $uuid = Jobs::where('project_id', $project_id)->value('uuid');
+        $preseq_path = $project_username . '/' . $uuid . '/preseq/'  . $preseq . '.txt';
+        if (Storage::disk('local')->exists($preseq_path)) {
+            $preseq_data = Storage::get($preseq_path);
+            $preseq_data = str_replace('total_reads', '', $preseq_data);
+            $preseq_data = str_replace('distinct_reads', '', $preseq_data);
+            $preseq_data = preg_split('/\s+/is', $preseq_data);
+            array_splice($preseq_data, 0, 1);
+            array_pop($preseq_data);
+            $x = array();
+            $y = array();
+            $data = array();
+            for ($i = 0; $i < count($preseq_data); $i += 2) {
+                array_push($x, $preseq_data[$i]);
+            }
+            for ($i = 1; $i < count($preseq_data); $i += 2) {
+                array_push($y, $preseq_data[$i]);
+            }
+            array_push($data, $x, $y);
+            return response()->json(['code' => 200, 'data' => $data]);
+        } else {
+            return response()->json(['code' => 201, 'data' => 'failed']);
         }
     }
 }
