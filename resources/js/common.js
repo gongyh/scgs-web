@@ -1,3 +1,5 @@
+var Plotly = require('plotly.js/dist/plotly');
+
 $(function () {
     var index = 0;
     var current_url = window.location.href;
@@ -9,9 +11,12 @@ $(function () {
     var proj_MultiQC = document.getElementById('v-pills-proj-multiqc-tab');
     var krona_tab = document.getElementById('v-pills-krona-tab');
     var blob_tab = document.getElementById('v-pills-blob-tab');
+    var preseq_tab = document.getElementById('v-pills-preseq-tab');
     var image_blob_tabs = $('#blob_tabs li a');
     var krona = document.createElement('iframe');
     var iframe_krona_tabs = $('#kraken_tabs li a');
+    var preseq_tabs = $('#preseq_tabs li a');
+
     if(window.location.href.indexOf('sampleID') != -1){
         var krona_src = 'results/' + $('.iframe_sample_user').text() + '/' + $('.iframe_sample_uuid').text() + '/kraken/' + $('.iframe_sample_name').text() + '.krona.html';
         krona.setAttribute('src',krona_src);
@@ -58,6 +63,59 @@ $(function () {
             $(this).parent().addClass('active');
             var blob_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/blob/' + $(this).text() + '/' + $(this).text() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
             $('#blob_image').attr('src',blob_src);
+        })
+    }
+
+    if($('.blob_browser:has(img)').length == 0){
+        $('.blob_browser').append('<p> No Blob Result! </p>');
+    }
+
+    if(preseq_tab != null){
+        preseq_tab.onclick = function(){
+            $('#preseq_tabs li').first().addClass('active');
+            read_preseq_data();
+        }
+    }
+
+    preseq_tabs.on('click',function(e){
+        e.preventDefault();
+        $('#preseq_report').remove();
+        $('#preseq_tabs li').removeClass('active');
+        $(this).parent().addClass('active');
+        var new_preseq_report = $('<div></div>');
+        new_preseq_report.attr('id','preseq_report');
+        new_preseq_report.addClass('w-100 overflow-hidden mt-4');
+        $('.preseq_report').append(new_preseq_report);
+        read_preseq_data();
+    })
+
+    function read_preseq_data(){
+        var preseq = $('#preseq_tabs li.active').children().text();
+        var projectID = getQueryVariable('projectID');
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+            url: '/successRunning',
+            type: 'POST',
+            data:{
+                'preseq':preseq,
+                'projectID':projectID
+            },
+            dataType: 'json',
+            success: function(res){
+                var preseq_report = document.getElementById('preseq_report');
+                if(res.code == 200){
+                    a_axios = res.data[0];
+                    y_axios = res.data[1];
+                    Plotly.plot(preseq_report,[{
+                        x:a_axios,
+                        y:y_axios}
+                    ],{
+                        margin:{t:0}
+                    })
+                }
+            }
         })
     }
 
@@ -136,14 +194,14 @@ $(function () {
    * Get url params
    */
   function getQueryVariable(variable){
-       var query = window.location.search.substring(1);
-       var vars = query.split("&");
-       for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if(pair[0] == variable){return pair[1];}
-       }
-       return(false);
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split("=");
+      if(pair[0] == variable){return pair[1];}
     }
+    return(false);
+  }
 
   /**
    * Convert task start time to year:month:second

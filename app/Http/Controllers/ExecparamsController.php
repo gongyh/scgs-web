@@ -316,7 +316,7 @@ class ExecparamsController extends Controller
             $data = Storage::get($nextflow_log_path);
             return response()->json(['code' => '200', 'data' => $data]);
         } else {
-            return response()->json(['code' => '201', 'data' => '']);
+            return response()->json(['code' => '404', 'data' => '']);
         }
     }
 }

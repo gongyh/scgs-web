@@ -129,7 +129,7 @@
           </div>
         </div>
         <div class="tab-pane fade" id="v-pills-blob" role="tabpanel" aria-labelledby="v-pills-blob-tab">
-          <div id="iframe_browser">
+          <div id="iframe_browser" class="blob_browser">
             <div id="iframe_browser_header">
               <div id="iframe_browser_buttons">
               </div>
@@ -149,6 +149,24 @@
             @endif
           </div>
         </div>
+        <div class="tab-pane fade" id="v-pills-preseq" role="tabpanel" aria-labelledby="v-pills-preseq-tab">
+          <div id="iframe_browser" class="preseq_report">
+            <div id="iframe_browser_header">
+              <div id="iframe_browser_buttons">
+              </div>
+              <span id="iframe_browser_title">Preseq Reports</span>
+              @if(isset($project_user))
+              <ul id="preseq_tabs">
+                @foreach($preseq_array as $preseq)
+                <li><a href="#">{{$preseq}}</a></li>
+                @endforeach
+              </ul>
+              @endif
+            </div>
+            <div id="preseq_report" class="w-100 overflow-hidden">
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -160,6 +178,7 @@
           <a id="v-pills-multiqc-tab" data-toggle="pill" href="#v-pills-multiqc" role="tab" aria-controls="v-pills-multiqc" aria-selected="false">MultiQC</a>
           <a id="v-pills-krona-tab" data-toggle="pill" href="#v-pills-krona" role="tab" aria-controls="v-pills-krona" aria-selected="false">Krona</a>
           <a id="v-pills-blob-tab" data-toggle="pill" href="#v-pills-blob" role="tab" aria-controls="v-pills-blob" aria-selected="false">Blob</a>
+          <a id="v-pills-preseq-tab" data-toggle="pill" href="#v-pills-preseq" role="tab" aria-controls="v-pills-blob" aria-selected="false">Preseq</a>
         </div>
       </div>
     </div>
