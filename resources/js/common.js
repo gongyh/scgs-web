@@ -12,10 +12,12 @@ $(function () {
     var krona_tab = document.getElementById('v-pills-krona-tab');
     var blob_tab = document.getElementById('v-pills-blob-tab');
     var preseq_tab = document.getElementById('v-pills-preseq-tab');
+    var arg_tab = document.getElementById('v-pills-arg-tab');
     var image_blob_tabs = $('#blob_tabs li a');
     var krona = document.createElement('iframe');
     var iframe_krona_tabs = $('#kraken_tabs li a');
     var preseq_tabs = $('#preseq_tabs li a');
+    var arg_tabs = $('#arg_tabs li a');
 
     if(window.location.href.indexOf('sampleID') != -1){
         var krona_src = 'results/' + $('.iframe_sample_user').text() + '/' + $('.iframe_sample_uuid').text() + '/kraken/' + $('.iframe_sample_name').text() + '.krona.html';
@@ -25,6 +27,12 @@ $(function () {
             krona_tab.onclick = function(){
               var kraken_report = document.getElementsByClassName('kraken_report')[0];
               kraken_report.appendChild(krona);
+            }
+        }
+
+        if(arg_tab != null){
+            arg_tab.onclick = function(){
+
             }
         }
     }else{
@@ -43,6 +51,12 @@ $(function () {
             blob_tab.onclick = function(){
                 $('#blob_tabs li').first().addClass('active');
                 $('#blob_image').attr('src',blob_src);
+            }
+        }
+
+        if(arg_tab != null){
+            arg_tab.onclick = function(){
+                $('#arg_tabs li').first().addClass('active');
             }
         }
 
@@ -73,7 +87,7 @@ $(function () {
     if(preseq_tab != null){
         preseq_tab.onclick = function(){
             $('#preseq_tabs li').first().addClass('active');
-            read_preseq_data();
+            read_preseq_cdata();
         }
     }
 
@@ -86,39 +100,139 @@ $(function () {
         new_preseq_report.attr('id','preseq_report');
         new_preseq_report.addClass('w-100 overflow-hidden mt-4');
         $('.preseq_report').append(new_preseq_report);
-        read_preseq_data();
+        if($(this).text().indexOf('_c') != -1){
+            read_preseq_cdata();
+        }else{
+            read_preseq_lcgcdata();
+        }
     })
 
-    function read_preseq_data(){
-        var preseq = $('#preseq_tabs li.active').children().text();
-        var projectID = getQueryVariable('projectID');
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              },
-            url: '/successRunning',
-            type: 'POST',
-            data:{
-                'preseq':preseq,
-                'projectID':projectID
-            },
-            dataType: 'json',
-            success: function(res){
-                var preseq_report = document.getElementById('preseq_report');
-                if(res.code == 200){
-                    a_axios = res.data[0];
-                    y_axios = res.data[1];
-                    Plotly.plot(preseq_report,[{
-                        x:a_axios,
-                        y:y_axios}
-                    ],{
-                        margin:{t:0}
-                    })
+    function read_preseq_cdata(){
+        if(window.location.href.indexOf('projectID') != -1){
+            var preseq = $('#preseq_tabs li.active').children().text();
+            var projectID = getQueryVariable('projectID');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/successRunning',
+                type: 'POST',
+                data:{
+                    'preseq':preseq,
+                    'projectID':projectID
+                },
+                dataType: 'json',
+                success: function(res){
+                    var preseq_report = document.getElementById('preseq_report');
+                    if(res.code == 200){
+                        a_axios = res.data[0];
+                        y_axios = res.data[1];
+                        Plotly.plot(preseq_report,[{
+                            x:a_axios,
+                            y:y_axios}],{
+                            margin:{t:0}
+                        })
+                    }
                 }
-            }
-        })
+            })
+        }else{
+            var preseq = $('#preseq_tabs li.active').children().text();
+            var sampleID = getQueryVariable('sampleID');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/successRunning',
+                type: 'POST',
+                data:{
+                    'preseq':preseq,
+                    'sampleID':sampleID
+                },
+                dataType: 'json',
+                success: function(res){
+                    var preseq_report = document.getElementById('preseq_report');
+                    if(res.code == 200){
+                        a_axios = res.data[0];
+                        y_axios = res.data[1];
+                        Plotly.plot(preseq_report,[{
+                            x:a_axios,
+                            y:y_axios}],{
+                            margin:{t:0}
+                        })
+                    }
+                }
+            })
+        }
     }
 
+    function read_preseq_lcgcdata(){
+        if(window.location.href.indexOf('projectID') != -1){
+            var preseq = $('#preseq_tabs li.active').children().text();
+            var projectID = getQueryVariable('projectID');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/successRunning',
+                type: 'POST',
+                data:{
+                    'preseq':preseq,
+                    'projectID':projectID
+                },
+                dataType: 'json',
+                success: function(res){
+                    var preseq_report = document.getElementById('preseq_report');
+                    if(res.code == 200){
+                        console.log(res.data);
+                    }
+                }
+            })
+        }else{
+            var preseq = $('#preseq_tabs li.active').children().text();
+            var sampleID = getQueryVariable('sampleID');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/successRunning',
+                type: 'POST',
+                data:{
+                    'preseq':preseq,
+                    'sampleID':sampleID
+                },
+                dataType: 'json',
+                success: function(res){
+                    var preseq_report = document.getElementById('preseq_report');
+                    if(res.code == 200){
+                       console.log(res.data);
+                    }
+                }
+            })
+        }
+    }
+
+    function read_arg_data(){
+        if(window.location.href.indexOf('projectID') != -1){
+            var arg = $('#arg_tabs li.active').children().text();
+            var projectID = getQueryVariable('projectID');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/successRunning',
+                type: 'POST',
+                data:{
+                    'arg':arg,
+                    'projectID':projectID
+                },
+                dataType: 'json',
+                success: function(res){
+
+                }
+            })
+        }
+
+    }
     var sample_url = window.location.href;
     var projectID_pos = sample_url.indexOf('projectID');
     if(projectID_pos != -1){

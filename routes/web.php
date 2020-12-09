@@ -92,7 +92,7 @@ Route::group(['prefix' => 'executeProj'], function () {
 
 Route::get('/failedRunning', 'ResultController@failed_running');
 Route::get('/successRunning', 'ResultController@success_running');
-Route::post('/successRunning', 'ResultController@preseq_ajax');
+Route::post('/successRunning', 'ResultController@ajax');
 Route::get('/successRunning/resultDownload', 'ResultController@download_result');
 
 Auth::routes();
