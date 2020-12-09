@@ -56,8 +56,10 @@ class ResultController extends Controller
             $started = Jobs::where('sample_id', $sample_id)->value('started');
             $finished = Jobs::where('sample_id', $sample_id)->value('finished');
             $period = $finished - $started;
+            $preseq_array = array();
+            array_push($preseq_array, $file_prefix . '_c', $file_prefix . '_lc', $file_prefix . '_gc');
             $command = Jobs::where('sample_id', $sample_id)->value('command');
-            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid, 'project_id' => $project_id, 'file_prefix' => $file_prefix]);
+            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid, 'project_id' => $project_id, 'file_prefix' => $file_prefix, 'preseq_array' => $preseq_array]);
         } else {
             $project_id = $request->input('projectID');
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
@@ -135,34 +137,105 @@ class ResultController extends Controller
         }
     }
 
-    public function preseq_ajax(Request $request)
+    public function ajax(Request $request)
     {
-        $preseq = $request->input('preseq');
-        $project_id = $request->input('projectID');
-        $user_id = Jobs::where('project_id', $project_id)->value('user_id');
-        $project_username = User::where('id', $user_id)->value('name');
-        $uuid = Jobs::where('project_id', $project_id)->value('uuid');
-        $preseq_path = $project_username . '/' . $uuid . '/preseq/'  . $preseq . '.txt';
-        if (Storage::disk('local')->exists($preseq_path)) {
-            $preseq_data = Storage::get($preseq_path);
-            $preseq_data = str_replace('total_reads', '', $preseq_data);
-            $preseq_data = str_replace('distinct_reads', '', $preseq_data);
-            $preseq_data = preg_split('/\s+/is', $preseq_data);
-            array_splice($preseq_data, 0, 1);
-            array_pop($preseq_data);
-            $x = array();
-            $y = array();
-            $data = array();
-            for ($i = 0; $i < count($preseq_data); $i += 2) {
-                array_push($x, $preseq_data[$i]);
-            }
-            for ($i = 1; $i < count($preseq_data); $i += 2) {
-                array_push($y, $preseq_data[$i]);
-            }
-            array_push($data, $x, $y);
-            return response()->json(['code' => 200, 'data' => $data]);
+        if ($request->input('projectID')) {
+            $project_id = $request->input('projectID');
+            $user_id = Jobs::where('project_id', $project_id)->value('user_id');
+            $username = User::where('id', $user_id)->value('name');
+            $uuid = Jobs::where('project_id', $project_id)->value('uuid');
         } else {
-            return response()->json(['code' => 201, 'data' => 'failed']);
+            $sample_id = $request->input('sampleID');
+            $user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
+            $username = User::where('id', $user_id)->value('name');
+            $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+        }
+        $preseq = $request->input('preseq');
+        $preseq_path = $username . '/' . $uuid . '/results/preseq/' . $preseq . '.txt';
+        if (strpos($preseq, '_c')) {
+            if (Storage::disk('local')->exists($preseq_path)) {
+                $preseq_data = Storage::get($preseq_path);
+                $preseq_data = str_replace('total_reads', '', $preseq_data);
+                $preseq_data = str_replace('distinct_reads', '', $preseq_data);
+                $preseq_data = preg_split('/\s+/is', $preseq_data);
+                array_splice($preseq_data, 0, 1);
+                array_pop($preseq_data);
+                $x = array();
+                $y = array();
+                $data = array();
+                for ($i = 0; $i < count($preseq_data); $i += 2) {
+                    array_push($x, $preseq_data[$i]);
+                }
+                for ($i = 1; $i < count($preseq_data); $i += 2) {
+                    array_push($y, $preseq_data[$i]);
+                }
+                array_push($data, $x, $y);
+                return response()->json(['code' => 200, 'data' => $data]);
+            } else {
+                return response()->json(['code' => 201, 'data' => 'failed']);
+            }
+        } elseif (strpos($preseq, '_lc')) {
+            if (Storage::disk('local')->exists($preseq_path)) {
+                $preseq_data = Storage::get($preseq_path);
+                $preseq_data = str_replace('TOTAL_READS', '', $preseq_data);
+                $preseq_data = str_replace('EXPECTED_DISTINCT', '', $preseq_data);
+                $preseq_data = str_replace('LOWER_0.95CI', '', $preseq_data);
+                $preseq_data = str_replace('UPPER_0.95CI', '', $preseq_data);
+                $preseq_data = preg_split('/\s+/is', $preseq_data);
+                array_splice($preseq_data, 0, 1);
+                $total_reads = array();
+                $expected_distinct = array();
+                $lower_095ci = array();
+                $upper_095ci = array();
+                $data = array();
+                for ($i = 0; $i < count($preseq_data); $i += 4) {
+                    array_push($total_reads, $preseq_data[$i]);
+                }
+                for ($i = 1; $i < count($preseq_data); $i += 4) {
+                    array_push($expected_distinct, $preseq_data[$i]);
+                }
+                for ($i = 2; $i < count($preseq_data); $i += 4) {
+                    array_push($lower_095ci, $preseq_data[$i]);
+                }
+                for ($i = 3; $i < count($preseq_data); $i += 4) {
+                    array_push($upper_095ci, $preseq_data[$i]);
+                }
+                array_push($data, $total_reads, $expected_distinct, $lower_095ci, $upper_095ci);
+                return response()->json(['code' => 200, 'data' => $data]);
+            } else {
+                return response()->json(['code' => 200, 'data' => 'failed']);
+            }
+        } else {
+            if (Storage::disk('local')->exists($preseq_path)) {
+                $preseq_data = Storage::get($preseq_path);
+                $preseq_data = str_replace('TOTAL_BASES', '', $preseq_data);
+                $preseq_data = str_replace('EXPECTED_COVERED_BASES', '', $preseq_data);
+                $preseq_data = str_replace('LOWER_95%CI', '', $preseq_data);
+                $preseq_data = str_replace('UPPER_95%CI', '', $preseq_data);
+                $preseq_data = preg_split('/\s+/is', $preseq_data);
+                array_splice($preseq_data, 0, 1);
+                $total_bases = array();
+                $expected_covered_bases = array();
+                $lower_095ci = array();
+                $upper_095ci = array();
+                $data = array();
+                for ($i = 0; $i < count($preseq_data); $i += 4) {
+                    array_push($total_bases, $preseq_data[$i]);
+                }
+                for ($i = 1; $i < count($preseq_data); $i += 4) {
+                    array_push($expected_covered_bases, $preseq_data[$i]);
+                }
+                for ($i = 2; $i < count($preseq_data); $i += 4) {
+                    array_push($lower_095ci, $preseq_data[$i]);
+                }
+                for ($i = 3; $i < count($preseq_data); $i += 4) {
+                    array_push($upper_095ci, $preseq_data[$i]);
+                }
+                array_push($data, $total_bases, $expected_covered_bases, $lower_095ci, $upper_095ci);
+                return response()->json(['code' => 200, 'data' => $data]);
+            } else {
+                return response()->json(['code' => 200, 'data' => 'failed']);
+            }
         }
     }
 }

@@ -161,14 +161,37 @@
                 <li><a href="#">{{$preseq}}</a></li>
                 @endforeach
               </ul>
+              @elseif(isset($sample_id))
+              <ul id="preseq_tabs">
+                @foreach($preseq_array as $preseq)
+                <li><a href="#">{{$preseq}}</a></li>
+                @endforeach
+              </ul>
               @endif
             </div>
             <div id="preseq_report" class="w-100 overflow-hidden">
             </div>
           </div>
         </div>
+        <div class="tab-pane fade" id="v-pills-arg" role="tabpanel" aria-labelledby="v-pills-arg-tab">
+          <div id="iframe_browser" class="arg_report">
+            <div id="iframe_browser_header">
+              <div id="iframe_browser_buttons">
+              </div>
+              <span id="iframe_browser_title">ARG Reports</span>
+              @if(isset($project_user))
+              <ul id="arg_tabs">
+                @foreach($filename_array as $filename)
+                <li><a href="#">{{$filename}}</a></li>
+                @endforeach
+              </ul>
+              @endif
+            </div>
+            <div id="arg_report" class="w-100 overflow-hidden">
+            </div>
+          </div>
+        </div>
       </div>
-
     </div>
     <!-- right-column -->
     <div class="col-md-1">
@@ -178,7 +201,8 @@
           <a id="v-pills-multiqc-tab" data-toggle="pill" href="#v-pills-multiqc" role="tab" aria-controls="v-pills-multiqc" aria-selected="false">MultiQC</a>
           <a id="v-pills-krona-tab" data-toggle="pill" href="#v-pills-krona" role="tab" aria-controls="v-pills-krona" aria-selected="false">Krona</a>
           <a id="v-pills-blob-tab" data-toggle="pill" href="#v-pills-blob" role="tab" aria-controls="v-pills-blob" aria-selected="false">Blob</a>
-          <a id="v-pills-preseq-tab" data-toggle="pill" href="#v-pills-preseq" role="tab" aria-controls="v-pills-blob" aria-selected="false">Preseq</a>
+          <a id="v-pills-preseq-tab" data-toggle="pill" href="#v-pills-preseq" role="tab" aria-controls="v-pills-preseq" aria-selected="false">Preseq</a>
+          <a id="v-pills-arg-tab" data-toggle="pill" href="#v-pills-arg" role="tab" aria-controls="v-pills-arg" aria-selected="false">ARG</a>
         </div>
       </div>
     </div>
