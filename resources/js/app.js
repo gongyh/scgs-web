@@ -8,6 +8,7 @@ require('./bootstrap');
 require('bootstrap-fileinput/js/fileinput.min.js');
 require('bootstrap-fileinput/js/locales/zh');
 require('./common');
+require('./plotting');
 
 window.Vue = require('vue');
 
