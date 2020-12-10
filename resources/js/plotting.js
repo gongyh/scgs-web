@@ -331,10 +331,12 @@ $(function(){
                 },
                 dataType: 'json',
                 success: function(res){
-                    var data = res.data;
-                    $('#arg_dataTable').DataTable({
-                        data:data,
-                    });
+                    if(res.code == 200){
+                        var data = res.data;
+                        $('#arg_dataTable').DataTable({
+                            data:data,
+                        });
+                    }
                 }
             })
         }else{
@@ -352,10 +354,12 @@ $(function(){
                 },
                 dataType: 'json',
                 success: function(res){
-                    var data = res.data;
-                    $('#arg_dataTable').DataTable({
-                        data:data,
-                    });
+                    if(res.code == 200){
+                        var data = res.data;
+                        $('#arg_dataTable').DataTable({
+                            data:data,
+                        });
+                    }
                 }
             })
         }
