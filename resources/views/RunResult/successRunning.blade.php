@@ -174,7 +174,7 @@
           </div>
         </div>
         <div class="tab-pane fade" id="v-pills-arg" role="tabpanel" aria-labelledby="v-pills-arg-tab">
-          <div id="iframe_browser" class="arg_report">
+          <div id="iframe_browser" class="arg_report mb-2">
             <div id="iframe_browser_header">
               <div id="iframe_browser_buttons">
               </div>
@@ -187,9 +187,23 @@
               </ul>
               @endif
             </div>
-            <div id="arg_report" class="w-100 overflow-hidden">
-            </div>
           </div>
+          <table id="arg_dataTable" class="table">
+            <thead>
+              <tr>
+                <th>Database</th>
+                <th>Resistence Gene</th>
+                <th>Identity</th>
+                <th>Query / Template length</th>
+                <th>Contig</th>
+                <th>Position in contig</th>
+                <th>Predicted Phenotype</th>
+                <th>Accession Number</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
