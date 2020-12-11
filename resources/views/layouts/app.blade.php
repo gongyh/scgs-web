@@ -47,7 +47,7 @@
                 <a href="/aboutus" class="nav-link nav-menu">AboutUs</a>
               </li>
               <li class="nav-item">
-                <a href="/apps/app/Ramand2o" class="nav-link nav-menu">RamanD2O</a>
+                <a href="/apps/app/ramand2o" class="nav-link nav-menu">RamanD2O</a>
               </li>
             </ul>
 
