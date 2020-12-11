@@ -74,6 +74,7 @@ class ResultController extends Controller
             $quast_path = $project_username . '/' . $uuid . '/results/quast/report.tsv';
             if (Storage::disk('local')->exists($quast_path)) {
                 $quast_data = Storage::get($quast_path);
+                dd($quast_data);
             }
             $multiqc_mkdir = 'cd ' . public_path() . '/results && mkdir -p ' . $project_username . '/' . $uuid;
             $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $project_username . '/' . $uuid . '; fi';

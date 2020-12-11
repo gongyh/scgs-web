@@ -52,6 +52,7 @@ $(function(){
 
         if(arg_tab != null){
             arg_tab.onclick = function(){
+                window.alert = function(){};
                 $('#arg_tabs li').first().addClass('active');
                 read_arg_data();
             }
@@ -227,17 +228,17 @@ $(function(){
                           };
                           trace2 = {
                             mode: 'lines',
-                            name: 'Accuracy',
+                            name: preseq,
                             type: 'scatter',
                             x: res.data[0],
                             y: res.data[1],
-                            marker: {color: 'white'}
+                            marker: {color: 'black'}
                           };
                           data = [trace1, trace2];
                           layout = {
                             yaxis1: {
                               range: range,
-                              title: 'Accuracy'
+                              title: preseq
                             },
                             yaxis2: {
                               side: 'right',
@@ -287,17 +288,17 @@ $(function(){
                           };
                           trace2 = {
                             mode: 'lines',
-                            name: 'Accuracy',
+                            name: preseq,
                             type: 'scatter',
                             x: res.data[0],
                             y: res.data[1],
-                            marker: {color: 'white'}
+                            marker: {color: 'black'}
                           };
                           data = [trace1, trace2];
                           layout = {
                             yaxis1: {
                               range: range,
-                              title: 'Accuracy'
+                              title: preseq
                             },
                             yaxis2: {
                               side: 'right',
