@@ -28,6 +28,7 @@ $(function(){
 
         if(arg_tab != null){
             arg_tab.onclick = function(){
+                window.alert = function(){};
                 read_arg_data();
             }
         }

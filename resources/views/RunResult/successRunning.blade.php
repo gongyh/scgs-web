@@ -94,6 +94,44 @@
                 {{$command}}
               </div>
             </div>
+            @if(isset($project_user) && isset($quast_result))
+            <div class="table-responsive mt-2">
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    @foreach($quast_header as $header)
+                    <th>{{$header}}</th>
+                    @endforeach
+                  </tr>
+                </thead>
+                <tbody>
+                  @for($i=0;$i<$sample_sum;$i++) <tr>
+                    @foreach($quast_result[$i] as $result)
+                    <td>{{$result}}</td>
+                    @endforeach
+                    </tr>
+                    @endfor
+                </tbody>
+              </table>
+            </div>
+            @elseif(isset($sample_uuid) && isset($quast_result))
+            <div class="table-responsive mt-2">
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    @foreach($quast_header as $header)
+                    <th>{{$header}}</th>
+                    @endforeach
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr> @foreach($quast_result as $result)
+                    <td>{{$result}}</td>
+                    @endforeach</tr>
+                </tbody>
+              </table>
+            </div>
+            @endif
           </div>
         </div>
         <div class="tab-pane fade" id="v-pills-multiqc" role="tabpanel" aria-labelledby="v-pills-multiqc-tab">
@@ -217,6 +255,7 @@
           <a id="v-pills-blob-tab" data-toggle="pill" href="#v-pills-blob" role="tab" aria-controls="v-pills-blob" aria-selected="false">Blob</a>
           <a id="v-pills-preseq-tab" data-toggle="pill" href="#v-pills-preseq" role="tab" aria-controls="v-pills-preseq" aria-selected="false">Preseq</a>
           <a id="v-pills-arg-tab" data-toggle="pill" href="#v-pills-arg" role="tab" aria-controls="v-pills-arg" aria-selected="false">ARG</a>
+          <a id="v-pills-bowtie-tab" data-toggle="pill" href="#v-pills-bowtie" role="tab" aria-controls="v-pills-bowtie" aria-selected="false">Bowtie</a>
         </div>
       </div>
     </div>
