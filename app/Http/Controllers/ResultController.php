@@ -328,6 +328,34 @@ class ResultController extends Controller
             } else {
                 return response()->json(['code' => 201, 'data' => 'failed']);
             }
+        } elseif ($request->input('bowtie')) {
+            $bowtie = $request->input('bowtie');
+            $bowtie_path = $username . '/' . $uuid . '/results/bowtie2/stats/' . $bowtie . '.stats.txt';
+            if (Storage::disk('local')->exists($bowtie_path)) {
+                $bowtie_data = Storage::get($bowtie_path);
+                $bowtie_data = explode("\n", $bowtie_data);
+                $bowtie_sn = array();
+                foreach ($bowtie_data as $bowtie) {
+                    if (strpos($bowtie, "SN") !== false) {
+                        array_push($bowtie_sn, $bowtie);
+                    }
+                }
+                array_splice($bowtie_sn, 0, 1);
+                $bowtie_header = array();
+                $bowtie_stats = array();
+                foreach ($bowtie_sn as $bowtie) {
+                    $bowtie_arr = explode("\t", $bowtie);
+                    $bowtie_head = $bowtie_arr[1];
+                    $bowtie_pop = $bowtie_arr[2];
+                    array_push($bowtie_stats, $bowtie_pop);
+                    array_push($bowtie_header, $bowtie_head);
+                }
+                $bowtie = array();
+                array_push($bowtie, $bowtie_header, $bowtie_stats);
+                return response()->json(['code' => 200, 'data' => $bowtie]);
+            } else {
+                return response()->json(['code' => 400, 'data' => 'failed']);
+            }
         }
     }
 }

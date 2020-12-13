@@ -9,11 +9,13 @@ $(function(){
     var blob_tab = document.getElementById('v-pills-blob-tab');
     var preseq_tab = document.getElementById('v-pills-preseq-tab');
     var arg_tab = document.getElementById('v-pills-arg-tab');
+    var bowtie_tab = document.getElementById('v-pills-bowtie-tab');
     var image_blob_tabs = $('#blob_tabs li a');
     var krona = document.createElement('iframe');
     var iframe_krona_tabs = $('#kraken_tabs li a');
     var preseq_tabs = $('#preseq_tabs li a');
     var arg_tabs = $('#arg_tabs li a');
+    var bowtie_tabs = $('#bowtie_tabs li a');
 
     if(window.location.href.indexOf('sampleID') != -1){
         var krona_src = 'results/' + $('.iframe_sample_user').text() + '/' + $('.iframe_sample_uuid').text() + '/kraken/' + $('.iframe_sample_name').text() + '.krona.html';
@@ -56,6 +58,13 @@ $(function(){
                 window.alert = function(){};
                 $('#arg_tabs li').first().addClass('active');
                 read_arg_data();
+            }
+        }
+
+        if(bowtie_tab != null){
+            bowtie_tab.onclick = function(){
+                $('#bowtie_tabs li').first().addClass('active');
+                read_bowtie_data();
             }
         }
 
@@ -117,6 +126,13 @@ $(function(){
         table.destroy();
         read_arg_data();
 
+    })
+
+    bowtie_tabs.on('click',function(e){
+        e.preventDefault();
+        $('#bowtie_tabs li').removeClass('active');
+        $(this).parent().addClass('active');
+        read_bowtie_data();
     })
 
     if(MultiQC != null){
@@ -361,6 +377,40 @@ $(function(){
                         $('#arg_dataTable').DataTable({
                             data:data,
                         });
+                    }
+                }
+            })
+        }
+    }
+
+    function read_bowtie_data(){
+        if(window.location.href.indexOf('projectID') != -1){
+            var bowtie = $('#bowtie_tabs li.active').children().text();
+            var projectID = getVariable('projectID');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/successRunning',
+                type: 'POST',
+                data:{
+                    'bowtie':bowtie,
+                    'projectID':projectID
+                },
+                dataType: 'json',
+                success: function(res){
+                    if(res.code == 200){
+                        $('#bowtie_table thead tr').empty();
+                        $('#bowtie_table tbody tr').empty();
+                        for(i=0;i<res.data[0].length;i++){
+                            var td = $('<td></td>').text(res.data[0][i]);
+                            $('#bowtie_table thead tr').append(td);
+                        }
+                        for(i=0;i<res.data[1].length;i++){
+                            var td = $('<td></td>').text(res.data[1][i]);
+                            $('#bowtie_table tbody tr').append(td);
+                        }
+
                     }
                 }
             })
