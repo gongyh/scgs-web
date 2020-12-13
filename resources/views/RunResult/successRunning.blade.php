@@ -243,6 +243,30 @@
             </tbody>
           </table>
         </div>
+        <div class="tab-pane fade" id="v-pills-bowtie" role="tabpanel" aria-labelledby="v-pills-bowtie-tab">
+          <div id="iframe_browser" class="bowtie_report mb-2">
+            <div id="iframe_browser_header">
+              <div id="iframe_browser_buttons">
+              </div>
+              <span id="iframe_browser_title">Bowtie Reports</span>
+              @if(isset($project_user))
+              <ul id="bowtie_tabs">
+                @foreach($filename_array as $filename)
+                <li><a href="#">{{$filename}}</a></li>
+                @endforeach
+              </ul>
+              @endif
+            </div>
+          </div>
+          <table id="bowtie_table" class="table table-responsive">
+            <thead class="table-dark">
+              <tr></tr>
+            </thead>
+            <tbody>
+              <tr></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <!-- right-column -->
@@ -260,5 +284,4 @@
       </div>
     </div>
   </div>
-</div>
-@endsection
+  @endsection

@@ -302,7 +302,8 @@ a:hover {
 #kraken_tabs,
 #blob_tabs,
 #preseq_tabs,
-#arg_tabs {
+#arg_tabs,
+#bowtie_tabs {
   font-size: 12px;
   margin: -9px 0 0;
   list-style-type: none;
@@ -320,7 +321,9 @@ a:hover {
 #preseq_tabs li.active,
 #preseq_tabs li:active,
 #arg_tabs li.active,
-#arg_tabs li:active {
+#arg_tabs li:active,
+#bowtie_tabs li:active,
+#bowtie_tabs li.active {
   z-index: 2;
   background: #efefef;
 }
@@ -332,14 +335,17 @@ a:hover {
 #preseq_tabs li:hover,
 #preseq_tabs li:focus,
 #arg_tabs li:hover,
-#arg_tabs li:focus {
+#arg_tabs li:focus,
+#bowtie_tabs li:hover,
+#bowtie_tabs li:focus {
   background: #eee;
 }
 
 #kraken_tabs li,
 #blob_tabs li,
 #preseq_tabs li,
-#arg_tabs li {
+#arg_tabs li,
+#bowtie_tabs li {
   float: right;
   margin: 5px -10px 0;
   border-top-right-radius: 35px 140px;
@@ -356,7 +362,8 @@ a:hover {
 #kraken_tabs li a,
 #blob_tabs li a,
 #preseq_tabs li a,
-#arg_tabs li a {
+#arg_tabs li a,
+#bowtie_tabs li a {
   display: inline-block;
   max-width: 100%;
   text-decoration: none;
