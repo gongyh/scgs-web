@@ -63,7 +63,7 @@
             </a>
           </div>
           <div class="border-bottom pb-3">
-            <a href="/ramanResult" class="btn btn-success">Raman Result</a>
+            <a href="/ramanResult?projectID={{projectID}}" class="btn btn-success">Raman Result</a>
             @if(DB::table('jobs')->where('project_id',$projectID)->count() > 0 && DB::table('jobs')->where('project_id',$projectID)->orderBy('id','desc')->value('status') == 3)
             <a href="/successRunning?projectID={{$projectID}}" class="ml-2 btn btn-success">Show Project Report </a>
             @elseif(DB::table('jobs')->where('project_id',$projectID)->count() > 0 && DB::table('jobs')->where('project_id',$projectID)->value('status') == 1)

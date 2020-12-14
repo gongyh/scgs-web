@@ -180,7 +180,6 @@ return [
         App\Providers\TelescopeServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class
     ],
 
     /*
