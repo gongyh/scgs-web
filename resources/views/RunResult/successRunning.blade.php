@@ -94,40 +94,25 @@
                 {{$command}}
               </div>
             </div>
-            @if(isset($project_user) && isset($quast_result))
+            @if(isset($project_user))
             <div class="table-responsive mt-2">
-              <table class="table">
-                <thead class="thead-dark">
+              <table id="quast_dataTable" class="display">
+                <thead>
                   <tr>
-                    @foreach($quast_header as $header)
-                    <th>{{$header}}</th>
-                    @endforeach
                   </tr>
                 </thead>
                 <tbody>
-                  @for($i=0;$i<$sample_sum;$i++) <tr>
-                    @foreach($quast_result[$i] as $result)
-                    <td>{{$result}}</td>
-                    @endforeach
-                    </tr>
-                    @endfor
                 </tbody>
               </table>
             </div>
-            @elseif(isset($sample_uuid) && isset($quast_result))
+            @elseif(isset($sample_uuid))
             <div class="table-responsive mt-2">
-              <table class="table">
-                <thead class="thead-dark">
+              <table id="quast_dataTable" class="display">
+                <thead>
                   <tr>
-                    @foreach($quast_header as $header)
-                    <th>{{$header}}</th>
-                    @endforeach
                   </tr>
                 </thead>
                 <tbody>
-                  <tr> @foreach($quast_result as $result)
-                    <td>{{$result}}</td>
-                    @endforeach</tr>
                 </tbody>
               </table>
             </div>
@@ -226,7 +211,7 @@
               @endif
             </div>
           </div>
-          <table id="arg_dataTable" class="table">
+          <table id="arg_dataTable" class="display">
             <thead>
               <tr>
                 <th>Database</th>
@@ -258,14 +243,16 @@
               @endif
             </div>
           </div>
-          <table id="bowtie_table" class="table table-responsive">
-            <thead class="table-dark">
-              <tr></tr>
-            </thead>
-            <tbody>
-              <tr></tr>
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table id="bowtie_dataTable" class="display">
+              <thead>
+                <tr></tr>
+              </thead>
+              <tbody>
+                <tr></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

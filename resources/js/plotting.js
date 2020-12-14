@@ -17,6 +17,13 @@ $(function(){
     var arg_tabs = $('#arg_tabs li a');
     var bowtie_tabs = $('#bowtie_tabs li a');
 
+
+    if(window.location.href.indexOf('successRunning')!= -1){
+        $('#quast_dataTable thead tr').empty();
+        $('#quast_dataTable tbody').empty();
+        read_quast_data();
+    }
+
     if(window.location.href.indexOf('sampleID') != -1){
         var krona_src = 'results/' + $('.iframe_sample_user').text() + '/' + $('.iframe_sample_uuid').text() + '/kraken/' + $('.iframe_sample_name').text() + '.krona.html';
         krona.setAttribute('src',krona_src);
@@ -32,6 +39,12 @@ $(function(){
             arg_tab.onclick = function(){
                 window.alert = function(){};
                 read_arg_data();
+            }
+        }
+
+        if(bowtie_tab != null){
+            bowtie_tab.onclick = function(){
+                read_bowtie_data();
             }
         }
     }else{
@@ -63,6 +76,7 @@ $(function(){
 
         if(bowtie_tab != null){
             bowtie_tab.onclick = function(){
+                window.alert = function(){};
                 $('#bowtie_tabs li').first().addClass('active');
                 read_bowtie_data();
             }
@@ -132,6 +146,10 @@ $(function(){
         e.preventDefault();
         $('#bowtie_tabs li').removeClass('active');
         $(this).parent().addClass('active');
+        var table = $('#bowtie_dataTable').DataTable( {
+            paging: false
+        } );
+        table.destroy();
         read_bowtie_data();
     })
 
@@ -354,6 +372,16 @@ $(function(){
                         $('#arg_dataTable').DataTable({
                             data:data,
                         });
+
+                        $('#table_id_example tbody').on( 'click', 'tr', function () {
+                            if ($(this).hasClass('selected')) {
+                                $(this).removeClass('selected');
+                            }
+                            else {
+                                table.$('tr.selected').removeClass('selected');
+                                $(this).addClass('selected');
+                            }
+                        } );
                     }
                 }
             })
@@ -374,9 +402,101 @@ $(function(){
                 success: function(res){
                     if(res.code == 200){
                         var data = res.data;
-                        $('#arg_dataTable').DataTable({
+                        var arg_table = $('#arg_dataTable').DataTable({
                             data:data,
                         });
+
+                        $('#arg_dataTable tbody').on( 'click', 'tr', function () {
+                            if ($(this).hasClass('selected')) {
+                                $(this).removeClass('selected');
+                            }
+                            else {
+                                arg_table.$('tr.selected').removeClass('selected');
+                                $(this).addClass('selected');
+                            }
+                        } );
+                    }
+                }
+            })
+        }
+    }
+
+    function read_quast_data(){
+        if(window.location.href.indexOf('projectID') != -1){
+            var projectID = getVariable('projectID');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/successRunning',
+                type: 'POST',
+                data:{
+                    projectID:projectID,
+                    quast:true
+                },
+                dataType:'json',
+                success:function(res){
+                    if(res.code == 200){
+                        let data = res.data;
+                        let quast_header = data.quast_header;
+                        let quast_result = data.quast_result;
+                        for(i=0;i<quast_header.length;i++){
+                            var td = $('<td></td>').text(quast_header[i]);
+                            $('#quast_dataTable thead tr').append(td);
+                        }
+                        var quast_table = $('#quast_dataTable').DataTable({
+                            data:quast_result,
+                        });
+
+                        $('#quast_dataTable tbody').on( 'click', 'tr', function () {
+                            if ($(this).hasClass('selected')) {
+                                $(this).removeClass('selected');
+                            }
+                            else {
+                                quast_table.$('tr.selected').removeClass('selected');
+                                $(this).addClass('selected');
+                            }
+                        } );
+                    }
+                }
+            })
+        }else{
+            var sampleID = getVariable('sampleID');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/successRunning',
+                type: 'POST',
+                data:{
+                    sampleID:sampleID,
+                    quast:true
+                },
+                dataType:'json',
+                success:function(res){
+                    if(res.code == 200){
+                        let data = res.data;
+                        let quast_header = data.quast_header;
+                        let quast_result = data.quast_result;
+                        let quast = [];
+                        quast.push(quast_result);
+                        for(i=0;i<quast_header.length;i++){
+                            var td = $('<td></td>').text(quast_header[i]);
+                            $('#quast_dataTable thead tr').append(td);
+                        }
+                        var quast_table = $('#quast_dataTable').DataTable({
+                            data:quast,
+                        });
+
+                        $('#quast_dataTable tbody').on( 'click', 'tr', function () {
+                            if ($(this).hasClass('selected')) {
+                                $(this).removeClass('selected');
+                            }
+                            else {
+                                quast_table.$('tr.selected').removeClass('selected');
+                                $(this).addClass('selected');
+                            }
+                        } );
                     }
                 }
             })
@@ -394,22 +514,78 @@ $(function(){
                 url: '/successRunning',
                 type: 'POST',
                 data:{
-                    'bowtie':bowtie,
-                    'projectID':projectID
+                    bowtie:bowtie,
+                    projectID:projectID
                 },
                 dataType: 'json',
                 success: function(res){
                     if(res.code == 200){
+                        let data = res.data;
+                        let bowtie_header = data[0];
+                        let bowtie_result = [];
+                        bowtie_result.push(data[1]);
                         $('#bowtie_table thead tr').empty();
                         $('#bowtie_table tbody tr').empty();
+                        for(i=0;i<bowtie_header.length;i++){
+                            var td = $('<td></td>').text(bowtie_header[i]);
+                            $('#bowtie_dataTable thead tr').append(td);
+                        }
+                        var bowtie_table = $('#bowtie_dataTable').DataTable({
+                            data:bowtie_result,
+                        });
+
+                        $('#bowtie_dataTable tbody').on( 'click', 'tr', function () {
+                            if ($(this).hasClass('selected')) {
+                                $(this).removeClass('selected');
+                            }
+                            else {
+                                bowtie_table.$('tr.selected').removeClass('selected');
+                                $(this).addClass('selected');
+                            }
+                        } );
+
+                    }
+                }
+            })
+        }else{
+            var bowtie = $('.iframe_sample_name').text();
+            var sampleID = getVariable('sampleID');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/successRunning',
+                type: 'POST',
+                data:{
+                    bowtie:bowtie,
+                    sampleID:sampleID
+                },
+                dataType: 'json',
+                success: function(res){
+                    if(res.code == 200){
+                        let data = res.data;
+                        let bowtie_header = data[0];
+                        let bowtie_result = [];
+                        bowtie_result.push(data[1]);
+                        $('#bowtie_dataTable thead tr').empty();
+                        $('#bowtie_dataTable tbody tr').empty();
                         for(i=0;i<res.data[0].length;i++){
                             var td = $('<td></td>').text(res.data[0][i]);
-                            $('#bowtie_table thead tr').append(td);
+                            $('#bowtie_dataTable thead tr').append(td);
                         }
-                        for(i=0;i<res.data[1].length;i++){
-                            var td = $('<td></td>').text(res.data[1][i]);
-                            $('#bowtie_table tbody tr').append(td);
-                        }
+                        var bowtie_table = $('#bowtie_dataTable').DataTable({
+                            data:bowtie_result,
+                        });
+
+                        $('#bowtie_dataTable tbody').on( 'click', 'tr', function () {
+                            if ($(this).hasClass('selected')) {
+                                $(this).removeClass('selected');
+                            }
+                            else {
+                                bowtie_table.$('tr.selected').removeClass('selected');
+                                $(this).addClass('selected');
+                            }
+                        } );
 
                     }
                 }

@@ -35,10 +35,6 @@ class ResultController extends Controller
             $sample_username = User::where('id', $user_id)->value('name');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
             $path = $base_path . $sample_username . '/' . $uuid . '/results';
-            $quast_path = $sample_username . '/' . $uuid . '/results/quast/report.tsv';
-            if (Storage::disk('local')->exists($quast_path)) {
-                $quast_data = Storage::get($quast_path);
-            }
             $multiqc_mkdir = 'cd ' . public_path() . '/results && mkdir -p ' . $sample_username . '/' . $uuid;
             $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $sample_username . '/' . $uuid . '; fi';
             $cp_kraken = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/kraken ' . public_path() . '/results/' . $sample_username . '/' . $uuid . '; fi';
@@ -62,37 +58,8 @@ class ResultController extends Controller
             $period = $finished - $started;
             $preseq_array = array();
             array_push($preseq_array, $file_prefix . '_c', $file_prefix . '_lc', $file_prefix . '_gc');
-            $quast_path = $sample_user . '/' . $uuid . '/results/quast/report.tsv';
-            if (Storage::disk('local')->exists($quast_path)) {
-                $quast_data = Storage::get($quast_path);
-                $quast_data = explode("\n", $quast_data);
-                $quast_show = array();
-                $quast_sh = array();
-                $quast_header = array();
-                $quast_result = array();
-                foreach ($quast_data as $quast) {
-                    if (strpos($quast, "#") === false) {
-                        array_push($quast_show, $quast);
-                    }
-                }
-                array_pop($quast_show);
-                foreach ($quast_show as $quast_s) {
-                    array_push($quast_sh, $quast_s . "\t");
-                }
-                $quast_sh = implode("", $quast_sh);
-                $quast_sh = explode("\t", $quast_sh);
-                array_pop($quast_sh);
-                for ($i = 0; $i < count($quast_sh); $i += 2) {
-                    array_push($quast_header, $quast_sh[$i]);
-                }
-                for ($i = 1; $i < count($quast_sh); $i += 2) {
-                    array_push($quast_result, $quast_sh[$i]);
-                }
-            } else {
-                $quast_header = $quast_result = null;
-            }
             $command = Jobs::where('sample_id', $sample_id)->value('command');
-            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid, 'project_id' => $project_id, 'file_prefix' => $file_prefix, 'preseq_array' => $preseq_array, 'quast_header' => $quast_header, 'quast_result' => $quast_result]);
+            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid, 'project_id' => $project_id, 'file_prefix' => $file_prefix, 'preseq_array' => $preseq_array]);
         } else {
             $project_id = $request->input('projectID');
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
@@ -117,10 +84,9 @@ class ResultController extends Controller
             $started = Jobs::where('project_id', $project_id)->value('started');
             $finished = Jobs::where('project_id', $project_id)->value('finished');
             $period = $finished - $started;
-            $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
-            $sample_sum = count($project_sample_filenames);
             $filename_array = array();
             $preseq_array = array();
+            $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
             foreach ($project_sample_filenames as $sample_filename) {
                 $sample_filename = $sample_filename['filename1'];
                 preg_match('/(_trimmed)?(_combined)?(\.R1)?(_1)?(_R1)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$/', $sample_filename, $matches);
@@ -131,47 +97,8 @@ class ResultController extends Controller
                 array_push($filename_array, $file_prefix);
                 array_push($preseq_array, $file_prefix . '_c', $file_prefix . '_lc', $file_prefix . '_gc');
             }
-            $quast_path = $project_username . '/' . $uuid . '/results/quast/report.tsv';
-            if (Storage::disk('local')->exists($quast_path)) {
-                $quast_data = Storage::get($quast_path);
-                $quast_data = explode("\n", $quast_data);
-                $quast_show = array();
-                $quast_sh = array();
-                $quast_header = array();
-                $quast_result = array();
-                foreach ($quast_data as $quast) {
-                    if (strpos($quast, "#") === false) {
-                        array_push($quast_show, $quast);
-                    }
-                }
-                array_pop($quast_show);
-                foreach ($quast_show as $quast_s) {
-                    array_push($quast_sh, $quast_s . "\t");
-                }
-                $quast_sh = implode("", $quast_sh);
-                $quast_sh = explode("\t", $quast_sh);
-                array_pop($quast_sh);
-                for ($i = 0; $i < count($quast_sh); $i = $i + $sample_sum + 1) {
-                    array_push($quast_header, $quast_sh[$i]);
-                }
-                for ($i = 0; $i < count($quast_sh); $i = $i + $sample_sum) {
-                    array_splice($quast_sh, $i, 1);
-                }
-                $i = 0;
-                for ($i; $i < $sample_sum; $i++) {
-                    $quast = array();
-                    $j = $i;
-                    for (; $j < count($quast_sh); $j = $j + $sample_sum) {
-                        array_push($quast, $quast_sh[$j]);
-                    }
-                    array_push($quast_result, $quast);
-                }
-            } else {
-                $quast_header = $quast_result =  null;
-                $sample_sum = 0;
-            }
             $command = Jobs::where('project_id', $project_id)->value('command');
-            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'project_user' => $project_user, 'project_uuid' => $project_uuid, 'project_id' => $project_id, 'filename_array' => $filename_array, 'preseq_array' => $preseq_array, 'quast_header' => $quast_header, 'quast_result' => $quast_result, 'sample_sum' => $sample_sum]);
+            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'project_user' => $project_user, 'project_uuid' => $project_uuid, 'project_id' => $project_id, 'filename_array' => $filename_array, 'preseq_array' => $preseq_array]);
         }
     }
 
@@ -355,6 +282,87 @@ class ResultController extends Controller
                 return response()->json(['code' => 200, 'data' => $bowtie]);
             } else {
                 return response()->json(['code' => 400, 'data' => 'failed']);
+            }
+        } elseif ($request->input('quast')) {
+            if ($request->input('projectID')) {
+                $quast_path = $username . '/' . $uuid . '/results/quast/report.tsv';
+                $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
+                $sample_sum = count($project_sample_filenames);
+                if (Storage::disk('local')->exists($quast_path)) {
+                    $quast_data = Storage::get($quast_path);
+                    $quast_data = explode("\n", $quast_data);
+                    $quast_show = array();
+                    $quast_sh = array();
+                    $quast_header = array();
+                    $quast_result = array();
+                    foreach ($quast_data as $quast) {
+                        if (strpos($quast, "#") === false) {
+                            array_push($quast_show, $quast);
+                        }
+                    }
+                    array_pop($quast_show);
+                    foreach ($quast_show as $quast_s) {
+                        array_push($quast_sh, $quast_s . "\t");
+                    }
+                    $quast_sh = implode("", $quast_sh);
+                    $quast_sh = explode("\t", $quast_sh);
+                    array_pop($quast_sh);
+                    for ($i = 0; $i < count($quast_sh); $i = $i + $sample_sum + 1) {
+                        array_push($quast_header, $quast_sh[$i]);
+                    }
+                    for ($i = 0; $i < count($quast_sh); $i = $i + $sample_sum) {
+                        array_splice($quast_sh, $i, 1);
+                    }
+                    $i = 0;
+                    for ($i; $i < $sample_sum; $i++) {
+                        $quast = array();
+                        $j = $i;
+                        for (; $j < count($quast_sh); $j = $j + $sample_sum) {
+                            array_push($quast, $quast_sh[$j]);
+                        }
+                        array_push($quast_result, $quast);
+                    }
+                    $quast_detail['quast_header'] = $quast_header;
+                    $quast_detail['quast_result'] = $quast_result;
+                    return response()->json(['code' => 200, 'data' => $quast_detail]);
+                } else {
+                    $quast_header = $quast_result =  null;
+                    return response()->json(['code' => 400, 'data' => 'failed']);
+                }
+            } else {
+                $quast_path = $username . '/' . $uuid . '/results/quast/report.tsv';
+                if (Storage::disk('local')->exists($quast_path)) {
+                    $quast_data = Storage::get($quast_path);
+                    $quast_data = explode("\n", $quast_data);
+                    $quast_show = array();
+                    $quast_sh = array();
+                    $quast_header = array();
+                    $quast_result = array();
+                    foreach ($quast_data as $quast) {
+                        if (strpos($quast, "#") === false) {
+                            array_push($quast_show, $quast);
+                        }
+                    }
+                    array_pop($quast_show);
+                    foreach ($quast_show as $quast_s) {
+                        array_push($quast_sh, $quast_s . "\t");
+                    }
+                    $quast_sh = implode("", $quast_sh);
+                    $quast_sh = explode("\t", $quast_sh);
+                    array_pop($quast_sh);
+                    for ($i = 0; $i < count($quast_sh); $i += 2) {
+                        array_push($quast_header, $quast_sh[$i]);
+                    }
+                    for ($i = 1; $i < count($quast_sh); $i += 2) {
+                        array_push($quast_result, $quast_sh[$i]);
+                    }
+                    $quast_detail['quast_header'] = $quast_header;
+                    $quast_detail['quast_result'] = $quast_result;
+                    return response()->json(['code' => 200, 'data' => $quast_detail]);
+                } else {
+                    $quast_header = $quast_result = null;
+                    return response()->json(['code' => 400, 'data' => 'failed']);
+                }
             }
         }
     }
