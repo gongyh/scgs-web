@@ -211,7 +211,7 @@
               @endif
             </div>
           </div>
-          <table id="arg_dataTable" class="display">
+          <table id="arg_dataTable" class="table display">
             <thead>
               <tr>
                 <th>Database</th>
