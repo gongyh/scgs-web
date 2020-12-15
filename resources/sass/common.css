@@ -122,7 +122,8 @@ a:hover {
 }
 
 .pagination {
-  margin-left: 35% !important;
+  /*margin-left: 35% !important;*/
+  justify-content: center;
 }
 
 /* footer */
