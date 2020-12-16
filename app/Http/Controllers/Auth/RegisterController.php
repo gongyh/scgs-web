@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -70,10 +72,40 @@ class RegisterController extends Controller
     {
         return User::create([
             'activity_token'=>\Str::random(60),
-            'activity_expire'=>Date::now('+1 days'),
+            'activity_expire'=>Carbon::now()->addDays(1),
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $user = $this->create($request->all());
+        //发送邮件
+        \Mail::raw(
+        '请在'.$user->activity_expire.'前,点击链接激活您的账号'.route('user.activity',['token'=>$user->activity_token])
+        ,function($message) use($user){
+            $message->from('13854291622@163.com','scgs-web')
+            ->subject('注册激活邮件')
+            ->to($user->email);
+        });
+        //显示注册激活提示信息
+        return view('auth.registed',['user'=>$user]);
+    }
+
+    function activity($token){
+        $user = User::where('activity_token',$token)->get();
+        $res = false;
+        if($user && strtotime($user[0]->activity_expire)>time())
+        {
+            $user[0]->is_activity = 1;
+            $res = $user[0]->save();
+        }else{
+            $user[0]->delete();
+        }
+        return view('auth.activityres',['res'=>$res]);
+    }
+
 }

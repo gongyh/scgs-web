@@ -12,18 +12,18 @@
               @csrf
 
               <div class="form-group row">
-                <label for="login" class="col-sm-4 col-form-label text-md-right">
+                <label for="account" class="col-sm-4 col-form-label text-md-right">
                   {{ __('Name or Email') }}
                             </label>
 
                   <div class="col-md-6">
-                    <input id="login" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="login" value="{{ old('name') }}" required autofocus>
-
-                    @if ($errors->has('name'))
-                    <span class="invalid-feedback">
-                      <strong>{{ $errors->first('name') }}</strong>
-                    </span>
+                    <input id="account" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="account" value="{{ old('name') }}" required autofocus>
+                    @if ($errors->has('account'))
+                        <span class="help-block" style="color: #d73925;">
+                            <strong>{{ $errors->first('account') }}</strong>
+                        </span>
                     @endif
+
                   </div>
               </div>
 

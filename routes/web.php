@@ -99,6 +99,8 @@ Route::group(['prefix' => 'successRunning'], function () {
 Route::get('/failedRunning', 'ResultController@failed_running');
 Route::get('/ramanResult', 'RamanResultController@index');
 
+Route::get('activity/{token}','Auth\RegisterController@activity')->name('user.activity');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
