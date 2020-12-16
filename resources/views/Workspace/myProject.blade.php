@@ -22,9 +22,9 @@
       <div class="mb-4">
         <a class="btn btn-default pt-2 font-weight-bold" href="/projects/create?from=myProject">Add Project</a>
         @if($myProjects != null)
-        @foreach($myProjects as $myProject)
+        @foreach($myProjects as $key=>$myProject)
         <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm overflow-auto">
-          <div class="project_id mr-4 font-large">{{$myProject->id}}</div>
+          <div class="project_id mr-4 font-large">{{$key+1}}</div>
           <div class="font-normal">
             <div class="project_title font-normal text-wrap text-break"><a href="/workspace/samples?projectID={{$myProject->id}}">{{$myProject->name}}</a></div>
             <div class="projectId mt-2">Accession : {{$myProject->doi}}</div>

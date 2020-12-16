@@ -20,7 +20,7 @@ class WorkspaceController extends Controller
     {
         $user = Auth::user();
         try {
-            $myLabs = Labs::where('principleInvestigator', $user->name)->paginate(15);
+            $myLabs = Labs::where('principleInvestigator', $user->name)->orderBy('id','desc')->paginate(15);
             return view('Workspace.myLab', ['myLabs' => $myLabs]);
         } catch (\Illuminate\Database\QueryException $ex) {
             $myLabs = null;
@@ -37,7 +37,7 @@ class WorkspaceController extends Controller
             foreach ($myLabs as $myLab) {
                 array_push($lab_id_list, $myLab->id);
             }
-            $myProjects = Projects::whereIn('labs_id', $lab_id_list)->paginate(5);
+            $myProjects = Projects::whereIn('labs_id', $lab_id_list)->orderBy('id','desc')->paginate(5);
             return view('Workspace.myProject', ['myProjects' => $myProjects]);
         } catch (\Illuminate\Database\QueryException $ex) {
             $myProjects = null;
@@ -50,7 +50,7 @@ class WorkspaceController extends Controller
         try {
             $current_page = $request->input('current_page');
             $labID = $request->input('labID');
-            $selectMyProjs = Projects::where('labs_id', $labID)->paginate(5);
+            $selectMyProjs = Projects::where('labs_id', $labID)->orderBy('id','desc')->paginate(5);
             return view('Workspace.selectMyProj', ['selectMyProjs' => $selectMyProjs, 'labID' => $labID, 'current_page' => $current_page]);
         } catch (\Illuminate\Database\QueryException $ex) {
             $selectMyProjs = null;

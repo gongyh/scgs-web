@@ -15,3 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->get('/user', 'UserController@AuthRouteAPI');
+
+Route::any('wechat', 'Api\WechatController@serve');
+
+Route::namespace('Api')
+    ->group(function () {
+        Route::middleware(['auth:api'])
+            ->group(function () {
+                // dashboard
+                Route::resource('current-user', 'UserController');
+            });
+    });

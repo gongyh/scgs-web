@@ -43,9 +43,9 @@
                   </thead>
                   <tbody>
                     @if($myLabs != null)
-                    @foreach($myLabs as $myLab)
+                    @foreach($myLabs as $key=>$myLab)
                     <tr>
-                      <th scope="row" class="table-item">{{$myLab->id}}</td>
+                      <th scope="row" class="table-item">{{$key+1}}</td>
                       <td class="table-item">
                         <a href="/workspace/myLab/projects?labID={{$myLab->id}}">{{$myLab->name}}</a>
                       </td>

@@ -37,9 +37,9 @@
         </div>
         <div class="overflow-auto">
           @if(empty($findProjects) && $Projects != null)
-          @foreach ($Projects as $Project)
+          @foreach ($Projects as $key=>$Project)
           <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm">
-            <div class="project_id mr-4 font-large">{{$Project->id}}</div>
+            <div class="project_id mr-4 font-large">{{$key+1}}</div>
             <div class="font-normal">
               <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$Project->id}}">{{$Project->name}}</a></div>
               <div class="projectId mt-2">Accession : {{$Project->doi}}</div>

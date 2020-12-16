@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('plotting-js')
+    <script src="{!! mix('js/plotting.js')!!}"></script>
+@endpush
+
 @section('content')
 <div class="container-fluid">
 

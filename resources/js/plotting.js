@@ -1,4 +1,5 @@
 var Plotly = require('plotly.js/dist/plotly');
+var $ = require('jquery');
 require( 'datatables.net' );
 
 $(function(){

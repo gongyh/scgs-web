@@ -46,9 +46,9 @@
                 </thead>
                 <tbody>
                   @if(empty($findLabs) && $Labs != null)
-                  @foreach ($Labs as $Lab)
+                  @foreach ($Labs as $key=>$Lab)
                   <tr>
-                    <th class="table-item" scope="row">{{$Lab->id}}</td>
+                    <th class="table-item" scope="row">{{$key+1}}</td>
                     <td class="table-item">
                       <a href="labs/projects?labID={{$Lab->id}}">{{$Lab->name}}</a>
                     </td>

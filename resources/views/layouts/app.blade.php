@@ -12,6 +12,9 @@
 
     <!-- Scripts -->
     <script src="{!! mix('js/app.js')!!}" defer></script>
+    <script src="{!! mix('js/common.js')!!}"></script>
+
+    @stack('plotting-js')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -47,7 +50,7 @@
                 <a href="/aboutus" class="nav-link nav-menu">AboutUs</a>
               </li>
               <li class="nav-item">
-                <a href="/apps/app/ramand2o" class="nav-link nav-menu">RamanD2O</a>
+                <a href="/apps/app/ramand2o" class="nav-link nav-menu" target="blank">RamanD2O</a>
               </li>
             </ul>
 
