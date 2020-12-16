@@ -34,36 +34,42 @@ class LoginController extends Controller
      *
      * @return void
      */
-    protected $username;
 
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->username = $this->findUserName();
-    }
-
-    public function findUserName()
-    {
-        $login = request()->input('login');
-        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
-        request()->merge([$fieldType => $login]);
-        return $fieldType;
     }
 
     public function username()
     {
-        return $this->username;
+        return 'account';
     }
 
     protected function validateLogin(Request $request)
     {
         $request->validate([
-            'captcha' => 'required|captcha',
             $this->username() => 'required|string',
+            'captcha' => 'required|captcha',
             'password' => 'required|string',
         ], [
             'captcha.required' => 'Captcha can\'t be none',
             'captcha.captcha' => 'Incorrent captcha',
         ]);
     }
+
+    protected function attemptLogin(Request $request)
+    {
+        return collect(['name', 'email'])->contains(function ($value) use ($request) {
+            $account = $request->get($this->username());
+            $password = $request->get('password');
+            return $this->guard()->attempt(
+                [
+                    $value => $account,
+                    'password' => $password,
+                    'is_activity' => 1
+                ]
+                , $request->filled('remember'));
+        });
+    }
+
 }
