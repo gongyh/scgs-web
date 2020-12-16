@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\Labs;
 use App\Projects;
@@ -40,7 +41,7 @@ class ProjectsController extends Controller
                 return view('Projects.projects', compact('findProjects'));
             }
         } else {
-            $Projects = Projects::paginate(5);
+            $Projects = Projects::orderBy('id','desc')->paginate(5);
             $current_page = $request->input('page');
             try {
                 if (auth::check()) {
@@ -200,7 +201,7 @@ class ProjectsController extends Controller
     public function selectProj(Request $request)
     {
         $labID = $request->input('labID');
-        $selectProjects = Projects::where('labs_id', $labID)->paginate(5);
+        $selectProjects = Projects::where('labs_id', $labID)->orderBy('id','desc')->paginate(5);
         try {
             if (auth::check()) {
                 $user = Auth::user();

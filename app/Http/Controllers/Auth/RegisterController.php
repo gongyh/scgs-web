@@ -69,6 +69,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'activity_token'=>\Str::random(60),
+            'activity_expire'=>Date::now('+1 days'),
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),

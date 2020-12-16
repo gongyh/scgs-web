@@ -39,7 +39,7 @@ class LabsController extends Controller
                 return view('Labs.labs', compact('findLabs'));
             }
         } else {
-            $Labs = Labs::paginate(15);
+            $Labs = Labs::orderBy('id','desc')->paginate(15);
             $current_page = $request->input('page');
             try {
                 if (auth::check()) {

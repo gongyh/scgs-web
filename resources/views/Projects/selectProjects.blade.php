@@ -36,9 +36,9 @@
                 </thead>
                 <tbody>
                   @if($selectProjects !== null)
-                  @foreach ($selectProjects as $selectProject)
+                  @foreach ($selectProjects as $key=>$selectProject)
                   <tr>
-                    <th scope="row" class="table-item">{{$selectProject->id}}</td>
+                    <th scope="row" class="table-item">{{$key+1}}</td>
                     <td scope="row" class="table-item"><a href="/samples?projectID={{$selectProject->id}}">{{$selectProject->name}}</a></td>
                     <td scope="row" class="table-item desc">{{$selectProject->doi}}</td>
                     <td class="table-item">{{strlen($selectProject->description)>30?substr($selectProject->description,0,30).'...':$selectProject->description}}</td>
