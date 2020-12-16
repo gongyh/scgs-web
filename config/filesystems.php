@@ -48,6 +48,16 @@ return [
             'root' => env('BASE_PATH'),
         ],
 
+        'fastq' => [
+            'driver' => 'local',
+            'root' => env('FASTQ_PATH'),
+        ],
+
+        'workdir' => [
+            'driver' => 'local',
+            'root' => env('WORKDIR_PATH'),
+        ],
+
         'admin' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

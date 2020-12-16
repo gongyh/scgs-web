@@ -3,9 +3,7 @@
 @section('content')
 <div class="container-fluid">
   <div class="row middle-area">
-    <div class="col-md-2">
-      @include('components.workspace_nav')
-    </div>
+    <div class="col-md-2"></div>
     <div class="col-md-1"></div>
     <div class="col-md-6">
       <nav aria-label="breadcrumb">
@@ -14,6 +12,8 @@
           <li class="breadcrumb-item active" aria-current="page">Workspace</li>
         </ol>
       </nav>
+      <br/>
+      @include('components.workspace_nav')
     </div>
   </div>
 </div>
