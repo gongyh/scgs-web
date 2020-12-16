@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', 'UserController@AuthRouteAPI');
 
 Route::any('wechat', 'Api\WechatController@serve');
 
+/*
 Route::namespace('Api')
     ->group(function () {
         Route::middleware(['auth:api'])
@@ -26,3 +27,4 @@ Route::namespace('Api')
                 Route::resource('current-user', 'UserController');
             });
     });
+*/

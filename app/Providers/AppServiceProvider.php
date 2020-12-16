@@ -24,6 +24,23 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
+    public function addFileToZip($path, $zip)
+    {
+        $handler = opendir($path);
+        while (($filename = readdir($handler)) !== false) {
+            if ($filename != '.' && $filename != '..') {
+                if (is_dir($path . '/' . $filename)) {
+                    addFileToZip($path . '/' . $filename, $zip);
+                } elseif (is_file($path . '/' . $filename)) {
+                    $results_position = strpos($path, 'results');
+                    $relative_path = substr($path, $results_position);
+                    $zip->addFile($path . '/' . $filename, $relative_path . '/' . $filename);
+                }
+            }
+        }
+        @closedir($path);
+    }
+
     /**
      * Bootstrap any application services.
      *
@@ -61,22 +78,5 @@ class AppServiceProvider extends ServiceProvider
             $current_job->finished = $finished;  //job finished time
             $current_job->save();
         });
-
-        function addFileToZip($path, $zip)
-        {
-            $handler = opendir($path);
-            while (($filename = readdir($handler)) !== false) {
-                if ($filename != '.' && $filename != '..') {
-                    if (is_dir($path . '/' . $filename)) {
-                        addFileToZip($path . '/' . $filename, $zip);
-                    } elseif (is_file($path . '/' . $filename)) {
-                        $results_position = strpos($path, 'results');
-                        $relative_path = substr($path, $results_position);
-                        $zip->addFile($path . '/' . $filename, $relative_path . '/' . $filename);
-                    }
-                }
-            }
-            @closedir($path);
-        }
     }
 }
