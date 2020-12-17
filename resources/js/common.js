@@ -17,6 +17,8 @@ $(function () {
     sample_file.Init('sample_file',sample_url);
     var species_file = FileInput();
     species_file.Init('species_file','/workspace/species/upload');
+    var add_sample_files = sampleFileInput();
+    add_sample_files.Init('addFileModal','/samples/fileUpload');
     var running_sample_id = getQueryVariable('sampleID');
     var running_project_id = getQueryVariable('projectID');
     var check_progress = false;
@@ -349,16 +351,16 @@ var FileInput = function() {
 
     //Init fileInput
     oFile.Init = function(ctrlName, uploadUrl) {
-    var control = $('.' + ctrlName);
+    var control = $('#' + ctrlName);
 
     //Init fileUpload
     control.fileinput({
-        uploadUrl: uploadUrl, //上传的地址
-        allowedFileExtensions: ['xls','xlsx'],//接收的文件后缀
-        showUpload: true, //是否显示上传按钮
-        showCaption: false,//是否显示标题
-        browseClass: "btn btn-primary", //按钮样式
-        maxFileCount: 10, //表示允许同时上传的最大文件个数
+        uploadUrl: uploadUrl,
+        allowedFileExtensions: ['xls','xlsx'],
+        showUpload: true,
+        showCaption: true,
+        browseClass: "btn btn-primary",
+        maxFileCount: 10,
         enctype: 'multipart/form-data',
         validateInitialCount:true,
         previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
@@ -373,6 +375,43 @@ var FileInput = function() {
             return;
         }
         location.reload();
+    });
+}
+    return oFile;
+};
+
+var sampleFileInput = function() {
+    var oFile = new Object();
+
+    //Init fileInput
+    oFile.Init = function(ctrlName, uploadUrl) {
+    var control = $('#' + ctrlName);
+
+    //Init fileUpload
+    control.fileinput({
+        uploadUrl: uploadUrl,
+        allowedFileExtensions: ['fasta.gz','fastq.gz','fasta','fastq','fa','fq'],
+        maxFileCount:2,
+        showUpload: true,
+        showCaption: true,
+        dropZoneEnabled:false,
+        elCaptionText:'Upload Files',
+        browseClass: "btn btn-primary",
+        maxFileCount: 10,
+        enctype: 'multipart/form-data',
+        validateInitialCount:true,
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+    });
+
+    //Event after upload file
+    control.on("fileuploaded", function (event, data, previewId, index) {
+        $("#myModal_" + ctrlName).modal("hide");
+        if (data == undefined) {
+            console.log('incorrect file type!');
+            return;
+        }
+        console.log(data);
     });
 }
     return oFile;

@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    激活链接已发送至您的邮箱{{$user->email}},请于{{$user->activity_expire}}前激活您的账户。
+                    Activate link has send to {{$user->email}},please before {{$user->activity_expire}} to activate your count.
                 </div>
             </div>
         </div>

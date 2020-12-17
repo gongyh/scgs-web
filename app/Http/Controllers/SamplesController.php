@@ -59,7 +59,6 @@ class SamplesController extends Controller
         $library_selections = array('RANDOM', 'PCR', 'RANDOM PCR', 'HMPR', 'MF', 'CF-S', 'CF-M', 'CF-H', 'CF-T', 'MDA', 'MSLL', 'cDNA', 'CHIP', 'MNase', 'DNAse', 'Hybrid Selection', 'Reduced Representation', 'Restriction Digest', '5-methylcytidine antibody', 'MBD2 protein methyl-CpG binding domain', 'CAGE', 'RACE', 'size fractionation', 'Padlock probes capture method', 'other', 'unspecified', 'cDNA_oligo_dT', 'cDNA_randomPriming', 'Oligo-dT', 'PolyA', 'repeat fractionation');
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         if ($request->isMethod('POST')) {
-            // samples create validate
             $this->validate($request, [
                 'new_sample_label' => 'required|max:250',
                 'new_library_id' => 'required|max:150',
@@ -70,10 +69,7 @@ class SamplesController extends Controller
                 'instrument_model' => 'required',
                 'design_description' => 'required|max:500',
                 'select_application' => 'required',
-                'select_species' => 'nullable',
-                'isPairends' => 'required',
-                'new_fileOne' => ['required', 'regex:{(\.R1)?(_1)?(_R1)?(_trimmed)?(_combined)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$}'],
-                'new_fileTwo' => ['nullable', 'regex:{(\.R2)?(_2)?(_R2)?(_trimmed)?(_combined)?(\.2_val_2)?(_R2_val_2)?(\.fq)?(\.fastq)?(\.gz)?$}']
+                'select_species' => 'nullable'
             ]);
             $projectID = $request->input('projectID');
             $new_sample_label = $request->input('new_sample_label');
@@ -86,6 +82,13 @@ class SamplesController extends Controller
             $design_description = $request->input('design_description');
             $select_application = $request->input('select_application');
             $select_species = $request->input('select_species');
+            if($request->has('isPairends')){
+            // samples create validate
+            $this->validate($request, [
+                'isPairends' => 'required',
+                'new_fileOne' => ['required', 'regex:{(\.R1)?(_1)?(_R1)?(_trimmed)?(_combined)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$}'],
+                'new_fileTwo' => ['nullable', 'regex:{(\.R2)?(_2)?(_R2)?(_trimmed)?(_combined)?(\.2_val_2)?(_R2_val_2)?(\.fq)?(\.fastq)?(\.gz)?$}']
+            ]);
             switch ($request->input('isPairends')) {
                 case 'Single':
                     $isPairends = 0;
@@ -194,6 +197,7 @@ class SamplesController extends Controller
                         return redirect('/samples?projectID=' . $projectID);
                     }
                 }
+            }
             }
         }
         return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
@@ -367,6 +371,15 @@ class SamplesController extends Controller
             Excel::import(new SamplesImport, $filename);
             Storage::delete($filename);
             return response()->json(['code' => '200']);
+        }
+    }
+
+    public function file_upload(Request $request){
+        if($request->file('addFileModal')->isValid()){
+            $file = $request->file('addFileModal');
+            $fileName = $file->getClientOriginalName();
+            $file->storeAs('',$fileName,'local');
+            return response()->json(['code'=>200,'data'=>$file]);
         }
     }
 

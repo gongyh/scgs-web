@@ -185,45 +185,72 @@
                 @endforeach
               </select>
             </div>
-
-            <div class="form-group" title="Paired-end or Single">
-              <label>Paired-end</label><span class="text-danger"> *</span>
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single">
-                <label class="custom-control-label" for="customRadio1">Single</label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" checked>
-                <label class="custom-control-label" for="customRadio2">Paired-end</label>
-              </div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="file-tab" data-toggle="tab" href="#file" role="tab" aria-controls="file" aria-selected="true">File</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="accession-tab" data-toggle="tab" href="#accession" role="tab" aria-controls="accession" aria-selected="false">Accession</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active mt-3" id="file" role="tabpanel" aria-labelledby="file-tab">
+                <div class="form-group" title="Paired-end or Single">
+                  <label>Paired-end</label><span class="text-danger"> *</span>
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single">
+                    <label class="custom-control-label" for="customRadio1">Single</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" checked>
+                    <label class="custom-control-label" for="customRadio2">Paired-end</label>
+                  </div>
+                </div>
+                <p class="tips"><strong>Tips:</strong>1.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
+                <div class="form-group">
+                  <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span><button type="button" class="btn btn-success btn-sm ml-2" id="addSample" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#myModal_addFileModal"><i class="fa fa-plus"></i> Add File</button>
+                  <input type="text" class="form-control mt-2" name="new_fileOne" id="new_fileOne" value={{old('new_fileOne')?old('new_fileOne'):''}}>
+                </div>
+                <div class="form-group file_two">
+                  <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
+                  <input type="text" class="form-control fileTwo" name="new_fileTwo" id="new_fileTwo" value={{old('new_fileTwo')?old('new_fileTwo'):''}}>
+                </div>
+                <!-- error message -->
+                @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                  <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+                </div>
+                @endif
+                @isset($file_error)
+                <div class="alert alert-danger">
+                  <ul>
+                    <li>{{ $file_error }}</li>
+                  </ul>
+                </div>
+                @endisset
+                <div class="modal" id="myModal_addFileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <div class="rem15">Upload Files</div>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                          <input type="file" name="addFileModal" id="addFileModal" multiple>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade mt-3" id="accession" role="tabpanel" aria-labelledby="accession-tab">
+                  <label for="accession">Accession:</label>
+                  <input type="text" class="form-control mb-3" name="accession" id="accession">
+                </div>
             </div>
-            <p class="tips"><strong>Tips:</strong>1.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
-            <div class="form-group">
-              <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
-              <input type="text" class="form-control" name="new_fileOne" id="new_fileOne" value={{old('new_fileOne')?old('new_fileOne'):''}}>
-            </div>
-
-            <div class="form-group file_two">
-              <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
-              <input type="text" class="form-control fileTwo" name="new_fileTwo" id="new_fileTwo" value={{old('new_fileTwo')?old('new_fileTwo'):''}}>
-            </div>
-            <!-- error message -->
-            @if (count($errors) > 0)
-            <div class="alert alert-danger">
-              <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                  @endforeach
-              </ul>
-            </div>
-            @endif
-            @isset($file_error)
-            <div class="alert alert-danger">
-              <ul>
-                <li>{{ $file_error }}</li>
-              </ul>
-            </div>
-            @endisset
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </div>
