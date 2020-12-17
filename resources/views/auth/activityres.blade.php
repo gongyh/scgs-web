@@ -9,9 +9,9 @@
 
                 <div class="card-body">
                     @if($res === false)
-                        该链接已失效，请重新<a href="{{route('register')}}">注册>></a>
+                        The activate link is invalid, please try to <a href="{{route('register')}}">Register>> again</a>
                     @else
-                        您的账号已经激活，请<a href="{{route('login')}}">登录>></a>
+                        Your account has been activated, Please <a href="{{route('login')}}">Login>></a>
                     @endif
                 </div>
             </div>

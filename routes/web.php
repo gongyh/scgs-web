@@ -39,6 +39,7 @@ Route::group(['prefix' => 'samples'], function () {
     Route::any('/delete', 'SamplesController@delete');
     Route::any('/upload', 'SamplesController@upload');
     Route::get('/template/download', 'SamplesController@download');
+    Route::any('/fileUpload','SamplesController@file_upload');
 });
 
 Route::group(['prefix' => 'workspace'], function () {
@@ -93,7 +94,7 @@ Route::group(['prefix' => 'executeProj'], function () {
 Route::group(['prefix' => 'successRunning'], function () {
     Route::get('/', 'ResultController@success_running');
     Route::post('/', 'ResultController@ajax');
-    Route::post('/resultDownload', 'ResultController@download_result');
+    Route::any('/resultDownload', 'ResultController@download_result');
 });
 
 Route::get('/failedRunning', 'ResultController@failed_running');

@@ -83,15 +83,15 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
-        //发送邮件
+        //send e-mail
         \Mail::raw(
-        '请在'.$user->activity_expire.'前,点击链接激活您的账号'.route('user.activity',['token'=>$user->activity_token])
+        'Please before'.$user->activity_expire.'to click the link '.route('user.activity',['token'=>$user->activity_token]).'to activate your count'
         ,function($message) use($user){
             $message->from('13854291622@163.com','scgs-web')
-            ->subject('注册激活邮件')
+            ->subject('activate e-mail')
             ->to($user->email);
         });
-        //显示注册激活提示信息
+        //activate tips
         return view('auth.registed',['user'=>$user]);
     }
 

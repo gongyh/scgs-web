@@ -49916,6 +49916,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 $(function () {
   var index = 0;
   var current_url = window.location.href;
@@ -49936,6 +49938,8 @@ $(function () {
   sample_file.Init('sample_file', sample_url);
   var species_file = FileInput();
   species_file.Init('species_file', '/workspace/species/upload');
+  var add_sample_files = sampleFileInput();
+  add_sample_files.Init('addFileModal', '/samples/fileUpload');
   var running_sample_id = getQueryVariable('sampleID');
   var running_project_id = getQueryVariable('projectID');
   var check_progress = false;
@@ -50281,21 +50285,15 @@ var FileInput = function FileInput() {
   var oFile = new Object(); //Init fileInput
 
   oFile.Init = function (ctrlName, uploadUrl) {
-    var control = $('.' + ctrlName); //Init fileUpload
+    var control = $('#' + ctrlName); //Init fileUpload
 
     control.fileinput({
       uploadUrl: uploadUrl,
-      //上传的地址
       allowedFileExtensions: ['xls', 'xlsx'],
-      //接收的文件后缀
       showUpload: true,
-      //是否显示上传按钮
-      showCaption: false,
-      //是否显示标题
+      showCaption: true,
       browseClass: "btn btn-primary",
-      //按钮样式
       maxFileCount: 10,
-      //表示允许同时上传的最大文件个数
       enctype: 'multipart/form-data',
       validateInitialCount: true,
       previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
@@ -50311,6 +50309,40 @@ var FileInput = function FileInput() {
       }
 
       location.reload();
+    });
+  };
+
+  return oFile;
+};
+
+var sampleFileInput = function sampleFileInput() {
+  var oFile = new Object(); //Init fileInput
+
+  oFile.Init = function (ctrlName, uploadUrl) {
+    var _control$fileinput;
+
+    var control = $('#' + ctrlName); //Init fileUpload
+
+    control.fileinput((_control$fileinput = {
+      uploadUrl: uploadUrl,
+      allowedFileExtensions: ['fasta.gz', 'fastq.gz', 'fasta', 'fastq', 'fa', 'fq'],
+      maxFileCount: 2,
+      showUpload: true,
+      showCaption: true,
+      dropZoneEnabled: false,
+      elCaptionText: 'Upload Files',
+      browseClass: "btn btn-primary"
+    }, _defineProperty(_control$fileinput, "maxFileCount", 10), _defineProperty(_control$fileinput, "enctype", 'multipart/form-data'), _defineProperty(_control$fileinput, "validateInitialCount", true), _defineProperty(_control$fileinput, "previewFileIcon", "<i class='glyphicon glyphicon-king'></i>"), _defineProperty(_control$fileinput, "msgFilesTooMany", "选择上传的文件数量({n}) 超过允许的最大数值{m}！"), _control$fileinput)); //Event after upload file
+
+    control.on("fileuploaded", function (event, data, previewId, index) {
+      $("#myModal_" + ctrlName).modal("hide");
+
+      if (data == undefined) {
+        console.log('incorrect file type!');
+        return;
+      }
+
+      console.log(data);
     });
   };
 
@@ -50406,8 +50438,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/scgs-web/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/scgs-web/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\scgs-web\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\scgs-web\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
