@@ -6,6 +6,7 @@ use App\Labs;
 use App\Projects;
 use App\Samples;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 class WorkspaceController extends Controller
@@ -55,6 +56,25 @@ class WorkspaceController extends Controller
         } catch (\Illuminate\Database\QueryException $ex) {
             $selectMyProjs = null;
             return view('Workspace.selectMyProj', ['selectMyProjs' => $selectMyProjs, 'labID' => $labID]);
+        }
+    }
+
+    public function addSamples(){
+        return view('Workspace.addSampleFiles');
+    }
+
+    public function addSampleFiles(Request $request){
+        $user = Auth::user();
+        $username = $user->name;
+        $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+        $mkdir = 'if [ ! -d "' . $base_path .  '/meta-data/' . $username . '" ]; then mkdir -p ' . $base_path . '/meta-data/' . $username . '; fi';
+        system($mkdir);
+        $storage_path = 'meta-data/' . $username;
+        if($request->file('addSampleFiles')->isValid()){
+            $file = $request->file('addSampleFiles');
+            $fileName = $file->getClientOriginalName();
+            $file->storeAs($storage_path,$fileName,'local');
+            return response()->json(['code'=>200,'data'=>$file]);
         }
     }
 }

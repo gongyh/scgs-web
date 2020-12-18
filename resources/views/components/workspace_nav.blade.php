@@ -20,6 +20,8 @@
      <a class="nav-item nav-link rem1 workspace-nav" id="nav-contact-tab" href="/workspace/myProject" aria-selected="false">My Projects</a>
      <a class="nav-item nav-link rem1 workspace-nav" id="nav-contact-tab" href="/workspace/runningSample" aria-selected="false">
        Pipeline Status</a>
+    <a class="nav-item nav-link rem1 workspace-nav" id="nav-contact-tab" href="/workspace/addSampleFiles" aria-selected="false">
+     Add Sample Files</a>
    </nav>
  </div>
  @else
