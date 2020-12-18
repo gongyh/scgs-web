@@ -18,7 +18,7 @@ $(function () {
     var species_file = FileInput();
     species_file.Init('species_file','/workspace/species/upload');
     var add_sample_files = sampleFileInput();
-    add_sample_files.Init('addFileModal','/samples/fileUpload');
+    add_sample_files.Init('addSampleFiles','/workspace/addSampleFiles/upload');
     var running_sample_id = getQueryVariable('sampleID');
     var running_project_id = getQueryVariable('projectID');
     var check_progress = false;
@@ -391,13 +391,12 @@ var sampleFileInput = function() {
     control.fileinput({
         uploadUrl: uploadUrl,
         allowedFileExtensions: ['fasta.gz','fastq.gz','fasta','fastq','fa','fq'],
-        maxFileCount:2,
         showUpload: true,
         showCaption: true,
-        dropZoneEnabled:false,
+        dropZoneEnabled:true,
         elCaptionText:'Upload Files',
         browseClass: "btn btn-primary",
-        maxFileCount: 10,
+        maxFileCount: 5,
         enctype: 'multipart/form-data',
         validateInitialCount:true,
         previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
@@ -406,7 +405,7 @@ var sampleFileInput = function() {
 
     //Event after upload file
     control.on("fileuploaded", function (event, data, previewId, index) {
-        $("#myModal_" + ctrlName).modal("hide");
+        $("#" + ctrlName).modal("hide");
         if (data == undefined) {
             console.log('incorrect file type!');
             return;

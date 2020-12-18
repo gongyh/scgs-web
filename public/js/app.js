@@ -49916,8 +49916,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 $(function () {
   var index = 0;
   var current_url = window.location.href;
@@ -49939,7 +49937,7 @@ $(function () {
   var species_file = FileInput();
   species_file.Init('species_file', '/workspace/species/upload');
   var add_sample_files = sampleFileInput();
-  add_sample_files.Init('addFileModal', '/samples/fileUpload');
+  add_sample_files.Init('addSampleFiles', '/workspace/addSampleFiles/upload');
   var running_sample_id = getQueryVariable('sampleID');
   var running_project_id = getQueryVariable('projectID');
   var check_progress = false;
@@ -50319,23 +50317,25 @@ var sampleFileInput = function sampleFileInput() {
   var oFile = new Object(); //Init fileInput
 
   oFile.Init = function (ctrlName, uploadUrl) {
-    var _control$fileinput;
-
     var control = $('#' + ctrlName); //Init fileUpload
 
-    control.fileinput((_control$fileinput = {
+    control.fileinput({
       uploadUrl: uploadUrl,
       allowedFileExtensions: ['fasta.gz', 'fastq.gz', 'fasta', 'fastq', 'fa', 'fq'],
-      maxFileCount: 2,
       showUpload: true,
       showCaption: true,
-      dropZoneEnabled: false,
+      dropZoneEnabled: true,
       elCaptionText: 'Upload Files',
-      browseClass: "btn btn-primary"
-    }, _defineProperty(_control$fileinput, "maxFileCount", 10), _defineProperty(_control$fileinput, "enctype", 'multipart/form-data'), _defineProperty(_control$fileinput, "validateInitialCount", true), _defineProperty(_control$fileinput, "previewFileIcon", "<i class='glyphicon glyphicon-king'></i>"), _defineProperty(_control$fileinput, "msgFilesTooMany", "选择上传的文件数量({n}) 超过允许的最大数值{m}！"), _control$fileinput)); //Event after upload file
+      browseClass: "btn btn-primary",
+      maxFileCount: 5,
+      enctype: 'multipart/form-data',
+      validateInitialCount: true,
+      previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+      msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！"
+    }); //Event after upload file
 
     control.on("fileuploaded", function (event, data, previewId, index) {
-      $("#myModal_" + ctrlName).modal("hide");
+      $("#" + ctrlName).modal("hide");
 
       if (data == undefined) {
         console.log('incorrect file type!');

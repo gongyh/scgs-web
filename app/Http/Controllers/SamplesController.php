@@ -100,9 +100,7 @@ class SamplesController extends Controller
             $fileOne = $request->input('new_fileOne');
             $fileTwo = $request->input('new_fileTwo');
             if ($fileTwo == null) {
-                // 验证file1是否存在
                 if (strpos($fileOne, $base_path) == 0) {
-                    //  判断输入是否是绝对路径
                     $file1_path = str_replace($base_path, '', $fileOne);
                     $file1_exist = Storage::disk('local')->exists($file1_path);
                 } else {
@@ -110,10 +108,8 @@ class SamplesController extends Controller
                 }
 
                 if ($file1_exist) {
-                    //  统一保存为相对路径
                     $fileOne = $file1_path ? $file1_path : $fileOne;
 
-                    //  判断是否存在反斜杠\
                     $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
                     Samples::create([
                         'sampleLabel' => $new_sample_label,
@@ -142,7 +138,6 @@ class SamplesController extends Controller
                     return back()->withErrors($file_error);
                 }
             } else {
-                // 验证file1,file2是否存在
                 if (strpos($fileOne, $base_path) == 0) {
                     $file1_path = str_replace($base_path, '', $fileOne);
                     $file1_exist = Storage::disk('local')->exists($file1_path);
@@ -155,7 +150,6 @@ class SamplesController extends Controller
                 } else {
                     $file2_exist = Storage::disk('local')->exists($fileTwo);
                 }
-                // 判断返回错误信息
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
                     return back()->withErrors($file_error);
@@ -166,11 +160,9 @@ class SamplesController extends Controller
                     $file_error = 'file1 and file2 doesn\'t exist';
                     return back()->withErrors($file_error);
                 } else {
-                    //  统一保存为相对路径
                     $fileOne = $file1_path ? $file1_path : $fileOne;
                     $fileTwo = $file2_path ? $file2_path : $fileTwo;
 
-                    //  判断是否存在反斜杠\
                     $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
                     $fileTwo = strpos($fileTwo, '\\') !== false ? str_replace('\\', '/', $fileTwo) : $fileTwo;
 
@@ -228,7 +220,7 @@ class SamplesController extends Controller
         $library_selections = array('RANDOM', 'PCR', 'RANDOM PCR', 'HMPR', 'MF', 'CF-S', 'CF-M', 'CF-H', 'CF-T', 'MDA', 'MSLL', 'cDNA', 'CHIP', 'MNase', 'DNAse', 'Hybrid Selection', 'Reduced Representation', 'Restriction Digest', '5-methylcytidine antibody', 'MBD2 protein methyl-CpG binding domain', 'CAGE', 'RACE', 'size fractionation', 'Padlock probes capture method', 'other', 'unspecified', 'cDNA_oligo_dT', 'cDNA_randomPriming', 'Oligo-dT', 'PolyA', 'repeat fractionation');
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         if ($request->isMethod('POST')) {
-            // sample update validate
+            // Sample update input validate
             $this->validate($request, [
                 'sample_label' => 'required|max:50',
                 'library_id' => 'required|max:150',
@@ -266,19 +258,19 @@ class SamplesController extends Controller
             $fileOne = $request->input('fileOne');
             $fileTwo = $request->input('fileTwo');
             if ($fileTwo == null) {
-                // 验证file1是否存在
+                //  Validate if file1 exist
                 if (strpos($fileOne, $base_path) == 0) {
-                    //  判断输入是否是绝对路径
+                    //  Absolute path
                     $file1_path = str_replace($base_path, '', $fileOne);
                     $file1_exist = Storage::disk('local')->exists($file1_path);
                 } else {
                     $file1_exist = Storage::disk('local')->exists($fileOne);
                 }
                 if ($file1_exist) {
-                    //  判断是否为相对路径
+                    //  Relative path
                     $fileOne = $file1_path ? $file1_path : $fileOne;
 
-                    //  判断是否存在反斜杠\
+                    //  Contain \
                     $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
                     $sample['sampleLabel'] = $sample_label;
                     $sample['library_id'] = $library_id;
@@ -295,10 +287,10 @@ class SamplesController extends Controller
                     $sample['filename2'] = $fileTwo;
                     $sample->save();
                     if ($request->input('from')) {
-                        // 从workspace - myProject中访问
+                        // From workspace to myProject
                         return redirect('/workspace/samples?projectID=' . $projectID);
                     } else {
-                        // 从home - sample访问
+                        // From home to sample
                         return redirect('/samples?projectID=' . $projectID);
                     }
                 } else {
@@ -306,7 +298,7 @@ class SamplesController extends Controller
                     return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
                 }
             } else {
-                // 验证file1,file2是否存在
+                // Validate if file1 and file2 exist
                 if (strpos($fileOne, $base_path) == 0) {
                     $file1_path = str_replace($base_path, '', $fileOne);
                     $file1_exist = Storage::disk('local')->exists($file1_path);
@@ -319,7 +311,7 @@ class SamplesController extends Controller
                 } else {
                     $file2_exist = Storage::disk('local')->exists($fileTwo);
                 }
-                // 判断返回错误信息
+                // Return error message
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
                     return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
@@ -330,11 +322,9 @@ class SamplesController extends Controller
                     $file_error = 'file1 and file2 doesn\'t exist';
                     return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
                 } else {
-                    //  判断输入是否是相对路径
                     $fileOne = $file1_path ? $file1_path : $fileOne;
                     $fileTwo = $file2_path ? $file2_path : $fileTwo;
 
-                    //  判断是否存在反斜杠\
                     $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
                     $fileTwo = strpos($fileTwo, '\\') !== false ? str_replace('\\', '/', $fileTwo) : $fileTwo;
                     $sample['sampleLabel'] = $sample_label;
@@ -371,15 +361,6 @@ class SamplesController extends Controller
             Excel::import(new SamplesImport, $filename);
             Storage::delete($filename);
             return response()->json(['code' => '200']);
-        }
-    }
-
-    public function file_upload(Request $request){
-        if($request->file('addFileModal')->isValid()){
-            $file = $request->file('addFileModal');
-            $fileName = $file->getClientOriginalName();
-            $file->storeAs('',$fileName,'local');
-            return response()->json(['code'=>200,'data'=>$file]);
         }
     }
 
