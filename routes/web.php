@@ -87,12 +87,6 @@ Route::group(['prefix' => 'execute'], function () {
     Route::post('/start', 'ExecparamsController@ajax');
 });
 
-Route::group(['prefix' => 'executeProj'], function () {
-    Route::any('/', 'ExecProjController@index');
-    Route::get('/start', 'ExecProjController@start');
-    Route::post('/start', 'ExecProjController@ajax');
-});
-
 Route::group(['prefix' => 'successRunning'], function () {
     Route::get('/', 'ResultController@success_running');
     Route::post('/', 'ResultController@ajax');

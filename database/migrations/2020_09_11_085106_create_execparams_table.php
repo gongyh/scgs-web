@@ -41,6 +41,7 @@ class CreateExecparamsTable extends Migration
             $table->boolean('eggnog');
             $table->boolean('kofam_profile');
             $table->boolean('kofam_kolist');
+            $table->boolean('eukcc_db');
             $table->timestamps();
         });
     }

@@ -74,7 +74,7 @@ class WorkspaceController extends Controller
             $file = $request->file('addSampleFiles');
             $fileName = $file->getClientOriginalName();
             $file->storeAs($storage_path,$fileName,'local');
-            return response()->json(['code'=>200,'data'=>$file]);
+            return response()->json(['code' => 200]);
         }
     }
 }
