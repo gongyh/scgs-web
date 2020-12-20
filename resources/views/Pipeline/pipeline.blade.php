@@ -89,6 +89,17 @@
               </ul>
             </div>
             @endif
+            @isset($default_reference)
+            <div class="mt-2 d-flex">
+              <div class="ml-1 mt-2 mr-3">reference genome : </div>
+              <select class="form-control w-25" name="reference_genome">
+                <option class="font-italic" value="denovo">de novo</option>
+                @foreach($species_list as $species)
+                <option value={{$species->id}} {{$species->name == $default_reference?'selected':''}}>{{$species->name}}</option>
+                @endforeach
+              </select>
+            </div>
+            @endisset
             <div class="mt-2">
               <div class="custom-control custom-checkbox mr-4">
                 <input type="checkbox" class="custom-control-input" id="augustus_species" name="augustus_species" value="augustus_species" {{$augustus_species?'checked':''}}>
@@ -143,8 +154,15 @@
               </div>
               <div class="mt-2 w-50 border border-info rounded shadow p-2 kofam_kolist_path overflow-auto {{$kofam_kolist?'no-display':''}}">{{isset($pipelineParams->kofam_kolist_path)?$pipelineParams->kofam_kolist_path:'kofam kolist path has not set!please call administor'}}</div>
             </div>
+            <div class="mt-2">
+              <div class="custom-control custom-checkbox mr-4">
+                <input type="checkbox" class="custom-control-input" id="eukcc_db" name="eukcc_db" value="eukcc_db" {{$eukcc_db?'checked':''}}>
+                <label class="custom-control-label" for="eukcc_db">eukcc_db</label>
+              </div>
+              <div class="mt-2 w-50 border border-info rounded shadow p-2 eukcc_db_path overflow-auto {{$eukcc_db?'no-display':''}}">{{isset($pipelineParams->eukcc_db_path)?$pipelineParams->eukcc_db_path:'eukcc database path has not set!please call administor'}}</div>
+            </div>
           </div>
-          <button type="submit" class="mt-5 ml-3 w-50 btn btn-success d-inline-block" onclick="if(confirm('when pipeline start,params can\' be modified until pipeline finished,Are you sure to execute?')==false) return false;" {{$can_exec?'':'disabled'}}>execute</button>
+          <button type="submit" class="mt-3 ml-3 w-50 btn btn-success d-inline-block" onclick="if(confirm('when pipeline start,params can\' be modified until pipeline finished,Are you sure to execute?')==false) return false;" {{$can_exec?'':'disabled'}}>execute</button>
         </form>
       </div>
     </div>

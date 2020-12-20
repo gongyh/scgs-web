@@ -50098,7 +50098,7 @@ $(function () {
    * Execute params setting
    */
 
-  var db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist'];
+  var db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist', 'eukcc_db'];
 
   for (var _i = 0; _i < db_list.length; _i++) {
     if ($('#' + db_list[_i]).is(':checked')) {
@@ -50174,6 +50174,13 @@ $(function () {
       $('.kofam_kolist_path').show();
     } else {
       $('.kofam_kolist_path').hide();
+    }
+  });
+  $('#eukcc_db').on('change', function () {
+    if ($('#eukcc_db').is(':checked')) {
+      $('.eukcc_db_path').show();
+    } else {
+      $('.eukcc_db_path').hide();
     }
   });
   /**
@@ -50337,12 +50344,10 @@ var sampleFileInput = function sampleFileInput() {
     control.on("fileuploaded", function (event, data, previewId, index) {
       $("#" + ctrlName).modal("hide");
 
-      if (data == undefined) {
-        console.log('incorrect file type!');
+      if (data.code == 200) {
+        console.log(data);
         return;
       }
-
-      console.log(data);
     });
   };
 

@@ -15,7 +15,9 @@
       <div class="bg-white rounded shadow-sm p-3 rem1 overflow-auto">
         <div class="d-flex">
           <div class="rem15">execute params chosen</div>
+          @if(isset($sample_id))
           <div class="p-2 ml-3"><span class="badge badge-info rem1">{{$samples->where('id',$sample_id)->value('sampleLabel')}}</span></div>
+          @endif
         </div>
         <div class="d-flex">
           <div class="custom-control custom-checkbox mt-2">
@@ -80,6 +82,14 @@
             </div>
             <input type="text" name="genus_name" class="w-50 form-control genus_name text-secondary {{$genus_name == null?'no-display':''}}" value={{$genus_name == null?'':$genus_name}}>
           </div>
+          @isset($reference_genome)
+          <div class="mt-2 d-flex">
+            <div class="ml-1 mt-2 mr-3">reference genome : </div>
+            <select class="form-control w-25" name="reference_genome" disabled>
+              <option value={{$reference_genome}} selected>{{$reference_genome}}</option>
+            </select>
+          </div>
+          @endisset
           <div class="mt-2">
             <div class="custom-control custom-checkbox mr-4">
               <input type="checkbox" class="custom-control-input" id="augustus_species" name="augustus_species" value="augustus_species" {{$augustus_species?'checked':''}} disabled>
@@ -129,8 +139,15 @@
             </div>
             <div class="mt-2 w-50 border text-secondary rounded shadow p-2 kofam_kolist_path overflow-auto {{$kofam_kolist?'no-display':''}}">{{$pipelineParams->kofam_kolist_path}}</div>
           </div>
+          <div class="mt-2">
+              <div class="custom-control custom-checkbox mr-4">
+                <input type="checkbox" class="custom-control-input" id="eukcc_db" name="eukcc_db" value="eukcc_db" {{$eukcc_db?'checked':''}} disabled>
+                <label class="custom-control-label" for="eukcc_db">eukcc_db</label>
+              </div>
+              <div class="mt-2 w-50 border text-secondary rounded shadow p-2 eukcc_db_path overflow-auto {{$eukcc_db?'no-display':''}}">{{$pipelineParams->eukcc_db_path}}</div>
+            </div>
         </div>
-        <div class="mt-5 d-flex justify-content-around">
+        <div class="mt-3 d-flex justify-content-around">
           <button class="btn btn-secondary w-25" disabled>execute</button>
           <button class="btn btn-success w-25 detail">Check Progress</button>
         </div>
