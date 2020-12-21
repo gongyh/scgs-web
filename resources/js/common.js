@@ -259,7 +259,7 @@ $("#platform").change(function(){
   });
 
   function read_nextflowlog() {
-    if(window.location.href.indexOf('sampleID')){
+    if(window.location.href.indexOf('sampleID') != -1){
         $.ajax({
             url: "/execute/start",
             type: 'POST',

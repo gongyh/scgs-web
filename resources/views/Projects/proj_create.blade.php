@@ -28,6 +28,18 @@
           <input type="text" class="form-control" name="new_project_id" id="new_project_id" value={{old('new_project_id')?old('new_project_id'):''}}>
         </div>
         <div class="form-group">
+          <label for="new_type">Type</label><span class="text-danger">*</span>
+          <input type="text" class="form-control" name="new_type" id="new_type" value={{old('new_type')?old('new_type'):''}}>
+        </div>
+        <div class="form-group">
+          <label for="new_collection_date">Collection Date</label><span class="text-danger">*</span>
+          <input type="text" class="form-control" name="new_collection_date" id="new_collection_date" value={{old('new_collection_date')?old('new_collection_date'):''}}>
+        </div>
+        <div class="form-group">
+          <label for="new_location">Location</label><span class="text-danger">*</span>
+          <input type="text" class="form-control" name="new_location" id="new_location" value={{old('new_location')?old('new_location'):''}}>
+        </div>
+        <div class="form-group">
           <label for="new_proj_desc">Description</label><span class="text-danger">*</span>
           <textarea class="form-control" name="new_proj_desc" id="new_proj_desc">{{old('new_proj_desc')?old('new_proj_desc'):''}}</textarea>
         </div>

@@ -29,33 +29,33 @@ class WorkspaceController extends Controller
         }
     }
 
-    public function myProject()
+    public function myProject(Request $request)
     {
-        try {
-            $user = Auth::user();
-            $myLabs = Labs::where('principleInvestigator', $user->name)->get('id');
-            $lab_id_list = array();
-            foreach ($myLabs as $myLab) {
-                array_push($lab_id_list, $myLab->id);
+        $current_url = url()->full();
+        if(strpos($current_url,'myLab') != false){
+            try {
+                $current_page = $request->input('current_page');
+                $labID = $request->input('labID');
+                $myProjects = Projects::where('labs_id', $labID)->orderBy('id','desc')->paginate(5);
+                return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID, 'current_page' => $current_page]);
+            } catch (\Illuminate\Database\QueryException $ex) {
+                $myProjects = null;
+                return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID]);
             }
-            $myProjects = Projects::whereIn('labs_id', $lab_id_list)->orderBy('id','desc')->paginate(5);
-            return view('Workspace.myProject', ['myProjects' => $myProjects]);
-        } catch (\Illuminate\Database\QueryException $ex) {
-            $myProjects = null;
-            return view('Workspace.myProject', ['myProjects' => $myProjects]);
-        }
-    }
-
-    public function selectMyProj(Request $request)
-    {
-        try {
-            $current_page = $request->input('current_page');
-            $labID = $request->input('labID');
-            $selectMyProjs = Projects::where('labs_id', $labID)->orderBy('id','desc')->paginate(5);
-            return view('Workspace.selectMyProj', ['selectMyProjs' => $selectMyProjs, 'labID' => $labID, 'current_page' => $current_page]);
-        } catch (\Illuminate\Database\QueryException $ex) {
-            $selectMyProjs = null;
-            return view('Workspace.selectMyProj', ['selectMyProjs' => $selectMyProjs, 'labID' => $labID]);
+        }else{
+            try {
+                $user = Auth::user();
+                $myLabs = Labs::where('principleInvestigator', $user->name)->get('id');
+                $lab_id_list = array();
+                foreach ($myLabs as $myLab) {
+                    array_push($lab_id_list, $myLab->id);
+                }
+                $myProjects = Projects::whereIn('labs_id', $lab_id_list)->orderBy('id','desc')->paginate(5);
+                return view('Workspace.myProject', ['myProjects' => $myProjects]);
+            } catch (\Illuminate\Database\QueryException $ex) {
+                $myProjects = null;
+                return view('Workspace.myProject', ['myProjects' => $myProjects]);
+            }
         }
     }
 

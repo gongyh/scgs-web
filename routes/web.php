@@ -46,7 +46,7 @@ Route::group(['prefix' => 'workspace'], function () {
     Route::get('/', 'WorkspaceController@index')->middleware('auth');
     Route::get('/myLab', 'WorkspaceController@myLab')->middleware('auth');
     Route::get('/myProject', 'WorkspaceController@myProject')->middleware('auth');
-    Route::get('/myLab/projects', 'WorkspaceController@selectMyProj')->middleware('auth');
+    Route::get('/myLab/projects', 'WorkspaceController@myProject')->middleware('auth');
     Route::any('/samples', 'SamplesController@index')->middleware('auth');
     Route::get('/runningSample', 'RunController@index')->middleware('auth');
     Route::get('/addSampleFiles', 'WorkspaceController@addSamples')->middleware('auth');

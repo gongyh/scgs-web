@@ -17,6 +17,9 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->string('name', 250);
             $table->string('doi', 250);
+            $table->string('type', 250);
+            $table->string('location', 250);
+            $table->string('collection_date',250);
             $table->string('description', 2000);
             $table->unsignedBigInteger('labs_id');
             $table->foreign('labs_id')->references('id')->on('labs')->onDelete('cascade');
