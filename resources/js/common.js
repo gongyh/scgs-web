@@ -22,8 +22,7 @@ $(function () {
     var running_sample_id = getQueryVariable('sampleID');
     var running_project_id = getQueryVariable('projectID');
     var check_progress = false;
-    var check_proj_progress = false;
-    var read_progress,read_proj_progress;
+    var read_progress;
 
       if (url) {
         for (var i = 0; i < workspace_nav.length; i++) {
@@ -260,39 +259,39 @@ $("#platform").change(function(){
   });
 
   function read_nextflowlog() {
-    $.ajax({
-      url: "/execute/start",
-      type: 'POST',
-      data: {
-        'running_sample_id': running_sample_id,
-      },
-      dataType: 'json',
-      success: function (res) {
-        if (res.code == 200) {
-          let insert_message = "<p>" + res.data + "</p> "
-          $('.command_out').html(insert_message);
-        }else{
-        }
-      }
-    })
-  }
-
-  function read_proj_nextflowlog() {
-    $.ajax({
-      url: "/executeProj/start",
-      type: 'POST',
-      data: {
-        'running_project_id': running_project_id,
-      },
-      dataType: 'json',
-      success: function (res) {
-        if (res.code == 200) {
-          let insert_message = "<p>" + res.data + "</p> "
-          $('.proj_command_out').html(insert_message);
-        }else{
-        }
-      }
-    })
+    if(window.location.href.indexOf('sampleID')){
+        $.ajax({
+            url: "/execute/start",
+            type: 'POST',
+            data: {
+              'running_sample_id': running_sample_id,
+            },
+            dataType: 'json',
+            success: function (res) {
+              if (res.code == 200) {
+                let insert_message = "<p>" + res.data + "</p> "
+                $('.command_out').html(insert_message);
+              }else{
+              }
+            }
+        })
+    }else{
+        $.ajax({
+            url: "/execute/start",
+            type: 'POST',
+            data: {
+              'running_project_id': running_project_id,
+            },
+            dataType: 'json',
+            success: function (res) {
+              if (res.code == 200) {
+                let insert_message = "<p>" + res.data + "</p> "
+                $('.command_out').html(insert_message);
+              }else{
+              }
+            }
+        })
+    }
   }
 
   $(".detail").on('click', function (e) {
@@ -308,22 +307,6 @@ $("#platform").change(function(){
     } else {
       $('.command_out').addClass('d-none');
       clearInterval(read_progress);
-    }
-  })
-
-  $(".proj_detail").on('click', function (e) {
-    e.preventDefault();
-    check_proj_progress = !check_proj_progress;
-    if (check_proj_progress) {
-      $('.proj_command_out').removeClass('d-none');
-      read_proj_progress = setInterval(() => {
-        read_proj_nextflowlog();
-        let scrollHeight = $(".proj_command_out").prop('scrollHeight');
-        $(".proj_command_out").scrollTop(scrollHeight);
-      }, 5000);
-    } else {
-      $('.proj_command_out').addClass('d-none');
-      clearInterval(read_proj_progress);
     }
   })
 

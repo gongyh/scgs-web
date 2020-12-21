@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         while (($filename = readdir($handler)) !== false) {
             if ($filename != '.' && $filename != '..') {
                 if (is_dir($path . '/' . $filename)) {
-                    addFileToZip($path . '/' . $filename, $zip);
+                    $this->addFileToZip($path . '/' . $filename, $zip);
                 } elseif (is_file($path . '/' . $filename)) {
                     $results_position = strpos($path, 'results');
                     $relative_path = substr($path, $results_position);
@@ -68,6 +68,7 @@ class AppServiceProvider extends ServiceProvider
                 addFileToZip($path, $zip);
                 $zip->close();
             }
+
             /**
              * change job status
              */
@@ -78,5 +79,6 @@ class AppServiceProvider extends ServiceProvider
             $current_job->finished = $finished;  //job finished time
             $current_job->save();
         });
+
     }
 }
