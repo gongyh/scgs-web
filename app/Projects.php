@@ -13,7 +13,7 @@ class Projects extends Model
      * @var string
      */
     protected $table = 'projects';
-    protected $fillable = ['labs_id', 'name', 'description', 'doi'];
+    protected $fillable = ['labs_id', 'name', 'description', 'doi','type','collection_date','location'];
     public function getLabName($id)
     {
         $lab_name = Labs::where('id', $id)->value('name');

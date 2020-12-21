@@ -7,7 +7,6 @@ use App\Projects;
 use App\Labs;
 use App\Applications;
 use App\Species;
-use ZipArchive;
 use App\Imports\SamplesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;

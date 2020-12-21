@@ -19,6 +19,18 @@
           <input type="text" class="form-control" name="doi" id="doi" value="{{$project->doi}}">
         </div>
         <div class="form-group">
+          <label for="type">Type</label><span class="text-danger">*</span>
+          <input type="text" class="form-control" name="type" id="type" value="{{$project->type}}">
+        </div>
+        <div class="form-group">
+          <label for="collection_date">Collection Date</label><span class="text-danger">*</span>
+          <input type="text" class="form-control" name="collection_date" id="collection_date" value="{{$project->collection_date}}">
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label><span class="text-danger">*</span>
+          <input type="text" class="form-control" name="location" id="location" value="{{$project->location}}">
+        </div>
+        <div class="form-group">
           <label for="description">Description</label><span class="text-danger">*</span>
           <textarea class="form-control" name="description" id="description">{{$project->description}}</textarea>
         </div>

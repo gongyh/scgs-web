@@ -14,7 +14,7 @@ class AlterUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('activity_token')->comment('activity token');
+            $table->string('activity_token',250)->comment('activity token');
             $table->dateTime('activity_expire')->comment('activity expire')->nullable();
             $table->tinyInteger('is_activity')->default(0)->comment('is activity 1:yes，0:no');
         });

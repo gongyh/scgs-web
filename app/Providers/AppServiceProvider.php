@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Jobs;
 use App\User;
+use Zip;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Support\Facades\Queue;
@@ -22,23 +23,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
-    }
-
-    public function addFileToZip($path, $zip)
-    {
-        $handler = opendir($path);
-        while (($filename = readdir($handler)) !== false) {
-            if ($filename != '.' && $filename != '..') {
-                if (is_dir($path . '/' . $filename)) {
-                    $this->addFileToZip($path . '/' . $filename, $zip);
-                } elseif (is_file($path . '/' . $filename)) {
-                    $results_position = strpos($path, 'results');
-                    $relative_path = substr($path, $results_position);
-                    $zip->addFile($path . '/' . $filename, $relative_path . '/' . $filename);
-                }
-            }
-        }
-        @closedir($path);
     }
 
     /**
@@ -62,12 +46,10 @@ class AppServiceProvider extends ServiceProvider
             $sample_username = User::where('id', $user_id)->value('name');
             isset($sample_id) ? $uuid = Jobs::where('sample_id', $sample_id)->value('uuid') : $uuid = Jobs::where('project_id', $project_id)->value('uuid');
             $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
-            $zip = new ZipArchive();
             $path = $base_path . $sample_username . '/' . $uuid . '/results';
-            if ($zip->open($zip_full_name, ZipArchive::CREATE  | ZipArchive::OVERWRITE) == true) {
-                addFileToZip($path, $zip);
-                $zip->close();
-            }
+            $zip = Zip::create($zip_full_name);
+            $zip->add($path);
+            $zip->close();
 
             /**
              * change job status

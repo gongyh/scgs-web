@@ -85,9 +85,9 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
         //send e-mail
         \Mail::raw(
-        'Please before'.$user->activity_expire.'to click the link '.route('user.activity',['token'=>$user->activity_token]).'to activate your count'
+        'Please click the link '.route('user.activity',['token'=>$user->activity_token]).'to activate your count'.'within '. $user->activity_expire
         ,function($message) use($user){
-            $message->from('13854291622@163.com','scgs-web')
+            $message->from(env('MAIL_FROM_ADDRESS'),'scgs-web')
             ->subject('activate e-mail')
             ->to($user->email);
         });
