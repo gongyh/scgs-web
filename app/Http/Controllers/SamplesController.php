@@ -7,6 +7,7 @@ use App\Projects;
 use App\Labs;
 use App\Applications;
 use App\Species;
+use ZipArchive;
 use App\Imports\SamplesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,7 @@ class SamplesController extends Controller
             if (auth::check()) {
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->name]])->get()->count() > 0;
-                $isAdmin = $user->email == env('ADMIN_EMAIL');
+                $user->email == env('ADMIN_EMAIL') ? $isAdmin = true : $isAdmin = false;
                 return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
             } else {
                 // not login users
