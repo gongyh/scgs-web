@@ -111,8 +111,8 @@ class ResultController extends Controller
             $sample_username = User::where('id', $user_id)->value('name');
             $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
             $result_path  = $sample_username . '/' . $uuid . '/results';
-            $zip_name = $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
-            $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
+            $zip_name = $sample_username . '/' . $uuid . '/results.zip';
+            $zip_full_name = $base_path . $sample_username . '/results.zip';
 
             if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
                 return response()->download($zip_full_name);
@@ -126,8 +126,8 @@ class ResultController extends Controller
             $project_username = User::where('id', $user_id)->value('name');
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
             $result_path  = $project_username . '/' . $uuid . '/results';
-            $zip_name = $project_username . '/' . $uuid . '/' . $project_username . '_' . $uuid . '_results.zip';
-            $zip_full_name = $base_path . $project_username . '/' . $uuid . '/' . $project_username . '_' . $uuid . '_results.zip';
+            $zip_name = $project_username . '/' . $uuid . '/results.zip';
+            $zip_full_name = $base_path . $project_username . '/results.zip';
 
             if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
                 return response()->download($zip_full_name);
