@@ -96,16 +96,12 @@
     </div>
     @endif
 
-    <main class="py-4">
+    <main class="pt-4">
       <div class="text-center">
         @include('flash::message')
       </div>
       @yield('content')
     </main>
-
-    <div class="row footer">
-
-    </div>
   </div>
 </body>
 @yield('script')
