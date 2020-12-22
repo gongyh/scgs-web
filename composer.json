@@ -31,8 +31,8 @@
     "laravel/ui": "^2.0",
     "maatwebsite/excel": "^3.1",
     "mews/captcha": "^3.2",
-    "predis/predis": "^1.1",
-    "zanysoft/laravel-zip": "^1.0"
+    "nelexa/zip": "^3.3",
+    "predis/predis": "^1.1"
   },
   "require-dev": {
     "facade/ignition": "^2.0",

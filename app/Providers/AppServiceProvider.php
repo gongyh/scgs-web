@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Jobs;
 use App\User;
-use Zip;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Support\Facades\Queue;
@@ -45,11 +44,12 @@ class AppServiceProvider extends ServiceProvider
             isset($sample_id) ? $user_id = Jobs::where('sample_id', $sample_id)->value('user_id') : $user_id = Jobs::where('project_id', $project_id)->value('user_id');
             $sample_username = User::where('id', $user_id)->value('name');
             isset($sample_id) ? $uuid = Jobs::where('sample_id', $sample_id)->value('uuid') : $uuid = Jobs::where('project_id', $project_id)->value('uuid');
-            $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/' . $sample_username . '_' . $uuid . '_results.zip';
+            $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/results.zip';
             $path = $base_path . $sample_username . '/' . $uuid . '/results';
-            $zip = Zip::create($zip_full_name);
-            $zip->add($path);
-            $zip->close();
+            $zipFile = new \PhpZip\ZipFile();
+            $zipFile->addDirRecursive($path);
+            $zipFile->saveAsFile($zip_full_name);
+            $zipFile->close();
 
             /**
              * change job status
