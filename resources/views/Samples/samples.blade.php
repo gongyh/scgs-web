@@ -93,7 +93,7 @@
                   </svg>
                 </button>
               </div>
-              <a class="btn btn-default pt-2 font-weight-bold ml-3" href="/samples/create?projectID={{$projectID}}">Add Sample</a>
+              <a class="btn btn-default btn-sm border pt-2 font-weight-bold ml-3" href="/samples/create?projectID={{$projectID}}">Add Sample</a>
               <div class="modal" id="myModal_sample_file" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog modal-lg" role="document">
                   <div class="modal-content">

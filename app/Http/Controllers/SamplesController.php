@@ -54,6 +54,14 @@ class SamplesController extends Controller
     {
         $applications = Applications::all();
         $all_species = Species::all();
+        $user = auth()->user()->name;
+        $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : null;
+        $files = array();
+        foreach($sample_files as $sample_file){
+            $file_prefix = 'meta-data/' . $user . '/';
+            $sample_file = str_replace($file_prefix, '', $sample_file);
+            array_push($files, $sample_file);
+        }
         $library_strategies = array('WGA', 'WGS', 'WXS', 'RNA-Seq', 'miRNA-Seq', 'WCS', 'CLONE', 'POOLCLONE', 'AMPLICON', 'FINISHING', 'CLONEEND', 'CHIP-Seq', 'MNase-Seq', 'DNase-Hypersensitivity', 'Bisulfite-Seq', 'Tn-Seq', 'EST', 'FL-cDNA', 'CTS', 'MRE-Seq', 'MeDIP-Seq', 'MBD-Seq', 'Synthetic-Long-Read', 'ATAC-Seq', 'ChIA-PET', 'FAIRE-seq', 'Hi-C', 'ncRNA-Seq', 'RAD-Seq', 'RIP-Seq', 'SELEX', 'ssRNA-seq', 'Targeted-Capture', 'Tethered Chromation Conformation Capture', 'OTHER');
         $library_sources = array('GENOMIC', 'TRANSCRIPTOMIC', 'METAGENOMIC', 'METATRANSCRIPTOMIC', 'SYNTHETIC', 'VIRAL RNA', 'GENOMIC SINGLE CELL', 'TRANSCRIPTOMIC SINGLE CELL', 'OTHER');
         $library_selections = array('RANDOM', 'PCR', 'RANDOM PCR', 'HMPR', 'MF', 'CF-S', 'CF-M', 'CF-H', 'CF-T', 'MDA', 'MSLL', 'cDNA', 'CHIP', 'MNase', 'DNAse', 'Hybrid Selection', 'Reduced Representation', 'Restriction Digest', '5-methylcytidine antibody', 'MBD2 protein methyl-CpG binding domain', 'CAGE', 'RACE', 'size fractionation', 'Padlock probes capture method', 'other', 'unspecified', 'cDNA_oligo_dT', 'cDNA_randomPriming', 'Oligo-dT', 'PolyA', 'repeat fractionation');
@@ -82,117 +90,92 @@ class SamplesController extends Controller
             $design_description = $request->input('design_description');
             $select_application = $request->input('select_application');
             $select_species = $request->input('select_species');
-            if($request->has('isPairends')){
-            // samples create validate
-            $this->validate($request, [
-                'isPairends' => 'required',
-                'new_fileOne' => ['required', 'regex:{(\.R1)?(_1)?(_R1)?(_trimmed)?(_combined)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$}'],
-                'new_fileTwo' => ['nullable', 'regex:{(\.R2)?(_2)?(_R2)?(_trimmed)?(_combined)?(\.2_val_2)?(_R2_val_2)?(\.fq)?(\.fastq)?(\.gz)?$}']
-            ]);
-            switch ($request->input('isPairends')) {
-                case 'Single':
-                    $isPairends = 0;
-                    break;
-                case 'Paired-end':
-                    $isPairends = 1;
-                    break;
-            }
-            $fileOne = $request->input('new_fileOne');
-            $fileTwo = $request->input('new_fileTwo');
-            if ($fileTwo == null) {
-                if (strpos($fileOne, $base_path) == 0) {
-                    $file1_path = str_replace($base_path, '', $fileOne);
-                    $file1_exist = Storage::disk('local')->exists($file1_path);
-                } else {
-                    $file1_exist = Storage::disk('local')->exists($fileOne);
+            if ($request->has('isPairends')) {
+                // samples create validate
+                $this->validate($request, [
+                    'isPairends' => 'required',
+                    'new_fileOne' => ['required', 'regex:{(\.R1)?(_1)?(_R1)?(_trimmed)?(_combined)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$}'],
+                    'new_fileTwo' => ['nullable', 'regex:{(\.R2)?(_2)?(_R2)?(_trimmed)?(_combined)?(\.2_val_2)?(_R2_val_2)?(\.fq)?(\.fastq)?(\.gz)?$}']
+                ]);
+                switch ($request->input('isPairends')) {
+                    case 'Single':
+                        $isPairends = 0;
+                        break;
+                    case 'Paired-end':
+                        $isPairends = 1;
+                        break;
                 }
-
-                if ($file1_exist) {
-                    $fileOne = $file1_path ? $file1_path : $fileOne;
-
-                    $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
-                    Samples::create([
-                        'sampleLabel' => $new_sample_label,
-                        'library_id' => $new_library_id,
-                        'library_strategy' => $library_strategy,
-                        'library_source' => $library_source,
-                        'library_selection' => $library_selection,
-                        'platform' => $platform,
-                        'design_description' => $design_description,
-                        'instrument_model' => $instrument_model,
-                        'filetype' => 'fastq',
-                        'applications_id' => $select_application,
-                        'projects_id' => $projectID,
-                        'species_id' => $select_species,
-                        'pairends' => $isPairends,
-                        'filename1' => $fileOne,
-                        'filename2' => $fileTwo
-                    ]);
-                    if ($request->input('from')) {
-                        return redirect('/workspace/samples?projectID=' . $projectID);
+                $fileOne = $request->input('new_fileOne');
+                $fileTwo = $request->input('new_fileTwo');
+                if ($fileTwo == null) {
+                    $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . $fileOne);
+                    if ($file1_exist) {
+                        Samples::create([
+                            'sampleLabel' => $new_sample_label,
+                            'library_id' => $new_library_id,
+                            'library_strategy' => $library_strategy,
+                            'library_source' => $library_source,
+                            'library_selection' => $library_selection,
+                            'platform' => $platform,
+                            'design_description' => $design_description,
+                            'instrument_model' => $instrument_model,
+                            'filetype' => 'fastq',
+                            'applications_id' => $select_application,
+                            'projects_id' => $projectID,
+                            'species_id' => $select_species,
+                            'pairends' => $isPairends,
+                            'filename1' => $fileOne,
+                            'filename2' => null
+                        ]);
+                        if ($request->input('from')) {
+                            return redirect('/workspace/samples?projectID=' . $projectID);
+                        } else {
+                            return redirect('/samples?projectID=' . $projectID);
+                        }
                     } else {
-                        return redirect('/samples?projectID=' . $projectID);
+                        $file_error = 'file1 doesn\'t exist';
+                        return back()->withErrors($file_error);
                     }
                 } else {
-                    $file_error = 'file1 doesn\'t exist';
-                    return back()->withErrors($file_error);
-                }
-            } else {
-                if (strpos($fileOne, $base_path) == 0) {
-                    $file1_path = str_replace($base_path, '', $fileOne);
-                    $file1_exist = Storage::disk('local')->exists($file1_path);
-                } else {
-                    $file1_exist = Storage::disk('local')->exists($fileOne);
-                }
-                if (strpos($fileTwo, $base_path) == 0) {
-                    $file2_path = str_replace($base_path, '', $fileTwo);
-                    $file2_exist = Storage::disk('local')->exists($file2_path);
-                } else {
-                    $file2_exist = Storage::disk('local')->exists($fileTwo);
-                }
-                if (!$file1_exist && $file2_exist) {
-                    $file_error = 'file1 doesn\'t exist';
-                    return back()->withErrors($file_error);
-                } elseif ($file1_exist && !$file2_exist) {
-                    $file_error = 'file2 doesn\'t exist';
-                    return back()->withErrors($file_error);
-                } elseif (!$file1_exist && !$file2_exist) {
-                    $file_error = 'file1 and file2 doesn\'t exist';
-                    return back()->withErrors($file_error);
-                } else {
-                    $fileOne = $file1_path ? $file1_path : $fileOne;
-                    $fileTwo = $file2_path ? $file2_path : $fileTwo;
-
-                    $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
-                    $fileTwo = strpos($fileTwo, '\\') !== false ? str_replace('\\', '/', $fileTwo) : $fileTwo;
-
-                    Samples::create([
-                        'sampleLabel' => $new_sample_label,
-                        'library_id' => $new_library_id,
-                        'library_strategy' => $library_strategy,
-                        'library_source' => $library_source,
-                        'library_selection' => $library_selection,
-                        'platform' => $platform,
-                        'design_description' => $design_description,
-                        'instrument_model' => $instrument_model,
-                        'filetype' => 'fastq',
-                        'applications_id' => $select_application,
-                        'projects_id' => $projectID,
-                        'species_id' => $select_species,
-                        'pairends' => $isPairends,
-                        'filename1' => $fileOne,
-                        'filename2' => $fileTwo
-                    ]);
-                    if ($request->input('from')) {
-                        return redirect('/workspace/samples?projectID=' . $projectID);
+                        $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . $fileOne);
+                        $file2_exist = Storage::disk('local')->exists('meta-data/' . $user . $fileTwo);
+                    if (!$file1_exist && $file2_exist) {
+                        $file_error = 'file1 doesn\'t exist';
+                        return back()->withErrors($file_error);
+                    } elseif ($file1_exist && !$file2_exist) {
+                        $file_error = 'file2 doesn\'t exist';
+                        return back()->withErrors($file_error);
+                    } elseif (!$file1_exist && !$file2_exist) {
+                        $file_error = 'file1 and file2 doesn\'t exist';
+                        return back()->withErrors($file_error);
                     } else {
-                        return redirect('/samples?projectID=' . $projectID);
+                        Samples::create([
+                            'sampleLabel' => $new_sample_label,
+                            'library_id' => $new_library_id,
+                            'library_strategy' => $library_strategy,
+                            'library_source' => $library_source,
+                            'library_selection' => $library_selection,
+                            'platform' => $platform,
+                            'design_description' => $design_description,
+                            'instrument_model' => $instrument_model,
+                            'filetype' => 'fastq',
+                            'applications_id' => $select_application,
+                            'projects_id' => $projectID,
+                            'species_id' => $select_species,
+                            'pairends' => $isPairends,
+                            'filename1' => $fileOne,
+                            'filename2' => $fileTwo
+                        ]);
+                        if ($request->input('from')) {
+                            return redirect('/workspace/samples?projectID=' . $projectID);
+                        } else {
+                            return redirect('/samples?projectID=' . $projectID);
+                        }
                     }
                 }
-            }
             }
         }
-        return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
+        return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections, 'files' => $files]);
     }
 
     public function delete(Request $request)

@@ -13,6 +13,7 @@
         @isset($labs)
         <div class="choose_lab input_title">Choose a lab<span class="text-danger">*</span></div>
         <select class="custom-select selectLab" name="selectLab">
+          <option></option>
           @foreach($labs as $lab)
           <option value="{{$lab->id}}">{{$lab->name}}</option>
           @endforeach
@@ -33,7 +34,7 @@
         </div>
         <div class="form-group">
           <label for="new_collection_date">Collection Date</label><span class="text-danger">*</span>
-          <input type="text" class="form-control" name="new_collection_date" id="new_collection_date" value={{old('new_collection_date')?old('new_collection_date'):''}}>
+          <input class="mt-1 datepicker" type="text" name="new_collection_date" placeholder="Choose Date" value={{old('new_collection_date')?old('new_collection_date'):''}}>
         </div>
         <div class="form-group">
           <label for="new_location">Location</label><span class="text-danger">*</span>

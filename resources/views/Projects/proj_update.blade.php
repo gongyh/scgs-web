@@ -24,7 +24,7 @@
         </div>
         <div class="form-group">
           <label for="collection_date">Collection Date</label><span class="text-danger">*</span>
-          <input type="text" class="form-control" name="collection_date" id="collection_date" value="{{$project->collection_date}}">
+          <input class="mt-1 datepicker" type="text" name="collection_date" placeholder="Choose Date" value={{$project->collection_date}}>
         </div>
         <div class="form-group">
           <label for="location">Location</label><span class="text-danger">*</span>
