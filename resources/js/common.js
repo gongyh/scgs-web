@@ -38,6 +38,26 @@ $(function () {
   });
   $('.datepicker').attr('value', dateToString(new Date()));
 
+  $('.file_one_add').on('click', function () {
+    var file_one_add = $(this).text();
+    $('#new_fileOne').attr('value', file_one_add);
+  });
+
+  $('.file_two_add').on('click', function () {
+    var file_two_add = $(this).text();
+    $('#new_fileTwo').attr('value', file_two_add);
+  });
+
+  $('.file_one_update').on('click', function () {
+    var file_one_update = $(this).text();
+    $('#fileOne').attr('value', file_one_update);
+  });
+
+  $('.file_two_update').on('click', function () {
+    var file_two_update = $(this).text();
+    $('#fileTwo').attr('value', file_two_update);
+  });
+
   if (url) {
     for (var i = 0; i < workspace_nav.length; i++) {
       if (workspace_nav[i].getAttribute('href').split('/').pop().indexOf(url_noparams) != -1) {

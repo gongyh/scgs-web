@@ -216,7 +216,7 @@
                     </button>
                     <div class="dropdown-menu">
                       @foreach($files as $file)
-                      <span class="dropdown-item">{{$file}}</span>
+                      <span class="dropdown-item file_one_add">{{$file}}</span>
                       @endforeach
                     </div>
                   </div>
@@ -224,6 +224,17 @@
                 </div>
                 <div class="form-group file_two">
                   <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
+                  <div class="btn-group ml-2">
+                    <button type="button" class="btn btn-info btn-sm">select files</button>
+                    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                      @foreach($files as $file)
+                      <span class="dropdown-item file_two_add">{{$file}}</span>
+                      @endforeach
+                    </div>
+                  </div>
                   <input type="text" class="form-control fileTwo" name="new_fileTwo" id="new_fileTwo" value={{old('new_fileTwo')?old('new_fileTwo'):''}}>
                 </div>
                 <!-- error message -->

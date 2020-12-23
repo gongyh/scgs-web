@@ -16,49 +16,6 @@ class LabsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Request $request)
-    {
-        if ($request->isMethod('POST')) {
-            try {
-                $search_lab = $request->input('search_lab');
-                $findLabs = Labs::where('name', 'LIKE', '%' . $search_lab . '%')->paginate(15);
-                $current_page = $request->input('page');
-                if (auth::check()) {
-                    $user = Auth::user();
-                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
-                    $isAdmin = $user->email == env('ADMIN_EMAIL');
-                    return view('Labs.labs', compact('findLabs', 'isPI', 'isAdmin', 'current_page'));
-                } else {
-                    $isPI  = collect();
-                    $isAdmin = false;
-                    return view('Labs.labs', compact('findLabs', 'isPI', 'isAdmin', 'current_page'));
-                }
-            } catch (\Illuminate\Database\QueryException $ex) {
-                // 未找到labs时显示
-                $findLabs = null;
-                return view('Labs.labs', compact('findLabs'));
-            }
-        } else {
-            $Labs = Labs::orderBy('id','desc')->paginate(15);
-            $current_page = $request->input('page');
-            try {
-                if (auth::check()) {
-                    $user = Auth::user();
-                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
-                    $isAdmin = $user->email == env('ADMIN_EMAIL');
-                    return view('Labs.labs', compact('Labs', 'isPI', 'isAdmin', 'current_page'));
-                } else {
-                    $isPI  = collect();
-                    $isAdmin = false;
-                    return view('Labs.labs', compact('Labs', 'isPI', 'isAdmin', 'current_page'));
-                }
-            } catch (\Illuminate\Database\QueryException $ex) {
-                // 数据库中没有labs时显示
-                $Labs = null;
-                return view('Labs.labs', compact('Labs'));
-            }
-        }
-    }
 
     public function create(Request $request)
     {

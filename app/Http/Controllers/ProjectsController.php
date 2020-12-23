@@ -43,16 +43,17 @@ class ProjectsController extends Controller
         } else {
             $Projects = Projects::orderBy('id','desc')->paginate(5);
             $current_page = $request->input('page');
+            $pageSize = 5;
             try {
                 if (auth::check()) {
                     $user = Auth::user();
                     $isPI = Labs::where('principleInvestigator', $user->name)->get();
                     $isAdmin = $user->email == env('ADMIN_EMAIL');
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page'));
+                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','pageSize'));
                 } else {
                     $isPI  = collect();
                     $isAdmin = false;
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page'));
+                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','pageSize'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
                 // 数据库中没有projects时显示

@@ -16,12 +16,10 @@
               <label for="sample_label">Sample Label</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="sample_label" id="sample_label" value={{$sample->sampleLabel}}>
             </div>
-
             <div class="form-group">
               <label for="library_id">Accession</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="library_id" id="library_id" value={{$sample->library_id}}>
             </div>
-
             <div class="form-group">
               <label for="library_strategy">Library Strategy</label><span class="text-danger"> *</span>
               <select class="custom-select" name="library_strategy" id="library_strategy">
@@ -31,7 +29,6 @@
                 @endforeach
               </select>
             </div>
-
             <div class="form-group">
               <label for="library_source">Library Source</label><span class="text-danger"> *</span>
               <select class="custom-select" name="library_source" id="library_source">
@@ -41,7 +38,6 @@
                 @endforeach
               </select>
             </div>
-
             <div class="form-group">
               <label for="library_selection">Library Selection</label><span class="text-danger"> *</span>
               <select class="custom-select" name="library_selection" id="library_selection">
@@ -51,7 +47,6 @@
                 @endforeach
               </select>
             </div>
-
             <div class="form-group">
               <label for="platform">Platform</label><span class="text-danger"> *</span>
               <select class="custom-select" name="platform" id="platform">
@@ -68,7 +63,6 @@
                 <option value="PACBIO_SMRT">PACBIO_SMRT</option>
               </select>
             </div>
-
             <div class="form-group">
               <label for="instrument_model">Instrument_model</label><span class="text-danger"> *</span>
               <select class="custom-select" name="instrument_model" id="instrument_model">
@@ -130,18 +124,15 @@
                 <option value="BGISEQ-500" class="BgiSeq">BGISEQ-500</option>
               </select>
             </div>
-
             <div class="form-group" title="Free-form description of the methods used to create the sequencing library">
               <label for="design_description">Design Description</label><span class="text-danger"> *</span>
               <textarea class="form-control" name="design_description" id="design_description">{{$sample->design_description}}</textarea>
             </div>
-
             <div class="form-group">
               <label for="filetype">Filetype</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="filetype" id="filetype" disabled value="fastq">
             </div>
           </div>
-
           <div class="w-50">
             <div class="form-group">
               <label for="select_application">Choose a Application</label><span class="text-danger"> *</span>
@@ -151,7 +142,6 @@
                 @endforeach
               </select>
             </div>
-
             <div class="form-group">
               <label for="select_species">Choose a Species</label>
               <select class="custom-select" name="select_species" id="select_species">
@@ -161,54 +151,81 @@
                 @endforeach
               </select>
             </div>
-
-            <div class="form-group" title="Paired-end or Single">
-              <label>Paired-end</label><span class="text-danger"> *</span>
-              @if($sample->pairends == 0)
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single" checked="checked">
-                <label class="custom-control-label" for="customRadio1">Single</label>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="file-tab" data-toggle="tab" href="#file" role="tab" aria-controls="file" aria-selected="true">File</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="ncbi-tab" data-toggle="tab" href="#ncbi" role="tab" aria-controls="ncbi" aria-selected="false">NCBI</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active mt-3" id="file" role="tabpanel" aria-labelledby="file-tab">
+                <div class="form-group" title="Paired-end or Single">
+                  <label>Paired-end</label><span class="text-danger"> *</span>
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single">
+                    <label class="custom-control-label" for="customRadio1">Single</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" checked>
+                    <label class="custom-control-label" for="customRadio2">Paired-end</label>
+                  </div>
+                </div>
+                <p class="tips"><strong>Tips:</strong>1.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
+                <div class="form-group">
+                  <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
+                  <div class="btn-group ml-2">
+                    <button type="button" class="btn btn-info btn-sm">select files</button>
+                    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                      @foreach($files as $file)
+                      <span class="dropdown-item file_one_update">{{$file}}</span>
+                      @endforeach
+                    </div>
+                  </div>
+                  <input type="text" class="form-control mt-2" name="fileOne" id="fileOne" value={{$sample->filename1}}>
+                </div>
+                <div class="form-group file_two">
+                  <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
+                  <div class="btn-group ml-2">
+                    <button type="button" class="btn btn-info btn-sm">select files</button>
+                    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                      @foreach($files as $file)
+                      <span class="dropdown-item file_two_update">{{$file}}</span>
+                      @endforeach
+                    </div>
+                  </div>
+                  <input type="text" class="form-control fileTwo" name="fileTwo" id="fileTwo" value={{$sample->filename2}}>
+                </div>
+                <!-- error message -->
+                @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                  <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+                </div>
+                @endif
+                @isset($file_error)
+                <div class="alert alert-danger">
+                  <ul>
+                    <li>{{ $file_error }}</li>
+                  </ul>
+                </div>
+                @endisset
               </div>
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end">
-                <label class="custom-control-label" for="customRadio2">Paired-end</label>
-              </div>
-
-              @else
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single">
-                <label class="custom-control-label" for="customRadio1">Single</label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" checked="checked">
-                <label class="custom-control-label" for="customRadio2">Paired-end</label>
+              <div class="tab-pane fade mt-3" id="ncbi" role="tabpanel" aria-labelledby="ncbi-tab">
+                <label for="ncbi">NCBI:</label>
+                <input type="text" class="form-control mb-3" name="ncbi" id="ncbi">
               </div>
             </div>
-            @endif
-            <p class="tips"><strong>Tips:1.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
-            <label for="fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger">*</span>
-            <input type="text" class="form-control" name="fileOne" id="fileOne" value="{{$sample->filename1}}">
-            <div class="form-group file_two">
-              <label for="fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger">*</span>
-              <input type="text" class="form-control fileTwo" name="fileTwo" id="fileTwo" value="{{$sample->filename2}}">
-            </div>
-            <!-- error message -->
-            @if (count($errors) > 0)
-            <div class="alert alert-danger">
-              <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                  @endforeach
-              </ul>
-            </div>
-            @endif
-            @isset($file_error)
-            <div class="alert alert-danger">
-              <ul>
-                <li>{{ $file_error }}</li>
-              </ul>
-            </div>
-            @endisset
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </div>
