@@ -5,9 +5,9 @@
 
   <!-- Jumbotron Header -->
   <header class="jumbotron my-4">
-    <h1 class="display-3">A Warm Welcome!</h1>
-    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
-    <a href="#" class="btn btn-primary btn-lg">Call to action!</a>
+    <h1 class="display-3">Single-Cell Genome-Phenome</h1>
+    <p class="lead">Integrate and simplify single cell genome assembly, annotation, and evolutionary analysis.</p>
+    <a href="#" class="btn btn-primary btn-lg">Take a tour!</a>
   </header>
 
   <!-- Page Features -->
@@ -16,7 +16,7 @@
       <div class="card h-100">
         <img class="card-img-top" src="http://placehold.it/500x325" alt="">
         <div class="card-body">
-          <h4 class="card-title">Single Cell</h4>
+          <h4 class="card-title">SCGS Pipeline</h4>
           <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
         </div>
         <div class="card-footer">
@@ -29,7 +29,7 @@
       <div class="card h-100">
         <img class="card-img-top" src="http://placehold.it/500x325" alt="">
         <div class="card-body">
-          <h4 class="card-title">Human</h4>
+          <h4 class="card-title">RamanD2O</h4>
           <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
         </div>
         <div class="card-footer">
@@ -42,7 +42,7 @@
       <div class="card h-100">
         <img class="card-img-top" src="http://placehold.it/500x325" alt="">
         <div class="card-body">
-          <h4 class="card-title">Card title</h4>
+          <h4 class="card-title">Drug Resistance</h4>
           <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
         </div>
         <div class="card-footer">
@@ -55,7 +55,7 @@
       <div class="card h-100">
         <img class="card-img-top" src="http://placehold.it/500x325" alt="">
         <div class="card-body">
-          <h4 class="card-title">Card title</h4>
+          <h4 class="card-title">GWAS</h4>
           <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
         </div>
         <div class="card-footer">
@@ -68,11 +68,4 @@
 </div>
 <!-- /.container -->
 
-<!-- Footer -->
-<footer class="py-3 bg-dark mt-3">
-  <div class="container">
-    <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
-  </div>
-  <!-- /.container -->
-</footer>
 @endsection

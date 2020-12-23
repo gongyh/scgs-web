@@ -55,7 +55,7 @@ class SamplesController extends Controller
         $applications = Applications::all();
         $all_species = Species::all();
         $user = auth()->user()->name;
-        $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : null;
+        $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : array();
         $files = array();
         foreach($sample_files as $sample_file){
             $file_prefix = 'meta-data/' . $user . '/';
@@ -199,7 +199,7 @@ class SamplesController extends Controller
         $applications = Applications::all();
         $all_species = Species::all();
         $user = auth()->user()->name;
-        $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : null;
+        $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : array();
         $files = array();
         foreach($sample_files as $sample_file){
             $file_prefix = 'meta-data/' . $user . '/';

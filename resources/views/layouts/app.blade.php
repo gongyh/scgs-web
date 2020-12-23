@@ -46,7 +46,7 @@
               </li>
               @endif
               <li class="nav-item">
-                <a href="/aboutus" class="nav-link nav-menu">AboutUs</a>
+                <a href="/aboutus" class="nav-link nav-menu">About</a>
               </li>
               <li class="nav-item">
                 <a href="/apps/app/ramand2o" class="nav-link nav-menu" target="blank">RamanD2O</a>
@@ -102,6 +102,14 @@
       </div>
       @yield('content')
     </main>
+
+    <!-- Footer -->
+    <footer class="py-3 bg-secondary mt-3">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Single Cell Center, Qingdao Institute of Bioenergy and Bioprocess Technology, Chinese Academy of Sciences 2020</p>
+      </div>
+    </footer>
+
   </div>
 </body>
 @yield('script')
