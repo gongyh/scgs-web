@@ -11,28 +11,30 @@
       <form method="post" action="">
         @csrf
         <div class="form-group">
-          <label for="name">Project Name</label><span class="text-danger">*</span>
-          <input type="text" class="form-control" name="name" id="name" value="{{$project->name}}">
+          <label for="name">Project Name</label><span class="text-danger font-weight-bold">*</span>
+          <input type="text" class="form-control w-75" name="name" id="name" value="{{$project->name}}">
         </div>
         <div class="form-group">
-          <label for="doi">ProjectID</label><span class="text-danger">*</span>
-          <input type="text" class="form-control" name="doi" id="doi" value="{{$project->doi}}">
+          <label for="doi">ProjectID</label><span class="text-danger font-weight-bold">*</span>
+          <input type="text" class="form-control w-75" name="doi" id="doi" value="{{$project->doi}}">
         </div>
         <div class="form-group">
-          <label for="type">Type</label><span class="text-danger">*</span>
-          <input type="text" class="form-control" name="type" id="type" value="{{$project->type}}">
+          <label for="type">Type</label><span class="text-danger font-weight-bold">*</span>
+          <input type="text" class="form-control w-75" name="type" id="type" value="{{$project->type}}">
         </div>
         <div class="form-group">
-          <label for="collection_date">Collection Date</label><span class="text-danger">*</span>
-          <input class="mt-1 datepicker" type="text" name="collection_date" placeholder="Choose Date" value={{$project->collection_date}}>
+          <div>
+            <label for="collection_date">Collection Date</label><span class="text-danger font-weight-bold">*</span>
+          </div>
+          <input class="mt-1 datepicker_update" type="text" name="collection_date" placeholder="Choose Date" value={{$project->collection_date}}>
         </div>
         <div class="form-group">
-          <label for="location">Location</label><span class="text-danger">*</span>
-          <input type="text" class="form-control" name="location" id="location" value="{{$project->location}}">
+          <label for="location">Location</label><span class="text-danger font-weight-bold"> (Country:City)*</span>
+          <input type="text" class="form-control w-75" name="location" id="location" value="{{$project->location}}">
         </div>
         <div class="form-group">
-          <label for="description">Description</label><span class="text-danger">*</span>
-          <textarea class="form-control" name="description" id="description">{{$project->description}}</textarea>
+          <label for="description">Description</label><span class="text-danger font-weight-bold">*</span>
+          <textarea class="form-control w-75" name="description" id="description">{{$project->description}}</textarea>
         </div>
         <!-- error message -->
         @if (count($errors) > 0)

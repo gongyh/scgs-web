@@ -24,7 +24,19 @@ $(function () {
   var check_progress = false;
   var read_progress;
 
-  $('.datepicker').datepicker();
+  $('.datepicker').datepicker({
+    dateFormat: 'yy-m-d',
+    changeYear: true,
+    changeMonth: true,
+    showAnim: 'slideDown'
+  });
+  $('.datepicker_update').datepicker({
+    dateFormat: 'yy-m-d',
+    changeYear: true,
+    changeMonth: true,
+    showAnim: 'slideDown'
+  });
+  $('.datepicker').attr('value', dateToString(new Date()));
 
   if (url) {
     for (var i = 0; i < workspace_nav.length; i++) {
@@ -335,6 +347,20 @@ $(function () {
   }
 
 })
+
+var dateToString = function (date) {
+  var year = date.getFullYear();
+  var month = (date.getMonth() + 1).toString();
+  var day = (date.getDate()).toString();
+  if (month.length == 1) {
+    month = "0" + month;
+  }
+  if (day.length == 1) {
+    day = "0" + day;
+  }
+  var dateTime = year + "-" + month + "-" + day;
+  return dateTime;
+}
 
 var FileInput = function () {
   var oFile = new Object();
