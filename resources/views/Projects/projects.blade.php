@@ -37,9 +37,9 @@
         </div>
         <div class="overflow-auto">
           @if(empty($findProjects) && $Projects != null)
-          @foreach ($Projects as $key=>$Project)
+          @foreach ($Projects as $Project)
           <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm">
-            <div class="project_id mr-4 font-large">{{$key+1}}</div>
+            <div class="project_id mr-4 font-large">{{$current_page > 1 ? ($current_page-1) * $pageSize + $loop->iteration : $loop->iteration}}</div>
             <div class="font-normal">
               <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$Project->id}}">{{$Project->name}}</a></div>
               <div class="projectId mt-2">Accession : {{$Project->doi}}</div>
@@ -68,7 +68,7 @@
           @elseif(isset($findProjects))
           @foreach ($findProjects as $findProject)
           <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm">
-            <div class="project_id mr-4 font-large">{{$findProject->id}}</div>
+            <div class="project_id mr-4 font-large"></div>
             <div class="font-normal">
               <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$findProject->id}}">{{$findProject->name}}</a></div>
               <div class="projectId mt-2">Accession : {{$findProject->doi}}</div>

@@ -111,7 +111,7 @@
             @if($selectSamples != null)
             @foreach($selectSamples as $selectSample)
             <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm overflow-auto">
-              <div class="project_id mr-4 font-large">{{$selectSample->id}}</div>
+              <div class="project_id mr-4 font-large">{{$loop->iteration}}</div>
               <div class="font-normal text-wrap text-break">
                 <div class="projectId mt-2">Sample Label :
                   @if($isPI || $isAdmin)

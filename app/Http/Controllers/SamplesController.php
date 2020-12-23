@@ -108,7 +108,7 @@ class SamplesController extends Controller
                 $fileOne = $request->input('new_fileOne');
                 $fileTwo = $request->input('new_fileTwo');
                 if ($fileTwo == null) {
-                    $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . $fileOne);
+                    $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
                     if ($file1_exist) {
                         Samples::create([
                             'sampleLabel' => $new_sample_label,
@@ -137,8 +137,8 @@ class SamplesController extends Controller
                         return back()->withErrors($file_error);
                     }
                 } else {
-                        $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . $fileOne);
-                        $file2_exist = Storage::disk('local')->exists('meta-data/' . $user . $fileTwo);
+                        $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
+                        $file2_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileTwo);
                     if (!$file1_exist && $file2_exist) {
                         $file_error = 'file1 doesn\'t exist';
                         return back()->withErrors($file_error);
@@ -198,6 +198,14 @@ class SamplesController extends Controller
         $app = Applications::find($sample['applications_id']);
         $applications = Applications::all();
         $all_species = Species::all();
+        $user = auth()->user()->name;
+        $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : null;
+        $files = array();
+        foreach($sample_files as $sample_file){
+            $file_prefix = 'meta-data/' . $user . '/';
+            $sample_file = str_replace($file_prefix, '', $sample_file);
+            array_push($files, $sample_file);
+        }
         $library_strategies = array('WGA', 'WGS', 'WXS', 'RNA-Seq', 'miRNA-Seq', 'WCS', 'CLONE', 'POOLCLONE', 'AMPLICON', 'FINISHING', 'CLONEEND', 'CHIP-Seq', 'MNase-Seq', 'DNase-Hypersensitivity', 'Bisulfite-Seq', 'Tn-Seq', 'EST', 'FL-cDNA', 'CTS', 'MRE-Seq', 'MeDIP-Seq', 'MBD-Seq', 'Synthetic-Long-Read', 'ATAC-Seq', 'ChIA-PET', 'FAIRE-seq', 'Hi-C', 'ncRNA-Seq', 'RAD-Seq', 'RIP-Seq', 'SELEX', 'ssRNA-seq', 'Targeted-Capture', 'Tethered Chromation Conformation Capture', 'OTHER');
         $library_sources = array('GENOMIC', 'TRANSCRIPTOMIC', 'METAGENOMIC', 'METATRANSCRIPTOMIC', 'SYNTHETIC', 'VIRAL RNA', 'GENOMIC SINGLE CELL', 'TRANSCRIPTOMIC SINGLE CELL', 'OTHER');
         $library_selections = array('RANDOM', 'PCR', 'RANDOM PCR', 'HMPR', 'MF', 'CF-S', 'CF-M', 'CF-H', 'CF-T', 'MDA', 'MSLL', 'cDNA', 'CHIP', 'MNase', 'DNAse', 'Hybrid Selection', 'Reduced Representation', 'Restriction Digest', '5-methylcytidine antibody', 'MBD2 protein methyl-CpG binding domain', 'CAGE', 'RACE', 'size fractionation', 'Padlock probes capture method', 'other', 'unspecified', 'cDNA_oligo_dT', 'cDNA_randomPriming', 'Oligo-dT', 'PolyA', 'repeat fractionation');
@@ -241,20 +249,8 @@ class SamplesController extends Controller
             $fileOne = $request->input('fileOne');
             $fileTwo = $request->input('fileTwo');
             if ($fileTwo == null) {
-                //  Validate if file1 exist
-                if (strpos($fileOne, $base_path) == 0) {
-                    //  Absolute path
-                    $file1_path = str_replace($base_path, '', $fileOne);
-                    $file1_exist = Storage::disk('local')->exists($file1_path);
-                } else {
-                    $file1_exist = Storage::disk('local')->exists($fileOne);
-                }
-                if ($file1_exist) {
-                    //  Relative path
-                    $fileOne = $file1_path ? $file1_path : $fileOne;
-
-                    //  Contain \
-                    $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
+                    $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
+                if($file1_exist){
                     $sample['sampleLabel'] = $sample_label;
                     $sample['library_id'] = $library_id;
                     $sample['library_strategy'] = $library_strategy;
@@ -278,38 +274,23 @@ class SamplesController extends Controller
                     }
                 } else {
                     $file_error = 'file1 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
+                    return back()->withErrors($file_error);
                 }
             } else {
-                // Validate if file1 and file2 exist
-                if (strpos($fileOne, $base_path) == 0) {
-                    $file1_path = str_replace($base_path, '', $fileOne);
-                    $file1_exist = Storage::disk('local')->exists($file1_path);
-                } else {
-                    $file1_exist = Storage::disk('local')->exists($fileOne);
-                }
-                if (strpos($fileTwo, $base_path) == 0) {
-                    $file2_path = str_replace($base_path, '', $fileTwo);
-                    $file2_exist = Storage::disk('local')->exists($file2_path);
-                } else {
-                    $file2_exist = Storage::disk('local')->exists($fileTwo);
-                }
+                    $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
+                    $file2_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileTwo);
+
                 // Return error message
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
+                    return back()->withErrors($file_error);
                 } elseif ($file1_exist && !$file2_exist) {
                     $file_error = 'file2 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
+                    return back()->withErrors($file_error);
                 } elseif (!$file1_exist && !$file2_exist) {
                     $file_error = 'file1 and file2 doesn\'t exist';
-                    return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'file_error' => $file_error, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
+                    return back()->withError($file_error);
                 } else {
-                    $fileOne = $file1_path ? $file1_path : $fileOne;
-                    $fileTwo = $file2_path ? $file2_path : $fileTwo;
-
-                    $fileOne = strpos($fileOne, '\\') !== false ? str_replace('\\', '/', $fileOne) : $fileOne;
-                    $fileTwo = strpos($fileTwo, '\\') !== false ? str_replace('\\', '/', $fileTwo) : $fileTwo;
                     $sample['sampleLabel'] = $sample_label;
                     $sample['library_id'] = $library_id;
                     $sample['library_strategy'] = $library_strategy;
@@ -332,7 +313,7 @@ class SamplesController extends Controller
                 }
             }
         }
-        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections]);
+        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections,'files' => $files]);
     }
 
     public function upload(Request $request)

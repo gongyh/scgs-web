@@ -43,9 +43,9 @@
                   </thead>
                   <tbody>
                     @if($myLabs != null)
-                    @foreach($myLabs as $key=>$myLab)
+                    @foreach($myLabs as $myLab)
                     <tr>
-                      <th scope="row" class="table-item">{{$key+1}}</td>
+                      <th scope="row" class="table-item">{{$current_page > 1 ? ($current_page-1) * $pageSize + $loop->iteration : $loop->iteration}}</td>
                       <td class="table-item">
                         <a href="/workspace/myLab/projects?labID={{$myLab->id}}">{{$myLab->name}}</a>
                       </td>

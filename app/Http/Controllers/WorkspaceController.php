@@ -17,15 +17,17 @@ class WorkspaceController extends Controller
         return view('Workspace.workspace');
     }
 
-    public function myLab()
+    public function myLab(Request $request)
     {
         $user = Auth::user();
         try {
             $myLabs = Labs::where('principleInvestigator', $user->name)->orderBy('id','desc')->paginate(15);
-            return view('Workspace.myLab', ['myLabs' => $myLabs]);
+            $current_page = $request->input('page');
+            $pageSize = 15;
+            return view('Workspace.myLab', compact('myLabs','current_page','pageSize'));
         } catch (\Illuminate\Database\QueryException $ex) {
             $myLabs = null;
-            return view('Workspace.myLab', ['myLabs' => $myLabs]);
+            return view('Workspace.myLab', \compact('myLabs'));
         }
     }
 
