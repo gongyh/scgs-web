@@ -186,12 +186,12 @@
               </select>
             </div>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="file-tab" data-toggle="tab" href="#file" role="tab" aria-controls="file" aria-selected="true">File</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="ncbi-tab" data-toggle="tab" href="#ncbi" role="tab" aria-controls="ncbi" aria-selected="false">NCBI</a>
-                </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="file-tab" data-toggle="tab" href="#file" role="tab" aria-controls="file" aria-selected="true">File</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="ncbi-tab" data-toggle="tab" href="#ncbi" role="tab" aria-controls="ncbi" aria-selected="false">NCBI</a>
+              </li>
             </ul>
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active mt-3" id="file" role="tabpanel" aria-labelledby="file-tab">
@@ -208,7 +208,18 @@
                 </div>
                 <p class="tips"><strong>Tips:</strong>1.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
                 <div class="form-group">
-                  <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span><button type="button" class="btn btn-success btn-sm ml-2" ><i class="fa fa-plus"></i> Select File</button>
+                  <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
+                  <div class="btn-group ml-2">
+                    <button type="button" class="btn btn-info btn-sm">select files</button>
+                    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                      @foreach($files as $file)
+                      <span class="dropdown-item">{{$file}}</span>
+                      @endforeach
+                    </div>
+                  </div>
                   <input type="text" class="form-control mt-2" name="new_fileOne" id="new_fileOne" value={{old('new_fileOne')?old('new_fileOne'):''}}>
                 </div>
                 <div class="form-group file_two">
@@ -232,11 +243,11 @@
                   </ul>
                 </div>
                 @endisset
-                </div>
-                <div class="tab-pane fade mt-3" id="ncbi" role="tabpanel" aria-labelledby="ncbi-tab">
-                  <label for="ncbi">NCBI:</label>
-                  <input type="text" class="form-control mb-3" name="ncbi" id="ncbi">
-                </div>
+              </div>
+              <div class="tab-pane fade mt-3" id="ncbi" role="tabpanel" aria-labelledby="ncbi-tab">
+                <label for="ncbi">NCBI:</label>
+                <input type="text" class="form-control mb-3" name="ncbi" id="ncbi">
+              </div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>

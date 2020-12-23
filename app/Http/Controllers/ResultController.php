@@ -112,7 +112,7 @@ class ResultController extends Controller
             $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
             $result_path  = $sample_username . '/' . $uuid . '/results';
             $zip_name = $sample_username . '/' . $uuid . '/results.zip';
-            $zip_full_name = $base_path . $sample_username . '/results.zip';
+            $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/results.zip';
 
             if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
                 return response()->download($zip_full_name);
@@ -127,7 +127,7 @@ class ResultController extends Controller
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
             $result_path  = $project_username . '/' . $uuid . '/results';
             $zip_name = $project_username . '/' . $uuid . '/results.zip';
-            $zip_full_name = $base_path . $project_username . '/results.zip';
+            $zip_full_name = $base_path . $project_username . '/' . $uuid . '/results.zip';
 
             if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
                 return response()->download($zip_full_name);
