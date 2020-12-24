@@ -18,7 +18,6 @@ $(function () {
   var arg_tabs = $('#arg_tabs li a');
   var bowtie_tabs = $('#bowtie_tabs li a');
 
-
   if (window.location.href.indexOf('successRunning') != -1) {
     $('#quast_dataTable thead tr').empty();
     $('#quast_dataTable tbody').empty();
@@ -50,6 +49,7 @@ $(function () {
     }
   } else {
     var krona_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/kraken/' + iframe_krona_tabs.first().text() + '.krona.html';
+    var rootPath = getRootPath();
     var blob_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/blob/' + image_blob_tabs.first().text() + '/' + image_blob_tabs.first().text() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
     krona.setAttribute('src', krona_src);
     krona.setAttribute('class', 'embed-responsive-item');
@@ -98,8 +98,10 @@ $(function () {
       e.preventDefault();
       $('#blob_tabs li').removeClass('active');
       $(this).parent().addClass('active');
+      var rootPath = getRootPath();
       var blob_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/blob/' + $(this).text() + '/' + $(this).text() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
       $('#blob_image').attr('src', blob_src);
+      console.log(blob_src);
     })
   }
 
@@ -254,7 +256,9 @@ $(function () {
             range = range.push(lower, upper);
             var x_axis = [...res.data[0]];
             var x_axios = res.data[0].concat(x_axis.reverse());
-            var confidence = res.data[3].concat(res.data[2].reverse());
+            console.log(x_axios);
+  	    console.log(res);
+	    var confidence = res.data[3].concat(res.data[2].reverse());
             trace1 = {
               fill: 'tonexty',
               mode: 'none',
@@ -604,6 +608,14 @@ $(function () {
       if (pair[0] == variable) { return pair[1]; }
     }
     return (false);
+  }
+
+  function getRootPath(){
+    var wwwPath = window.document.location.href;
+    var pathName = window.document.location.pathname;
+    var pos = wwwPath.indexOf(pathName);
+    var localhostPath = wwwPath.substring(0,pos);
+    return localhostPath;
   }
 
 })
