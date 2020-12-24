@@ -104,7 +104,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-3 bg-secondary mt-3">
+    <footer class="py-3 bg-secondary w-100">
       <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; Single Cell Center, Qingdao Institute of Bioenergy and Bioprocess Technology, Chinese Academy of Sciences 2020</p>
       </div>

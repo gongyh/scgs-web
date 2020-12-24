@@ -209,32 +209,11 @@
                 <p class="tips"><strong>Tips:</strong>1.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
                 <div class="form-group">
                   <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
-                  <div class="btn-group ml-2">
-                    <button type="button" class="btn btn-info btn-sm">select files</button>
-                    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                      @foreach($files as $file)
-                      <span class="dropdown-item file_one_add">{{$file}}</span>
-                      @endforeach
-                    </div>
-                  </div>
+                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addFileModal">select files</button>
                   <input type="text" class="form-control mt-2" name="new_fileOne" id="new_fileOne" value={{old('new_fileOne')?old('new_fileOne'):''}}>
                 </div>
                 <div class="form-group file_two">
                   <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
-                  <div class="btn-group ml-2">
-                    <button type="button" class="btn btn-info btn-sm">select files</button>
-                    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                      @foreach($files as $file)
-                      <span class="dropdown-item file_two_add">{{$file}}</span>
-                      @endforeach
-                    </div>
-                  </div>
                   <input type="text" class="form-control fileTwo" name="new_fileTwo" id="new_fileTwo" value={{old('new_fileTwo')?old('new_fileTwo'):''}}>
                 </div>
                 <!-- error message -->
@@ -260,12 +239,44 @@
                 <input type="text" class="form-control mb-3" name="ncbi" id="ncbi">
               </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="addFileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Select / Add Files</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <nav>
+                      <div class="nav nav-tabs d-flex" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active mr-auto" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Files</a>
+                        <button type="button" class="btn btn-success btn-sm">Add Files</button>
+                      </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                      <div class="tab-pane fade show active my-2 rem1" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Sample Files (Storaged in your dictionary) :
+                      </div>
+                      @foreach($files as $file)
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id={{$file}}>
+                        <label class="custom-control-label" for={{$file}}>{{$file}}</label>
+                      </div>
+                      @endforeach
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </div>
       </form>
     </div>
-
   </div>
 </div>
 @endsection

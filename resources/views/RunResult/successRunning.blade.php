@@ -14,7 +14,7 @@
       @include('components.workspace_nav')
     </div>
     <div class="col-md-9">
-      <nav aria-label="breadcrumb" class="w-75">
+      <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item"><a href="/workspace">Workspace</a></li>
@@ -29,7 +29,7 @@
             <div class="d-flex justify-content-between font-weight-bold text-dark border-bottom pb-2">
               <div class="rem15">Job Information</div>
               @if(isset($sample_id))
-              <a class="btn btn-default" href="/successRunning/resultDownload?sampleID={{$sample_id}}">
+              <a class="btn btn-default border" href="/successRunning/resultDownload?sampleID={{$sample_id}}">
                 <span class="rem1">Download results.zip </span>
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
@@ -90,7 +90,7 @@
               <div class="text-success Run_time">{{$period}}</div>
             </div>
             <p class="mt-3">
-              <a class="btn btn-light" type="a" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Command >>
+              <a class="btn btn-light border" type="a" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Command >>
               </a>
             </p>
             <div class="collapse" id="collapseExample">

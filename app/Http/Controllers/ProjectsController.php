@@ -66,6 +66,7 @@ class ProjectsController extends Controller
     public function create(Request $request)
     {
         $labs = Labs::all();
+        $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
         if ($request->isMethod('POST')) {
             $user = Auth::user();
             $isAdmin = $user->email == env('ADMIN_EMAIL');
@@ -138,9 +139,9 @@ class ProjectsController extends Controller
             }
         }
         if ($request->input('labID')) {
-            return view('Projects.proj_create');
+            return view('Projects.proj_create',compact('types'));
         } else {
-            return view('Projects.proj_create', ['labs' => $labs]);
+            return view('Projects.proj_create', compact('types','labs'));
         }
     }
 
