@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Samples;
 use App\Projects;
 use App\Labs;
+use App\User;
 use App\Applications;
 use App\Species;
 use App\Imports\SamplesImport;
@@ -52,6 +53,9 @@ class SamplesController extends Controller
 
     public function create(Request $request)
     {
+        $projectID = $request->input('projectID');
+        $lab_id = Projects::where('id',$projectID)->value('labs_id');
+        $user = Labs::where('id',$lab_id)->value('principleInvestigator');
         $applications = Applications::all();
         $all_species = Species::all();
         $user = auth()->user()->name;
@@ -194,6 +198,9 @@ class SamplesController extends Controller
     public function update(Request $request)
     {
         $sample_id = $request->input('sampleID');
+        $projectID = Samples::where('id',$sample_id)->value('projects_id');
+        $lab_id = Projects::where('id',$projectID)->value('labs_id');
+        $user = Labs::where('id',$lab_id)->value('principleInvestigator');
         $sample = Samples::find($sample_id);
         $app = Applications::find($sample['applications_id']);
         $applications = Applications::all();

@@ -29,7 +29,16 @@
           <input type="text" class="form-control w-75" name="new_project_id" id="new_project_id" value={{old('new_project_id')?old('new_project_id'):''}}>
         </div>
         <div class="form-group">
-          <label for="new_type">Type</label><span class="text-danger font-weight-bold">*</span>
+          <div>
+            <label for="new_type">Type</label><span class="text-danger font-weight-bold">(Choose a type)*</span>
+          </div>
+          <select id="type">
+            <option value=""></option>
+            @foreach($types as $type)
+            <option value={{$type}}>{{$type}}</option>
+            @endforeach
+          </select>
+          <div class="text-danger font-weight-bold mt-2">Or input below</div>
           <input type="text" class="form-control w-75" name="new_type" id="new_type" value={{old('new_type')?old('new_type'):''}}>
         </div>
         <div class="form-group">
