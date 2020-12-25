@@ -5,10 +5,6 @@ body {
   position: relative;
 }
 
-footer {
-  position: absolute;
-}
-
 a,
 a:active,
 a:visited,
@@ -134,7 +130,7 @@ a:hover {
 }
 
 /* footer */
-.footer {
+footer {
   margin-top: 30px;
 }
 
