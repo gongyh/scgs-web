@@ -41,7 +41,7 @@
                 </th>
                 @else
                 <th>
-                  <a href="/executeProj/start?projectID={{$user_job->project_id}}">{{$projects->where('id',$user_job->project_id)->value('doi')}}</a>
+                  <a href="/execute/start?projectID={{$user_job->project_id}}">{{$projects->where('id',$user_job->project_id)->value('doi')}}</a>
                 </th>
                 <td></td>
                 @endif

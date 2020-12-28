@@ -54,6 +54,7 @@ class SamplesController extends Controller
     public function create(Request $request)
     {
         $projectID = $request->input('projectID');
+        $Accession = Projects::where('id',$projectID)->value('doi');
         $lab_id = Projects::where('id',$projectID)->value('labs_id');
         $user = Labs::where('id',$lab_id)->value('principleInvestigator');
         $applications = Applications::all();
@@ -131,6 +132,10 @@ class SamplesController extends Controller
                             'filename1' => $fileOne,
                             'filename2' => null
                         ]);
+                        $mk_project_dir = 'if [ ! -d "' . $base_path . $Accession . '" ]; then mkdir -p ' . $base_path . $Accession . '; fi';
+                        $cp_sample_file = 'cp ' . $base_path . 'meta-data/' . $fileOne . ' ' . $base_path . $Accession;
+                        system($mk_project_dir);
+                        system($cp_sample_file);
                         if ($request->input('from')) {
                             return redirect('/workspace/samples?projectID=' . $projectID);
                         } else {
@@ -170,6 +175,10 @@ class SamplesController extends Controller
                             'filename1' => $fileOne,
                             'filename2' => $fileTwo
                         ]);
+                        $mk_project_dir = 'if [ ! -d "' . $base_path . $Accession . '" ]; then mkdir -p ' . $base_path . $Accession . '; fi';
+                        $cp_sample_file = 'cp ' . $base_path . 'meta-data/' . $fileOne . ' ' . $base_path . $Accession .'&& cp ' . $base_path . 'meta-data/' . $fileTwo . ' ' . $base_path . $Accession;
+                        system($mk_project_dir);
+                        system($cp_sample_file);
                         if ($request->input('from')) {
                             return redirect('/workspace/samples?projectID=' . $projectID);
                         } else {

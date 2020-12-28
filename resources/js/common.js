@@ -44,7 +44,7 @@ $(function () {
   if ($(window).height() > $('body').height()) {
     $('footer').css('top', $(window).height() - $('footer').height() + 'px');
   } else {
-    $('footer').css('top', $('body').height() - $('footer').height() + 15 + 'px');
+    $('footer').css('top', $('body').height() - $('footer').height() + 30 + 'px');
   }
 
   $('#type').on('change', function () {
@@ -52,19 +52,24 @@ $(function () {
     $('#new_type').val(type);
   });
 
-  $('.datepicker').datepicker({
-    dateFormat: 'yy-m-d',
-    changeYear: true,
-    changeMonth: true,
-    showAnim: 'slideDown'
+  //   $('.datepicker').datepicker({
+  //     dateFormat: 'yy-m-d',
+  //     changeYear: true,
+  //     changeMonth: true,
+  //     showAnim: 'slideDown'
+  //   });
+  //   $('.datepicker_update').datepicker({
+  //     dateFormat: 'yy-m-d',
+  //     changeYear: true,
+  //     changeMonth: true,
+  //     showAnim: 'slideDown'
+  //   });
+
+  //   $('.datepicker').attr('value', dateToString(new Date()));
+
+  $('#datetimepicker').datetimepicker({
+    format: 'L'
   });
-  $('.datepicker_update').datepicker({
-    dateFormat: 'yy-m-d',
-    changeYear: true,
-    changeMonth: true,
-    showAnim: 'slideDown'
-  });
-  $('.datepicker').attr('value', dateToString(new Date()));
 
   $('.file_one_add').on('click', function () {
     var file_one_add = $(this).text();
@@ -370,6 +375,19 @@ $(function () {
     }
   })
 
+
+  $('.sample_files_save').on('click', function () {
+    if ($('input[type=checkbox]:checked').length > 2) {
+      window.alert('Too many sample files are chosen');
+    } else if ($('input[type=checkbox]:checked').length == 2) {
+      $('#new_fileOne').val($('input[type=checkbox]:checked')[0].value);
+      $('#new_fileTwo').val($('input[type=checkbox]:checked')[1].value);
+      $('#addFileModal').modal('hide');
+    } else {
+      $('#new_fileOne').val($('input[type=checkbox]:checked')[0].value);
+      $('#addFileModal').modal('hide');
+    }
+  })
   /**
    * jQuery text fold/unfold
    * @param clas：text container
@@ -428,7 +446,7 @@ var FileInput = function () {
       enctype: 'multipart/form-data',
       validateInitialCount: true,
       previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-      msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+      msgFilesTooMany: "You have uploaded ({n}) files, but max file count is {m}！",
     });
 
     //Event after upload file
@@ -464,7 +482,7 @@ var sampleFileInput = function () {
       enctype: 'multipart/form-data',
       validateInitialCount: true,
       previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-      msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+      msgFilesTooMany: "You have uploaded ({n}) files, but max file count is {m}！",
     });
 
     //Event after upload file

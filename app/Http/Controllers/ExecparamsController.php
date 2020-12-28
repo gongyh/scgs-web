@@ -193,6 +193,7 @@ class ExecparamsController extends Controller
             /**
              * execparams reading, concat command
              */
+            $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
             $execparams = new Execparams();
             $run_sample = $request->input('sampleID') ? $execparams->where('samples_id', $sample_id) : $execparams->where('project_id', $project_id);
             $ass = $run_sample->value('ass') ? '--ass ' : '';
@@ -238,6 +239,10 @@ class ExecparamsController extends Controller
             $eukcc_db = $run_sample->value('eukcc_db') ? '--eukcc_db ' . $eukcc_db_path . ' ' : '';
 
             if($request->input('sampleID')){
+                $sampleID = $request->input('sampleID');
+                $projectID = Samples::where('id',$sampleID)->value('projects_id');
+                $labID = Projects::where('id',$projectID)->value('labs_id');
+                $user = Labs::where('id',$labID)->value('principleInvestigator');
                 $species_id = Samples::where('id', $sample_id)->value('species_id');
                 $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
                 if (isset($species_id)) {
@@ -268,13 +273,16 @@ class ExecparamsController extends Controller
 
                 if ($filename2 != null) {
                     //pairEnds
-                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '-profile docker,base ' . $resume . '--outdir results -w work';
+                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $base_path . 'meta-data/' . $user . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '-profile docker,base ' . $resume . '--outdir results -w work';
                 } else {
                     //singleEnds
-                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
+                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $base_path . 'meta-data/' . $user . '/' .$filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
                 }
 
             }else{
+                $projectID = Samples::where('id',$sampleID)->value('projects_id');
+                $labID = Projects::where('id',$projectID)->value('labs_id');
+                $user = Labs::where('id',$labID)->value('principleInvestigator');
                 $first_sample = Samples::where('projects_id', $project_id)->first();
                 $first_sample_id = $first_sample->id;
                 $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
@@ -306,10 +314,10 @@ class ExecparamsController extends Controller
 
                 if ($filename2 != null) {
                     //Paired-End
-                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '-profile docker,base ' . $resume . '--outdir results -w work';
+                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $base_path . 'meta-data/' . $user . '/' .$filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '-profile docker,base ' . $resume . '--outdir results -w work';
                 } else {
                     //Single
-                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
+                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $base_path . 'meta-data/' . $user . '/' .$filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
                 }
             }
 

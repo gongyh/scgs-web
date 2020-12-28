@@ -45,7 +45,16 @@
           <div>
             <label for="new_collection_date">Collection Date</label><span class="text-danger font-weight-bold">*</span>
           </div>
-          <input class="datepicker" type="text" name="new_collection_date" placeholder="Choose Date" value={{old('new_collection_date')?old('new_collection_date'):''}}>
+          <div class="form-group">
+            <div class="form-group">
+              <div class="input-group date w-75" id="datetimepicker" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" />
+                <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="glyphicon glyphicon-calendar"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="form-group">
           <label for="new_location">Location</label><span class="text-danger font-weight-bold"> (Country:City)*</span>
