@@ -293,37 +293,17 @@ class ResultController extends Controller
                     $quast_data = explode("\n", $quast_data);
                     $quast_show = array();
                     $quast_sh = array();
-                    $quast_header = array();
-                    $quast_result = array();
+                    $quast_detail = array();
                     foreach ($quast_data as $quast) {
                         if (strpos($quast, "#") === false) {
                             array_push($quast_show, $quast);
                         }
                     }
                     array_pop($quast_show);
-                    foreach ($quast_show as $quast_s) {
-                        array_push($quast_sh, $quast_s . "\t");
+                    foreach($quast_show as $quast_show_str){
+                        $quast_sh_str = explode("\t",$quast_show_str);
+                        array_push($quast_detail, $quast_sh_str);
                     }
-                    $quast_sh = implode("", $quast_sh);
-                    $quast_sh = explode("\t", $quast_sh);
-                    array_pop($quast_sh);
-                    for ($i = 0; $i < count($quast_sh); $i = $i + $sample_sum + 1) {
-                        array_push($quast_header, $quast_sh[$i]);
-                    }
-                    for ($i = 0; $i < count($quast_sh); $i = $i + $sample_sum) {
-                        array_splice($quast_sh, $i, 1);
-                    }
-                    $i = 0;
-                    for ($i; $i < $sample_sum; $i++) {
-                        $quast = array();
-                        $j = $i;
-                        for (; $j < count($quast_sh); $j = $j + $sample_sum) {
-                            array_push($quast, $quast_sh[$j]);
-                        }
-                        array_push($quast_result, $quast);
-                    }
-                    $quast_detail['quast_header'] = $quast_header;
-                    $quast_detail['quast_result'] = $quast_result;
                     return response()->json(['code' => 200, 'data' => $quast_detail]);
                 } else {
                     $quast_header = $quast_result =  null;
@@ -336,28 +316,17 @@ class ResultController extends Controller
                     $quast_data = explode("\n", $quast_data);
                     $quast_show = array();
                     $quast_sh = array();
-                    $quast_header = array();
-                    $quast_result = array();
+                    $array_detail = array();
                     foreach ($quast_data as $quast) {
                         if (strpos($quast, "#") === false) {
                             array_push($quast_show, $quast);
                         }
                     }
                     array_pop($quast_show);
-                    foreach ($quast_show as $quast_s) {
-                        array_push($quast_sh, $quast_s . "\t");
+                    foreach($quast_show as $quast_show_str){
+                        $quast_sh_str = explode("\t",$quast_show_str);
+                        array_push($quast_detail, $quast_sh_str);
                     }
-                    $quast_sh = implode("", $quast_sh);
-                    $quast_sh = explode("\t", $quast_sh);
-                    array_pop($quast_sh);
-                    for ($i = 0; $i < count($quast_sh); $i += 2) {
-                        array_push($quast_header, $quast_sh[$i]);
-                    }
-                    for ($i = 1; $i < count($quast_sh); $i += 2) {
-                        array_push($quast_result, $quast_sh[$i]);
-                    }
-                    $quast_detail['quast_header'] = $quast_header;
-                    $quast_detail['quast_result'] = $quast_result;
                     return response()->json(['code' => 200, 'data' => $quast_detail]);
                 } else {
                     $quast_header = $quast_result = null;

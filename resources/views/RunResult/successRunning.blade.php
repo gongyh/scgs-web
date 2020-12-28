@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('plotting-js')
-    <script src="{!! mix('js/plotting.js')!!}"></script>
+<script src="{!! mix('js/plotting.js')!!}"></script>
 @endpush
 
 @section('content')
@@ -102,8 +102,7 @@
             <div class="table-responsive mt-2">
               <table id="quast_dataTable" class="display">
                 <thead>
-                  <tr>
-                  </tr>
+                  <tr></tr>
                 </thead>
                 <tbody>
                 </tbody>

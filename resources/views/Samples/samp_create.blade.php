@@ -261,7 +261,7 @@
                       </div>
                       @foreach($files as $file)
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id={{$file}}>
+                        <input type="checkbox" class="custom-control-input chose_samples" id={{$file}} value={{$file}}>
                         <label class="custom-control-label" for={{$file}}>{{$file}}</label>
                       </div>
                       @endforeach
@@ -269,7 +269,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary sample_files_save">Save</button>
                   </div>
                 </div>
               </div>

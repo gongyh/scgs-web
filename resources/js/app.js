@@ -5,9 +5,10 @@
  */
 
 require('./bootstrap');
-require( 'jquery-ui/ui/widgets/datepicker');
+window.moment = require('../../node_modules/moment/moment');
 require('bootstrap-fileinput/js/fileinput.min.js');
 require('bootstrap-fileinput/js/locales/zh');
+require('./datetimepicker.js');
 require('./common');
 
 window.Vue = require('vue');
