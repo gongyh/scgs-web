@@ -12,10 +12,6 @@ body {
   position: relative;
 }
 
-footer {
-  position: absolute;
-}
-
 a,
 a:active,
 a:visited,
@@ -39,6 +35,44 @@ a:hover {
 .font-large {
   font-size: 25px;
 }
+
+#back-top {
+  display: inline-block;
+  background-color: #FF9800;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 4px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  transition: background-color .3s, 
+    opacity .5s, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+}
+#back-top::after {
+  content: "\f077";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2em;
+  line-height: 50px;
+  color: #fff;
+}
+#back-top:hover {
+  cursor: pointer;
+  background-color: #333;
+}
+#back-top:active {
+  background-color: #555;
+}
+#back-top.show {
+  opacity: 1;
+  visibility: visible;
+}
+
 
 /* navbar */
 .nav-menu:first-child {
@@ -141,7 +175,7 @@ a:hover {
 }
 
 /* footer */
-.footer {
+footer {
   margin-top: 30px;
 }
 
