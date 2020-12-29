@@ -5,11 +5,8 @@
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
-    <div class="col-md-2">
-      @include('components.workspace_nav')
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -42,9 +39,15 @@
             <div class="project_id mr-4 font-large">{{$current_page > 1 ? ($current_page-1) * $pageSize + $loop->iteration : $loop->iteration}}</div>
             <div class="font-normal">
               <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$Project->id}}">{{$Project->name}}</a></div>
-              <div class="projectId mt-2">Accession : {{$Project->doi}}</div>
-              <div class="project_desc text-wrap text-break">Project Description : {{strlen($Project->description)>30?substr($Project->description,0,30).'...':$Project->description}}</div>
-              <div class="project_lab text-black-50">Lab : {{$Project->getLabName($Project->labs_id)}}</div>
+              <div class="mt-2">
+                <span class="text-primary">Accession</span> : <span>{{$Project->doi}}</span>
+              </div>
+              <div class="mt-2">
+                <span>Type</span> : <span>{{$Project->type}}</span>
+              </div>
+              <div class="mt-2 project_desc text-wrap text-break">Description : {{strlen($Project->description)>200?substr($Project->description,0,200).'...':$Project->description}}
+              </div>
+              <div class="mt-2 text-black-50">Lab : {{$Project->getLabName($Project->labs_id)}}</div>
               <div class="edit-delete">
                 @if($isAdmin || $isPI->contains($Project->labs_id))
                 <a href="projects/update?projectID={{$Project->id}}&page={{$current_page}}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

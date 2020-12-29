@@ -6,10 +6,7 @@
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
-    <div class="col-md-2">
-      @include('components.workspace_nav')
-    </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-3"></div>
     <div class="col-md-6">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -26,14 +23,19 @@
         <a class="btn btn-default pt-2 font-weight-bold" href="/projects/create?from=myProject">Add Project</a>
         @endif
         @if($myProjects != null)
-        @foreach($myProjects as $key=>$myProject)
+        @foreach($myProjects as $myProject)
         <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm overflow-auto">
-          <div class="project_id mr-4 font-large">{{$key+1}}</div>
+          <div class="project_id mr-4 font-large">{{$current_page > 1 ? ($current_page-1) * $pageSize + $loop->iteration : $loop->iteration}}</div>
           <div class="font-normal">
             <div class="project_title font-normal text-wrap text-break"><a href="/workspace/samples?projectID={{$myProject->id}}">{{$myProject->name}}</a></div>
-            <div class="projectId mt-2">Accession : {{$myProject->doi}}</div>
-            <div class="project_desc text-wrap text-break">Project Description : {{strlen($myProject->description)>30?substr($myProject->description,0,30).'...':$myProject->description}}</div>
-            <div class="project_lab text-black-50">Lab : {{$myProject->getLabName($myProject->labs_id)}}</div>
+            <div class="mt-2">
+              <span class="text-primary">Accession</span> : <span>{{$myProject->doi}}</span>
+            </div>
+            <div class="mt-2">
+              <span>Type</span> : <span>{{$myProject->type}}</span>
+            </div>
+            <div class="mt-2 project_desc text-wrap text-break">Project Description : {{strlen($myProject->description)>200?substr($myProject->description,0,200).'...':$myProject->description}}</div>
+            <div class="mt-2 text-black-50">Lab : {{$myProject->getLabName($myProject->labs_id)}}</div>
             <div class="edit-delete">
               <a href="/projects/update?projectID={{$myProject->id}}&from=myProject">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

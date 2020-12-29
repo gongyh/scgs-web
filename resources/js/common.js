@@ -1,20 +1,5 @@
 $(function () {
 
-  var btn = $('#back-top');
-
-  $(window).scroll(function() {
-    if ($(window).scrollTop() > 300) {
-      btn.addClass('show');
-    } else {
-      btn.removeClass('show');
-    }
-  });
-
-  btn.on('click', function(e) {
-    e.preventDefault();
-    $('html, body').animate({scrollTop:0}, '300');
-  });
-
   var index = 0;
   var current_url = window.location.href;
   var url = current_url.split('/').pop();
@@ -41,6 +26,7 @@ $(function () {
   var read_progress;
 
 
+
   if ($(window).height() > $('body').height()) {
     $('footer').css('top', $(window).height() - $('footer').height() + 'px');
   } else {
@@ -52,24 +38,14 @@ $(function () {
     $('#new_type').val(type);
   });
 
-  //   $('.datepicker').datepicker({
-  //     dateFormat: 'yy-m-d',
-  //     changeYear: true,
-  //     changeMonth: true,
-  //     showAnim: 'slideDown'
-  //   });
-  //   $('.datepicker_update').datepicker({
-  //     dateFormat: 'yy-m-d',
-  //     changeYear: true,
-  //     changeMonth: true,
-  //     showAnim: 'slideDown'
-  //   });
 
-  //   $('.datepicker').attr('value', dateToString(new Date()));
-
-  $('#datetimepicker').datetimepicker({
+  $('#datetimepicker,#datetimepicker1,#datetimepicker3,#datetimepicker4').datetimepicker({
     format: 'L'
   });
+
+  $('.type').on('click',function(){
+      $('#new_type').val($(this).text());
+  })
 
   $('.file_one_add').on('click', function () {
     var file_one_add = $(this).text();

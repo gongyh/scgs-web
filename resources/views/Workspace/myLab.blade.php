@@ -6,10 +6,7 @@
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
-    <div class="col-md-2">
-      @include('components.workspace_nav')
-    </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-3"></div>
     <div class="col-md-6">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">

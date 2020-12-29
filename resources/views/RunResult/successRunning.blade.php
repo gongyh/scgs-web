@@ -11,7 +11,6 @@
   <!-- left column -->
   <div class="row middle-area">
     <div class="col-md-2">
-      @include('components.workspace_nav')
     </div>
     <div class="col-md-9">
       <nav aria-label="breadcrumb">

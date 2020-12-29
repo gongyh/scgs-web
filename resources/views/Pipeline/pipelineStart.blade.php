@@ -5,9 +5,7 @@
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
-    <div class="col-md-2">
-      @include('components.workspace_nav')
-    </div>
+    <div class="col-md-2"></div>
     <div class="col-md-6">
       <!-- <div class="middle-info">
 
@@ -155,7 +153,7 @@
 
     </div>
     <!-- right-column -->
-    <div class="col-md-3 right-column">
+    <div class="col-md-4 right-column">
       <div class="bg-white rounded shadow-sm p-2">
         <div class="mt-2 rem15 text-primary border-bottom">Pipeline Status</div>
         <div class="command_out d-none text-wrap overflow-auto text-break rounded">

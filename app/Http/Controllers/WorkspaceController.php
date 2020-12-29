@@ -42,27 +42,35 @@ class WorkspaceController extends Controller
                 return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID, 'current_page' => $current_page]);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $myProjects = null;
-                return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID]);
+                return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID,'current_page' => $current_page]);
             }
         }else{
             try {
                 $user = Auth::user();
+                $current_page = $request->input('page');
                 $myLabs = Labs::where('principleInvestigator', $user->name)->get('id');
                 $lab_id_list = array();
                 foreach ($myLabs as $myLab) {
                     array_push($lab_id_list, $myLab->id);
                 }
                 $myProjects = Projects::whereIn('labs_id', $lab_id_list)->orderBy('id','desc')->paginate(5);
-                return view('Workspace.myProject', ['myProjects' => $myProjects]);
+                return view('Workspace.myProject', ['myProjects' => $myProjects,'current_page'=>$current_page]);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $myProjects = null;
-                return view('Workspace.myProject', ['myProjects' => $myProjects]);
+                return view('Workspace.myProject', ['myProjects' => $myProjects,'current_page'=>$current_page]);
             }
         }
     }
 
     public function addSamples(){
-        return view('Workspace.addSampleFiles');
+        $user = Auth::user()->name;
+        $file_lists = Storage::files('meta-data/' . $user);
+        $fileList = array();
+        foreach($file_lists as $file_list){
+            $file_list = str_replace("meta-data/" . $user . "/" , "" , $file_list);
+            array_push($fileList , $file_list);
+        }
+        return view('Workspace.addSampleFiles',compact('fileList'));
     }
 
     public function addSampleFiles(Request $request){

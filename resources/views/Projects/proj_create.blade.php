@@ -3,10 +3,7 @@
 @section('content')
 <div class="container-fluid">
   <div class="row middle-area">
-    <div class="col-md-2">
-      @include('components.workspace_nav')
-    </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-4"></div>
     <div class="col-md-4">
       <form method="post" action="">
         @csrf
@@ -32,26 +29,42 @@
           <div>
             <label for="new_type">Type</label><span class="text-danger font-weight-bold">(Choose a type)*</span>
           </div>
-          <select id="type">
-            <option value=""></option>
-            @foreach($types as $type)
-            <option value={{$type}}>{{$type}}</option>
-            @endforeach
-          </select>
-          <div class="text-danger font-weight-bold mt-2">Or input below</div>
-          <input type="text" class="form-control w-75" name="new_type" id="new_type" value={{old('new_type')?old('new_type'):''}}>
+          <div class="input-group w-75">
+            <div class="input-group-btn">
+              <button class="btn btn-default border dropdown-toggle" data-toggle="dropdown">
+                Types <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu types">
+                @foreach($types as $type)
+                <li class="type">{{$type}}</li>
+                @endforeach
+              </ul>
+            </div>
+            <input type="text" id="new_type" class="form-control" name="new_type">
+          </div>
         </div>
         <div class="form-group">
           <div>
             <label for="new_collection_date">Collection Date</label><span class="text-danger font-weight-bold">*</span>
           </div>
-          <div class="form-group">
-            <div class="form-group">
-              <div class="input-group date w-75" id="datetimepicker" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" />
-                <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="glyphicon glyphicon-calendar"></i></div>
-                </div>
+          <div class="input-group date w-75" id="datetimepicker" data-target-input="nearest">
+            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" />
+            <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+              <div class="input-group-text">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div>
+            <label for="new_release_date">Release Date</label><span class="text-danger font-weight-bold">*</span>
+          </div>
+          <div class="input-group date w-75" id="datetimepicker1" data-target-input="nearest">
+            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+              <div class="input-group-text">
+                <i class="glyphicon glyphicon-calendar"></i>
               </div>
             </div>
           </div>
@@ -75,7 +88,6 @@
           </ul>
         </div>
         @endif
-
         @isset($pi_error)
         <div class="alert alert-danger">
           <ul>
