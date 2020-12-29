@@ -5,11 +5,8 @@
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
-    <div class="col-md-2">
-      @include('components.workspace_nav')
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -27,6 +24,18 @@
           <div class="project_doi">
             <div class="proj_title">Accession:</div>
             <div class="proj_detail">{{$project->doi}}</div>
+          </div>
+          <div class="project_name">
+            <div class="proj_title">Type:</div>
+            <div class="proj_detail">{{$project->type}}</div>
+          </div>
+          <div class="project_name">
+            <div class="proj_title">Collection Date:</div>
+            <div class="proj_detail">{{$project->collection_date}}</div>
+          </div>
+          <div class="project_name">
+            <div class="proj_title">Release Date:</div>
+            <div class="proj_detail">{{$project->release_date}}</div>
           </div>
           <div class="project_desc pb-3">
             <div class="proj_title">Description:</div>
@@ -67,7 +76,8 @@
             <a href="/execute/start?projectID={{$projectID}}" class="ml-2 btn btn-primary">Show Pipeline Status</a>
             @endif
           </div>
-          <div class="border-bottom pb-3">
+          <div class="d-flex border-bottom pb-3">
+            <div class="proj_title">Phenotype:</div>
             <a href="/ramanResult?projectID={{$projectID}}" class="btn btn-success">Raman Spectra</a>
           </div>
           <div class="project_sample mt-3">
@@ -191,7 +201,7 @@
       </div>
     </div>
     <!-- right-column -->
-    <div class="col-md-3 right-column">
+    <div class="col-md-2 right-column">
       <div class="other-info">
 
       </div>

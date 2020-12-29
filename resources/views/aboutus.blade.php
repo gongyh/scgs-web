@@ -4,7 +4,6 @@
 <div class="row middle-area">
   <div class="col-md-2 left-column">
     <div class="list-group list">
-
     </div>
   </div>
   <div class="col-md-8 middle-column">

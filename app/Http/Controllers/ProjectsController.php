@@ -79,6 +79,7 @@ class ProjectsController extends Controller
                     'new_proj_desc' => 'required|max:2000',
                     'new_type' => 'required|max:250',
                     'new_collection_date' => 'required|max:250',
+                    'new_release_date' => 'required|max:250',
                     'new_location' => 'required|max:250'
                 ]);
                 $new_proj_name = $request->input('new_proj_name');
@@ -86,6 +87,7 @@ class ProjectsController extends Controller
                 $new_proj_desc = $request->input('new_proj_desc');
                 $new_type = $request->input('new_type');
                 $new_collection_date = $request->input('new_collection_date');
+                $new_release_date = $request->input('new_release_date');
                 $new_location = $request->input('new_location');
                 $labID = $request->input('labID');
                 Projects::create([
@@ -94,6 +96,7 @@ class ProjectsController extends Controller
                     'doi' => $new_project_id,
                     'type' => $new_type,
                     'collection_date' => $new_collection_date,
+                    'release_date' => $new_release_date,
                     'location' => $new_location,
                     'description' => $new_proj_desc
                 ]);
@@ -110,6 +113,7 @@ class ProjectsController extends Controller
                     'new_proj_desc' => 'required|max:2000',
                     'new_type' => 'required|max:250',
                     'new_collection_date' => 'required|max:250',
+                    'new_release_date' => 'required|max:250',
                     'new_location' => 'required|max:250'
                 ]);
                 $labId = $request->input('selectLab');
@@ -118,6 +122,7 @@ class ProjectsController extends Controller
                 $new_proj_desc = $request->input('new_proj_desc');
                 $new_type = $request->input('new_type');
                 $new_collection_date = $request->input('new_collection_date');
+                $new_release_date = $request->input('new_release_date');
                 $new_location = $request->input('new_location');
                 Projects::create([
                     'labs_id' => $labId,
@@ -125,6 +130,7 @@ class ProjectsController extends Controller
                     'doi' => $new_project_id,
                     'type' => $new_type,
                     'collection_date' => $new_collection_date,
+                    'release_date' => $new_release_date,
                     'location' => $new_location,
                     'description' => $new_proj_desc
                 ]);
@@ -174,6 +180,7 @@ class ProjectsController extends Controller
     {
         $proj_id = $request->input('projectID');
         $project = Projects::find($proj_id);
+        $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
         if ($request->isMethod('POST')) {
             $input = $request->all();
             Validator::make($input, [
@@ -212,12 +219,14 @@ class ProjectsController extends Controller
             $new_desc = $input['description'];
             $new_type = $input['type'];
             $new_collection_date = $input['collection_date'];
+            $new_release_date = $input['release_date'];
             $new_location = $input['location'];
             $project['name'] = $new_proj;
             $project['doi'] = $new_doi;
             $project['description'] = $new_desc;
             $project['type'] = $new_type;
             $project['collection_date'] = $new_collection_date;
+            $project['release_date'] = $new_release_date;
             $project['location'] = $new_location;
             $project->save();
             if ($request->input('labID')) {
@@ -236,6 +245,6 @@ class ProjectsController extends Controller
                 }
             }
         }
-        return view('Projects.proj_update', ['project' => $project]);
+        return view('Projects.proj_update', ['project' => $project,'types' => $types]);
     }
 }

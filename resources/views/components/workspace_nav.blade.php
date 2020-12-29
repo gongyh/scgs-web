@@ -9,7 +9,7 @@
      <div class="user-name">{{Auth::user()->name}}</div>
      @endif
    </div>
-   <nav class=" nav nav-pills nav-fill flex-column">
+   <nav class="nav nav-pills nav-fill flex-column">
      @if(Auth::user()->name == 'admin')
      <a class="nav-item nav-link rem1 workspace-nav" id="nav-home-tab" href="/workspace/institutions" aria-selected="false">Manage Institutions</a>
      <a class="nav-item nav-link rem1 workspace-nav" id="nav-home-tab" href="/workspace/species" aria-selected="false">Manage Species</a>

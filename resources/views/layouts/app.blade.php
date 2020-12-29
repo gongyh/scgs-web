@@ -42,7 +42,23 @@
               </li>
               @if(Auth::check())
               <li class="nav-item">
-                <a href="/workspace" class="nav-link nav-menu">Workspace</a>
+                <div class="btn-group workspace">
+                  <a class="nav-link nav-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Workspace
+                  </a>
+                  <div class="dropdown-menu workspace-dropdown">
+                    @if(Auth::user()->name == 'admin')
+                    <a class="dropdown-item" href="/workspace/institutions">Manage Institutions</a>
+                    <a class="dropdown-item" href="/workspace/species">Manage Species</a>
+                    <a class="dropdown-item" href="/workspace/applications">Manage Applications</a>
+                    <a class="dropdown-item" href="/workspace/pipelineParams">Basic Pipeline Params</a>
+                    @endif
+                    <a class="dropdown-item" href="/workspace/myLab">My Labs</a>
+                    <a class="dropdown-item" href="/workspace/myProject">My Projects</a>
+                    <a class="dropdown-item" href="/workspace/runningSample">Pipeline Status</a>
+                    <a class="dropdown-item" href="/workspace/addSampleFiles">Add Sample Files</a>
+                  </div>
+                </div>
               </li>
               @endif
               <li class="nav-item">
