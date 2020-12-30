@@ -33,6 +33,7 @@ class CreateSamplesTable extends Migration
             $table->foreign('applications_id')->references('id')->on('applications')->onDelete('cascade');
             $table->unsignedBigInteger('projects_id');
             $table->foreign('projects_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->tinyInteger('isPrepared')->default(0);
             $table->timestamps();
         });
     }

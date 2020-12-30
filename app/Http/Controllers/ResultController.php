@@ -240,20 +240,20 @@ class ResultController extends Controller
             }
         } elseif ($request->input('arg')) {
             $arg = $request->input('arg');
-            $arg_path = $username . '/' . $uuid . '/results/ARG/' . $arg . '/results_tab.tsv';
+            $arg_path = $username . '/' . $uuid . '/results/ARG/' . 'Y7-LCJ3577' . '/results_tab.tsv';
             if (Storage::disk('local')->exists($arg_path)) {
                 $arg_data = Storage::get($arg_path);
                 $arg_data = explode("\n", $arg_data);
-                array_splice($arg_data, 0, 1);
                 array_pop($arg_data);
                 $ARG_data = array();
+                $arg_detail = array();
                 foreach ($arg_data as $arg) {
                     $arg = explode("\t", $arg);
                     array_push($ARG_data, $arg);
                 }
                 return response()->json(['code' => 200, 'data' => $ARG_data]);
             } else {
-                return response()->json(['code' => 201, 'data' => 'failed']);
+                return response()->json(['code' => 400, 'data' => 'failed']);
             }
         } elseif ($request->input('bowtie')) {
             $bowtie = $request->input('bowtie');
@@ -316,7 +316,7 @@ class ResultController extends Controller
                     $quast_data = explode("\n", $quast_data);
                     $quast_show = array();
                     $quast_sh = array();
-                    $array_detail = array();
+                    $quast_detail = array();
                     foreach ($quast_data as $quast) {
                         if (strpos($quast, "#") === false) {
                             array_push($quast_show, $quast);

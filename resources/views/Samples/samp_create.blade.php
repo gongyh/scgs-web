@@ -203,7 +203,6 @@
                     <label class="custom-control-label" for="customRadio2">Paired-end</label>
                   </div>
                 </div>
-                <p class="tips"><strong>Tips:</strong>1.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
                 <div class="form-group">
                   <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
                   <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addFileModal">select files</button>
