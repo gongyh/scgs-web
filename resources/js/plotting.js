@@ -57,12 +57,14 @@ $(function () {
         $('#kraken_tabs li').first().addClass('active');
         var kraken_report = document.getElementsByClassName('kraken_report')[0];
         kraken_report.appendChild(krona);
+        change_footer_position();
       }
     }
     if (blob_tab != null) {
       blob_tab.onclick = function () {
         $('#blob_tabs li').first().addClass('active');
         $('#blob_image').attr('src', blob_src);
+        change_footer_position();
       }
     }
 
@@ -71,6 +73,7 @@ $(function () {
         window.alert = function () {};
         $('#arg_tabs li').first().addClass('active');
         read_arg_data();
+        change_footer_position();
       }
     }
 
@@ -79,6 +82,7 @@ $(function () {
         window.alert = function () {};
         $('#bowtie_tabs li').first().addClass('active');
         read_bowtie_data();
+        change_footer_position();
       }
     }
 
@@ -141,7 +145,6 @@ $(function () {
     });
     table.destroy();
     read_arg_data();
-
   })
 
   bowtie_tabs.on('click', function (e) {
@@ -161,6 +164,7 @@ $(function () {
         iframe.contentWindow.location.reload(true);
       }, 1000);
     }
+    change_footer_position()
   }
 
   if (proj_MultiQC != null) {
@@ -169,6 +173,7 @@ $(function () {
         iframe.contentWindow.location.reload(true);
       }, 1000);
     }
+    change_footer_position();
   }
 
   function read_preseq_cdata() {
@@ -255,8 +260,6 @@ $(function () {
             range = range.push(lower, upper);
             var x_axis = [...res.data[0]];
             var x_axios = res.data[0].concat(x_axis.reverse());
-            console.log(x_axios);
-            console.log(res);
             var confidence = res.data[3].concat(res.data[2].reverse());
             trace1 = {
               fill: 'tonexty',
@@ -374,12 +377,32 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            var data = res.data;
-            $('#arg_dataTable').DataTable({
+            var arg_data = res.data;
+            let data = []
+            arg_data.forEach(item => {
+              item.forEach((d, i) => {
+                let a = data[i] = data[i] || []
+                a.push(d)
+              })
+            });
+            for (let j = 0; j < data[0].length; j++) {
+              let th = $('<th></th>');
+              th.html(data[0][j]);
+              $('#arg_dataTable thead tr').append(th);
+            }
+            for (let i = 1; i < data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
+              }
+              $('#arg_dataTable tbody').append(tr);
+            }
+            data.shift();
+            var arg_table = $('#arg_dataTable').DataTable({
               data: data,
             });
-
-            $('#table_id_example tbody').on('click', 'tr', function () {
+            $('#arg_dataTable tbody').on('click', 'tr', function () {
               if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
               }
@@ -407,7 +430,28 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            var data = res.data;
+            var arg_data = res.data;
+            let data = []
+            arg_data.forEach(item => {
+              item.forEach((d, i) => {
+                let a = data[i] = data[i] || []
+                a.push(d)
+              })
+            })
+            for (let j = 0; j < data[0].length; j++) {
+              let th = $('<th></th>');
+              th.html(data[0][j]);
+              $('#arg_dataTable thead tr').append(th);
+            }
+            for (let i = 1; i < data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
+              }
+              $('#arg_dataTable tbody').append(tr);
+            }
+            data.shift();
             var arg_table = $('#arg_dataTable').DataTable({
               data: data,
             });
@@ -444,8 +488,12 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
-            console.log(data);
-            for (let i = 0; i < data.length; i++) {
+            for (let j = 0; j < data[0].length; j++) {
+              let th = $('<th></th>');
+              th.html(data[0][j]);
+              $('#quast_dataTable thead tr').append(th);
+            }
+            for (let i = 1; i < data.length; i++) {
               let tr = $('<tr></tr>');
               for (let j = 0; j < data[i].length; j++) {
                 let td = $('<td></td>');
@@ -453,10 +501,7 @@ $(function () {
               }
               $('#quast_dataTable tbody').append(tr);
             }
-            for (let j = 0; j < data[0].length; j++) {
-              let td = $('<td></td>');
-              $('#quast_dataTable thead tr').append(td);
-            }
+            data.shift();
             var quast_table = $('#quast_dataTable').DataTable({
               data: data,
             });
@@ -489,20 +534,24 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
-            let quast_header = data.quast_header;
-            let quast_result = data.quast_result;
-            console.log(quast_header);
-            console.log(quast_result);
-            let quast = [];
-            quast.push(quast_result);
-            for (i = 0; i < quast_header.length; i++) {
-              var td = $('<td></td>').text(quast_header[i]);
-              $('#quast_dataTable thead tr').append(td);
+            for (let j = 0; j < data[0].length; j++) {
+              let th = $('<th></th>');
+              th.html(data[0][j]);
+              $('#quast_dataTable thead tr').append(th);
             }
+            for (let i = 1; i < data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
+              }
+              $('#quast_dataTable tbody').append(tr);
+            }
+            data.shift();
             var quast_table = $('#quast_dataTable').DataTable({
-              data: quast,
+              data: data,
             });
-
+            change_footer_position()
             $('#quast_dataTable tbody').on('click', 'tr', function () {
               if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
@@ -535,20 +584,32 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let data = res.data;
-            let bowtie_header = data[0];
-            let bowtie_result = [];
-            bowtie_result.push(data[1]);
-            $('#bowtie_table thead tr').empty();
-            $('#bowtie_table tbody tr').empty();
-            for (i = 0; i < bowtie_header.length; i++) {
-              var td = $('<td></td>').text(bowtie_header[i]);
-              $('#bowtie_dataTable thead tr').append(td);
-            }
-            var bowtie_table = $('#bowtie_dataTable').DataTable({
-              data: bowtie_result,
+            let bowtie_data = res.data;
+            let data = []
+            bowtie_data.forEach(item => {
+              item.forEach((d, i) => {
+                let a = data[i] = data[i] || []
+                a.push(d)
+              })
             });
-
+            for (let j = 0; j < data[0].length; j++) {
+              let th = $('<th></th>');
+              th.html(data[0][j]);
+              $('#bowtie_dataTable thead tr').append(th);
+            }
+            for (let i = 1; i < data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
+              }
+              $('#bowtie_dataTable tbody').append(tr);
+            }
+            data.shift();
+            var bowtie_table = $('#bowtie_dataTable').DataTable({
+              data: data,
+            });
+            change_footer_position();
             $('#bowtie_dataTable tbody').on('click', 'tr', function () {
               if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
@@ -579,11 +640,8 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
-            let bowtie_header = data[0];
             let bowtie_result = [];
             bowtie_result.push(data[1]);
-            $('#bowtie_dataTable thead tr').empty();
-            $('#bowtie_dataTable tbody tr').empty();
             for (i = 0; i < res.data[0].length; i++) {
               var td = $('<td></td>').text(res.data[0][i]);
               $('#bowtie_dataTable thead tr').append(td);
@@ -626,11 +684,11 @@ $(function () {
     return localhostPath;
   }
 
-  function change_footer_position(){
+  function change_footer_position() {
     if ($(window).height() > $('body').height()) {
-        $('footer').css('top', $(window).height() - $('footer').height() + 'px');
-      } else {
-        $('footer').css('top', $('body').height() - $('footer').height() + 30 + 'px');
-      }
+      $('footer').css('top', $(window).height() - $('footer').height() + 'px');
+    } else {
+      $('footer').css('top', $('body').height() - $('footer').height() + 30 + 'px');
+    }
   }
 })

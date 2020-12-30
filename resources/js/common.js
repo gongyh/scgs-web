@@ -43,8 +43,8 @@ $(function () {
     format: 'L'
   });
 
-  $('.type').on('click',function(){
-      $('#new_type').val($(this).text());
+  $('.type').on('click', function () {
+    $('#new_type').val($(this).text());
   })
 
   $('.file_one_add').on('click', function () {
@@ -98,7 +98,7 @@ $(function () {
     var hours = Math.floor(run_time / 3600000);
     var minutes = Math.floor((run_time % 3600000) / 60000);
     var seconds = Math.floor((run_time - hours * 3600 * 1000 - minutes * 60 * 1000) / 1000);
-    var run_time = hours + ' Hours ' + minutes + ' Minutes ' + seconds + ' Seconds ';
+    var run_time = hours + ':' + minutes + ':' + seconds;
     $(this).text(run_time);
   })
 
@@ -120,9 +120,19 @@ $(function () {
    */
   function Sec2Time(time) {
     let datetime = new Date(time).getTime();
-    var format_time = new Date(datetime) + '';
-    var format_time = format_time.replace('GMT+0800 (中国标准时间)', '');
-    return format_time;
+    var date = new Date(datetime);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d + ' ' + ' ' + h + ':' + minute + ':' + second;
   }
 
   /**
