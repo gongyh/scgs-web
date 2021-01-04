@@ -72,7 +72,7 @@ class RunPipeline implements ShouldQueue
         $command = $current_job->command;
         $mkdir = 'if [ ! -d "' . $base_path . $project_accession . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . '; fi';
         $chmod = 'cd ' . $base_path . ' && sudo chown -R apache:apache ' . $project_accession . ' && sudo chmod -R 777 ' . $project_accession;
-        $cd_and_command = 'cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
+        $cd = 'cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
         system($mkdir);
         system($chmod);
         system($cd_and_command);

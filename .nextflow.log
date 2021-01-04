@@ -1,0 +1,37 @@
+Jan-04 13:12:34.052 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /opt/images/nf-core-scgs --reads /mnt/scc8t/gongyh/scgs_data/LCK/ZJ/3-1-LCK7005_combined_R1.fastq.gz --fasta /mnt/scc8t/gongyh/scgs_data/references/Escherichia/E.coli_K-12.fasta --gff /mnt/scc8t/gongyh/scgs_data/references/Escherichia/E.coli_K-12.gff --cnv -profile docker,base --outdir results -w work
+Jan-04 13:12:34.186 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 20.10.0
+Jan-04 13:12:35.832 [main] INFO  nextflow.cli.CmdRun - Launching `/opt/images/nf-core-scgs/main.nf` [drunk_booth] - revision: 61a9c6e2ae
+Jan-04 13:12:35.858 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /opt/images/nf-core-scgs/nextflow.config
+Jan-04 13:12:35.859 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /opt/images/nf-core-scgs/nextflow.config
+Jan-04 13:12:35.869 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `docker,base`
+Jan-04 13:12:36.692 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [test_denovo, debug, test_k8s, test, conda, awsbatch, singularity, test_local, base, docker, podman]
+Jan-04 13:12:36.767 [main] DEBUG nextflow.Session - Session uuid: b6159ff7-48b3-4d63-b3f4-a996e3945ddb
+Jan-04 13:12:36.767 [main] DEBUG nextflow.Session - Run name: drunk_booth
+Jan-04 13:12:36.768 [main] DEBUG nextflow.Session - Executor pool size: 80
+Jan-04 13:12:36.793 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 20.10.0 build 5430
+  Created: 01-11-2020 15:14 UTC (23:14 CDT)
+  System: Linux 3.10.0-1127.19.1.el7.x86_64
+  Runtime: Groovy 3.0.5 on OpenJDK 64-Bit Server VM 1.8.0_275-b01
+  Encoding: UTF-8 (UTF-8)
+  Process: 65746@gnode7 [192.168.1.7]
+  CPUs: 80 - Mem: 503.6 GB (11.5 GB) - Swap: 8 GB (7.9 GB)
+Jan-04 13:12:36.829 [main] DEBUG nextflow.Session - Work-dir: /var/www/scgs-web/work [ext2/ext3]
+Jan-04 13:12:36.941 [main] DEBUG nextflow.Session - Observer factory: TowerFactory
+Jan-04 13:12:36.944 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Jan-04 13:12:37.204 [main] DEBUG nextflow.Session - Session start invoked
+Jan-04 13:12:37.213 [main] DEBUG nextflow.trace.TraceFileObserver - Flow starting -- trace file: /var/www/scgs-web/results/pipeline_info/execution_trace.txt
+Jan-04 13:12:40.775 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Jan-04 13:12:40.792 [main] DEBUG nextflow.Session - Workflow process names [dsl1]: resfinder, output_documentation, prodigal, preseq, blobtools, save_reference, blast_nt, acdc, multiqc_denovo, trim_galore, circlize, diamond_uniprot, saturation, IndelRealign, prepare_bowtie2, augustus, eggnog, quast_ref, monovar, aneufinder, get_software_versions, quast_denovo, eukcc, bowtie2, pointfinder, qualimap, samtools, multiqc_ref, prokka, kraken, fastqc, kofam, spades, checkm
+Jan-04 13:12:41.202 [Actor Thread 3] ERROR nextflow.Nextflow - Cannot find any reads matching: /mnt/scc8t/gongyh/scgs_data/LCK/ZJ/3-1-LCK7005_combined_R1.fastq.gz
+NB: Path needs to be enclosed in quotes!
+If this is single-end data, please specify --singleEnd on the command line.
+Jan-04 13:12:41.209 [main] INFO  nextflow.Nextflow - [2m----------------------------------------------------[0m
+                                        [0;32m,--.[0;30m/[0;32m,-.[0m
+[0;34m        ___     __   __   __   ___     [0;32m/,-._.--~'[0m
+[0;34m  |\ | |__  __ /  ` /  \ |__) |__         [0;33m}  {[0m
+[0;34m  | \| |       \__, \__/ |  \ |___     [0;32m\`-._,-`-,[0m
+                                        [0;32m`._,._,'[0m
+[0;35m  gongyh/nf-core-scgs v1.0[0m
+[2m----------------------------------------------------[0m
+

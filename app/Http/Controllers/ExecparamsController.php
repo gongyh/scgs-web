@@ -273,10 +273,10 @@ class ExecparamsController extends Controller
 
                 if ($filename2 != null) {
                     //pairEnds
-                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $base_path . $accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '-profile docker,base ' . $resume . '--outdir results -w work';
+                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads "' . $base_path . $accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '-profile docker,base ' . $resume . '--outdir results -w work';
                 } else {
                     //singleEnds
-                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $base_path . $accession . '/' .$filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
+                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads "' . $base_path . $accession . '/' .$filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
                 }
 
             }else{
@@ -310,15 +310,13 @@ class ExecparamsController extends Controller
                 $filename = str_replace($file_prefix, '*', $filename1);
                 $replace_num_position = strrpos($filename, '1');
                 $filename = substr_replace($filename, '[1,2]', $replace_num_position, 1);
-                $filename = $base_path . $project_accession . '/' . $filename;
-                $filename = $base_path . $project_accession . '/' . $filename1;
 
                 if ($filename2 != null) {
                     //Paired-End
-                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '-profile docker,base ' . $resume . '--outdir results -w work';
+                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads "' . $base_path . $project_accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '-profile docker,base ' . $resume . '--outdir results -w work';
                 } else {
                     //Single
-                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads ' . '"' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
+                    $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads "' . $base_path . $project_accession . '/' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
                 }
             }
 
