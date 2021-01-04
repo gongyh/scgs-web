@@ -37,14 +37,17 @@ $(function () {
 
     if (arg_tab != null) {
       arg_tab.onclick = function () {
-        window.alert = function () {};
-        read_arg_data();
+        if ($('#arg_dataTable thead tr:has(th)').length == 0) {
+            read_arg_data();
+          }
       }
     }
 
     if (bowtie_tab != null) {
       bowtie_tab.onclick = function () {
-        read_bowtie_data();
+        if ($('#bowtie_dataTable thead tr:has(th)').length == 0) {
+          read_bowtie_data();
+        }
       }
     }
   } else {
@@ -72,7 +75,9 @@ $(function () {
       arg_tab.onclick = function () {
         window.alert = function () {};
         $('#arg_tabs li').first().addClass('active');
-        read_arg_data();
+        if ($('#arg_dataTable thead tr:has(th)').length == 0) {
+            read_arg_data();
+          }
         change_footer_position();
       }
     }
@@ -81,7 +86,9 @@ $(function () {
       bowtie_tab.onclick = function () {
         window.alert = function () {};
         $('#bowtie_tabs li').first().addClass('active');
-        read_bowtie_data();
+        if ($('#bowtie_dataTable thead tr:has(th)').length == 0) {
+          read_bowtie_data();
+        }
         change_footer_position();
       }
     }
@@ -438,6 +445,8 @@ $(function () {
                 a.push(d)
               })
             })
+            $('#arg_dataTable thead tr').empty();
+            $('#arg_dataTable tbody').empty();
             for (let j = 0; j < data[0].length; j++) {
               let th = $('<th></th>');
               th.html(data[0][j]);
@@ -619,7 +628,6 @@ $(function () {
                 $(this).addClass('selected');
               }
             });
-
           }
         }
       })
@@ -639,17 +647,32 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let data = res.data;
-            let bowtie_result = [];
-            bowtie_result.push(data[1]);
-            for (i = 0; i < res.data[0].length; i++) {
-              var td = $('<td></td>').text(res.data[0][i]);
-              $('#bowtie_dataTable thead tr').append(td);
-            }
-            var bowtie_table = $('#bowtie_dataTable').DataTable({
-              data: bowtie_result,
+            let bowtie_data = res.data;
+            let data = []
+            bowtie_data.forEach(item => {
+              item.forEach((d, i) => {
+                let a = data[i] = data[i] || []
+                a.push(d)
+              })
             });
-
+            for (let j = 0; j < data[0].length; j++) {
+              let th = $('<th></th>');
+              th.html(data[0][j]);
+              $('#bowtie_dataTable thead tr').append(th);
+            }
+            for (let i = 1; i < data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
+              }
+              $('#bowtie_dataTable tbody').append(tr);
+            }
+            data.shift();
+            var bowtie_table = $('#bowtie_dataTable').DataTable({
+              data: data,
+            });
+            change_footer_position();
             $('#bowtie_dataTable tbody').on('click', 'tr', function () {
               if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
@@ -659,7 +682,6 @@ $(function () {
                 $(this).addClass('selected');
               }
             });
-
           }
         }
       })
