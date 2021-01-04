@@ -249,7 +249,7 @@
                     <nav>
                       <div class="nav nav-tabs d-flex" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active mr-auto" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Files</a>
-                        <button type="button" class="btn btn-success btn-sm">Add Files</button>
+                        <a class="btn btn-success btn-sm pt-2" href="/workspace/addSampleFiles">Add Files</a>
                       </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
