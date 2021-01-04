@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs;
 use App\User;
 use App\Samples;
+use App\Projects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -30,15 +31,14 @@ class ResultController extends Controller
         if ($request->input('sampleID')) {
             $sample_id = $request->input('sampleID');
             $project_id = Samples::where('id', $sample_id)->value('projects_id');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
-            $user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
-            $sample_username = User::where('id', $user_id)->value('name');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $path = $base_path . $sample_username . '/' . $uuid . '/results';
-            $multiqc_mkdir = 'cd ' . public_path() . '/results && mkdir -p ' . $sample_username . '/' . $uuid;
-            $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $sample_username . '/' . $uuid . '; fi';
-            $cp_kraken = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/kraken ' . public_path() . '/results/' . $sample_username . '/' . $uuid . '; fi';
-            $cp_blob = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/blob ' . public_path() . '/results/' . $sample_username . '/' . $uuid . '; fi';
+            $path = $base_path . $project_accession . '/' . $uuid . '/results';
+            $multiqc_mkdir = 'cd ' . public_path() . '/results && mkdir -p ' . $project_accession . '/' . $uuid;
+            $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
+            $cp_kraken = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/kraken ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
+            $cp_blob = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/blob ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
             system($multiqc_mkdir);
             system($cp_multiqc);
             system($cp_kraken);
@@ -59,19 +59,18 @@ class ResultController extends Controller
             $preseq_array = array();
             array_push($preseq_array, $file_prefix . '_c', $file_prefix . '_lc', $file_prefix . '_gc');
             $command = Jobs::where('sample_id', $sample_id)->value('command');
-            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid, 'project_id' => $project_id, 'file_prefix' => $file_prefix, 'preseq_array' => $preseq_array]);
+            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid, 'project_id' => $project_id, 'project_accession' => $project_accession , 'file_prefix' => $file_prefix, 'preseq_array' => $preseq_array]);
         } else {
             $project_id = $request->input('projectID');
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
-            $user_id = Jobs::where('project_id', $project_id)->value('user_id');
-            $project_username = User::where('id', $user_id)->value('name');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $path = $base_path . $project_username . '/' . $uuid . '/results';
-            $multiqc_mkdir = 'cd ' . public_path() . '/results && mkdir -p ' . $project_username . '/' . $uuid;
-            $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $project_username . '/' . $uuid . '; fi';
-            $cp_kraken = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/kraken ' . public_path() . '/results/' . $project_username . '/' . $uuid . '; fi';
-            $cp_blob = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/blob ' . public_path() . '/results/' . $project_username . '/' . $uuid . '; fi';
-            $cp_preseq = 'if [ -d ' . $path . '/preseq ]; then cp -r ' . $path . '/preseq ' . public_path() . '/results/' . $project_username . '/' . $uuid . '; fi';
+            $path = $base_path . $project_accession . '/' . $uuid . '/results';
+            $multiqc_mkdir = 'cd ' . public_path() . '/results && mkdir -p ' . $project_accession . '/' . $uuid;
+            $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
+            $cp_kraken = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/kraken ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
+            $cp_blob = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/blob ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
+            $cp_preseq = 'if [ -d ' . $path . '/preseq ]; then cp -r ' . $path . '/preseq ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
             system($multiqc_mkdir);
             system($cp_multiqc);
             system($cp_kraken);
@@ -98,7 +97,7 @@ class ResultController extends Controller
                 array_push($preseq_array, $file_prefix . '_c', $file_prefix . '_lc', $file_prefix . '_gc');
             }
             $command = Jobs::where('project_id', $project_id)->value('command');
-            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'project_user' => $project_user, 'project_uuid' => $project_uuid, 'project_id' => $project_id, 'filename_array' => $filename_array, 'preseq_array' => $preseq_array]);
+            return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'project_user' => $project_user, 'project_uuid' => $project_uuid, 'project_id' => $project_id, 'project_accession' => $project_accession , 'filename_array' => $filename_array, 'preseq_array' => $preseq_array]);
         }
     }
 
@@ -140,18 +139,17 @@ class ResultController extends Controller
     {
         if ($request->input('projectID')) {
             $project_id = $request->input('projectID');
-            $user_id = Jobs::where('project_id', $project_id)->value('user_id');
-            $username = User::where('id', $user_id)->value('name');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
         } else {
             $sample_id = $request->input('sampleID');
-            $user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
-            $username = User::where('id', $user_id)->value('name');
+            $project_id = Samples::where('id', $sample_id)->value('projects_id');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
         }
         if ($request->input('preseq')) {
             $preseq = $request->input('preseq');
-            $preseq_path = $username . '/' . $uuid . '/results/preseq/' . $preseq . '.txt';
+            $preseq_path = $project_accession . '/' . $uuid . '/results/preseq/' . $preseq . '.txt';
             if (strpos($preseq, '_c')) {
                 if (Storage::disk('local')->exists($preseq_path)) {
                     $preseq_data = Storage::get($preseq_path);
@@ -239,7 +237,7 @@ class ResultController extends Controller
             }
         } elseif ($request->input('arg')) {
             $arg = $request->input('arg');
-            $arg_path = $username . '/' . $uuid . '/results/ARG/' . 'Y7-LCJ3577' . '/results_tab.tsv';
+            $arg_path = $project_accession . '/' . $uuid . '/results/ARG/' . 'Y7-LCJ3577' . '/results_tab.tsv';
             if (Storage::disk('local')->exists($arg_path)) {
                 $arg_data = Storage::get($arg_path);
                 $arg_data = explode("\n", $arg_data);
@@ -256,7 +254,7 @@ class ResultController extends Controller
             }
         } elseif ($request->input('bowtie')) {
             $bowtie = $request->input('bowtie');
-            $bowtie_path = $username . '/' . $uuid . '/results/bowtie2/stats/' . $bowtie . '.stats.txt';
+            $bowtie_path = $project_accession . '/' . $uuid . '/results/bowtie2/stats/' . $bowtie . '.stats.txt';
             if (Storage::disk('local')->exists($bowtie_path)) {
                 $bowtie_data = Storage::get($bowtie_path);
                 $bowtie_data = explode("\n", $bowtie_data);
@@ -284,7 +282,7 @@ class ResultController extends Controller
             }
         } elseif ($request->input('quast')) {
             if ($request->input('projectID')) {
-                $quast_path = $username . '/' . $uuid . '/results/quast/report.tsv';
+                $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
                 $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
                 $sample_sum = count($project_sample_filenames);
                 if (Storage::disk('local')->exists($quast_path)) {
@@ -309,7 +307,7 @@ class ResultController extends Controller
                     return response()->json(['code' => 400, 'data' => 'failed']);
                 }
             } else {
-                $quast_path = $username . '/' . $uuid . '/results/quast/report.tsv';
+                $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
                 if (Storage::disk('local')->exists($quast_path)) {
                     $quast_data = Storage::get($quast_path);
                     $quast_data = explode("\n", $quast_data);

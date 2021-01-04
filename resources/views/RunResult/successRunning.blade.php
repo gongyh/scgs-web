@@ -126,9 +126,9 @@
             </div>
             <div class="embed-responsive embed-responsive-4by3">
               @if(isset($sample_id))
-              <iframe class="embed-responsive-item" src={{'results/'.$sample_user.'/'.$sample_uuid.'/MultiQC/multiqc_report.html'}} allowfullscreen></iframe>
+              <iframe class="embed-responsive-item" src={{'results/'.$project_accession.'/'.$sample_uuid.'/MultiQC/multiqc_report.html'}} allowfullscreen></iframe>
               @elseif(isset($project_user))
-              <iframe class="embed-responsive-item" src={{'results/'.$project_user.'/'.$project_uuid.'/MultiQC/multiqc_report.html'}} allowfullscreen></iframe>
+              <iframe class="embed-responsive-item" src={{'results/'.$project_accession.'/'.$project_uuid.'/MultiQC/multiqc_report.html'}} allowfullscreen></iframe>
               @endif
             </div>
           </div>
@@ -166,7 +166,7 @@
               @endif
             </div>
             @if(isset($sample_id))
-            <img id="blob_image_sample" src={{'results/'.$sample_user.'/'.$sample_uuid.'/blob/'.$file_prefix.'/'.$file_prefix.'.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png'}} width="100%" height="100%" onerror="this.remove()">
+            <img id="blob_image_sample" src={{'results/'.$project_accession.'/'.$sample_uuid.'/blob/'.$file_prefix.'/'.$file_prefix.'.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png'}} width="100%" height="100%" onerror="this.remove()">
             @elseif(isset($project_user))
             <img id="blob_image" src="" width="100%" height="100%">
             @endif
