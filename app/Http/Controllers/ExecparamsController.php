@@ -525,15 +525,14 @@ class ExecparamsController extends Controller
         if($request->input('sampleID')){
             $running_sample_id = $request->input('running_sample_id');
             $uuid = Jobs::where([['sample_id', '=', $running_sample_id], ['status', '=', 1]])->value('uuid');
-            $user_id = Jobs::where('sample_id', $running_sample_id)->value('user_id');
-            $run_sample_user = User::where('id', $user_id)->value('name');
+            $project_id = Samples::where('id', $running_sample_id)->value('projects_id');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
         }else{
             $running_project_id = $request->input('running_project_id');
             $uuid = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('uuid');
-            $user_id = Jobs::where('project_id', $running_project_id)->value('user_id');
-            $run_sample_user = User::where('id', $user_id)->value('name');
+            $project_accession = Projects::where('id', $running_project_id)->value('doi');
         }
-        $nextflow_log_path = $run_sample_user . '/' . $uuid . '/.nextflow.log';
+        $nextflow_log_path = $project_accession . '/' . $uuid . '/.nextflow.log';
         if (Storage::disk('local')->exists($nextflow_log_path)) {
             $data = Storage::get($nextflow_log_path);
             return response()->json(['code' => '200', 'data' => $data]);
