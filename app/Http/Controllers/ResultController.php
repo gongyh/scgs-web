@@ -106,13 +106,13 @@ class ResultController extends Controller
     {
         if ($request->input('sampleID')) {
             $sample_id = $request->input('sampleID');
+            $project_id = Samples::where('id', $sample_id)->value('projects_id');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $user_id = Jobs::where('sample_id', $sample_id)->value('user_id');
-            $sample_username = User::where('id', $user_id)->value('name');
             $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
-            $result_path  = $sample_username . '/' . $uuid . '/results';
-            $zip_name = $sample_username . '/' . $uuid . '/results.zip';
-            $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/results.zip';
+            $result_path  = $project_accession . '/' . $uuid . '/results';
+            $zip_name = $project_accession . '/' . $uuid . '/results.zip';
+            $zip_full_name = $base_path . $project_accession . '/' . $uuid . '/results.zip';
 
             if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
                 return response()->download($zip_full_name);
@@ -121,13 +121,12 @@ class ResultController extends Controller
             }
         } else {
             $project_id = $request->input('projectID');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $user_id = Jobs::where('project_id', $project_id)->value('user_id');
-            $project_username = User::where('id', $user_id)->value('name');
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
-            $result_path  = $project_username . '/' . $uuid . '/results';
-            $zip_name = $project_username . '/' . $uuid . '/results.zip';
-            $zip_full_name = $base_path . $project_username . '/' . $uuid . '/results.zip';
+            $result_path  = $project_accession . '/' . $uuid . '/results';
+            $zip_name = $project_accession . '/' . $uuid . '/results.zip';
+            $zip_full_name = $base_path . $project_accession . '/' . $uuid . '/results.zip';
 
             if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
                 return response()->download($zip_full_name);
