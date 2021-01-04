@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Jobs;
 use App\User;
+use App\Samples;
+use App\Projects;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Support\Facades\Queue;
@@ -41,11 +43,15 @@ class AppServiceProvider extends ServiceProvider
             $sample_id = Jobs::where('current_uuid', $job_uuid)->value('sample_id');
             $project_id = Jobs::where('current_uuid', $job_uuid)->value('project_id');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            isset($sample_id) ? $user_id = Jobs::where('sample_id', $sample_id)->value('user_id') : $user_id = Jobs::where('project_id', $project_id)->value('user_id');
-            $sample_username = User::where('id', $user_id)->value('name');
             isset($sample_id) ? $uuid = Jobs::where('sample_id', $sample_id)->value('uuid') : $uuid = Jobs::where('project_id', $project_id)->value('uuid');
-            $zip_full_name = $base_path . $sample_username . '/' . $uuid . '/results.zip';
-            $path = $base_path . $sample_username . '/' . $uuid . '/results';
+            if(isset($sample_id)){
+                $projectId = Samples::where('id',$sample_id)->value('projects_id');
+                $project_accession = Projects::where('id',$projectId)->value('doi');
+            }else{
+                $project_accession = Projects::where('id',$project_id)->value('doi');
+            }
+            $zip_full_name = $base_path . $project_accession . '/' . $uuid . '/results.zip';
+            $path = $base_path . $project_accession . '/' . $uuid . '/results';
             $zipFile = new \PhpZip\ZipFile();
             $zipFile->addDirRecursive($path);
             $zipFile->saveAsFile($zip_full_name);
