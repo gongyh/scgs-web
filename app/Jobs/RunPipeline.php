@@ -5,6 +5,8 @@ namespace App\Jobs;
 
 use App\Jobs;
 use App\User;
+use App\Samples;
+use App\Projects;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -64,12 +66,13 @@ class RunPipeline implements ShouldQueue
          * execute params
          */
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
-        $sample_user_id = $current_job->user_id;
-        $sample_user_name = User::where('id', $sample_user_id)->value('name');
+        $sample_id = $current_job->sample_id;
+        $project_id = Samples::where('id', $sample_id)->value('projects_id');
+        $project_accession = Projects::where('id', $project_id)->value('doi');
         $command = $current_job->command;
-        $mkdir = 'if [ ! -d "' . $base_path . $sample_user_name . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $sample_user_name . '/' . $job_uuid . '; fi';
-        $chmod = 'cd ' . $base_path . ' && sudo chown -R apache:apache ' . $sample_user_name . ' && sudo chmod -R 777 ' . $sample_user_name;
-        $cd_and_command = 'cd ' . $base_path . $sample_user_name . '/' . $job_uuid . ' && ' . $command;
+        $mkdir = 'if [ ! -d "' . $base_path . $project_accession . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . '; fi';
+        $chmod = 'cd ' . $base_path . ' && sudo chown -R apache:apache ' . $project_accession . ' && sudo chmod -R 777 ' . $project_accession;
+        $cd_and_command = 'cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
         system($mkdir);
         system($chmod);
         system($cd_and_command);
