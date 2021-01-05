@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Labs;
+use App\Jobs;
 use App\Projects;
 use App\Samples;
 use Illuminate\Http\Request;
@@ -86,5 +87,22 @@ class WorkspaceController extends Controller
             $file->storeAs($storage_path,$fileName,'local');
             return response()->json(['code' => 200]);
         }
+    }
+
+    public function manageRunning(){
+        $samples = new Samples();
+        $projects = new Projects();
+        $now = time();
+        $running_jobs = Jobs::where('status', 1)->get();
+        return view('Workspace.manageRunning',compact('now','running_jobs','samples','projects'));
+    }
+
+    public function runningTerminate(Request $request){
+        $uuid = $request->input('uuid');
+        $job_id = Jobs::where('current_uuid',$uuid)->value('id');
+        $job = Jobs::find($job_id);
+        $job->status = 2;
+        $job->save();
+        return redirect('/workspace/manageRunning');
     }
 }
