@@ -147,8 +147,8 @@
               </ul>
               @endif
             </div>
-            <div id="kraken_report" class="kraken_report embed-responsive embed-responsive-4by3">
-            </div>
+          </div>
+          <div id="kraken_report" class="kraken_report embed-responsive embed-responsive-4by3">
           </div>
         </div>
         <div class="tab-pane fade" id="v-pills-blob" role="tabpanel" aria-labelledby="v-pills-blob-tab">
@@ -165,12 +165,12 @@
               </ul>
               @endif
             </div>
-            @if(isset($sample_id))
-            <img id="blob_image_sample" src={{'results/'.$project_accession.'/'.$sample_uuid.'/blob/'.$file_prefix.'/'.$file_prefix.'.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png'}} width="100%" height="100%" onerror="this.remove()">
-            @elseif(isset($project_user))
-            <img id="blob_image" src="" width="100%" height="100%">
-            @endif
           </div>
+          @if(isset($sample_id))
+          <img id="blob_image_sample" src={{'results/'.$project_accession.'/'.$sample_uuid.'/blob/'.$file_prefix.'/'.$file_prefix.'.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png'}} width="100%" height="100%">
+          @elseif(isset($project_user))
+          <img id="blob_image" src="" width="100%" height="100%">
+          @endif
         </div>
         <div class="tab-pane fade" id="v-pills-preseq" role="tabpanel" aria-labelledby="v-pills-preseq-tab">
           <div id="iframe_browser" class="preseq_report">
