@@ -52,6 +52,7 @@
                     <a class="dropdown-item" href="/workspace/institutions">Manage Institutions</a>
                     <a class="dropdown-item" href="/workspace/species">Manage Species</a>
                     <a class="dropdown-item" href="/workspace/applications">Manage Applications</a>
+                    <a class="dropdown-item" href="/workspace/manageRunning">Manage Running Samples</a>
                     <a class="dropdown-item" href="/workspace/pipelineParams">Basic Pipeline Params</a>
                     @endif
                     <a class="dropdown-item" href="/workspace/myLab">My Labs</a>
