@@ -115,10 +115,6 @@ $(function () {
     })
   }
 
-  if ($('.blob_browser:has(img)').length == 0) {
-    $('.blob_browser').append('<p> No Blob Result! </p>');
-  }
-
   if (preseq_tab != null) {
     preseq_tab.onclick = function () {
       $('#preseq_tabs li').first().addClass('active');
@@ -151,6 +147,8 @@ $(function () {
       paging: false
     });
     table.destroy();
+    $('#arg_dataTable thead tr').empty();
+    $('#arg_dataTable tbody').empty();
     read_arg_data();
   })
 

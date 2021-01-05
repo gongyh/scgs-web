@@ -22,10 +22,6 @@
           <input type="text" class="form-control w-75" name="new_proj_name" id="new_proj_name" value={{old('new_proj_name')?old('new_proj_name'):''}}>
         </div>
         <div class="form-group">
-          <label for="new_project_id">ProjectID</label><span class="text-danger font-weight-bold">*</span>
-          <input type="text" class="form-control w-75" name="new_project_id" id="new_project_id" value={{old('new_project_id')?old('new_project_id'):''}}>
-        </div>
-        <div class="form-group">
           <div>
             <label for="new_type">Type</label><span class="text-danger font-weight-bold">(Choose a type)*</span>
           </div>
@@ -48,7 +44,7 @@
             <label for="new_collection_date">Collection Date</label><span class="text-danger font-weight-bold">*</span>
           </div>
           <div class="input-group date w-75" id="datetimepicker" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" />
+            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" name="new_collection_date" >
             <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
               <div class="input-group-text">
                 <i class="glyphicon glyphicon-calendar"></i>
@@ -61,7 +57,7 @@
             <label for="new_release_date">Release Date</label><span class="text-danger font-weight-bold">*</span>
           </div>
           <div class="input-group date w-75" id="datetimepicker1" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="new_release_date" >
             <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
               <div class="input-group-text">
                 <i class="glyphicon glyphicon-calendar"></i>

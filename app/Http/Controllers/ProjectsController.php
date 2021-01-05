@@ -67,6 +67,13 @@ class ProjectsController extends Controller
     {
         $labs = Labs::all();
         $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
+        $last_accession = DB::table('projects')->orderBy('id','desc')->first()->doi;
+        \preg_match('/CRP0+/',$last_accession,$dir);
+        $accession_number = str_replace($dir[0],'',$last_accession);
+        $accession_number = \number_format($accession_number);
+        $accession_number += 1;
+        $access_num = \str_pad($accession_number,8,0,STR_PAD_LEFT);
+        $new_accession = "CRP" . $access_num;
         if ($request->isMethod('POST')) {
             $user = Auth::user();
             $isAdmin = $user->email == env('ADMIN_EMAIL');
@@ -75,7 +82,6 @@ class ProjectsController extends Controller
             if ($request->input('labID')) {
                 $this->validate($request, [
                     'new_proj_name' => 'required',
-                    'new_project_id' => 'required|unique:projects,doi',
                     'new_proj_desc' => 'required|max:2000',
                     'new_type' => 'required|max:250',
                     'new_collection_date' => 'required|max:250',
@@ -83,7 +89,6 @@ class ProjectsController extends Controller
                     'new_location' => 'required|max:250'
                 ]);
                 $new_proj_name = $request->input('new_proj_name');
-                $new_project_id = $request->input('new_project_id');
                 $new_proj_desc = $request->input('new_proj_desc');
                 $new_type = $request->input('new_type');
                 $new_collection_date = $request->input('new_collection_date');
@@ -93,7 +98,7 @@ class ProjectsController extends Controller
                 Projects::create([
                     'labs_id' => $labID,
                     'name' => $new_proj_name,
-                    'doi' => $new_project_id,
+                    'doi' => $new_accession,
                     'type' => $new_type,
                     'collection_date' => $new_collection_date,
                     'release_date' => $new_release_date,
@@ -109,7 +114,6 @@ class ProjectsController extends Controller
                 $this->validate($request, [
                     'selectLab' => 'required',
                     'new_proj_name' => 'required',
-                    'new_project_id' => 'required|unique:projects,doi',
                     'new_proj_desc' => 'required|max:2000',
                     'new_type' => 'required|max:250',
                     'new_collection_date' => 'required|max:250',
@@ -118,7 +122,6 @@ class ProjectsController extends Controller
                 ]);
                 $labId = $request->input('selectLab');
                 $new_proj_name = $request->input('new_proj_name');
-                $new_project_id = $request->input('new_project_id');
                 $new_proj_desc = $request->input('new_proj_desc');
                 $new_type = $request->input('new_type');
                 $new_collection_date = $request->input('new_collection_date');
@@ -127,7 +130,7 @@ class ProjectsController extends Controller
                 Projects::create([
                     'labs_id' => $labId,
                     'name' => $new_proj_name,
-                    'doi' => $new_project_id,
+                    'doi' => $new_accession,
                     'type' => $new_type,
                     'collection_date' => $new_collection_date,
                     'release_date' => $new_release_date,
@@ -141,7 +144,7 @@ class ProjectsController extends Controller
                 }
             } else {
                 $pi_error = 'sorry! you are not the principleInvestgator! Can not create project!';
-                return view('Projects.proj_create', ['pi_error' => $pi_error, 'labs' => $labs]);
+                return view('Projects.proj_create', ['pi_error' => $pi_error, 'labs' => $labs,'types' => $types]);
             }
         }
         if ($request->input('labID')) {
@@ -189,10 +192,6 @@ class ProjectsController extends Controller
                     'max:250',
                     Rule::unique('projects')->ignore($proj_id)
                 ],
-                'doi' => [
-                    'required',
-                    Rule::unique('projects')->ignore($proj_id)
-                ],
                 'description' => [
                     'required',
                     'max:2000',
@@ -215,14 +214,12 @@ class ProjectsController extends Controller
                 ]
             ])->validate();
             $new_proj = $input['name'];
-            $new_doi = $input['doi'];
             $new_desc = $input['description'];
             $new_type = $input['type'];
             $new_collection_date = $input['collection_date'];
             $new_release_date = $input['release_date'];
             $new_location = $input['location'];
             $project['name'] = $new_proj;
-            $project['doi'] = $new_doi;
             $project['description'] = $new_desc;
             $project['type'] = $new_type;
             $project['collection_date'] = $new_collection_date;

@@ -12,10 +12,6 @@
           <input type="text" class="form-control w-75" name="name" id="name" value="{{$project->name}}">
         </div>
         <div class="form-group">
-          <label for="doi">ProjectID</label><span class="text-danger font-weight-bold">*</span>
-          <input type="text" class="form-control w-75" name="doi" id="doi" value="{{$project->doi}}">
-        </div>
-        <div class="form-group">
           <div>
             <label for="new_type">Type</label><span class="text-danger font-weight-bold">(Choose a type)*</span>
           </div>
