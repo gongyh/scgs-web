@@ -16,9 +16,9 @@ class ResultController extends Controller
     public function failed_running(Request $request)
     {
         $uuid = $request->input('uuid');
-        $user_id = Jobs::where('uuid', $uuid)->value('user_id');
-        $user_name = User::where('id', $user_id)->value('name');
-        $file_path = $user_name . '/' . $uuid . '/.nextflow.log';
+        $project_id = Jobs::where('uuid', $uuid)->value('project_id');
+        $project_accession = Projects::where('id', $project_id)->value('doi');
+        $file_path = $project_accession . '/' . $uuid . '/.nextflow.log';
         $nextflowLog = Storage::get($file_path);
         return view('RunResult.failedRunning', ['nextflowLog' => $nextflowLog]);
     }

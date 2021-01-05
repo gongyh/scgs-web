@@ -174,7 +174,7 @@
         </div>
         <div class="tab-pane fade" id="v-pills-preseq" role="tabpanel" aria-labelledby="v-pills-preseq-tab">
           <div id="iframe_browser" class="preseq_report">
-            <div id="iframe_browser_header">
+            <div id="iframe_browser_header overflow-auto">
               <div id="iframe_browser_buttons">
               </div>
               <span id="iframe_browser_title">Preseq Reports</span>
@@ -192,8 +192,8 @@
               </ul>
               @endif
             </div>
-            <div id="preseq_report" class="w-100 overflow-hidden">
-            </div>
+          </div>
+	  <div id="preseq_report" class="mt-1 w-100 overflow-hidden">
           </div>
         </div>
         <div class="tab-pane fade" id="v-pills-arg" role="tabpanel" aria-labelledby="v-pills-arg-tab">

@@ -162,6 +162,8 @@ $(function () {
       paging: false
     });
     table.destroy();
+    $('#bowtie_dataTable thead tr').empty();
+    $('#bowtie_dataTable tbody').empty();
     read_bowtie_data();
   })
 
@@ -392,6 +394,8 @@ $(function () {
                 a.push(d)
               })
             });
+	    $('#arg_dataTable thead tr').empty();
+            $('#arg_dataTable tbody').empty();
             for (let j = 0; j < data[0].length; j++) {
               let th = $('<th></th>');
               th.html(data[0][j]);
