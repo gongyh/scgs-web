@@ -346,16 +346,14 @@ footer {
 }
 
 #iframe_browser_header {
-  height: 30px;
   padding: 7px 5px;
 }
 
 #iframe_browser_title {
-  display: inline-block;
   font-size: 12px;
   font-weight: 400;
   color: #666;
-  margin: 1px 10px;
+  margin: 4px 10px;
   vertical-align: top;
   padding-left: 10px;
 }
@@ -370,9 +368,8 @@ footer {
   list-style-type: none;
   line-height: 32px;
   max-height: 32px;
-  overflow: hidden;
-  display: inline-block;
   padding: 0 20px;
+  display: inline-block;
 }
 
 #kraken_tabs li.active,
@@ -407,12 +404,11 @@ footer {
 #preseq_tabs li,
 #arg_tabs li,
 #bowtie_tabs li {
-  float: right;
   margin: 5px -10px 0;
-  border-top-right-radius: 35px 140px;
+  border-top-right-radius: 35px 32px;
   border-top-left-radius: 20px 40px;
   padding: 0 33px 0 19px;
-  height: 140px;
+  height: 32px;
   background: #ddd;
   position: relative;
   box-shadow: 0 10px 20px rgba(0, 0, 0, .5);
