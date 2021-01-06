@@ -160,7 +160,7 @@ class SamplesController extends Controller
                         return back()->withErrors($file_error);
                     } else {
                         $mk_project_dir = 'if [ ! -d "' . $base_path . $Accession . '" ]; then mkdir -p ' . $base_path . $Accession . '; fi';
-                        $cp_sample_file = 'cp ' . $base_path . 'meta-data/' . $fileOne . ' ' . $base_path . $Accession .'&& cp ' . $base_path . 'meta-data/' . $fileTwo . ' ' . $base_path . $Accession;
+                        $cp_sample_file = 'cp ' . $base_path . 'meta-data/' . $fileOne . ' ' . $base_path . $Accession . ' && cp ' . $base_path . 'meta-data/' . $fileTwo . ' ' . $base_path . $Accession;
                         system($mk_project_dir);
                         system($cp_sample_file);
                         Samples::create([

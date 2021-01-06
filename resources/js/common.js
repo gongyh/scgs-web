@@ -464,6 +464,7 @@ var sampleFileInput = function () {
       dropZoneEnabled: true,
       elCaptionText: 'Upload Files',
       browseClass: "btn btn-primary",
+      uploadClass:"btn btn-success",
       maxFileCount: 5,
       enctype: 'multipart/form-data',
       validateInitialCount: true,
