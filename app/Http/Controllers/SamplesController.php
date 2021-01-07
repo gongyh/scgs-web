@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-
+use App\Jobs\MvSamples;
 
 
 class SamplesController extends Controller
@@ -114,10 +114,6 @@ class SamplesController extends Controller
                 if ($fileTwo == null) {
                     $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
                     if ($file1_exist) {
-                        $mk_project_dir = 'if [ ! -d "' . $base_path . $Accession . '" ]; then mkdir -p ' . $base_path . $Accession . '; fi';
-                        $cp_sample_file = 'cp ' . $base_path . 'meta-data/' . $user . '/' . $fileOne . ' ' . $base_path . $Accession;
-                        system($mk_project_dir);
-                        system($cp_sample_file);
                         Samples::create([
                             'sampleLabel' => $new_sample_label,
                             'library_id' => $new_library_id,
@@ -134,8 +130,9 @@ class SamplesController extends Controller
                             'pairends' => $isPairends,
                             'filename1' => $fileOne,
                             'filename2' => null,
-                            'isPrepared' => 1,
+                            'isPrepared' => 0,
                         ]);
+                        MvSamples::dispatch($projectID, $fileOne, $fileTwo)->onQueue('MvSamples');
                         if ($request->input('from')) {
                             return redirect('/workspace/samples?projectID=' . $projectID);
                         } else {
@@ -158,10 +155,6 @@ class SamplesController extends Controller
                         $file_error = 'file1 and file2 doesn\'t exist';
                         return back()->withErrors($file_error);
                     } else {
-                        $mk_project_dir = 'if [ ! -d "' . $base_path . $Accession . '" ]; then mkdir -p ' . $base_path . $Accession . '; fi';
-                        $cp_sample_file = 'cp ' . $base_path . 'meta-data/' . $user . '/' . $fileOne . ' ' . $base_path . $Accession . ' && cp ' . $base_path . 'meta-data/' . $user . '/' . $fileTwo . ' ' . $base_path . $Accession;
-                        system($mk_project_dir);
-                        system($cp_sample_file);
                         Samples::create([
                             'sampleLabel' => $new_sample_label,
                             'library_id' => $new_library_id,
@@ -178,8 +171,9 @@ class SamplesController extends Controller
                             'pairends' => $isPairends,
                             'filename1' => $fileOne,
                             'filename2' => $fileTwo,
-                            'isPrepared' => 1,
+                            'isPrepared' => 0,
                         ]);
+                        MvSamples::dispatch($projectID, $fileOne, $fileTwo)->onQueue('MvSamples');
                         if ($request->input('from')) {
                             return redirect('/workspace/samples?projectID=' . $projectID);
                         } else {
