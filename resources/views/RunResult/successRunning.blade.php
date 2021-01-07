@@ -140,7 +140,7 @@
               </div>
               <div id="iframe_browser_title">Kraken Reports</div>
               @if(isset($project_user))
-              <ul id="kraken_tabs">
+              <ul id="kraken_tabs" class="d-flex">
                 @foreach($filename_array as $filename)
                 <li><a href="#">{{$filename}}</a></li>
                 @endforeach
@@ -193,7 +193,7 @@
           </div>
         </div>
         <div class="tab-pane fade" id="v-pills-arg" role="tabpanel" aria-labelledby="v-pills-arg-tab">
-          <div id="iframe_browser" class="arg_report mb-2">
+          <div id="iframe_browser" class="arg_report mb-2 overflow-auto">
             <div id="iframe_browser_header">
               <div id="iframe_browser_title">ARG Reports</div>
               @if(isset($project_user))
@@ -215,7 +215,7 @@
           </table>
         </div>
         <div class="tab-pane fade" id="v-pills-bowtie" role="tabpanel" aria-labelledby="v-pills-bowtie-tab">
-          <div id="iframe_browser" class="bowtie_report mb-2">
+          <div id="iframe_browser" class="bowtie_report mb-2 overflow-auto">
             <div id="iframe_browser_header">
               <div id="iframe_browser_title">Bowtie Reports</div>
               @if(isset($project_user))

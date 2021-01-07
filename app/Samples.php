@@ -16,7 +16,7 @@ class Samples extends Model
     protected $table = 'samples';
     protected $fillable = [
         'id', 'pairends', 'filename1', 'filename2', 'sampleLabel', 'library_id', 'library_strategy', 'library_source', 'library_selection', 'platform', 'instrument_model', 'design_description', 'filetype', 'species_id',
-        'applications_id', 'projects_id'
+        'applications_id', 'projects_id','isPrepared'
     ];
 
     public function getAppName($id)
