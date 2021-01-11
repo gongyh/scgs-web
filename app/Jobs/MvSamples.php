@@ -55,8 +55,8 @@ class MvSamples implements ShouldQueue
         }else{
             $cp_sample_file = 'cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename1 . ' ' . $base_path . $Accession . ' && cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename2 . ' ' . $base_path . $Accession;
         }
-        echo($mk_project_dir);
-        echo($cp_sample_file);
+        system($mk_project_dir);
+        system($cp_sample_file);
         $sample->isPrepared = 1;  //Prepared : 1
         $sample->save();
     }
