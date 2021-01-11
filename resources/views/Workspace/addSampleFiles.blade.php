@@ -20,6 +20,15 @@
       @endforeach
       <label for="addSampleFiles" class="control-label"></label>
       <input type="file" name="addSampleFiles" id="addSampleFiles" multiple>
+
+      <form action="" method="POST">
+        @csrf
+        <div class="form-group mt-5 w-50">
+          <label for="ncbi_sra_id" class="rem1">NCBI sra-id</label>
+          <input type="text" class="form-control" id="ncbi_sra_id" name="ncbi_sra_id">
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+      </form>
     </div>
   </div>
 </div>

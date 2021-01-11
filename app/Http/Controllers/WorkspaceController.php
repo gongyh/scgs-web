@@ -75,6 +75,19 @@ class WorkspaceController extends Controller
     }
 
     public function addSampleFiles(Request $request){
+        if($request->isMethod('POST')){
+            $user = Auth::user();
+            $username = $user->name;
+            $sra_id = $request->input('ncbi_sra_id');
+            $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+            $mkdir_rawdata = 'if [ ! -d "' . $base_path .  '/raw_data/' . $username . '" ]; then mkdir -p ' . $base_path . '/raw_data/' . $username . '; fi';
+            system($mkdir_rawdata);
+            $user_dir = $base_path . '/raw_data/' . $username;
+            $fastq_dump = 'parallel-fastq-dump --sra-id ' . $sra_id . '--threads 4 --outdir ' . $user_dir . '--split-files --gzip';
+            system($fastq_dump);
+            $mv_rawdata = 'mv ' . $base_path . '/raw_data/' . $username . '/* ' . $base_path . '/mata-data/' . $username;
+            system($mv_rawdata);
+        }
         $user = Auth::user();
         $username = $user->name;
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
@@ -84,7 +97,7 @@ class WorkspaceController extends Controller
         if($request->file('addSampleFiles')->isValid()){
             $file = $request->file('addSampleFiles');
             $fileName = $file->getClientOriginalName();
-            $file->storeAs($storage_path,$fileName,'local');
+            $file->storeAs($storage_path, $fileName, 'local');
             return response()->json(['code' => 200]);
         }
     }

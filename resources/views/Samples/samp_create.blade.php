@@ -182,14 +182,6 @@
                 @endforeach
               </select>
             </div>
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="file-tab" data-toggle="tab" href="#file" role="tab" aria-controls="file" aria-selected="true">File</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link" id="ncbi-tab" data-toggle="tab" href="#ncbi" role="tab" aria-controls="ncbi" aria-selected="false">NCBI</a>
-              </li>
-            </ul>
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active mt-3" id="file" role="tabpanel" aria-labelledby="file-tab">
                 <div class="form-group" title="Paired-end or Single">
@@ -229,10 +221,6 @@
                   </ul>
                 </div>
                 @endisset
-              </div>
-              <div class="tab-pane fade mt-3" id="ncbi" role="tabpanel" aria-labelledby="ncbi-tab">
-                <label for="ncbi">NCBI:</label>
-                <input type="text" class="form-control mb-3" name="ncbi" id="ncbi">
               </div>
             </div>
             <!-- Modal -->
