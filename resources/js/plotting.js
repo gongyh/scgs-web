@@ -22,7 +22,6 @@ $(function () {
     $('#quast_dataTable thead tr').empty();
     $('#quast_dataTable tbody').empty();
     read_quast_data();
-    change_footer_position();
   }
 
   if (window.location.href.indexOf('sampleID') != -1) {
@@ -180,8 +179,8 @@ $(function () {
       setTimeout(() => {
         iframe.contentWindow.location.reload(true);
       }, 1000);
+      change_footer_position();
     }
-    change_footer_position()
   }
 
   if (proj_MultiQC != null) {
@@ -189,8 +188,8 @@ $(function () {
       setTimeout(() => {
         iframe.contentWindow.location.reload(true);
       }, 1000);
+      change_footer_position();
     }
-    change_footer_position();
   }
 
   function read_preseq_cdata() {
