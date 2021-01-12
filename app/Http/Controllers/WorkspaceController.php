@@ -63,18 +63,7 @@ class WorkspaceController extends Controller
         }
     }
 
-    public function addSamples(){
-        $user = Auth::user()->name;
-        $file_lists = Storage::files('meta-data/' . $user);
-        $fileList = array();
-        foreach($file_lists as $file_list){
-            $file_list = str_replace("meta-data/" . $user . "/" , "" , $file_list);
-            array_push($fileList , $file_list);
-        }
-        return view('Workspace.addSampleFiles',compact('fileList'));
-    }
-
-    public function addSampleFiles(Request $request){
+    public function addSamples(Request $request){
         if($request->isMethod('POST')){
             $user = Auth::user();
             $username = $user->name;
@@ -88,6 +77,17 @@ class WorkspaceController extends Controller
             $mv_rawdata = 'mv ' . $base_path . '/raw_data/' . $username . '/* ' . $base_path . '/mata-data/' . $username;
             system($mv_rawdata);
         }
+        $user = Auth::user()->name;
+        $file_lists = Storage::files('meta-data/' . $user);
+        $fileList = array();
+        foreach($file_lists as $file_list){
+            $file_list = str_replace("meta-data/" . $user . "/" , "" , $file_list);
+            array_push($fileList , $file_list);
+        }
+        return view('Workspace.addSampleFiles',compact('fileList'));
+    }
+
+    public function addSampleFiles(Request $request){
         $user = Auth::user();
         $username = $user->name;
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
