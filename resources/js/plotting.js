@@ -719,10 +719,10 @@ $(function () {
   }
 
   function change_footer_position() {
-    if ($(window).height() > $('body').height()) {
+    if ($(window).height() > $(document).height()) {
       $('footer').css('top', $(window).height() - $('footer').height() + 'px');
     } else {
-      $('footer').css('top', $('body').height() - $('footer').height() + 30 + 'px');
+      $('footer').css('top', $(document).height() - $('footer').height() + 30 + 'px');
     }
   }
 })
