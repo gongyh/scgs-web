@@ -135,9 +135,7 @@
         </div>
         <div class="tab-pane fade" id="v-pills-krona" role="tabpanel" aria-labelledby="v-pills-krona-tab">
           <div id="iframe_browser">
-            <div id="iframe_browser_header">
-              <div id="iframe_browser_buttons">
-              </div>
+            <div id="iframe_browser_header" class="overflow-auto">
               <div id="iframe_browser_title">Kraken Reports</div>
               @if(isset($project_user))
               <ul id="kraken_tabs" class="d-flex">
