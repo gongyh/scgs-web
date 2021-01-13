@@ -180,7 +180,7 @@ return [
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default', 'MvSamples'],
+                'queue' => ['default', 'MvSamples', 'NCBIDownload'],
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 1,

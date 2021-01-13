@@ -69,13 +69,9 @@ class WorkspaceController extends Controller
             $username = $user->name;
             $sra_id = $request->input('ncbi_sra_id');
             $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
-            $mkdir_rawdata = 'if [ ! -d "' . $base_path .  '/raw_data/' . $username . '" ]; then mkdir -p ' . $base_path . '/raw_data/' . $username . '; fi';
+            $mkdir_rawdata = 'if [ ! -d "' . $base_path .  'raw_data/' . $username . '" ]; then mkdir -p ' . $base_path . 'raw_data/' . $username . '; fi';
             system($mkdir_rawdata);
-            $user_dir = $base_path . '/raw_data/' . $username;
-            $fastq_dump = 'parallel-fastq-dump --sra-id ' . $sra_id . '--threads 4 --outdir ' . $user_dir . '--split-files --gzip';
-            system($fastq_dump);
-            $mv_rawdata = 'mv ' . $base_path . '/raw_data/' . $username . '/* ' . $base_path . '/mata-data/' . $username;
-            system($mv_rawdata);
+            NCBIDownload::dispatch($username, $sra_id)->onQueue('NCBIDownload');
         }
         $user = Auth::user()->name;
         $file_lists = Storage::files('meta-data/' . $user);
