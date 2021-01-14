@@ -8,12 +8,12 @@ use App\Labs;
 use App\User;
 use App\Applications;
 use App\Species;
+use App\Jobs\MvSamples;
 use App\Imports\SamplesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use App\Jobs\MvSamples;
 
 
 class SamplesController extends Controller
@@ -35,7 +35,7 @@ class SamplesController extends Controller
             // login users
             if (auth::check()) {
                 $user = Auth::user();
-                $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->name]])->get()->count() > 0;
+                $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->email]])->get()->count() > 0;
                 $user->email == env('ADMIN_EMAIL') ? $isAdmin = true : $isAdmin = false;
                 return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
             } else {
@@ -56,7 +56,8 @@ class SamplesController extends Controller
         $projectID = $request->input('projectID');
         $Accession = Projects::where('id',$projectID)->value('doi');
         $lab_id = Projects::where('id',$projectID)->value('labs_id');
-        $user = Labs::where('id',$lab_id)->value('principleInvestigator');
+        $user_email = Labs::where('id',$lab_id)->value('principleInvestigator');
+        $user = User::where('email', $user_email)->value('name');
         $applications = Applications::all();
         $all_species = Species::all();
         $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : array();
@@ -204,12 +205,12 @@ class SamplesController extends Controller
         $sample_id = $request->input('sampleID');
         $projectID = Samples::where('id',$sample_id)->value('projects_id');
         $lab_id = Projects::where('id',$projectID)->value('labs_id');
-        $user = Labs::where('id',$lab_id)->value('principleInvestigator');
+        $user_email = Labs::where('id',$lab_id)->value('principleInvestigator');
+        $user = User::where('email', $user_email)->value('name');
         $sample = Samples::find($sample_id);
         $app = Applications::find($sample['applications_id']);
         $applications = Applications::all();
         $all_species = Species::all();
-        $user = auth()->user()->name;
         $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : array();
         $files = array();
         foreach($sample_files as $sample_file){

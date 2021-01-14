@@ -18,6 +18,7 @@
         <span class="rem1">{{$file}}</span>
       </div>
       @endforeach
+
       <label for="addSampleFiles" class="control-label"></label>
       <input type="file" name="addSampleFiles" id="addSampleFiles" multiple>
 
@@ -29,6 +30,16 @@
         </div>
         <button type="submit" class="btn btn-primary btn-sm">Submit</button>
       </form>
+
+      @foreach($preparing_lists as $preparing_list)
+      <div>
+        <span class="badge badge-primary">
+          <span>Upload</span>
+          <span class="dot">...</span>
+        </span>
+        <span class="rem1">{{$preparing_list->sra_id}}</span>
+      </div>
+      @endforeach
     </div>
   </div>
 </div>

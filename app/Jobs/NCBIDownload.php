@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Ncbiupload;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -33,9 +34,18 @@ class NCBIDownload implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(Jobs $job)
     {
-        //
+        //Get job uuid
+        $job_rawbody = $this->job->getRawBody();
+        $job_rawbody = json_decode($job_rawbody, true);
+        $job_uuid = $job_rawbody['uuid'];
+
+        $ncbi_id = Ncbiupload::where([['user', $this->username],['sra_id', $sra_id]])->value('id');
+        $current_job = Ncbiupload::find($ncbi_id);
+        $current_job->uuid = $job_uuid;
+        $current_job->save();
+
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         $user_dir = $base_path . 'meta-data/' . $this->username;
         $fastq_dump = '/mnt/scc8t/zhousq/Minoconda3/bin/parallel-fastq-dump --sra-id ' . $this->sra_id . ' --threads 4 --outdir ' . $user_dir . '/ --split-files --gzip';
