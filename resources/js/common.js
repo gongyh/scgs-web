@@ -25,14 +25,6 @@ $(function () {
   var check_progress = false;
   var read_progress;
 
-
-
-  if ($(window).height() > $('body').height()) {
-    $('footer').css('top', $(window).height() - $('footer').height() + 'px');
-  } else {
-    $('footer').css('top', $('body').height() - $('footer').height() + 30 + 'px');
-  }
-
   $('#type').on('change', function () {
     var type = $('#type').val();
     $('#new_type').val(type);

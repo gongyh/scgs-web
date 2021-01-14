@@ -37,10 +37,8 @@ class NCBIDownload implements ShouldQueue
     {
         //
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
-        $user_dir = $base_path . 'raw_data/' . $this->username;
-        $fastq_dump = '/mnt/scc8t/zhousq/Minoconda3/bin/parallel-fastq-dump --sra-id ' . $this->sra_id . ' --threads 4 --outdir ' . $user_dir . ' --gzip';
+        $user_dir = $base_path . 'meta-data/' . $this->username;
+        $fastq_dump = '/mnt/scc8t/zhousq/Minoconda3/bin/parallel-fastq-dump --sra-id ' . $this->sra_id . ' --threads 4 --outdir ' . $user_dir . '/ --split-files --gzip';
         system($fastq_dump);
-        $mv_rawdata = 'mv ' . $base_path . 'raw_data/' . $this->username . '/* ' . $base_path . 'mata-data/' . $this->username;
-        system($mv_rawdata);
     }
 }
