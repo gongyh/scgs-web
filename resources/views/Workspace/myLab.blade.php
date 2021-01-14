@@ -27,7 +27,6 @@
                     <tr>
                       <th scope="col" class="table-header">ID</th>
                       <th scope="col" class="table-header">Lab</th>
-                      <th scope="col" class="table-header">principleInvestigator</th>
                       <th></th>
                       <th scope="col" class="add"><a href="/labs/create?from=myLab">
                           <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -42,11 +41,10 @@
                     @if($myLabs != null)
                     @foreach($myLabs as $myLab)
                     <tr>
-                      <th scope="row" class="table-item">{{$current_page > 1 ? ($current_page-1) * $pageSize + $loop->iteration : $loop->iteration}}</td>
+                      <th scope="row" class="table-item">{{$current_page > 1 ? ($current_page-1) * $pageSize + $loop->iteration : $loop->iteration}}</th>
                       <td class="table-item">
                         <a href="/workspace/myLab/projects?labID={{$myLab->id}}">{{$myLab->name}}</a>
                       </td>
-                      <td class="table-item">{{$myLab->principleInvestigator}}</td>
                       <td></td>
                       <td class="delete">
                         @if(Auth::user()->email == env('ADMIN_EMAIL'))
@@ -68,7 +66,6 @@
                     @endforeach
 
                     @else
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

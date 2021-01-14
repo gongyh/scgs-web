@@ -69,10 +69,14 @@ class WorkspaceController extends Controller
             $user = Auth::user();
             $username = $user->name;
             $sra_id = $request->input('ncbi_sra_id');
-            $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
-            $mkdir_rawdata = 'if [ ! -d "' . $base_path .  'raw_data/' . $username . '" ]; then mkdir -p ' . $base_path . 'raw_data/' . $username . '; fi';
-            system($mkdir_rawdata);
+            Ncbiupload::create([
+                'sra_id' => $sra_id,
+                'isPrepared' => false,
+                'uuid' => 'default',
+                'user' => $username
+            ]);
             NCBIDownload::dispatch($username, $sra_id)->onQueue('NCBIDownload');
+            return redirect('/workspace/addSampleFiles');
         }
         $user = Auth::user()->name;
         $file_lists = Storage::files('meta-data/' . $user);
@@ -81,7 +85,8 @@ class WorkspaceController extends Controller
             $file_list = str_replace("meta-data/" . $user . "/" , "" , $file_list);
             array_push($fileList , $file_list);
         }
-        return view('Workspace.addSampleFiles',compact('fileList'));
+        $preparing_lists = Ncbiupload::where([['user', $user],['isPrepared', false]])->get();
+        return view('Workspace.addSampleFiles', compact('fileList', 'preparing_lists'));
     }
 
     public function addSampleFiles(Request $request){

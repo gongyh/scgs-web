@@ -6,6 +6,7 @@ use App\Jobs;
 use App\User;
 use App\Samples;
 use App\Projects;
+use App\Ncbiupload;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Support\Facades\Queue;
@@ -67,8 +68,12 @@ class AppServiceProvider extends ServiceProvider
                 $current_job->status = 3;   //job finished
                 $current_job->finished = $finished;  //job finished time
                 $current_job->save();
-            }else{
-
+            }elseif($event->job->getQueue('NCBIDownload')){
+                $job_uuid = $event->job->uuid();
+                $upload_sra_id = Ncbiupload::where('uuid', $job_uuid)->value('id');
+                $upload_sra = Ncbiupload::find($upload_sra_id);
+                $upload_sra->isPrepared = true;
+                $upload_sra->save();
             }
         });
 
