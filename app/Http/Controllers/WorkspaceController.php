@@ -6,6 +6,7 @@ use App\Labs;
 use App\Jobs;
 use App\Projects;
 use App\Samples;
+use App\Ncbiupload;
 use App\Jobs\NCBIDownload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;

@@ -27,7 +27,7 @@ class ProjectsController extends Controller
                 $findProjects = Projects::where('name', 'LIKE', '%' . $search_project . '%')->paginate(5);
                 if (auth::check()) {
                     $user = Auth::user();
-                    $isPI = Labs::where('principleInvestigator', $user->email)->get();
+                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
                     $isAdmin = $user->email == env('ADMIN_EMAIL');
                     return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin', 'current_page'));
                 } else {
@@ -47,7 +47,7 @@ class ProjectsController extends Controller
             try {
                 if (auth::check()) {
                     $user = Auth::user();
-                    $isPI = Labs::where('principleInvestigator', $user->email)->get();
+                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
                     $isAdmin = $user->email == env('ADMIN_EMAIL');
                     return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','pageSize'));
                 } else {
@@ -78,7 +78,7 @@ class ProjectsController extends Controller
             $user = Auth::user();
             $isAdmin = $user->email == env('ADMIN_EMAIL');
             $labId = $request->input('selectLab');
-            $isPI = Labs::where([['id', $labId], ['principleInvestigator', $user->email]])->get()->count() > 0;
+            $isPI = Labs::where([['id', $labId], ['principleInvestigator', $user->name]])->get()->count() > 0;
             if ($request->input('labID')) {
                 $this->validate($request, [
                     'new_proj_name' => 'required',

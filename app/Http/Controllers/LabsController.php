@@ -21,7 +21,7 @@ class LabsController extends Controller
     {
         $institutions = Institutions::all();
         $user = Auth::user();
-        $pi = $user->email;
+        $pi = $user->name;
 
         if ($request->isMethod('POST')) {
             // labs create validate
