@@ -59,6 +59,7 @@
                     <a class="dropdown-item" href="/workspace/myProject">My Projects</a>
                     <a class="dropdown-item" href="/workspace/runningSample">Pipeline Status</a>
                     <a class="dropdown-item" href="/workspace/addSampleFiles">Add Sample Files</a>
+                    <a class="dropdown-item" href="/workspace/ncbifilesList">NCBI Files List</a>
                   </div>
                 </div>
               </li>

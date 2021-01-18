@@ -83,6 +83,7 @@ class WorkspaceController extends Controller
                     ]);
                     NCBIDownload::dispatch($username, $file_arr)->onQueue('NCBIDownload');
                 }
+                Storage::delete($filename);
             }else{
                 $this->validate($request, [
                     'ncbi_sra_id' => 'required',
@@ -148,7 +149,7 @@ class WorkspaceController extends Controller
 
     public function ncbifilesList()
     {
-        $ncbi_files = Storage::files('public');
+        $ncbi_files = Storage::files('meta-data/public');
         return view('Workspace.ncbiFileList', compact('ncbi_files'));
     }
 }

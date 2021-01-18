@@ -65,7 +65,8 @@ class ProjectsController extends Controller
 
     public function create(Request $request)
     {
-        $labs = Labs::all();
+        $username = Auth::user()->name;
+        $labs = Labs::where('principleInvestigator', $username)->get();
         $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
         $last_accession = DB::table('projects')->orderBy('id','desc')->first()->doi;
         \preg_match('/CRP0+/',$last_accession,$dir);
@@ -110,7 +111,7 @@ class ProjectsController extends Controller
                 } else {
                     return redirect('/projects?labID=' . $labID);
                 }
-            } elseif ($isPI || $isAdmin && $request->input('labID') == null) {
+            } else {
                 $this->validate($request, [
                     'selectLab' => 'required',
                     'new_proj_name' => 'required',
@@ -142,9 +143,6 @@ class ProjectsController extends Controller
                 } else {
                     return redirect('/projects');
                 }
-            } else {
-                $pi_error = 'sorry! you are not the principleInvestgator! Can not create project!';
-                return view('Projects.proj_create', ['pi_error' => $pi_error, 'labs' => $labs,'types' => $types]);
             }
         }
         if ($request->input('labID')) {

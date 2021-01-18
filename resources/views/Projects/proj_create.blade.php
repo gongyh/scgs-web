@@ -84,13 +84,6 @@
           </ul>
         </div>
         @endif
-        @isset($pi_error)
-        <div class="alert alert-danger">
-          <ul>
-            <li>{{ $pi_error }}</li>
-          </ul>
-        </div>
-        @endisset
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
