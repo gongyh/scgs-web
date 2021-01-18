@@ -4,7 +4,6 @@
   src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 
-
 body {
   background-color: rgb(239, 239, 240);
   margin: 0;
@@ -106,6 +105,10 @@ a:hover {
 }
 
 .workspace-dropdown {
+  background-image: linear-gradient(to right, rgb(173, 218, 248), rgb(149, 195, 238), rgb(240, 187, 231));
+}
+
+#Logout {
   background-image: linear-gradient(to right, rgb(173, 218, 248), rgb(149, 195, 238), rgb(240, 187, 231));
 }
 

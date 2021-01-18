@@ -22,14 +22,28 @@
       <label for="addSampleFiles" class="control-label"></label>
       <input type="file" name="addSampleFiles" id="addSampleFiles" multiple>
 
-      <form action="" method="POST">
+      <form action="" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="form-group mt-5 w-50">
+        <div class="custom-file w-50 mt-3">
+          <input type="file" name="sra_id_file" class="custom-file-input" id="sra_id_file">
+          <label class="custom-file-label" for="sra_id_file" id="sra_id_label">Choose a sra id txt file</label>
+        </div>
+        <div class="text-danger font-weight-bolder">Or</div>
+        <div class="form-group mt-2 w-50">
           <label for="ncbi_sra_id" class="rem1">NCBI sra-id</label>
           <input type="text" class="form-control" id="ncbi_sra_id" name="ncbi_sra_id">
         </div>
         <button type="submit" class="btn btn-primary btn-sm">Submit</button>
       </form>
+      @if (count($errors) > 0)
+      <div class="alert alert-danger mt-2">
+        <ul>
+          @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+      </div>
+      @endif
 
       @foreach($preparing_lists as $preparing_list)
       <div>
