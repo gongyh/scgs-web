@@ -47,7 +47,7 @@ class SamplesController extends Controller
         } catch (\Illuminate\Database\QueryException $ex) {
             // No samples
             $selectSamples = null;
-            return view('Sample.samples', compact('selectSamples', 'projectID', 'project', 'applications'));
+            return view('Samples.samples', compact('selectSamples', 'projectID', 'project', 'applications'));
         }
     }
 

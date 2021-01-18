@@ -30,7 +30,7 @@ class WorkspaceController extends Controller
             return view('Workspace.myLab', compact('myLabs','current_page','pageSize'));
         } catch (\Illuminate\Database\QueryException $ex) {
             $myLabs = null;
-            return view('Workspace.myLab', \compact('myLabs'));
+            return view('Workspace.myLab', compact('myLabs'));
         }
     }
 
@@ -65,19 +65,40 @@ class WorkspaceController extends Controller
         }
     }
 
-    public function addSamples(Request $request){
+    public function addSamples(Request $request)
+    {
         if($request->isMethod('POST')){
-            $user = Auth::user();
-            $username = $user->name;
-            $sra_id = $request->input('ncbi_sra_id');
-            Ncbiupload::create([
-                'sra_id' => $sra_id,
-                'isPrepared' => false,
-                'uuid' => 'default',
-                'user' => $username
-            ]);
-            NCBIDownload::dispatch($username, $sra_id)->onQueue('NCBIDownload');
-            return redirect('/workspace/addSampleFiles');
+            if ($request->file('sra_id_file')->isValid()) {
+                $username = Auth::user()->name;
+                $filename = $username . 'sra.txt';
+                $request->file('sra_id_file')->storeAs('', $filename);
+                $file_data = Storage::get($filename);
+                $file_array = explode("\r\n", $file_data);
+                foreach($file_array as $file_arr){
+                    Ncbiupload::create([
+                        'sra_id' => $file_arr,
+                        'isPrepared' => false,
+                        'uuid' => 'default',
+                        'user' => $username
+                    ]);
+                    NCBIDownload::dispatch($username, $file_arr)->onQueue('NCBIDownload');
+                }
+            }else{
+                $this->validate($request, [
+                    'ncbi_sra_id' => 'required',
+                ]);
+                $user = Auth::user();
+                $username = $user->name;
+                $sra_id = $request->input('ncbi_sra_id');
+                Ncbiupload::create([
+                    'sra_id' => $sra_id,
+                    'isPrepared' => false,
+                    'uuid' => 'default',
+                    'user' => $username
+                ]);
+                NCBIDownload::dispatch($username, $sra_id)->onQueue('NCBIDownload');
+                return redirect('/workspace/addSampleFiles');
+            }
         }
         $user = Auth::user()->name;
         $file_lists = Storage::files('meta-data/' . $user);
@@ -90,7 +111,8 @@ class WorkspaceController extends Controller
         return view('Workspace.addSampleFiles', compact('fileList', 'preparing_lists'));
     }
 
-    public function addSampleFiles(Request $request){
+    public function addSampleFiles(Request $request)
+    {
         $user = Auth::user();
         $username = $user->name;
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
@@ -105,20 +127,28 @@ class WorkspaceController extends Controller
         }
     }
 
-    public function manageRunning(){
+    public function manageRunning()
+    {
         $samples = new Samples();
         $projects = new Projects();
         $now = time();
         $running_jobs = Jobs::where('status', 1)->get();
-        return view('Workspace.manageRunning',compact('now','running_jobs','samples','projects'));
+        return view('Workspace.manageRunning', compact('now','running_jobs','samples','projects'));
     }
 
-    public function runningTerminate(Request $request){
+    public function runningTerminate(Request $request)
+    {
         $uuid = $request->input('uuid');
         $job_id = Jobs::where('current_uuid',$uuid)->value('id');
         $job = Jobs::find($job_id);
         $job->status = 2;
         $job->save();
         return redirect('/workspace/manageRunning');
+    }
+
+    public function ncbifilesList()
+    {
+        $ncbi_files = Storage::files('public');
+        return view('Workspace.ncbiFileList', compact('ncbi_files'));
     }
 }

@@ -30,7 +30,6 @@ $(function () {
     $('#new_type').val(type);
   });
 
-
   $('#datetimepicker,#datetimepicker1,#datetimepicker3,#datetimepicker4').datetimepicker({
     format: 'L'
   });
@@ -68,6 +67,11 @@ $(function () {
       }
     }
   }
+
+  //sra_id_file upload filename display
+  $('#sra_id_file').on('change',function(file){
+    $("#sra_id_label").html(this.files[0].name);
+  })
 
   text_folded('.proj_desc', 200);
   $('.start_time').each(function () {
@@ -456,7 +460,7 @@ var sampleFileInput = function () {
       dropZoneEnabled: true,
       elCaptionText: 'Upload Files',
       browseClass: "btn btn-primary",
-      uploadClass:"btn btn-success",
+      uploadClass: "btn btn-success",
       maxFileCount: 5,
       enctype: 'multipart/form-data',
       validateInitialCount: true,

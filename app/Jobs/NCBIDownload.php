@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Jobs;
 use App\Ncbiupload;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,14 +42,16 @@ class NCBIDownload implements ShouldQueue
         $job_rawbody = json_decode($job_rawbody, true);
         $job_uuid = $job_rawbody['uuid'];
 
-        $ncbi_id = Ncbiupload::where([['user', $this->username],['sra_id', $sra_id]])->value('id');
+        $ncbi_id = Ncbiupload::where([['user', $this->username],['sra_id', $this->sra_id]])->value('id');
         $current_job = Ncbiupload::find($ncbi_id);
         $current_job->uuid = $job_uuid;
         $current_job->save();
 
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
-        $user_dir = $base_path . 'meta-data/' . $this->username;
+        $user_dir = $base_path . 'public';
         $fastq_dump = '/mnt/scc8t/zhousq/Minoconda3/bin/parallel-fastq-dump --sra-id ' . $this->sra_id . ' --threads 4 --outdir ' . $user_dir . '/ --split-files --gzip';
         system($fastq_dump);
+        $cp_ncbi_file = 'cp ' . $base_path . 'public/' . $this->sra_id . '_1.fastq.gz ' . $base_path . 'meta-data/' . $this->username . ' && cp ' . $base_path . 'public/' . $this->sra_id . '_2.fastq.gz ' . $base_path . 'meta-data/' . $this->username;
+        system($cp_ncbi_file);
     }
 }
