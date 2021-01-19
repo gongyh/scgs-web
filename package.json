@@ -28,6 +28,7 @@
     "bootstrap-datetimepicker": "0.0.7",
     "bootstrap-fileinput": "^5.1.2",
     "bootstrap-icons": "^1.2.2",
+    "bootstrap-select": "^1.13.18",
     "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.22",
     "font-awesome": "^4.7.0",
