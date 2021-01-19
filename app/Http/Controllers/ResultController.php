@@ -237,7 +237,7 @@ class ResultController extends Controller
             }
         } elseif ($request->input('arg')) {
             $arg = $request->input('arg');
-            $arg_path = $project_accession . '/' . $uuid . '/results/ARG/' . 'Y7-LCJ3577' . '/results_tab.tsv';
+            $arg_path = $project_accession . '/' . $uuid . '/results/ARG/' . $arg . '/results_tab.tsv';
             if (Storage::disk('local')->exists($arg_path)) {
                 $arg_data = Storage::get($arg_path);
                 $arg_data = explode("\n", $arg_data);

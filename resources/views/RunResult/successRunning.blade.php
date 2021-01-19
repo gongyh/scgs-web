@@ -119,6 +119,8 @@
             @endif
           </div>
         </div>
+
+        <!-- MultiQC -->
         <div class="tab-pane fade" id="v-pills-multiqc" role="tabpanel" aria-labelledby="v-pills-multiqc-tab">
           <div id="iframe_browser">
             <div id="iframe_browser_header">
@@ -133,33 +135,37 @@
             </div>
           </div>
         </div>
+
+        <!-- kraken -->
         <div class="tab-pane fade" id="v-pills-krona" role="tabpanel" aria-labelledby="v-pills-krona-tab">
+          @if(isset($project_user))
+          <select id="kraken_tabs" class="selectpicker show-tick mb-2" data-live-search="true" data-style="btn-info">
+            @foreach($filename_array as $filename)
+            <option value={{$filename}}>{{$filename}}</option>
+            @endforeach
+          </select>
+          @endif
           <div id="iframe_browser">
             <div id="iframe_browser_header" class="overflow-auto">
               <div id="iframe_browser_title">Kraken Reports</div>
-              @if(isset($project_user))
-              <ul id="kraken_tabs" class="d-flex">
-                @foreach($filename_array as $filename)
-                <li><a href="#">{{$filename}}</a></li>
-                @endforeach
-              </ul>
-              @endif
             </div>
           </div>
           <div id="kraken_report" class="kraken_report embed-responsive embed-responsive-4by3">
           </div>
         </div>
+
+        <!-- blob -->
         <div class="tab-pane fade" id="v-pills-blob" role="tabpanel" aria-labelledby="v-pills-blob-tab">
+          @if(isset($project_user))
+          <select id="blob_tabs" class="selectpicker show-tick mb-2" data-live-search="true" data-style="btn-info">
+            @foreach($filename_array as $filename)
+            <option value={{$filename}}>{{$filename}}</option>
+            @endforeach
+          </select>
+          @endif
           <div id="iframe_browser" class="blob_browser overflow-auto">
             <div id="iframe_browser_header">
               <div id="iframe_browser_title">Blob Reports</div>
-              @if(isset($project_user))
-              <ul id="blob_tabs" class="d-flex">
-                @foreach($filename_array as $filename)
-                <li><a href="#" class="text-truncate">{{$filename}}</a></li>
-                @endforeach
-              </ul>
-              @endif
             </div>
           </div>
           @if(isset($sample_id))
@@ -168,17 +174,20 @@
           <img id="blob_image" src="" width="100%" height="100%">
           @endif
         </div>
+
+        <!-- preseq -->
         <div class="tab-pane fade" id="v-pills-preseq" role="tabpanel" aria-labelledby="v-pills-preseq-tab">
+          @if(isset($project_user))
+          <select id="preseq_proj_tabs" class="selectpicker show-tick mb-2" data-live-search="true" data-style="btn-info">
+            @foreach($preseq_array as $preseq)
+            <option value={{$preseq}}>{{$preseq}}</option>
+            @endforeach
+          </select>
+          @endif
           <div id="iframe_browser" class="preseq_report overflow-auto">
             <div id="iframe_browser_header">
               <div id="iframe_browser_title">Preseq Reports</div>
-              @if(isset($project_user))
-              <ul id="preseq_tabs" class="d-flex">
-                @foreach($preseq_array as $preseq)
-                <li><a href="#" class="text-truncate">{{$preseq}}</a></li>
-                @endforeach
-              </ul>
-              @elseif(isset($sample_id))
+              @if(isset($sample_id))
               <ul id="preseq_tabs" class="d-flex">
                 @foreach($preseq_array as $preseq)
                 <li><a href="#" class="text-truncate">{{$preseq}}</a></li>
@@ -187,20 +196,22 @@
               @endif
             </div>
           </div>
-          <div id="preseq_report" class="mt-1 w-100 overflow-hidden">
+          <div id="preseq_report" class="w-100 overflow-hidden">
           </div>
         </div>
+
+        <!-- arg -->
         <div class="tab-pane fade" id="v-pills-arg" role="tabpanel" aria-labelledby="v-pills-arg-tab">
+          @if(isset($project_user))
+          <select id="arg_tabs" class="selectpicker show-tick mb-2" data-live-search="true" data-style="btn-info">
+            @foreach($filename_array as $filename)
+            <option value={{$filename}}>{{$filename}}</option>
+            @endforeach
+          </select>
+          @endif
           <div id="iframe_browser" class="arg_report mb-2 overflow-auto">
             <div id="iframe_browser_header">
               <div id="iframe_browser_title">ARG Reports</div>
-              @if(isset($project_user))
-              <ul id="arg_tabs" class="d-flex">
-                @foreach($filename_array as $filename)
-                <li><a href="#" class="text-truncate">{{$filename}}</a></li>
-                @endforeach
-              </ul>
-              @endif
             </div>
           </div>
           <table id="arg_dataTable" class="table display">
@@ -212,17 +223,19 @@
             </tbody>
           </table>
         </div>
+
+        <!-- bowtie -->
         <div class="tab-pane fade" id="v-pills-bowtie" role="tabpanel" aria-labelledby="v-pills-bowtie-tab">
+          @if(isset($project_user))
+          <select id="bowtie_tabs" class="selectpicker show-tick mb-2" data-live-search="true" data-style="btn-info">
+            @foreach($filename_array as $filename)
+            <option value={{$filename}}>{{$filename}}</option>
+            @endforeach
+          </select>
+          @endif
           <div id="iframe_browser" class="bowtie_report mb-2 overflow-auto">
             <div id="iframe_browser_header">
               <div id="iframe_browser_title">Bowtie Reports</div>
-              @if(isset($project_user))
-              <ul id="bowtie_tabs" class="d-flex">
-                @foreach($filename_array as $filename)
-                <li><a href="#" class="text-truncate">{{$filename}}</a></li>
-                @endforeach
-              </ul>
-              @endif
             </div>
           </div>
           <div class="table-responsive">

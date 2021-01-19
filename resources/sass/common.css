@@ -334,6 +334,10 @@ a:hover {
   width: 80px;
 }
 
+.filter-option-inner-inner {
+  color: #000 !important;
+}
+
 #iframe_browser {
   width: 100%;
   height: 100%;
