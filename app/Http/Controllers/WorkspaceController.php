@@ -68,7 +68,7 @@ class WorkspaceController extends Controller
     public function addSamples(Request $request)
     {
         if($request->isMethod('POST')){
-            if ($request->file('sra_id_file')->isValid()) {
+            if ($request->hasFile('sra_id_file') && $request->file('sra_id_file')->isValid()) {
                 $username = Auth::user()->name;
                 $filename = $username . 'sra.txt';
                 $request->file('sra_id_file')->storeAs('', $filename);
@@ -120,7 +120,7 @@ class WorkspaceController extends Controller
         $mkdir = 'if [ ! -d "' . $base_path .  '/meta-data/' . $username . '" ]; then mkdir -p ' . $base_path . '/meta-data/' . $username . '; fi';
         system($mkdir);
         $storage_path = 'meta-data/' . $username;
-        if($request->file('addSampleFiles')->isValid()){
+        if($request->hasFile('addSampleFiles') && $request->file('addSampleFiles')->isValid()){
             $file = $request->file('addSampleFiles');
             $fileName = $file->getClientOriginalName();
             $file->storeAs($storage_path, $fileName, 'local');
