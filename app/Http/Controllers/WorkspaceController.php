@@ -74,7 +74,12 @@ class WorkspaceController extends Controller
                 $request->file('sra_id_file')->storeAs('', $filename);
                 $file_data = Storage::get($filename);
                 $file_array = explode("\r\n", $file_data);
+                $errors = '';
                 foreach($file_array as $file_arr){
+                    if(Storage::disk('local')->exists('meta-data/' . $username . '/' . $file_arr . '_1.fastq.gz')){
+                        $errors .= $file_arr . '_1.fastq.gz already existed.';
+                        continue;
+                    }
                     Ncbiupload::create([
                         'sra_id' => $file_arr,
                         'isPrepared' => false,
@@ -84,6 +89,7 @@ class WorkspaceController extends Controller
                     NCBIDownload::dispatch($username, $file_arr)->onQueue('NCBIDownload');
                 }
                 Storage::delete($filename);
+                return redirect('/workspace/addSampleFiles')->with('errors',$errors);
             }else{
                 $this->validate($request, [
                     'ncbi_sra_id' => 'required',
@@ -91,6 +97,10 @@ class WorkspaceController extends Controller
                 $user = Auth::user();
                 $username = $user->name;
                 $sra_id = $request->input('ncbi_sra_id');
+                if(Storage::disk('local')->exists('meta-data/' . $username . '/' . $sra_id . '_1.fastq.gz')){
+                    $errors = $sra_id . '_1.fastq.gz already existed.';
+                    return redirect('/workspace/addSampleFiles')->with('errors',$errors);
+                }
                 Ncbiupload::create([
                     'sra_id' => $sra_id,
                     'isPrepared' => false,

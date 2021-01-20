@@ -54,12 +54,12 @@
                     <a class="dropdown-item" href="/workspace/applications">Manage Applications</a>
                     <a class="dropdown-item" href="/workspace/manageRunning">Manage Running Samples</a>
                     <a class="dropdown-item" href="/workspace/pipelineParams">Basic Pipeline Params</a>
+                    <a class="dropdown-item" href="/workspace/ncbifilesList">NCBI Files List</a>
                     @endif
                     <a class="dropdown-item" href="/workspace/myLab">My Labs</a>
                     <a class="dropdown-item" href="/workspace/myProject">My Projects</a>
                     <a class="dropdown-item" href="/workspace/runningSample">Pipeline Status</a>
                     <a class="dropdown-item" href="/workspace/addSampleFiles">Add Sample Files</a>
-                    <a class="dropdown-item" href="/workspace/ncbifilesList">NCBI Files List</a>
                   </div>
                 </div>
               </li>

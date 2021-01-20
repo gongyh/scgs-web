@@ -35,13 +35,9 @@
         </div>
         <button type="submit" class="btn btn-primary btn-sm">Submit</button>
       </form>
-      @if (count($errors) > 0)
+      @if (!empty(session('errors')))
       <div class="alert alert-danger mt-2">
-        <ul>
-          @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+        {{session('errors')}}
       </div>
       @endif
 
