@@ -42,7 +42,7 @@ class NCBIDownload implements ShouldQueue
         $job_rawbody = json_decode($job_rawbody, true);
         $job_uuid = $job_rawbody['uuid'];
 
-        $ncbi_id = Ncbiupload::where([['user', $this->username],['sra_id', $this->sra_id]])->value('id');
+        $ncbi_id = Ncbiupload::where([['user', $this->username],['sra_id', $this->sra_id],['uuid','default']])->value('id');
         $current_job = Ncbiupload::find($ncbi_id);
         $current_job->uuid = $job_uuid;
         $current_job->save();
