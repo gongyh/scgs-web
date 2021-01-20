@@ -9,6 +9,7 @@ window.moment = require('../../node_modules/moment/moment');
 require('bootstrap-fileinput/js/fileinput.min.js');
 require('bootstrap-fileinput/js/locales/zh');
 require('../../node_modules/bootstrap-select/dist/js/bootstrap-select');
+require('../../node_modules/owl.carousel2/dist/owl.carousel.min');
 require('./datetimepicker.js');
 require('./common');
 

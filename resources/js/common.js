@@ -1,5 +1,22 @@
 $(function () {
 
+   $('.owl-carousel').owlCarousel({
+      loop:true,
+      margin:10,
+      nav:true,
+      responsive:{
+        0:{
+          items:1
+        },
+        600:{
+          items:2
+        },
+        1000:{
+          items:4
+        }
+      }
+    })
+
   var index = 0;
   var current_url = window.location.href;
   var url = current_url.split('/').pop();
