@@ -3,43 +3,63 @@
 @section('content')
 <div class="container-fluid">
   <div class="row middle-area">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item active" aria-current="page">Add Sample Files</li>
         </ol>
       </nav>
-      <div class="rem15">Files In Your Dictionary</div>
-      @foreach($fileList as $file)
-      <div>
-        <span class="badge badge-pill badge-success">Prepared</span>
-        <span class="rem1">{{$file}}</span>
-      </div>
-      @endforeach
 
-      <label for="addSampleFiles" class="control-label"></label>
-      <input type="file" name="addSampleFiles" id="addSampleFiles" multiple>
+      <div>
+      <p>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <label for="addSampleFiles" class="control-label"></label>
+          <input type="file" name="addSampleFiles" id="addSampleFiles" multiple>
+        </div>
+
+        <div class="col-md-6">
+          <div class="rem15">Files In Your Dictionary</div>
+          @foreach($fileList as $file)
+          <div>
+            <span class="badge badge-pill badge-success">Prepared</span>
+            <span class="rem1">{{$file}}</span>
+          </div>
+          @endforeach
+        </div>
+      </div>
+
+      <hr>
+      <div class="row">
+        <div class="col-md-6">
 
       <form action="" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="custom-file w-50 mt-3">
+        <div class="custom-file mt-3">
           <input type="file" name="sra_id_file" class="custom-file-input" id="sra_id_file">
           <label class="custom-file-label" for="sra_id_file" id="sra_id_label">Choose a sra id txt file</label>
         </div>
         <div class="text-danger font-weight-bolder">Or</div>
-        <div class="form-group mt-2 w-50">
+        <div class="form-group mt-2">
           <label for="ncbi_sra_id" class="rem1">NCBI sra-id</label>
           <input type="text" class="form-control" id="ncbi_sra_id" name="ncbi_sra_id">
         </div>
-        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
       </form>
       @if (!empty(session('errors')))
       <div class="alert alert-danger mt-2">
         {{session('errors')}}
       </div>
       @endif
+
+       </div>
+
+       <div class="col-md-6">
 
       @foreach($preparing_lists as $preparing_list)
       <div>
@@ -51,6 +71,10 @@
       </div>
       @endforeach
     </div>
+
+       </div>
+    </div>
+
   </div>
 </div>
 @endsection

@@ -68,7 +68,7 @@ class AppServiceProvider extends ServiceProvider
                 $current_job->status = 3;   //job finished
                 $current_job->finished = $finished;  //job finished time
                 $current_job->save();
-            }elseif($event->job->getQueue('NCBIDownload')){
+            }elseif($event->job->getQueue() == 'NCBIDownload'){
                 $job_uuid = $event->job->uuid();
                 $upload_sra_id = Ncbiupload::where('uuid', $job_uuid)->value('id');
                 $upload_sra = Ncbiupload::find($upload_sra_id);

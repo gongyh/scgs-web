@@ -48,7 +48,9 @@
                     Workspace
                   </a>
                   <div class="dropdown-menu workspace-dropdown">
+                    <a class="dropdown-item" href="/workspace">Management Center</a>
                     @if(Auth::user()->name == 'admin')
+                    <hr>
                     <a class="dropdown-item" href="/workspace/institutions">Manage Institutions</a>
                     <a class="dropdown-item" href="/workspace/species">Manage Species</a>
                     <a class="dropdown-item" href="/workspace/applications">Manage Applications</a>
@@ -56,6 +58,7 @@
                     <a class="dropdown-item" href="/workspace/pipelineParams">Basic Pipeline Params</a>
                     <a class="dropdown-item" href="/workspace/ncbifilesList">NCBI Files List</a>
                     @endif
+                    <hr>
                     <a class="dropdown-item" href="/workspace/myLab">My Labs</a>
                     <a class="dropdown-item" href="/workspace/myProject">My Projects</a>
                     <a class="dropdown-item" href="/workspace/runningSample">Pipeline Status</a>
