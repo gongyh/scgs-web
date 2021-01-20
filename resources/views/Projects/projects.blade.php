@@ -2,18 +2,10 @@
 
 @section('content')
 <div class="container">
-  <div class="row">
-  <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Projects</li>
-          </li>
-        </ol>
-      </nav>
-  </div>
-  <!-- left column -->
   <div class="row middle-area">
-    <div class="col-md-8">
+    <!-- left column -->
+    <!-- middle column -->
+    <div class="col-md-9">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -114,7 +106,6 @@
       @elseif(isset($findProjects))
       {{$findProjects->links()}}
       @endif
-    </div>
     <!-- right-column -->
     <div class="col-md-3 right-column">
       <div class="other-info">

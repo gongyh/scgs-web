@@ -5,7 +5,7 @@
 
   <!-- Jumbotron Header -->
   <header class="jumbotron mb-4">
-    <h1 class="display-3">Single-Cell Genome-Phenome</h1>
+    <h1 class="">Single-Cell pHenOme-genOme Landscape</h1>
     <p class="lead">Integrate and simplify single cell genome assembly, annotation, and evolutionary analysis.</p>
     <a href="#" class="btn btn-primary btn-lg">Take a tour!</a>
   </header>
@@ -17,7 +17,7 @@
         <img class="card-img-top" src="http://placehold.it/500x325" alt="">
         <div class="card-body">
           <h4 class="card-title">SCGS Pipeline</h4>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+          <p class="card-text">SAG analysis</p>
         </div>
         <div class="card-footer">
           <a href="#" class="btn btn-primary stretched-link">Find Out More!</a>
@@ -30,7 +30,7 @@
         <img class="card-img-top" src="http://placehold.it/500x325" alt="">
         <div class="card-body">
           <h4 class="card-title">RamanD2O</h4>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
+          <p class="card-text">Ramanome analysis</p>
         </div>
         <div class="card-footer">
           <a href="#" class="btn btn-primary stretched-link">Find Out More!</a>
@@ -43,7 +43,7 @@
         <img class="card-img-top" src="http://placehold.it/500x325" alt="">
         <div class="card-body">
           <h4 class="card-title">Drug Resistance</h4>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+          <p class="card-text">AST testing</p>
         </div>
         <div class="card-footer">
           <a href="#" class="btn btn-primary stretched-link">Find Out More!</a>
@@ -56,7 +56,7 @@
         <img class="card-img-top" src="http://placehold.it/500x325" alt="">
         <div class="card-body">
           <h4 class="card-title">GWAS</h4>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
+          <p class="card-text">Mutants screening</p>
         </div>
         <div class="card-footer">
           <a href="#" class="btn btn-primary stretched-link">Find Out More!</a>

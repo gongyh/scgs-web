@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
   <div class="row middle-area">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+    @include('components.workspace_nav')
+    </div>
+    <div class="col-md-9">
       <form method="post" action="">
         @csrf
         <div class="form-group">

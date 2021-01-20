@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
   <div class="row middle-area">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+    @include('components.workspace_nav')
+    </div>
+    <div class="col-md-9">
       <div class="form-group">
         <label for="resfinder_db_path" class="rem1">resfinder database path</label>
         <input type="text" class="form-control" id="resfinder_db_path" readonly value={{isset($pipelineParams)?$pipelineParams->resfinder_db_path:''}}>

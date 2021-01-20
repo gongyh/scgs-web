@@ -3,12 +3,12 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container">
   <div class="row middle-area">
     <!-- left column -->
     <!-- middle-area -->
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
+    <div class=""></div>
+    <div class="col-md-9">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -39,7 +39,7 @@
       </div>
     </div>
     <!-- right-column -->
-    <div class="col-md-3 right-column">
+    <div class="right-column">
       <div class="other-info">
 
       </div>

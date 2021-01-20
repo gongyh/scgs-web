@@ -86,6 +86,10 @@ a:hover {
   background-image: linear-gradient(to right, rgb(173, 218, 248), rgb(149, 195, 238), rgb(240, 187, 231));
 }
 
+.dropdown-menu {
+  min-width: auto;
+}
+
 .contact {
   display: block;
   color: rgba(0, 0, 0, 0.5);
@@ -137,8 +141,8 @@ a:hover {
 /* left-column */
 .list {
   width: 200px;
-  margin-top: 50px;
-  margin-left: 50px;
+  /*margin-top: 50px;*/
+  /*margin-left: 50px;*/
 }
 
 .list-group-item {
@@ -240,11 +244,6 @@ a:hover {
 
 .type {
   cursor: pointer;
-}
-
-/* workspace-nav */
-.workspace-menu {
-  margin-top: -2.5rem;
 }
 
 .user-image {
