@@ -74,10 +74,14 @@ class WorkspaceController extends Controller
                 $request->file('sra_id_file')->storeAs('', $filename);
                 $file_data = Storage::get($filename);
                 $file_array = explode("\r\n", $file_data);
-                $errors = '';
+                $message = '';
+                $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
                 foreach($file_array as $file_arr){
-                    if(Storage::disk('local')->exists('meta-data/' . $username . '/' . $file_arr . '_1.fastq.gz')){
-                        $errors .= $file_arr . '_1.fastq.gz already existed.';
+                    if(Storage::disk('local')->exists('meta-data/public/' . $file_arr . '_1.fastq.gz')){
+                        $message .= $file_arr . '_1.fastq.gz already existed in public dictionary\n.';
+                        $command = 'cp ' . $base_path . 'meta-data/public/' . $file_arr . '_1.fastq.gz ' .
+                        $base_path . 'meta-data/' . $username . ' && cp ' . $base_path . 'meta-data/public/' . $file_arr . '_2.fastq.gz ' . $base_path . 'meta-data/' . $username;
+                        system($command);
                         continue;
                     }
                     Ncbiupload::create([
@@ -89,7 +93,7 @@ class WorkspaceController extends Controller
                     NCBIDownload::dispatch($username, $file_arr)->onQueue('NCBIDownload');
                 }
                 Storage::delete($filename);
-                return redirect('/workspace/addSampleFiles')->with('errors',$errors);
+                return redirect('/workspace/addSampleFiles')->with('message',$message);
             }else{
                 $this->validate($request, [
                     'ncbi_sra_id' => 'required',
@@ -97,9 +101,13 @@ class WorkspaceController extends Controller
                 $user = Auth::user();
                 $username = $user->name;
                 $sra_id = $request->input('ncbi_sra_id');
-                if(Storage::disk('local')->exists('meta-data/' . $username . '/' . $sra_id . '_1.fastq.gz')){
-                    $errors = $sra_id . '_1.fastq.gz already existed.';
-                    return redirect('/workspace/addSampleFiles')->with('errors',$errors);
+                $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
+                if(Storage::disk('local')->exists('meta-data/public' . '/' . $sra_id . '_1.fastq.gz')){
+                    $message = $sra_id . '_1.fastq.gz already existed in public dictionary.';
+                    $command = 'cp '. $base_path . 'meta-data/public/' . $sra_id . '_1.fastq.gz ' .
+                    $base_path . 'meta-data/' . $username;
+                    system($command);
+                    return redirect('/workspace/addSampleFiles')->with('message',$message);
                 }
                 Ncbiupload::create([
                     'sra_id' => $sra_id,
@@ -118,8 +126,7 @@ class WorkspaceController extends Controller
             $file_list = str_replace("meta-data/" . $user . "/" , "" , $file_list);
             array_push($fileList , $file_list);
         }
-        $preparing_lists = Ncbiupload::where([['user', $user],['isPrepared', false]])->get();
-        return view('Workspace.addSampleFiles', compact('fileList', 'preparing_lists'));
+        return view('Workspace.addSampleFiles', compact('fileList'));
     }
 
     public function addSampleFiles(Request $request)
@@ -161,5 +168,21 @@ class WorkspaceController extends Controller
     {
         $ncbi_files = Storage::files('meta-data/public');
         return view('Workspace.ncbiFileList', compact('ncbi_files'));
+    }
+
+    public function ncbi_download_status()
+    {
+        $preparing_list = Ncbiupload::where('isPrepared',0)->get();
+        $data = array();
+        if(isset($preparing_list)){
+            foreach($preparing_list as $prepare){
+                array_push($data, $prepare->sra_id);
+            }
+            return response()->json(['code' => 200,'data' => $data]);
+        }else{
+            $data = array();
+            return response()->json(['code' => 200,'data' => $data]);
+        }
+
     }
 }

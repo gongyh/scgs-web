@@ -1,21 +1,21 @@
 $(function () {
 
-   $('.owl-carousel').owlCarousel({
-      loop:true,
-      margin:10,
-      nav:true,
-      responsive:{
-        0:{
-          items:1
-        },
-        600:{
-          items:2
-        },
-        1000:{
-          items:4
-        }
+  $('.owl-carousel').owlCarousel({
+    loop: true,
+    margin: 10,
+    nav: true,
+    responsive: {
+      0: {
+        items: 1
+      },
+      600: {
+        items: 2
+      },
+      1000: {
+        items: 4
       }
-    })
+    }
+  })
 
   var index = 0;
   var current_url = window.location.href;
@@ -86,7 +86,7 @@ $(function () {
   }
 
   //sra_id_file upload filename display
-  $('#sra_id_file').on('change',function(file){
+  $('#sra_id_file').on('change', function (file) {
     $("#sra_id_label").html(this.files[0].name);
   })
 
@@ -411,6 +411,47 @@ $(function () {
     }
   }
 
+  //ncbi-download status
+  if (window.location.href.indexOf('/workspace/addSampleFiles') != -1) {
+    var getPreparingList = setInterval(() => {
+      $.ajax({
+        url: '/workspace/ncbi_download_status',
+        method: 'GET',
+        success: function (res) {
+          if (res.code == 200) {
+            if (res.data.length != 0) {
+              var span1 = $("<span></span>");
+              var span2 = $("<span></span>");
+              var span3 = $("<span></span>");
+              var div1 = $("<div></div>");
+              var div2 = $("<div></div>");
+              var div4 = $("<div></div>");
+              span1.addClass('badge badge-primary');
+              span2.text('Upload');
+              span3.addClass('dot');
+              span3.text('...');
+              span1.append(span2);
+              span1.append(span3);
+              div1.append(span1);
+              for (i = 0; i < res.data.length; i++) {
+                var div3 = $("<div></div>");
+                div3.addClass('rem1');
+                div3.text(res.data[i]);
+                div2.append(div3);
+              }
+              div4.append(div1);
+              div4.append(div2);
+              $("#preparing_list").html(div4);
+            } else {
+              $("#preparing_list").empty();
+            }
+          }
+        }
+      })
+    }, 2000);
+  } else {
+    clearInterval(getPreparingList);
+  }
 })
 
 var dateToString = function (date) {
