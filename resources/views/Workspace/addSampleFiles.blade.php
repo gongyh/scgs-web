@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row middle-area">
     <div class="col-md-3">
-    @include('components.workspace_nav')
+      @include('components.workspace_nav')
     </div>
     <div class="col-md-9">
       <nav aria-label="breadcrumb">
@@ -15,8 +15,7 @@
       </nav>
 
       <div>
-      <p>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+        <p class="rem1 text-danger">You can upload 5 files at most at the same time.</p>
       </div>
 
       <div class="row">
@@ -39,44 +38,30 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
       <hr>
       <div class="row">
         <div class="col-md-6">
-
-      <form action="" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="custom-file mt-3">
-          <input type="file" name="sra_id_file" class="custom-file-input" id="sra_id_file">
-          <label class="custom-file-label" for="sra_id_file" id="sra_id_label">Choose a sra id txt file</label>
+          <form action="" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="custom-file mt-3">
+              <input type="file" name="sra_id_file" class="custom-file-input" id="sra_id_file">
+              <label class="custom-file-label" for="sra_id_file" id="sra_id_label">Choose a sra id txt file</label>
+            </div>
+            <div class="text-danger font-weight-bolder">Or</div>
+            <div class="form-group mt-2">
+              <label for="ncbi_sra_id" class="rem1">NCBI sra-id</label>
+              <input type="text" class="form-control" id="ncbi_sra_id" name="ncbi_sra_id">
+            </div>
+            <button id="ncbi_submit" type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          @if (!empty(session('message')))
+          <div class="alert alert-danger mt-2">
+            {{session('message')}}
+          </div>
+          @endif
         </div>
-        <div class="text-danger font-weight-bolder">Or</div>
-        <div class="form-group mt-2">
-          <label for="ncbi_sra_id" class="rem1">NCBI sra-id</label>
-          <input type="text" class="form-control" id="ncbi_sra_id" name="ncbi_sra_id">
+
+        <div class="col-md-6" id="preparing_list">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-      @if (!empty(session('errors')))
-      <div class="alert alert-danger mt-2">
-        {{session('errors')}}
       </div>
-      @endif
-
-       </div>
-
-       <div class="col-md-6">
-
-      @foreach($preparing_lists as $preparing_list)
-      <div>
-        <span class="badge badge-primary">
-          <span>Upload</span>
-          <span class="dot">...</span>
-        </span>
-        <span class="rem1">{{$preparing_list->sra_id}}</span>
-      </div>
-      @endforeach
     </div>
-
-       </div>
-    </div>
-
   </div>
 </div>
 @endsection
