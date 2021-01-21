@@ -103,9 +103,9 @@ class WorkspaceController extends Controller
                 $sra_id = $request->input('ncbi_sra_id');
                 $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
                 if(Storage::disk('local')->exists('meta-data/public' . '/' . $sra_id . '_1.fastq.gz')){
-                    $message = $sra_id . '_1.fastq.gz already existed in public dictionary.';
+                    $message = $sra_id . '_1.fastq.gz and ' . $sra_id . '_2.fastq.gz already existed in public dictionary.';
                     $command = 'cp '. $base_path . 'meta-data/public/' . $sra_id . '_1.fastq.gz ' .
-                    $base_path . 'meta-data/' . $username;
+                    $base_path . 'meta-data/' . $username. ' && cp ' . $base_path . 'meta-data/public/' . $sra_id . '_2.fastq.gz ' . $base_path . 'meta-data/' . $username;
                     system($command);
                     return redirect('/workspace/addSampleFiles')->with('message',$message);
                 }

@@ -569,3 +569,55 @@ a:hover {
 .glyphicon-chevron-right:before {
   content: "\e080";
 }
+
+.box {
+  position: relative;
+  border-radius: 3px;
+  background: #fff;
+  border-top: 3px solid #d2d6de;
+  margin-bottom: 20px;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+  box-sizing: border-box;
+}
+
+.box-header.with-border {
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.box-header {
+  color: #444;
+  display: block;
+  padding: 5px;
+  position: relative;
+}
+
+.box-body {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 5px;
+}
+
+.products-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.product-list-in-box>.item {
+  box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.products-list>.item {
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+}
+
+.product-info {
+  font-size: 15px;
+}
