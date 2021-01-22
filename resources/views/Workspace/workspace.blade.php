@@ -27,7 +27,7 @@
                     <i class="fa fa-gears fa-2x ext-icon"></i>
                   </div>
                   <div class="product-info">
-                    <a href="#" target="_blank" class="product-title">
+                    <a href="#" class="product-title">
                       password change
                     </a>
                     <span class="pull-right installed"><i class="fa fa-check"></i></span>
@@ -38,7 +38,7 @@
                     <i class="fa fa-flask fa-2x ext-icon"></i>
                   </div>
                   <div class="product-info">
-                    <a href="#" target="_blank" class="product-title">
+                    <a href="#" class="product-title">
                       laravel-admin-ext/redis-manager
                     </a>
                   </div>

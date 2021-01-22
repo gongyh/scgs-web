@@ -204,9 +204,9 @@ class SamplesController extends Controller
     {
         $sample_id = $request->input('sampleID');
         $projectID = Samples::where('id',$sample_id)->value('projects_id');
+        $Accession = Projects::where('id',$projectID)->value('doi');
         $lab_id = Projects::where('id',$projectID)->value('labs_id');
-        $user_email = Labs::where('id',$lab_id)->value('principleInvestigator');
-        $user = User::where('email', $user_email)->value('name');
+        $user = Labs::where('id',$lab_id)->value('principleInvestigator');
         $sample = Samples::find($sample_id);
         $app = Applications::find($sample['applications_id']);
         $applications = Applications::all();
@@ -295,7 +295,6 @@ class SamplesController extends Controller
             } else {
                     $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
                     $file2_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileTwo);
-
                 // Return error message
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
