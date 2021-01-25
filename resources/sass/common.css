@@ -607,6 +607,7 @@ a:hover {
 }
 
 .product-list-in-box>.item {
+  display: flex;
   box-shadow: none;
   box-shadow: none;
   border-radius: 0;
@@ -615,9 +616,11 @@ a:hover {
 
 .products-list>.item {
   border-radius: 3px;
+  padding: 5px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
 }
 
 .product-info {
-  font-size: 15px;
+  font-size: 20px;
+  margin-left: 8px;
 }

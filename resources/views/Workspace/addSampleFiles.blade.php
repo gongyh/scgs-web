@@ -51,11 +51,6 @@
             </div>
             <button id="ncbi_submit" type="submit" class="btn btn-primary">Submit</button>
           </form>
-          @if (!empty(session('message')))
-          <div class="alert alert-danger mt-2">
-            {{session('message')}}
-          </div>
-          @endif
         </div>
 
         <div class="col-md-6" id="preparing_list">

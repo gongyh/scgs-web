@@ -42,7 +42,8 @@ class WorkspaceController extends Controller
                 $current_page = $request->input('current_page');
                 $labID = $request->input('labID');
                 $myProjects = Projects::where('labs_id', $labID)->orderBy('id','desc')->paginate(5);
-                return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID, 'current_page' => $current_page]);
+                $pageSize = 5;
+                return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID, 'current_page' => $current_page,'pageSize' => $pageSize]);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $myProjects = null;
                 return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID,'current_page' => $current_page]);
@@ -57,7 +58,8 @@ class WorkspaceController extends Controller
                     array_push($lab_id_list, $myLab->id);
                 }
                 $myProjects = Projects::whereIn('labs_id', $lab_id_list)->orderBy('id','desc')->paginate(5);
-                return view('Workspace.myProject', ['myProjects' => $myProjects,'current_page'=>$current_page]);
+                $pageSize = 5;
+                return view('Workspace.myProject', ['myProjects' => $myProjects,'current_page' => $current_page,'pageSize' => $pageSize]);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $myProjects = null;
                 return view('Workspace.myProject', ['myProjects' => $myProjects,'current_page'=>$current_page]);
@@ -74,11 +76,9 @@ class WorkspaceController extends Controller
                 $request->file('sra_id_file')->storeAs('', $filename);
                 $file_data = Storage::get($filename);
                 $file_array = explode("\r\n", $file_data);
-                $message = '';
                 $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
                 foreach($file_array as $file_arr){
                     if(Storage::disk('local')->exists('meta-data/public/' . $file_arr . '_1.fastq.gz')){
-                        $message .= $file_arr . '_1.fastq.gz already existed in public dictionary\n.';
                         $command = 'cp ' . $base_path . 'meta-data/public/' . $file_arr . '_1.fastq.gz ' .
                         $base_path . 'meta-data/' . $username . ' && cp ' . $base_path . 'meta-data/public/' . $file_arr . '_2.fastq.gz ' . $base_path . 'meta-data/' . $username;
                         system($command);
@@ -93,7 +93,7 @@ class WorkspaceController extends Controller
                     NCBIDownload::dispatch($username, $file_arr)->onQueue('NCBIDownload');
                 }
                 Storage::delete($filename);
-                return redirect('/workspace/addSampleFiles')->with('message',$message);
+                return redirect('/workspace/addSampleFiles');
             }else{
                 $this->validate($request, [
                     'ncbi_sra_id' => 'required',
@@ -103,11 +103,10 @@ class WorkspaceController extends Controller
                 $sra_id = $request->input('ncbi_sra_id');
                 $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
                 if(Storage::disk('local')->exists('meta-data/public' . '/' . $sra_id . '_1.fastq.gz')){
-                    $message = $sra_id . '_1.fastq.gz and ' . $sra_id . '_2.fastq.gz already existed in public dictionary.';
                     $command = 'cp '. $base_path . 'meta-data/public/' . $sra_id . '_1.fastq.gz ' .
                     $base_path . 'meta-data/' . $username. ' && cp ' . $base_path . 'meta-data/public/' . $sra_id . '_2.fastq.gz ' . $base_path . 'meta-data/' . $username;
                     system($command);
-                    return redirect('/workspace/addSampleFiles')->with('message',$message);
+                    return redirect('/workspace/addSampleFiles');
                 }
                 Ncbiupload::create([
                     'sra_id' => $sra_id,
