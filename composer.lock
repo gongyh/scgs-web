@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d08a313e644a714aacdb37716b6d762",
+    "content-hash": "a8958520fbbb6e727719d1b28c2b50bd",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4795,6 +4795,54 @@
                 }
             ],
             "time": "2020-08-18T17:17:46+00:00"
+        },
+        {
+            "name": "ricadesign/laravel-contact",
+            "version": "v1.0.93",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ricadesign/laravel-contact.git",
+                "reference": "96b1d76ab6d30a12845113fc734b1492c6abc197"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ricadesign/laravel-contact/zipball/96b1d76ab6d30a12845113fc734b1492c6abc197",
+                "reference": "96b1d76ab6d30a12845113fc734b1492c6abc197",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3",
+                "laravel/framework": "^7.0 | ^6.0 | ^5.0",
+                "php": ">=7.0.0"
+            },
+            "type": "li",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ricadesign\\Contact\\ContactServiceProvider"
+                    ],
+                    "aliases": {
+                        "Bar": "Foo\\Bar\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ricadesign\\Contact\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cristian Payet",
+                    "email": "payet91@gmail.com"
+                }
+            ],
+            "description": "Creates contact backend and scaffolds frontend of contact form",
+            "time": "2020-11-30T10:40:21+00:00"
         },
         {
             "name": "spatie/db-dumper",

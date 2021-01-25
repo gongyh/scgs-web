@@ -34,7 +34,8 @@
     "mews/captcha": "^3.2",
     "nelexa/zip": "^3.3",
     "parsedown/laravel": "^1.2",
-    "predis/predis": "^1.1"
+    "predis/predis": "^1.1",
+    "ricadesign/laravel-contact": "^1.0"
   },
   "require-dev": {
     "facade/ignition": "^2.0",
