@@ -42,7 +42,8 @@ class WorkspaceController extends Controller
                 $current_page = $request->input('current_page');
                 $labID = $request->input('labID');
                 $myProjects = Projects::where('labs_id', $labID)->orderBy('id','desc')->paginate(5);
-                return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID, 'current_page' => $current_page]);
+                $pageSize = 5;
+                return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID, 'current_page' => $current_page,'pageSize' => $pageSize]);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $myProjects = null;
                 return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID,'current_page' => $current_page]);
@@ -57,7 +58,8 @@ class WorkspaceController extends Controller
                     array_push($lab_id_list, $myLab->id);
                 }
                 $myProjects = Projects::whereIn('labs_id', $lab_id_list)->orderBy('id','desc')->paginate(5);
-                return view('Workspace.myProject', ['myProjects' => $myProjects,'current_page'=>$current_page]);
+                $pageSize = 5;
+                return view('Workspace.myProject', ['myProjects' => $myProjects,'current_page' => $current_page,'pageSize' => $pageSize]);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $myProjects = null;
                 return view('Workspace.myProject', ['myProjects' => $myProjects,'current_page'=>$current_page]);

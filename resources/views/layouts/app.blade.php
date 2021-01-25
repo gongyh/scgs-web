@@ -42,9 +42,9 @@
                 <a href="/projects" class="nav-link nav-menu">Projects</a>
               </li>
               @if(Auth::check())
-              <li class="nav-item">
+              <li class="nav-item dropdown">
                 <div class="btn-group workspace">
-                  <a class="nav-link nav-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a class="nav-link nav-menu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Workspace
                   </a>
                   <div class="dropdown-menu workspace-dropdown">

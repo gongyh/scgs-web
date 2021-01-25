@@ -109,5 +109,3 @@ Route::get('/aboutus', function () {
     return view('aboutus');
 });
 
-Route::get('/home2', 'HomeController@index2')->name('home');
-
