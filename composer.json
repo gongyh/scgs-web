@@ -10,6 +10,7 @@
   "require": {
     "php": "^7.2.5",
     "encore/laravel-admin": "^1.8",
+    "erusev/parsedown-extra": "^0.8.1",
     "fideloper/proxy": "^4.2",
     "fruitcake/laravel-cors": "^1.0",
     "guzzlehttp/guzzle": "^6.3",
@@ -32,6 +33,7 @@
     "maatwebsite/excel": "^3.1",
     "mews/captcha": "^3.2",
     "nelexa/zip": "^3.3",
+    "parsedown/laravel": "^1.2",
     "predis/predis": "^1.1"
   },
   "require-dev": {

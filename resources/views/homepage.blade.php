@@ -23,7 +23,7 @@
           <p class="card-text">SAG analysis</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="btn btn-primary stretched-link">Find Out More!</a>
+          <a href="/docs/scgs" class="btn btn-primary stretched-link">Find Out More!</a>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
           <p class="card-text">Ramanome analysis</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="btn btn-primary stretched-link">Find Out More!</a>
+          <a href="/docs/ramand2o" class="btn btn-primary stretched-link">Find Out More!</a>
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@
           <p class="card-text">AST testing</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="btn btn-primary stretched-link">Find Out More!</a>
+          <a href="/docs/ast" class="btn btn-primary stretched-link">Find Out More!</a>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
           <p class="card-text">Mutants screening</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="btn btn-primary stretched-link">Find Out More!</a>
+          <a href="/docs/gwas" class="btn btn-primary stretched-link">Find Out More!</a>
         </div>
       </div>
     </div>

@@ -109,3 +109,5 @@ Route::get('/aboutus', function () {
     return view('aboutus');
 });
 
+Route::get('/docs/{page_id?}', 'DocController@index')->name('docs');
+
