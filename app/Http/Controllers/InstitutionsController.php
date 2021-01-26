@@ -30,7 +30,7 @@ class InstitutionsController extends Controller
     public function create(Request $request)
     {
         if ($request->isMethod('POST')) {
-            // institutions validate
+            // Institutions validate
             $this->validate($request, [
                 'new_institution_name' => 'required|unique:institutions,name|max:250'
             ]);
@@ -59,7 +59,7 @@ class InstitutionsController extends Controller
         $current_page = $request->input('page');
         if ($request->isMethod('post')) {
             $input = $request->all();
-            // institutions validate
+            // Institutions validate
             Validator::make($input, [
                 'name' => [
                     'required',

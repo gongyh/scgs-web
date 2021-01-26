@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\pipelineParams;
-// use Illuminate\Support\Facades\Storage;
 
 class PipelineParamsController extends Controller
 {
@@ -38,7 +37,7 @@ class PipelineParamsController extends Controller
             $kofam_kolist_path = $request->input('kofam_kolist_path');
             $eukcc_db_path = $request->input('eukcc_db_path');
 
-            /**管理员设置的pipeline params文件校验
+            /**Pipeline params files validated by administrator
              *
             $resfinder_db_exist = Storage::disk('local')->exists($resfinder_db_path);
             $nt_db_exist = Storage::disk('local')->exists($nt_db_path);

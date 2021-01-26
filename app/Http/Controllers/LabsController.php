@@ -24,7 +24,7 @@ class LabsController extends Controller
         $pi = $user->name;
 
         if ($request->isMethod('POST')) {
-            // labs create validate
+            // Labs create validate
             $this->validate($request, [
                 'choose_a_institution' => 'required',
                 'new_lab_name' => 'required|max:250'
@@ -65,7 +65,7 @@ class LabsController extends Controller
         $lab = Labs::findOrFail($labID);
         if ($request->isMethod('POST')) {
             $input = $request->all();
-            // labs update validate
+            // Labs update validate
             Validator::make($input, [
                 'name' => [
                     'required',

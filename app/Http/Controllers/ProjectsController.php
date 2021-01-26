@@ -36,7 +36,7 @@ class ProjectsController extends Controller
                     return view('Projects.projects', compact('findProjects', 'isPI', 'isAdmin', 'current_page'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
-                //未找到projects时显示
+                // No projects records
                 $findProjects = null;
                 return view('Projects.projects', compact('findProjects'));
             }
@@ -56,7 +56,7 @@ class ProjectsController extends Controller
                     return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','pageSize'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
-                // 数据库中没有projects时显示
+                // No projects records
                 $Projects = null;
                 return view('Projects.projects', compact('Projects'));
             }

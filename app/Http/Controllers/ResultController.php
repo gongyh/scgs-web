@@ -26,7 +26,7 @@ class ResultController extends Controller
     public function success_running(Request $request)
     {
         /**
-         * copy MultiQC and Kraken report to public/results
+         * Copy MultiQC and Kraken report to public/results
          */
         if ($request->input('sampleID')) {
             $sample_id = $request->input('sampleID');

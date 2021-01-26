@@ -121,6 +121,11 @@ a:hover {
   margin-top: 1.0rem;
 }
 
+
+.files_in_dict {
+  height: 300px;
+}
+
 /* aboutus */
 .card-last-child {
   margin-bottom: 1.0rem !important;

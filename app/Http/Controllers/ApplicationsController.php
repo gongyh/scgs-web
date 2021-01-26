@@ -26,7 +26,7 @@ class ApplicationsController extends Controller
     public function create(Request $request)
     {
         if ($request->isMethod('POST')) {
-            // applications validate
+            //Applications validate
             $this->validate($request, [
                 'new_app_name' => 'required|unique:applications,name|max:250',
                 'new_app_desc' => 'required|unique:applications,description|max:250'
@@ -58,7 +58,7 @@ class ApplicationsController extends Controller
         $current_page = $request->input('page');
         if ($request->isMethod('post')) {
             $input = $request->all();
-            // applications validate
+            //Applications validate
             Validator::make($input, [
                 'name' => [
                     'required',

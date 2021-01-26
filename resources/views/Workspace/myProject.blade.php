@@ -19,7 +19,7 @@
       </nav>
       <div class="mb-4">
         @if(isset($labID))
-        <a class="btn btn-default pt-2 font-weight-bold" href="/projects/create?labID={{$labID}}&from=myProject">Add Project</a>
+        <a class="btn btn-default pt-2 font-weight-bold border" href="/projects/create?labID={{$labID}}&from=myProject">Add Project</a>
         @else
         <a class="btn btn-default pt-2 font-weight-bold" href="/projects/create?from=myProject">Add Project</a>
         @endif

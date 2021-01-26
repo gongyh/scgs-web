@@ -24,9 +24,7 @@ class ExecparamsController extends Controller
     public function index(Request $request)
     {
         if ($request->isMethod('POST')) {
-            /**
-             * 接收表单post的数据
-             */
+            //Get form post data
             $samples = new Samples();
             $pipelineParams = pipelineParams::find(1);
             $request->has('sampleID') ? $sample_id = $request->input('sampleID') : $project_id = $request->input('projectID');
@@ -71,9 +69,6 @@ class ExecparamsController extends Controller
             } else {
                 $augustus_species_name = null;
             }
-            /**
-             * 判断execparams表中是否有该sample运行的参数，如果没有就添加记录，如果有就修改记录
-             */
             if($request->input('sampleID')){
                 if (Execparams::where('samples_id', $sample_id)->get()->count() == 0) {
                     Execparams::create([
@@ -191,7 +186,7 @@ class ExecparamsController extends Controller
             }
 
             /**
-             * execparams reading, concat command
+             * Execparams reading, concat command
              */
             $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
             $execparams = new Execparams();
@@ -220,7 +215,7 @@ class ExecparamsController extends Controller
                 $augustus_species = '';
             }
             /**
-             * pipeline params读取数据库路径
+             * Pipeline params database path
              */
             $pipeline_params = pipelineParams::find(1);
             $resfinder_db_path = $pipeline_params->resfinder_db_path;
@@ -267,15 +262,15 @@ class ExecparamsController extends Controller
                     $filename = str_replace('_1', '_[1,2]', $filename1);
                 }
 
-                //保存目录格式 : 用户名 + 物种名(sampleLabel)
+                // Save records as sample username + sampleLabel
                 $sample_label = Samples::where('id', $sample_id)->value('sampleLabel');
                 $sample_user_name = Auth::user()->name;
 
                 if ($filename2 != null) {
-                    //pairEnds
+                    // PairEnds
                     $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads "' . $base_path . $accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '-profile docker,base ' . $resume . '--outdir results -w work';
                 } else {
-                    //singleEnds
+                    // SingleEnds
                     $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads "' . $base_path . $accession . '/' .$filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
                 }
 
@@ -312,16 +307,16 @@ class ExecparamsController extends Controller
                 $filename = substr_replace($filename, '[1,2]', $replace_num_position, 1);
 
                 if ($filename2 != null) {
-                    //Paired-End
+                    // Paired-End
                     $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads "' . $base_path . $project_accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '-profile docker,base ' . $resume . '--outdir results -w work';
                 } else {
-                    //Single
+                    // Single
                     $cmd = '/opt/images/bin/nextflow run /opt/images/nf-core-scgs ' . '--reads "' . $base_path . $project_accession . '/' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds -profile docker,base ' . $resume . '--outdir results -w work';
                 }
             }
 
             /**
-             * jobs表中添加记录
+             * Jobs add records
              */
             if($request->has('sampleID')){
                 $sample_id = $request->input('sampleID');
@@ -339,7 +334,7 @@ class ExecparamsController extends Controller
                         'started' => '000',
                         'finished' => '000',
                         'command' => $cmd,
-                        'status' => 0   // 0:have't started
+                        'status' => 0   // 0:Have't started
                     ]);
                 } else {
                     $job_id = Jobs::where('sample_id', $sample_id)->value('id');
@@ -369,7 +364,7 @@ class ExecparamsController extends Controller
                         'started' => '000',
                         'finished' => '000',
                         'command' => $cmd,
-                        'status' => 0   // 0:have't started
+                        'status' => 0   // 0:Have't started
                     ]);
                 } else {
                     $job_id = Jobs::where('project_id', $project_id)->value('id');
