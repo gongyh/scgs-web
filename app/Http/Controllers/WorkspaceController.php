@@ -42,6 +42,7 @@ class WorkspaceController extends Controller
                 $current_page = $request->input('current_page');
                 $labID = $request->input('labID');
                 $myProjects = Projects::where('labs_id', $labID)->orderBy('id','desc')->paginate(5);
+                $myProjects->withPath('/workspace/myLab/projects?labID=' . $labID);
                 $pageSize = 5;
                 return view('Workspace.myProject', ['myProjects' => $myProjects, 'labID' => $labID, 'current_page' => $current_page,'pageSize' => $pageSize]);
             } catch (\Illuminate\Database\QueryException $ex) {
@@ -182,6 +183,5 @@ class WorkspaceController extends Controller
             $data = array();
             return response()->json(['code' => 200,'data' => $data]);
         }
-
     }
 }

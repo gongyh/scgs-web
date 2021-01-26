@@ -15,7 +15,7 @@
       </nav>
 
       <div>
-        <p class="rem1 text-danger">You can upload 5 files at most at the same time.</p>
+        <p class="rem1 text-danger">You can upload <b>5 (.fastq,.fasta,.fq,.fa,.fastq.gz,.fasta.gz)</b> files at most at the same time. </p>
       </div>
 
       <div class="row">
@@ -23,8 +23,7 @@
           <label for="addSampleFiles" class="control-label"></label>
           <input type="file" name="addSampleFiles" id="addSampleFiles" multiple>
         </div>
-
-        <div class="col-md-6">
+        <div class="mt-3 col-md-6 overflow-auto files_in_dict">
           <div class="rem15">Files In Your Dictionary</div>
           @foreach($fileList as $file)
           <div>
@@ -52,7 +51,6 @@
             <button id="ncbi_submit" type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
-
         <div class="col-md-6" id="preparing_list">
         </div>
       </div>
