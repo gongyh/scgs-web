@@ -67,7 +67,7 @@
                 <div class="col-md-6 d-flex">
                   <input id="captcha" class="w-50 form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" required>
 
-                  <img class="thumbnail captcha ml-1" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="click to get a new captcha">
+                  <img class="thumbnail captcha ml-2" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="click to get a new captcha">
 
                 </div>
                 @if($errors->has('captcha'))

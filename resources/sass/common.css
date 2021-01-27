@@ -123,7 +123,11 @@ a:hover {
 
 
 .files_in_dict {
-  height: 300px;
+  height: 356px;
+}
+
+.upload-tip {
+  margin-bottom: 0 !important;
 }
 
 /* aboutus */
@@ -269,6 +273,10 @@ a:hover {
   font-size: 1.5rem;
   color: #f40;
   margin-bottom: 1.5rem;
+}
+
+.proj_search {
+  padding-left: 0 !important;
 }
 
 /* tips */
@@ -503,6 +511,11 @@ a:hover {
 .project_title a:hover,
 .project_title a:active {
   color: #985735;
+}
+
+.captcha {
+  display: inline-block;
+  height: 2.5em;
 }
 
 .captcha-error {

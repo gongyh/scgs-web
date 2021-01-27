@@ -7,7 +7,7 @@
   <!-- left column -->
   <div class="row middle-area">
     <div class="col-md-3">
-    @include('components.workspace_nav')
+      @include('components.workspace_nav')
     </div>
     <div class="col-md-9">
       <nav aria-label="breadcrumb">
@@ -19,9 +19,13 @@
       </nav>
       <div class="mb-4">
         @if(isset($labID))
-        <a class="btn btn-default pt-2 font-weight-bold border" href="/projects/create?labID={{$labID}}&from=myProject">Add Project</a>
+        <a class="" href="/projects/create?labID={{$labID}}&from=myProject"><svg class="bi bi-plus-square-fill" width="2.5em" height="2.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z" />
+          </svg></a>
         @else
-        <a class="btn btn-default pt-2 font-weight-bold" href="/projects/create?from=myProject">Add Project</a>
+        <a class="" href="/projects/create?from=myProject"><svg class="bi bi-plus-square-fill" width="2.5em" height="2.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z" />
+          </svg></a>
         @endif
         @if($myProjects != null)
         @foreach($myProjects as $myProject)
