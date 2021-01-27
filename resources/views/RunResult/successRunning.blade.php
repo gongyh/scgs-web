@@ -10,9 +10,9 @@
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
-    <div class="col-md-2">
+    <div class="">
     </div>
-    <div class="col-md-9">
+    <div class="col-md-11">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>

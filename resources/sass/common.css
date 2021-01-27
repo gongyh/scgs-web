@@ -20,7 +20,8 @@ a:hover {
 }
 
 .row {
-  margin: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 
 .rem1 {
@@ -91,7 +92,7 @@ a:hover {
 }
 
 .dropdown-menu {
-  min-width: 0;
+  min-width: 0 !important;
 }
 
 .contact {
