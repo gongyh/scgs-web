@@ -15,7 +15,7 @@
       </nav>
 
       <div>
-        <p class="rem1 text-danger">You can upload <b>5 (.fastq,.fasta,.fq,.fa,.fastq.gz,.fasta.gz)</b> files at most at the same time. </p>
+        <p class="rem1 text-danger upload-tip">You can upload <b>5 (.fastq,.fasta,.fq,.fa,.fastq.gz,.fasta.gz)</b> files at most at the same time. Each file no more than <b>2000M</b> .</p>
       </div>
 
       <div class="row">

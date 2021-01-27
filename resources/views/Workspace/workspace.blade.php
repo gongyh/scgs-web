@@ -23,8 +23,8 @@
             <div class="box-body">
               <ul class="products-list product-list-in-box">
                 <li class="item">
-                  <div class="product-img">
-                    <i class="fa fa-gears fa-2x ext-icon"></i>
+                  <div class="product-img mt-1">
+                    <i class="fa fa-unlock-alt fa-2x ext-icon"></i>
                   </div>
                   <div class="product-info">
                     <a href="/password/reset" class="product-title">
@@ -32,17 +32,6 @@
                     </a>
                   </div>
                 </li>
-                <li class="item">
-                  <div class="product-img">
-                    <i class="fa fa-flask fa-2x ext-icon"></i>
-                  </div>
-                  <div class="product-info">
-                    <a href="#" class="product-title">
-                      laravel-admin-edit
-                    </a>
-                  </div>
-                </li>
-
                 <!-- /.item -->
               </ul>
             </div>

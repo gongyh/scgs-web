@@ -16,7 +16,7 @@
       <div class="mb-4">
         <div class="d-flex justify-content-between">
           <!--search bar -->
-          <nav class="navbar navbar-light">
+          <nav class="navbar navbar-light proj_search">
             <form class="form-inline" method="post" action="/projects">
               @csrf
               <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_project">
@@ -28,7 +28,9 @@
             </form>
           </nav>
           @if($isAdmin || $isPI)
-          <a class="border btn btn-default btn-sm pt-3 font-weight-bold add_project" href="projects/create">Add Project</a>
+          <a class="mt-2" href="projects/create"><svg class="bi bi-plus-square-fill" width="2.5em" height="2.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z" />
+            </svg></a>
           @endif
         </div>
         <div class="overflow-auto">
@@ -106,12 +108,12 @@
       @elseif(isset($findProjects))
       {{$findProjects->links()}}
       @endif
-    <!-- right-column -->
-    <div class="col-md-3 right-column">
-      <div class="other-info">
+      <!-- right-column -->
+      <div class="col-md-3 right-column">
+        <div class="other-info">
 
+        </div>
       </div>
     </div>
   </div>
-</div>
-@endsection
+  @endsection
