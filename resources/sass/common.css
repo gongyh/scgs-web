@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: rgb(239, 239, 240);
+  background-color: #FFF;
   margin: 0;
   padding: 0;
   position: relative;
@@ -17,6 +17,11 @@ a:visited,
 a:link,
 a:hover {
   text-decoration: none !important;
+}
+
+.row {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 
 .rem1 {
@@ -87,7 +92,7 @@ a:hover {
 }
 
 .dropdown-menu {
-  min-width: 0;
+  min-width: 0 !important;
 }
 
 .contact {

@@ -21,6 +21,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Page specific styles -->
+    @yield('style')
 </head>
 
 <body>
@@ -133,7 +136,10 @@
     </footer>
 
   </div>
-</body>
+
+<!-- Page specific script -->
 @yield('script')
+
+</body>
 
 </html>

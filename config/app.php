@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Parsedown\Providers\ParsedownServiceProvider::class,
 
         /*
          * Application Service Providers...
