@@ -40,6 +40,7 @@ $(function () {
   var running_sample_id = getQueryVariable('sampleID');
   var running_project_id = getQueryVariable('projectID');
   var check_progress = false;
+  var selectedTypes = [];
   var read_progress;
 
   $('#type').on('change', function () {
@@ -387,6 +388,15 @@ $(function () {
       $('#addFileModal').modal('hide');
     }
   })
+
+  //select types
+  $('#search_type').on('change', function (e) {
+    $("#search_type option:selected").each(function () {
+      selectedTypes.push($(this).val());
+    });
+
+  })
+
   /**
    * jQuery text fold/unfold
    * @param clas：text container

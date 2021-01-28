@@ -39,6 +39,9 @@
             <div class="mt-2">
               <span>Type</span> : <span>{{$myProject->type}}</span>
             </div>
+            <div class="mt-2">
+              <span>Sample Numbers</span> : <span>{{DB::table('samples')->where('projects_id',$myProject->id)->count()}}</span>
+            </div>
             <div class="mt-2 project_desc text-wrap text-break">Project Description : {{strlen($myProject->description)>200?substr($myProject->description,0,200).'...':$myProject->description}}</div>
             <div class="mt-2 text-black-50">Lab : {{$myProject->getLabName($myProject->labs_id)}}</div>
             <div class="edit-delete">
