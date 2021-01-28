@@ -34,9 +34,9 @@
           @endif
         </div>
         <div class="overflow-auto">
-          @if(empty($findProjects) && $Projects != null)
+          @if($Projects != null)
           @foreach ($Projects as $Project)
-          <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm">
+          <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm project_section">
             <div class="project_id mr-4 font-large">{{$current_page > 1 ? ($current_page-1) * $pageSize + $loop->iteration : $loop->iteration}}</div>
             <div class="font-normal">
               <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$Project->id}}">{{$Project->name}}</a></div>
@@ -44,7 +44,10 @@
                 <span class="text-primary">Accession</span> : <span>{{$Project->doi}}</span>
               </div>
               <div class="mt-2">
-                <span>Type</span> : <span>{{$Project->type}}</span>
+                <span>Type</span> : <span class="project_type">{{$Project->type}}</span>
+              </div>
+              <div class="mt-2">
+                <span>Sample Numbers</span> : <span>{{DB::table('samples')->where('projects_id',$Project->id)->count()}}</span>
               </div>
               <div class="mt-2 project_desc text-wrap text-break">Description : {{strlen($Project->description)>200?substr($Project->description,0,200).'...':$Project->description}}
               </div>
@@ -68,35 +71,6 @@
             </div>
           </div>
           @endforeach
-
-          @elseif(isset($findProjects))
-          @foreach ($findProjects as $findProject)
-          <div class="d-flex mt-3 p-2 rounded-lg border shadow-sm">
-            <div class="project_id mr-4 font-large"></div>
-            <div class="font-normal">
-              <div class="project_title font-normal text-wrap text-break"><a href="/samples?projectID={{$findProject->id}}">{{$findProject->name}}</a></div>
-              <div class="projectId mt-2">Accession : {{$findProject->doi}}</div>
-              <div class="project_desc text-wrap text-break">Project Description : {{strlen($findProject->description)>30?substr($findProject->description,0,30).'...':$findProject->description}}</div>
-              <div class="project_lab text-black-50">Lab : {{$findProject->getLabName($findProject->labs_id)}}</div>
-              <div class="edit-delete">
-                @if($isAdmin || $isPI->contains($findProject->labs_id))
-                <a href="projects/update?projectID={{$findProject->id}}&page={{$current_page}}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                  </svg>
-                </a>
-                @endif
-                @if($isAdmin || $isPI->contains($findProject->labs_id))
-                <a href="projects/delete?projectID={{$findProject->id}}&page={{$current_page}}" onclick="if(confirm('Are you sure to delete?')==false) return false;"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                  </svg>
-                </a>
-                @endif
-              </div>
-            </div>
-          </div>
-          @endforeach
           @endif
 
         </div>
@@ -109,9 +83,25 @@
       {{$findProjects->links()}}
       @endif
       <!-- right-column -->
-      <div class="col-md-3 right-column">
-        <div class="other-info">
-
+    </div>
+    <div class="col-md-3 right-column">
+      <div class="other-info">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title font-weight-bold">Filter</h5>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted font-weight-bold">Type</h6>
+            <form action="" method="POST">
+              @csrf
+              <select id="search_type" name="select_type" class="selectpicker show-tick mb-2 border rounded" data-live-search="true" data-style="btn-default">
+                <option value=""></option>
+                @foreach($types as $type)
+                <option value={{$type}}>{{$type}}</option>
+                @endforeach
+              </select>
+              <button class="btn btn-primary mt-2" type="submit"><i class="fa fa-filter"></i><span>Filter</span></button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
