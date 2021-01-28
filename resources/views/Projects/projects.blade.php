@@ -94,8 +94,10 @@
             <form action="" method="POST">
               @csrf
               <select id="search_type" name="select_type" class="selectpicker show-tick mb-2 border rounded" data-live-search="true" data-style="btn-default">
-                <option value=""></option>
-                @foreach($types as $type)
+                @isset($select_type)
+                <option value={{$select_type}} selected>{{$select_type}}</option>
+                  @endisset
+                  @foreach($types as $type)
                 <option value={{$type}}>{{$type}}</option>
                 @endforeach
               </select>

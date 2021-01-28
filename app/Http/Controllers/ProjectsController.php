@@ -52,11 +52,11 @@ class ProjectsController extends Controller
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
                         $isAdmin = $user->email == env('ADMIN_EMAIL');
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type'));
                     } else {
                         $isPI  = collect();
                         $isAdmin = false;
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type'));
                     }
                 } catch (\Illuminate\Database\QueryException $ex) {
                     // No projects records

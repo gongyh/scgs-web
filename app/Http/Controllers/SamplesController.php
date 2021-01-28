@@ -56,8 +56,8 @@ class SamplesController extends Controller
         $projectID = $request->input('projectID');
         $Accession = Projects::where('id',$projectID)->value('doi');
         $lab_id = Projects::where('id',$projectID)->value('labs_id');
-        $user_email = Labs::where('id',$lab_id)->value('principleInvestigator');
-        $user = User::where('email', $user_email)->value('name');
+        $user = Labs::where('id',$lab_id)->value('principleInvestigator');
+        $user = User::where('name', $user)->value('name');
         $applications = Applications::all();
         $all_species = Species::all();
         $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : array();
