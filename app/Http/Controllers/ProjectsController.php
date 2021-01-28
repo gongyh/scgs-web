@@ -21,35 +21,62 @@ class ProjectsController extends Controller
     public function index(Request $request)
     {
         if ($request->isMethod('POST')) {
-            if($request->input('search_project')){
+            if($request->has('search_project')){
                 $search_project = $request->input('search_project');
-                $current_page = $request->input('page');
-                $Projects = Projects::where('name', 'LIKE', '%' . $search_project . '%')->paginate(5);
-                $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
-                if (auth::check()) {
-                    $user = Auth::user();
-                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
-                    $isAdmin = $user->email == env('ADMIN_EMAIL');
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types'));
-                } else {
-                    $isPI  = collect();
-                    $isAdmin = false;
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types'));
+                $current_page = $request->input('page');$types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
+                if($request->input('search_prject') == null){
+                    $Projects = Projects::orderBy('id','desc')->paginate(5);
+                    if (auth::check()) {
+                        $user = Auth::user();
+                        $isPI = Labs::where('principleInvestigator', $user->name)->get();
+                        $isAdmin = $user->email == env('ADMIN_EMAIL');
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types'));
+                    } else {
+                        $isPI  = collect();
+                        $isAdmin = false;
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types'));
+                    }
+                }else{
+                    $Projects = Projects::where('name', 'LIKE', '%' . $search_project . '%')->paginate(5);
+                    if (auth::check()) {
+                        $user = Auth::user();
+                        $isPI = Labs::where('principleInvestigator', $user->name)->get();
+                        $isAdmin = $user->email == env('ADMIN_EMAIL');
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types'));
+                    } else {
+                        $isPI  = collect();
+                        $isAdmin = false;
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types'));
+                    }
                 }
-            }elseif($request->input('select_type')){
+            }elseif($request->has('select_type')){
                 $select_type = $request->input('select_type');
                 $current_page = $request->input('page');
-                $Projects = Projects::where('type',$select_type)->paginate(5);
                 $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
-                if (auth::check()) {
-                    $user = Auth::user();
-                    $isPI = Labs::where('principleInvestigator', $user->name)->get();
-                    $isAdmin = $user->email == env('ADMIN_EMAIL');
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type'));
-                } else {
-                    $isPI  = collect();
-                    $isAdmin = false;
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type'));
+                if(empty($request->input('select_type'))){
+                    $Projects = Projects::orderBy('id','desc')->paginate(5);
+                    if (auth::check()) {
+                        $user = Auth::user();
+                        $isPI = Labs::where('principleInvestigator', $user->name)->get();
+                        $isAdmin = $user->email == env('ADMIN_EMAIL');
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type'));
+                    } else {
+                        $isPI  = collect();
+                        $isAdmin = false;
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type'));
+                    }
+                }else{
+                    $Projects = Projects::where('type',$select_type)->paginate(5);
+                    if (auth::check()) {
+                        $user = Auth::user();
+                        $isPI = Labs::where('principleInvestigator', $user->name)->get();
+                        $isAdmin = $user->email == env('ADMIN_EMAIL');
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type'));
+                    } else {
+                        $isPI  = collect();
+                        $isAdmin = false;
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type'));
+                    }
                 }
             }
         } else {
