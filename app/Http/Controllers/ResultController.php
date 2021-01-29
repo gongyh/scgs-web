@@ -201,7 +201,7 @@ class ResultController extends Controller
                     array_push($data, $total_reads, $expected_distinct, $lower_095ci, $upper_095ci);
                     return response()->json(['code' => 200, 'data' => $data]);
                 } else {
-                    return response()->json(['code' => 200, 'data' => 'failed']);
+                    return response()->json(['code' => 201, 'data' => 'failed']);
                 }
             } else {
                 if (Storage::disk('local')->exists($preseq_path)) {
@@ -232,7 +232,7 @@ class ResultController extends Controller
                     array_push($data, $total_bases, $expected_covered_bases, $lower_095ci, $upper_095ci);
                     return response()->json(['code' => 200, 'data' => $data]);
                 } else {
-                    return response()->json(['code' => 200, 'data' => 'failed']);
+                    return response()->json(['code' => 201, 'data' => 'failed']);
                 }
             }
         } elseif ($request->input('arg')) {
@@ -250,7 +250,7 @@ class ResultController extends Controller
                 }
                 return response()->json(['code' => 200, 'data' => $ARG_data]);
             } else {
-                return response()->json(['code' => 400, 'data' => 'failed']);
+                return response()->json(['code' => 201, 'data' => 'failed']);
             }
         } elseif ($request->input('bowtie')) {
             $bowtie = $request->input('bowtie');
@@ -278,7 +278,7 @@ class ResultController extends Controller
                 array_push($bowtie, $bowtie_header, $bowtie_stats);
                 return response()->json(['code' => 200, 'data' => $bowtie]);
             } else {
-                return response()->json(['code' => 400, 'data' => 'failed']);
+                return response()->json(['code' => 201, 'data' => 'failed']);
             }
         } elseif ($request->input('quast')) {
             if ($request->input('projectID')) {
@@ -304,7 +304,7 @@ class ResultController extends Controller
                     return response()->json(['code' => 200, 'data' => $quast_detail]);
                 } else {
                     $quast_header = $quast_result =  null;
-                    return response()->json(['code' => 400, 'data' => 'failed']);
+                    return response()->json(['code' => 201, 'data' => 'failed']);
                 }
             } else {
                 $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
@@ -327,7 +327,7 @@ class ResultController extends Controller
                     return response()->json(['code' => 200, 'data' => $quast_detail]);
                 } else {
                     $quast_header = $quast_result = null;
-                    return response()->json(['code' => 400, 'data' => 'failed']);
+                    return response()->json(['code' => 201, 'data' => 'failed']);
                 }
             }
         }
