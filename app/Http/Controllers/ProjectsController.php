@@ -24,7 +24,7 @@ class ProjectsController extends Controller
             if($request->has('search_project')){
                 $search_project = $request->input('search_project');
                 $current_page = $request->input('page');$types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
-                if($request->input('search_prject') == null){
+                if($request->input('search_project') == null){
                     $Projects = Projects::orderBy('id','desc')->paginate(5);
                     if (auth::check()) {
                         $user = Auth::user();
