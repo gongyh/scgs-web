@@ -107,6 +107,7 @@ class ProjectsController extends Controller
     {
         $username = Auth::user()->name;
         $labs = Labs::where('principleInvestigator', $username)->get();
+        $create_lab_msg = $labs->count() > 0 ? false : true;
         $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
         $last_accession = DB::table('projects')->orderBy('id','desc')->first()->doi;
         \preg_match('/CRP0+/',$last_accession,$dir);
@@ -188,7 +189,7 @@ class ProjectsController extends Controller
         if ($request->input('labID')) {
             return view('Projects.proj_create',compact('types'));
         } else {
-            return view('Projects.proj_create', compact('types','labs'));
+            return view('Projects.proj_create', compact('types','labs','create_lab_msg'));
         }
     }
 
