@@ -37,19 +37,37 @@
       <hr>
       <div class="row">
         <div class="col-md-6">
-          <form action="" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="custom-file mt-3">
-              <input type="file" name="sra_id_file" class="custom-file-input" id="sra_id_file">
-              <label class="custom-file-label" for="sra_id_file" id="sra_id_label">Choose a sra id txt file</label>
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="ncbi-tab" data-toggle="tab" href="#ncbi" role="tab" aria-controls="ncbi" aria-selected="true">NCBI</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="ebi-tab" data-toggle="tab" href="#ebi" role="tab" aria-controls="ebi" aria-selected="false">EBI</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="era-tab" data-toggle="tab" href="#era" role="tab" aria-controls="era" aria-selected="false">ERA</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="ncbi" role="tabpanel" aria-labelledby="ncbi-tab">
+              <form action="" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="custom-file mt-3">
+                  <input type="file" name="sra_id_file" class="custom-file-input" id="sra_id_file">
+                  <label class="custom-file-label" for="sra_id_file" id="sra_id_label">Choose a sra id txt file</label>
+                </div>
+                <div class="text-danger font-weight-bolder">Or</div>
+                <div class="form-group mt-2">
+                  <label for="ncbi_sra_id" class="rem1">NCBI sra-id</label>
+                  <input type="text" class="form-control" id="ncbi_sra_id" name="ncbi_sra_id">
+                </div>
+                <button id="ncbi_submit" type="submit" class="btn btn-primary">Submit</button>
+              </form>
             </div>
-            <div class="text-danger font-weight-bolder">Or</div>
-            <div class="form-group mt-2">
-              <label for="ncbi_sra_id" class="rem1">NCBI sra-id</label>
-              <input type="text" class="form-control" id="ncbi_sra_id" name="ncbi_sra_id">
-            </div>
-            <button id="ncbi_submit" type="submit" class="btn btn-primary">Submit</button>
-          </form>
+            <div class="tab-pane fade" id="ebi" role="tabpanel" aria-labelledby="ebi-tab">...</div>
+            <div class="tab-pane fade" id="era" role="tabpanel" aria-labelledby="era-tab">...</div>
+          </div>
+
         </div>
         <div class="col-md-6" id="preparing_list">
         </div>
