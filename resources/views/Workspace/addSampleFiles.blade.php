@@ -15,7 +15,7 @@
       </nav>
 
       <div>
-        <p class="rem1 text-danger upload-tip">You can upload <b>5 (.fastq,.fasta,.fq,.fa,.fastq.gz,.fasta.gz)</b> files at most at the same time. Each file no more than <b>2000M</b> .</p>
+        <p class="rem1 text-danger upload-tip"><b>Tips:</b> You can upload no more than <b>5</b> files each time. Sequencing data files suffixed with .fastq, .fasta, .fq, .fa, .fastq.gz, and .fasta.gz are supported, and each file can not be bigger than <b>2000M</b>.</p>
       </div>
 
       <div class="row">

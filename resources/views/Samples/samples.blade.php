@@ -63,7 +63,7 @@
                 <span>success</span>
               </span>
               @else
-              <span class="badge badge-dark mt-2">haven't ran</span>
+              <span class="badge badge-dark mt-2">not analyzed</span>
               @endif
             </div>
             @if($isAdmin || $isPI && $canRun)
@@ -84,10 +84,10 @@
           </div>
           <div class="project_sample mt-3">
             <div class="d-flex">
-              <div class="proj_title">Sample List:</div>
+              <div class="proj_title">Samples:</div>
               @if($isAdmin || $isPI)
               <div class="text-danger mt-1">
-                (Upload an excel file to save sample list)
+                (Bulk upload samples by supplying metadata according to the excel template below)
               </div>
               @endif
             </div>
@@ -164,7 +164,7 @@
                     <span>success</span>
                   </span>
                   @else
-                  <span class="badge badge-dark">haven't ran</span>
+                  <span class="badge badge-dark">not analyzed</span>
                   @endif
                 </div>
                 @if($isPI || $isAdmin)

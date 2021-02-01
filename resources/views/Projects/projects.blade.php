@@ -47,7 +47,7 @@
                 <span>Type</span> : <span class="project_type">{{$Project->type}}</span>
               </div>
               <div class="mt-2">
-                <span>Sample Numbers</span> : <span>{{DB::table('samples')->where('projects_id',$Project->id)->count()}}</span>
+                <span>Samples</span> : <span>{{DB::table('samples')->where('projects_id',$Project->id)->count()}}</span>
               </div>
               <div class="mt-2 project_desc text-wrap text-break">Description : {{strlen($Project->description)>200?substr($Project->description,0,200).'...':$Project->description}}
               </div>
@@ -111,7 +111,7 @@
                 @endforeach
                 @endif
               </select>
-              <button class="btn btn-primary mt-2" type="submit"><i class="fa fa-filter"></i><span>Filter</span></button>
+              <button class="btn btn-primary mt-2" type="submit"><i class="fa fa-filter"></i><span> Find items</span></button>
             </form>
           </div>
         </div>

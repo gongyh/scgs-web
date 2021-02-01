@@ -15,7 +15,9 @@
       <div class="card-body">
         <div class="border-bottom" id="about_cite">
           <h2>Citation</h2>
-          <p class="card-text">Github repository: <a href="https://github.com/gongyh/scgs-web">https://github.com/gongyh/scgs-web</a></p>
+          <p class="card-text">Github repository (pipeline): <a href="https://github.com/gongyh/nf-core-scgs">https://github.com/gongyh/nf-core-scgs</a></p>
+          <p class="card-text">Github repository (RamanD2O): <a href="https://github.com/gongyh/RamanD2O">https://github.com/gongyh/RamanD2O</a></p>
+          <p class="card-text">Github repository (website): <a href="https://github.com/gongyh/scgs-web">https://github.com/gongyh/scgs-web</a></p>
           <p class="card-text card-last-child">Contact: gongyh@qibebt.ac.cn or zhousq@qibebt.ac.cn</p>
         </div>
         <div class="border-bottom card-pattern" id="about_contact">

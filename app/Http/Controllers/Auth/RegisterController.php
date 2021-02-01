@@ -57,8 +57,8 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'captcha' => ['required', 'captcha'],
         ], [
-            'captcha.required' => 'Captcha can\'t be none',
-            'captcha.captcha' => 'Incorrent captcha',
+            'captcha.required' => 'The captcha field is required.',
+            'captcha.captcha' => 'The captcha you entered is wrong.',
         ]);
     }
 
