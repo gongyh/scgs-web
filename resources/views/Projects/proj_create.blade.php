@@ -9,15 +9,16 @@
         @csrf
         <div class="d-flex">
           <div class="col-md-6">
-            @isset($labs)
             <div class="choose_lab input_title">Choose a lab<span class="text-danger font-weight-bold">*</span></div>
             <select class="custom-select selectLab w-75" name="selectLab">
-              <option></option>
               @foreach($labs as $lab)
               <option value="{{$lab->id}}">{{$lab->name}}</option>
               @endforeach
             </select>
-            @endisset
+
+            @if($create_lab_msg)
+            <div class="text-danger font-weight-bold create_lab_msg">You haven't have a lab yet , please create a lab first!</div>
+            @endif
 
             <div class="form-group">
               <label for="new_proj_name">Project Name</label><span class="text-danger font-weight-bold">*</span>
@@ -25,7 +26,7 @@
             </div>
             <div class="form-group">
               <div>
-                <label for="new_type">Type</label><span class="text-danger font-weight-bold">(Choose a type)*</span>
+                <label for="new_type">Type</label><span class="text-danger font-weight-bold"> (Choose a type)*</span>
               </div>
               <div class="input-group w-75">
                 <div class="input-group-btn">

@@ -29,6 +29,7 @@ class SamplesController extends Controller
         $project = Projects::find($projectID);
         $current_lab_id = Projects::where('id', $projectID)->value('labs_id');
         $selectSamples = Samples::where('projects_id', $projectID)->paginate(8);
+        $canRun = $selectSamples->count() > 0 ? true : false;
         $selectSamples->withPath('/samples?projectID=' . $projectID);
         $sample = new Samples();
         try {
@@ -37,17 +38,17 @@ class SamplesController extends Controller
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->name]])->get()->count() > 0;
                 $user->email == env('ADMIN_EMAIL') ? $isAdmin = true : $isAdmin = false;
-                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
+                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun'));
             } else {
                 // not login users
                 $isPI  = false;
                 $isAdmin = false;
-                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample'));
+                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun'));
             }
         } catch (\Illuminate\Database\QueryException $ex) {
             // No samples
             $selectSamples = null;
-            return view('Samples.samples', compact('selectSamples', 'projectID', 'project', 'applications'));
+            return view('Samples.samples', compact('selectSamples', 'projectID', 'project', 'applications','canRun'));
         }
     }
 

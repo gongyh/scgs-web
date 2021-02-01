@@ -647,3 +647,7 @@ a:hover {
   font-size: 20px;
   margin-left: 8px;
 }
+
+.create_lab_msg {
+  margin-top: -5px;
+}
