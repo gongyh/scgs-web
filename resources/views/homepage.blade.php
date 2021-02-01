@@ -14,7 +14,7 @@
   </header>
 
   <!-- Page Features -->
-  <div class="row text-center owl-carousel owl-theme">
+  <div class="row text-center home-slider">
     <div class="mb-4">
       <div class="card h-100">
         <img class="card-img-top" src="http://placehold.it/500x325" alt="">
@@ -37,6 +37,32 @@
         </div>
         <div class="card-footer">
           <a href="/docs/ramand2o" class="btn btn-primary stretched-link">Find Out More!</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <div class="card h-100">
+        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <div class="card-body">
+          <h4 class="card-title">RamanID</h4>
+          <p class="card-text">Pathogens identification</p>
+        </div>
+        <div class="card-footer">
+          <a href="/docs/ramanid" class="btn btn-primary stretched-link">Find Out More!</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <div class="card h-100">
+        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <div class="card-body">
+          <h4 class="card-title">Pathways</h4>
+          <p class="card-text">Metabolic pathways</p>
+        </div>
+        <div class="card-footer">
+          <a href="/docs/pathway" class="btn btn-primary stretched-link">Find Out More!</a>
         </div>
       </div>
     </div>

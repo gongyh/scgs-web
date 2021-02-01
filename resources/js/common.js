@@ -1,9 +1,41 @@
 $(function () {
 
+  $('.home-slider').slick({
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    dots: true,
+    arrows: true,
+    lazyLoad: 'ondemand',
+    autoplay: true,
+    autoplaySpeed: 5000,
+    responsive: [{
+      breakpoint: 1000,
+      settings: {
+        slidesToShow: 3
+      }
+     }, {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2
+      }
+     }, {
+      breakpoint: 0,
+      settings: {
+        slidesToShow: 1
+      }
+     }]
+  })
+/*
   $('.owl-carousel').owlCarousel({
     loop: true,
     margin: 10,
-    nav: true,
+    nav: false,
+    dots: true,
+    lazyLoad: true,
+    lazyLoadEager: 1,
+    autoplay: true,
+    autoplayHoverPause: true,
     responsive: {
       0: {
         items: 1
@@ -16,7 +48,7 @@ $(function () {
       }
     }
   })
-
+*/
   var index = 0;
   var current_url = window.location.href;
   var url = current_url.split('/').pop();
