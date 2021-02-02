@@ -7,6 +7,7 @@ use App\Jobs;
 use App\User;
 use App\Samples;
 use App\Projects;
+use App\Weblog;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -52,7 +53,7 @@ class RunPipeline implements ShouldQueue
          */
         $started = time();
         /**
-         * job table update
+         * Jobs table update
          */
         $current_job_id = $job->where([['sample_id', '=', $this->run_sample_id], ['status', '=', 0]])->value('id');
         $current_job = Jobs::find($current_job_id);
@@ -61,15 +62,25 @@ class RunPipeline implements ShouldQueue
         $current_job->started = $started;
         $current_job->status = 1; //Running
         $current_job->save();
+        /**
+         * Weblog table update
+         */
+        Weblog::create([
+            'runName' => $job_rawbody['uuid'],
+            'runId' => 'default',
+            'event' => 'default',
+            'utcTime' => 'default',
+            'process' => 'default'
+        ]);
 
         /**
-         * execute params
+         * Execute params
          */
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         $sample_id = $current_job->sample_id;
         $project_id = Samples::where('id', $sample_id)->value('projects_id');
         $project_accession = Projects::where('id', $project_id)->value('doi');
-        $command = $current_job->command;
+        $command = $current_job->command . ' -name ' . $current_job->current_uuid . ' -with-weblog http://124.16.151.179:8080/execute/start?sampleID=' . $this->run_sample_id;
         $mkdir = 'if [ ! -d "' . $base_path . $project_accession . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . '; fi';
         $chmod = 'cd ' . $base_path . ' && sudo chown -R apache:apache ' . $project_accession . ' && sudo chmod -R 777 ' . $project_accession;
         $cd_and_command = 'cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;

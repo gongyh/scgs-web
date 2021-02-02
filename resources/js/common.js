@@ -368,7 +368,9 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let insert_message = "<p>" + res.data + "</p> "
+            let data = res.data;
+            let insert_message = "<p>runId: " + data.runId + "</p><p>event: " + data.event + "</p><p>process: "
+            + data.process + "</p>";
             $('.command_out').html(insert_message);
           } else {}
         }
@@ -383,7 +385,9 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let insert_message = "<p>" + res.data + "</p> "
+            let data = res.data;
+            let insert_message = "<p>runId: " + data.runId + "</p><p>event: " + data.event + "</p><p>process: "
+            + data.process + "</p>";
             $('.command_out').html(insert_message);
           } else {}
         }
