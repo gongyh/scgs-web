@@ -360,7 +360,7 @@ $(function () {
   function read_nextflowlog() {
     if (window.location.href.indexOf('sampleID') != -1) {
       $.ajax({
-        url: "/execute/start",
+        url: "/execute/start/status",
         type: 'POST',
         data: {
           'running_sample_id': running_sample_id,
@@ -369,15 +369,16 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
-            let insert_message = "<p>runId: " + data.runId + "</p><p>event: " + data.event + "</p><p>process: "
-            + data.process + "</p>";
+            let insert_message = "<div class=\"rem1\">runId: " + data.runId + "</div><div class=\"rem1\">event: " + data.event + "</div><div class=\"rem1\">utcTime: "
+            + data.utcTime + "</div><div class=\"rem1\">process: "
+            + data.process + "</div>";
             $('.command_out').html(insert_message);
           } else {}
         }
       })
     } else {
       $.ajax({
-        url: "/execute/start",
+        url: "/execute/start/status",
         type: 'POST',
         data: {
           'running_project_id': running_project_id,
@@ -386,8 +387,9 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
-            let insert_message = "<p>runId: " + data.runId + "</p><p>event: " + data.event + "</p><p>process: "
-            + data.process + "</p>";
+            let insert_message = "<div class=\"rem1\">runId: " + data.runId + "</div><div class=\"rem1\">event: " + data.event + "</div><div class=\"rem1\">utcTime: "
+            + data.utcTime + "</div><div class=\"rem1\">process: "
+            + data.process + "</div>";
             $('.command_out').html(insert_message);
           } else {}
         }
