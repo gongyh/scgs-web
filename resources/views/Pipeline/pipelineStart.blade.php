@@ -163,7 +163,7 @@
 
         </div>
         <div class="mt-3 d-flex justify-content-around">
-          <button class="btn btn-secondary w-25" disabled>execute</button>
+          <button class="btn btn-secondary w-25" disabled>Execute</button>
           <button class="btn btn-success w-25 detail">Check Progress</button>
         </div>
       </div>

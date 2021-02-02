@@ -127,56 +127,56 @@
                         <input type="checkbox" class="custom-control-input" id="resfinder_db" name="resfinder_db" value="resfinder_db" {{$resfinder_db?'checked':''}}>
                         <label class="custom-control-label" for="resfinder_db">resfinder_db</label>
                       </div>
-                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 resfinder_db_path overflow-auto {{$resfinder_db?'no-display':''}}">{{isset($pipelineParams->resfinder_db_path)?$pipelineParams->resfinder_db_path:'resfinder db path has not set!please call administor'}}</div>
+                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 resfinder_db_path overflow-auto {{$resfinder_db?'no-display':''}}">{{isset($pipelineParams->resfinder_db_path)?$pipelineParams->resfinder_db_path:'The resfinder db path has not been set! Please contact the website administor.'}}</div>
                     </div>
                     <div class="mt-2">
                       <div class="custom-control custom-checkbox mr-4">
                         <input type="checkbox" class="custom-control-input" id="nt_db" name="nt_db" value="nt_db" {{$nt_db?'checked':''}}>
                         <label class="custom-control-label" for="nt_db">nt_db</label>
                       </div>
-                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 nt_db_path overflow-auto {{$nt_db? 'no-display':''}}">{{isset($pipelineParams->nt_db_path)?$pipelineParams->nt_db_path:'nt db path has not set!please call administor'}}</div>
+                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 nt_db_path overflow-auto {{$nt_db? 'no-display':''}}">{{isset($pipelineParams->nt_db_path)?$pipelineParams->nt_db_path:'The nt db path has not been set! Please contact the website administor.'}}</div>
                     </div>
                     <div class="mt-2">
                       <div class="custom-control custom-checkbox mr-4">
                         <input type="checkbox" class="custom-control-input" id="kraken_db" name="kraken_db" value="kraken_db" {{$kraken_db?'checked':''}}>
                         <label class="custom-control-label" for="kraken_db">kraken_db</label>
                       </div>
-                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 kraken_db_path overflow-auto {{$kraken_db ?'no-display':''}}">{{isset($pipelineParams->kraken_db_path)?$pipelineParams->kraken_db_path:'kraken db path has not set!please call administor'}}</div>
+                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 kraken_db_path overflow-auto {{$kraken_db ?'no-display':''}}">{{isset($pipelineParams->kraken_db_path)?$pipelineParams->kraken_db_path:'The kraken db path has not been set! Please contact the website administor.'}}</div>
                     </div>
                     <div class="mt-2">
                       <div class="custom-control custom-checkbox mr-4">
                         <input type="checkbox" class="custom-control-input" id="eggnog_db" name="eggnog_db" value="eggnog_db" {{$eggnog?'checked':''}}>
                         <label class="custom-control-label" for="eggnog_db">eggnog_db</label>
                       </div>
-                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 eggnog_db_path overflow-auto {{$eggnog ?'no-display':''}}">{{isset($pipelineParams->eggnog_db_path)?$pipelineParams->eggnog_db_path:'eggnog db path has not set!please call administor'}}</div>
+                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 eggnog_db_path overflow-auto {{$eggnog ?'no-display':''}}">{{isset($pipelineParams->eggnog_db_path)?$pipelineParams->eggnog_db_path:'The eggnog db path has not been set! Please contact the website administor.'}}</div>
                     </div>
                     <div class="mt-2">
                       <div class="custom-control custom-checkbox mr-4">
                         <input type="checkbox" class="custom-control-input" id="kofam_profile" name="kofam_profile" value="kofam_profile" {{$kofam_profile?'checked':''}}>
                         <label class="custom-control-label" for="kofam_profile">kofam_profile</label>
                       </div>
-                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 kofam_profile_path overflow-auto {{$kofam_profile?'no-display':''}}">{{isset($pipelineParams->kofam_profile_path)?$pipelineParams->kofam_profile_path:'kofam profile path has not set!please call administor'}}</div>
+                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 kofam_profile_path overflow-auto {{$kofam_profile?'no-display':''}}">{{isset($pipelineParams->kofam_profile_path)?$pipelineParams->kofam_profile_path:'The kofam profile path has not been set! Please contact the website administor.'}}</div>
                     </div>
                     <div class="mt-2">
                       <div class="custom-control custom-checkbox mr-4">
                         <input type="checkbox" class="custom-control-input" id="kofam_kolist" name="kofam_kolist" value="kofam_kolist" {{$kofam_kolist?'checked':''}}>
                         <label class="custom-control-label" for="kofam_kolist">kofam_kolist</label>
                       </div>
-                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 kofam_kolist_path overflow-auto {{$kofam_kolist?'no-display':''}}">{{isset($pipelineParams->kofam_kolist_path)?$pipelineParams->kofam_kolist_path:'kofam kolist path has not set!please call administor'}}</div>
+                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 kofam_kolist_path overflow-auto {{$kofam_kolist?'no-display':''}}">{{isset($pipelineParams->kofam_kolist_path)?$pipelineParams->kofam_kolist_path:'The kofam kolist path has not been set! Please contact the website administor.'}}</div>
                     </div>
                     <div class="mt-2">
                       <div class="custom-control custom-checkbox mr-4">
                         <input type="checkbox" class="custom-control-input" id="eukcc_db" name="eukcc_db" value="eukcc_db" {{$eukcc_db?'checked':''}}>
                         <label class="custom-control-label" for="eukcc_db">eukcc_db</label>
                       </div>
-                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 eukcc_db_path overflow-auto {{$eukcc_db?'no-display':''}}">{{isset($pipelineParams->eukcc_db_path)?$pipelineParams->eukcc_db_path:'eukcc database path has not set!please call administor'}}</div>
+                      <div class="d-none mt-2 w-50 border border-info rounded shadow p-2 eukcc_db_path overflow-auto {{$eukcc_db?'no-display':''}}">{{isset($pipelineParams->eukcc_db_path)?$pipelineParams->eukcc_db_path:'The eukcc database path has not been set! Please contact the website administor.'}}</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <button type="submit" class="mt-3 ml-3 w-50 btn btn-success d-inline-block" onclick="if(confirm('when pipeline start,params can\' be modified until pipeline finished,Are you sure to execute?')==false) return false;" {{$can_exec?'':'disabled'}}>execute</button>
+          <button type="submit" class="mt-3 ml-3 w-50 btn btn-success d-inline-block" onclick="if(confirm('Notice: the parameters can\'t be modified during execution of this pipeline. Are you sure to run now?')==false) return false;" {{$can_exec?'':'disabled'}}>Execute</button>
         </form>
       </div>
     </div>
