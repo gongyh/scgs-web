@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 use App\User;
 use App\Execparams;
 use App\pipelineParams;
@@ -477,18 +478,30 @@ class ExecparamsController extends Controller
     {
         if($request->isMethod('POST')){
             $runName = $request->input('runName');
+            $uuid = "";
+            if (is_null($runName)) {
+                return response()->json(['message' => 'Error: runName is not exist!'], 403);
+            } else {
+                if ((strlen($runName)==41) && (substr($runName, 0, 5)=="uuid-")) {
+                    $uuid = ltrim($runName, "uuid-");
+                } else {
+                    return response()->json(['message' => 'Error: incorrect runName!'], 403);
+                }
+            }
             $runId = $request->input('runId');
             $event = $request->input('event');
             $utcTime = $request->input('utcTime');
-            $process = $request->input('trace.process');
-            $run_id = Weblog::where('runName',$runName)->value('id');
-            $weblog = Weblog::find($run_id);
+            $process = $request->input('trace.name','pipeline');
+            $weblog = new Weblog;
+            $weblog->runName = $uuid;
             $weblog->runId = $runId;
             $weblog->event = $event;
-            $weblog->utcTime = $utcTime;
+            $carbonDate = new Carbon($utcTime);
+            $carbonDate->timezone = config('app.timezone', 'UTC');
+            $weblog->utcTime = $carbonDate->toDateTimeString();
             $weblog->process = $process;
             $weblog->save();
-            return response()->json(['msg' => 'hello']);
+            return response()->json(['msg' => 'Success!'], 200);
         }else{
             $pipelineParams = pipelineParams::find(1);
             $samples = new Samples();
@@ -554,21 +567,12 @@ class ExecparamsController extends Controller
         // }
         if($request->input('sampleID')){
             $running_sample_id = $request->input('running_sample_id');
-            $runName_suffix = Jobs::where([['sample_id', '=', $running_sample_id], ['status', '=', 1]])->value('current_uuid');
-            $runName = 'uuid-' . $runName_suffix;
+            $runName = Jobs::where([['sample_id', '=', $running_sample_id], ['status', '=', 1]])->value('current_uuid');
         }else{
             $running_project_id = $request->input('running_project_id');
-            $runName_suffix = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('current_uuid');
-            $runName = 'uuid-' . $runName_suffix;
+            $runName = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('current_uuid');
         }
-        $runId = Weblog::where('runName',$runName)->value('runId');
-        $event = Weblog::where('runName',$runName)->value('event');
-        $utcTime = Weblog::where('runName',$runName)->value('utcTime');
-        $process = Weblog::where('runName',$runName)->value('process');
-        $data['runId'] = $runId;
-        $data['event'] = $event;
-        $data['utcTime'] = $utcTime;
-        $data['process'] = $process;
-        return response()->json(['code' => 200, 'data' => $data]);
+        $weblogs = Weblog::where('runName',$runName)->orderByDesc('created_at')->first();
+        return response()->json(['code' => 200, 'data' => $weblogs]);
     }
 }
