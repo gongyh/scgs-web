@@ -560,10 +560,12 @@ class ExecparamsController extends Controller
         // }
         if($request->input('sampleID')){
             $running_sample_id = $request->input('running_sample_id');
-            $runName = Jobs::where([['sample_id', '=', $running_sample_id], ['status', '=', 1]])->value('current_uuid');
+            $runName_suffix = Jobs::where([['sample_id', '=', $running_sample_id], ['status', '=', 1]])->value('current_uuid');
+            $runName = 'uuid-' . $runName_suffix;
         }else{
             $running_project_id = $request->input('running_project_id');
-            $runName = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('current_uuid');
+            $runName_suffix = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('current_uuid');
+            $runName = 'uuid-' . $runName_suffix;
         }
         $runId = Weblog::where('runName',$runName)->value('runId');
         $event = Weblog::where('runName',$runName)->value('event');
