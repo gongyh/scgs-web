@@ -50,7 +50,7 @@ class RunProjPipeline implements ShouldQueue
          */
         $started = time();
         /**
-         * job table update
+         * Job table update
          */
         $current_job_id = $job->where([['project_id', '=', $this->run_project_id], ['status', '=', 0]])->value('id');
         $current_job = Jobs::find($current_job_id);
@@ -61,12 +61,22 @@ class RunProjPipeline implements ShouldQueue
         $current_job->save();
 
         /**
-         * execute params
+         * Weblog table update
+         */
+        Weblog::create([
+            'runName' => $job_rawbody['uuid'],
+            'runId' => 'default',
+            'event' => 'default',
+            'utcTime' => 'default',
+            'process' => 'default'
+        ]);
+        /**
+         * Execute params
          */
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         $project_id = $current_job->project_id;
         $project_accession = Projects::where('id', $project_id)->value('doi');
-        $command = $current_job->command;
+        $command = $current_job->command . ' -name ' . $current_job->current_uuid . ' -with-weblog http://124.16.151.179:8080/execute/start?projectID=' . $this->run_project_id;
         $mkdir = 'if [ ! -d "' . $base_path . $project_accession . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . '; fi';
         $chmod = 'cd ' . $base_path . ' && sudo chown -R apache:apache ' . $project_accession . ' && sudo chmod -R 777 ' . $project_accession;
         $cd_and_command = 'cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;

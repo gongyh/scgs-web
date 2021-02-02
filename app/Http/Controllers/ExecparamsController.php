@@ -15,6 +15,7 @@ use App\Labs;
 use App\Samples;
 use App\Species;
 use App\Jobs;
+use App\Weblog;
 use App\Jobs\RunPipeline;
 use App\Jobs\RunProjPipeline;
 
@@ -474,63 +475,104 @@ class ExecparamsController extends Controller
 
     public function start(Request $request)
     {
-        $pipelineParams = pipelineParams::find(1);
-        $samples = new Samples();
-        if($request->input('sampleID')){
-            $sample_id = $request->input('sampleID');
-            $data = Execparams::where('samples_id', $sample_id);
+        if($request->isMethod('POST')){
+            $runName = $request->input('runName');
+            $runId = $request->input('runId');
+            $event = $request->input('event');
+            $utcTime = $request->input('utcTime');
+            $process = $request->input('trace.process');
+            $run_id = Weblog::where('runName',$runName)->value('id');
+            $weblog = Weblog::find($run_id);
+            $weblog->runId = $runId;
+            $weblog->event = $event;
+            $weblog->utcTime = $utcTime;
+            $weblog->process = $process;
+            $weblog->save();
+            if($request->input('sampleID')){
+                $sampleID = $request->input('sampleID');
+                return redirect('/execute/start?sampleID=' . $sampleID);
+            }else{
+                $projectID = $request->input('projectID');
+                return redirect('/execute/start?projectID=' . $projectID);
+            }
         }else{
-            $project_id = $request->input('projectID');
-            $data = Execparams::where('project_id', $project_id);
-            $reference_genome = $data->value('reference_genome');
-        }
-        $ass = $data->value('ass');    //boolean
-        $cnv = $data->value('cnv');    //boolean
-        $snv = $data->value('snv');    //boolean
-        $bulk = $data->value('bulk');    //boolean
-        $saturation = $data->value('saturation');    //boolean
-        $acquired = $data->value('acquired');    //boolean
-        $saveTrimmed = $data->value('saveTrimmed');    //boolean
-        $saveAlignedIntermediates = $data->value('saveAlignedIntermediates');    //boolean
-        $euk = $data->value('euk');    //boolean
-        $fungus = $data->value('fungus');    //boolean
-        $resume = $data->value('resume');    //boolean
-        $genus = $data->value('genus');     //boolean
-        $genus_name = $data->value('genus_name');    //string
-        $augustus_species = $data->value('augustus_species');    //string
-        $augustus_species_name = $data->value('augustus_species_name');    //string
-        $resfinder_db = $data->value('resfinder_db');     //boolean
-        $nt_db = $data->value('nt_db');     //boolean
-        $kraken_db = $data->value('kraken_db');     //boolean
-        $eggnog = $data->value('eggnog');    //boolean
-        $kofam_profile = $data->value('kofam_profile');    //boolean
-        $kofam_kolist = $data->value('kofam_kolist');     //boolean
-        $eukcc_db = $data->value('eukcc_db');     //boolean
-        if($request->has('sampleID')){
-            return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','sample_id', 'pipelineParams'));
-        }else{
-            return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'reference_genome', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','project_id', 'pipelineParams'));
+            $pipelineParams = pipelineParams::find(1);
+            $samples = new Samples();
+            if($request->input('sampleID')){
+                $sample_id = $request->input('sampleID');
+                $data = Execparams::where('samples_id', $sample_id);
+            }else{
+                $project_id = $request->input('projectID');
+                $data = Execparams::where('project_id', $project_id);
+                $reference_genome = $data->value('reference_genome');
+            }
+            $ass = $data->value('ass');    //boolean
+            $cnv = $data->value('cnv');    //boolean
+            $snv = $data->value('snv');    //boolean
+            $bulk = $data->value('bulk');    //boolean
+            $saturation = $data->value('saturation');    //boolean
+            $acquired = $data->value('acquired');    //boolean
+            $saveTrimmed = $data->value('saveTrimmed');    //boolean
+            $saveAlignedIntermediates = $data->value('saveAlignedIntermediates');    //boolean
+            $euk = $data->value('euk');    //boolean
+            $fungus = $data->value('fungus');    //boolean
+            $resume = $data->value('resume');    //boolean
+            $genus = $data->value('genus');     //boolean
+            $genus_name = $data->value('genus_name');    //string
+            $augustus_species = $data->value('augustus_species');    //string
+            $augustus_species_name = $data->value('augustus_species_name');    //string
+            $resfinder_db = $data->value('resfinder_db');     //boolean
+            $nt_db = $data->value('nt_db');     //boolean
+            $kraken_db = $data->value('kraken_db');     //boolean
+            $eggnog = $data->value('eggnog');    //boolean
+            $kofam_profile = $data->value('kofam_profile');    //boolean
+            $kofam_kolist = $data->value('kofam_kolist');     //boolean
+            $eukcc_db = $data->value('eukcc_db');     //boolean
+            if($request->has('sampleID')){
+                return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','sample_id', 'pipelineParams'));
+            }else{
+                return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'reference_genome', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','project_id', 'pipelineParams'));
+            }
         }
     }
 
     public function ajax(Request $request)
     {
+        /**
+         * Read .nextflow.log
+         */
+        // if($request->input('sampleID')){
+        //     $running_sample_id = $request->input('running_sample_id');
+        //     $uuid = Jobs::where([['sample_id', '=', $running_sample_id], ['status', '=', 1]])->value('uuid');
+        //     $project_id = Samples::where('id', $running_sample_id)->value('projects_id');
+        //     $project_accession = Projects::where('id', $project_id)->value('doi');
+        // }else{
+        //     $running_project_id = $request->input('running_project_id');
+        //     $uuid = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('uuid');
+        //     $project_accession = Projects::where('id', $running_project_id)->value('doi');
+        // }
+        // $nextflow_log_path = $project_accession . '/' . $uuid . '/.nextflow.log';
+        // if (Storage::disk('local')->exists($nextflow_log_path)) {
+        //     $data = Storage::get($nextflow_log_path);
+        //     return response()->json(['code' => '200', 'data' => $data]);
+        // } else {
+        //     return response()->json(['code' => '201', 'data' => 'failed']);
+        // }
         if($request->input('sampleID')){
             $running_sample_id = $request->input('running_sample_id');
-            $uuid = Jobs::where([['sample_id', '=', $running_sample_id], ['status', '=', 1]])->value('uuid');
-            $project_id = Samples::where('id', $running_sample_id)->value('projects_id');
-            $project_accession = Projects::where('id', $project_id)->value('doi');
+            $runName = Jobs::where([['sample_id', '=', $running_sample_id], ['status', '=', 1]])->value('current_uuid');
         }else{
             $running_project_id = $request->input('running_project_id');
-            $uuid = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('uuid');
-            $project_accession = Projects::where('id', $running_project_id)->value('doi');
+            $runName = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('current_uuid');
         }
-        $nextflow_log_path = $project_accession . '/' . $uuid . '/.nextflow.log';
-        if (Storage::disk('local')->exists($nextflow_log_path)) {
-            $data = Storage::get($nextflow_log_path);
-            return response()->json(['code' => '200', 'data' => $data]);
-        } else {
-            return response()->json(['code' => '404', 'data' => '']);
-        }
+        $runId = Weblog::where('runName',$runName)->value('runId');
+        $event = Weblog::where('runName',$runName)->value('event');
+        $utcTime = Weblog::where('runName',$runName)->value('utcTime');
+        $process = Weblog::where('runName',$runName)->value('process');
+        $data['runId'] = $runId;
+        $data['event'] = $event;
+        $data['utcTime'] = $utcTime;
+        $data['process'] = $process;
+        return response()->json(['code' => 200, 'data' => $data]);
     }
 }
