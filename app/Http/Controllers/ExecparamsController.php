@@ -488,13 +488,7 @@ class ExecparamsController extends Controller
             $weblog->utcTime = $utcTime;
             $weblog->process = $process;
             $weblog->save();
-            if($request->input('sampleID')){
-                $sampleID = $request->input('sampleID');
-                return redirect('/execute/start?sampleID=' . $sampleID);
-            }else{
-                $projectID = $request->input('projectID');
-                return redirect('/execute/start?projectID=' . $projectID);
-            }
+            return response()->json(['msg' => 'hello']);
         }else{
             $pipelineParams = pipelineParams::find(1);
             $samples = new Samples();

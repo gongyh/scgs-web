@@ -77,7 +77,7 @@ class RunProjPipeline implements ShouldQueue
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         $project_id = $current_job->project_id;
         $project_accession = Projects::where('id', $project_id)->value('doi');
-        $command = $current_job->command . ' -name uuid-' . $current_job->current_uuid . ' -with-weblog http://124.16.151.179:8080/execute/start?projectID=' . $this->run_project_id;
+        $command = $current_job->command . ' -name uuid-' . $current_job->current_uuid . ' -with-weblog http://124.16.151.179:8080/execute/start';
         $mkdir = 'if [ ! -d "' . $base_path . $project_accession . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . '; fi';
         $chmod = 'cd ' . $base_path . ' && sudo chown -R apache:apache ' . $project_accession . ' && sudo chmod -R 777 ' . $project_accession;
         $cd_and_command = 'cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;

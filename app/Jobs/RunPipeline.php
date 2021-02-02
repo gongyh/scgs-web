@@ -81,7 +81,7 @@ class RunPipeline implements ShouldQueue
         $sample_id = $current_job->sample_id;
         $project_id = Samples::where('id', $sample_id)->value('projects_id');
         $project_accession = Projects::where('id', $project_id)->value('doi');
-        $command = $current_job->command . ' -name uuid-' . $current_job->current_uuid . ' -with-weblog http://124.16.151.179:8080/execute/start?sampleID=' . $this->run_sample_id;
+        $command = $current_job->command . ' -name uuid-' . $current_job->current_uuid . ' -with-weblog http://124.16.151.179:8080/execute/start';
         $mkdir = 'if [ ! -d "' . $base_path . $project_accession . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . '; fi';
         $chmod = 'cd ' . $base_path . ' && sudo chown -R apache:apache ' . $project_accession . ' && sudo chmod -R 777 ' . $project_accession;
         $cd_and_command = 'cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
