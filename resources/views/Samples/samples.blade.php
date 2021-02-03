@@ -44,11 +44,8 @@
           <div class="project_desc pb-3">
             <div class="proj_title">Project Status:</div>
             <div>
-              @if(strcmp($status,"waiting")== 0)
-              <span class="badge badge-warning mt-2">
-                <span>waiting</span>
-                <span class="dot">...</span>
-              </span>
+              @if(strcmp($status,"not analyzed") == 0)
+              <span class="badge badge-dark mt-2">not analyzed</span>
               @elseif(strcmp($status,"running") == 0)
               <span class="badge badge-info mt-2">
                 <span>Running</span>
@@ -63,10 +60,9 @@
                 <span>success</span>
               </span>
               @else
-              <span class="badge badge-dark mt-2">not analyzed</span>
               @endif
             </div>
-            @if($isAdmin || $isPI && $canRun)
+            @if(($isAdmin || $isPI) && $canRun)
             <a href="/execute?projectID={{$projectID}}" class="ml-3 btn btn-primary">Execute the project <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
               </svg>
@@ -146,9 +142,7 @@
                 <div class="">
                   Status :
                   @if($selectSample->status == 0)
-                  <span class="badge badge-warning">
-                    <span class="badge badge-dark">not analyzed</span>
-                  </span>
+                <span class="badge badge-dark">not analyzed</span>
                   @elseif($selectSample->status == 1)
                   <span class="badge badge-info">
                     <span>Running</span>

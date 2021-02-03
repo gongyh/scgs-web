@@ -31,14 +31,16 @@ class SamplesController extends Controller
         $current_lab_id = Projects::where('id', $projectID)->value('labs_id');
         $selectSamples = Samples::where('projects_id', $projectID)->paginate(8);
         $canRun = $selectSamples->count() > 0 ? true : false;
-        if(Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 0){
-            $status = 'waiting';
+        if(Jobs::where('project_id',$projectID)->count() ==0 || (Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 0)){
+            $status = 'not analyzed';
         }elseif(Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 1){
             $status = 'running';
         }elseif(Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 2){
             $status = 'failed';
-        }else{
+        }elseif(Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 3){
             $status = 'success';
+        }else{
+            $status = '';
         }
         $selectSamples->withPath('/samples?projectID=' . $projectID);
         $sample = new Samples();
