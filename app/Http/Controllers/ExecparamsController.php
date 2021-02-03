@@ -476,8 +476,47 @@ class ExecparamsController extends Controller
 
     public function start(Request $request)
     {
-        if($request->isMethod('POST')){
-            $runName = $request->input('runName');
+        $pipelineParams = pipelineParams::find(1);
+        $samples = new Samples();
+        if($request->input('sampleID')){
+            $sample_id = $request->input('sampleID');
+            $data = Execparams::where('samples_id', $sample_id);
+        }else{
+            $project_id = $request->input('projectID');
+            $data = Execparams::where('project_id', $project_id);
+            $reference_genome = $data->value('reference_genome');
+        }
+        $ass = $data->value('ass');    //boolean
+        $cnv = $data->value('cnv');    //boolean
+        $snv = $data->value('snv');    //boolean
+        $bulk = $data->value('bulk');    //boolean
+        $saturation = $data->value('saturation');    //boolean
+        $acquired = $data->value('acquired');    //boolean
+        $saveTrimmed = $data->value('saveTrimmed');    //boolean
+        $saveAlignedIntermediates = $data->value('saveAlignedIntermediates');    //boolean
+        $euk = $data->value('euk');    //boolean
+        $fungus = $data->value('fungus');    //boolean
+        $resume = $data->value('resume');    //boolean
+        $genus = $data->value('genus');     //boolean
+        $genus_name = $data->value('genus_name');    //string
+        $augustus_species = $data->value('augustus_species');    //string
+        $augustus_species_name = $data->value('augustus_species_name');    //string
+        $resfinder_db = $data->value('resfinder_db');     //boolean
+        $nt_db = $data->value('nt_db');     //boolean
+        $kraken_db = $data->value('kraken_db');     //boolean
+        $eggnog = $data->value('eggnog');    //boolean
+        $kofam_profile = $data->value('kofam_profile');    //boolean
+        $kofam_kolist = $data->value('kofam_kolist');     //boolean
+        $eukcc_db = $data->value('eukcc_db');     //boolean
+        if($request->has('sampleID')){
+            return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','sample_id', 'pipelineParams'));
+        }else{
+            return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'reference_genome', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','project_id', 'pipelineParams'));
+        }
+    }
+
+    public function get_weblog(Request $request){
+        $runName = $request->input('runName');
             $uuid = "";
             if (is_null($runName)) {
                 return response()->json(['message' => 'Error: runName is not exist!'], 403);
@@ -502,48 +541,9 @@ class ExecparamsController extends Controller
             $weblog->process = $process;
             $weblog->save();
             return response()->json(['msg' => 'Success!'], 200);
-        }else{
-            $pipelineParams = pipelineParams::find(1);
-            $samples = new Samples();
-            if($request->input('sampleID')){
-                $sample_id = $request->input('sampleID');
-                $data = Execparams::where('samples_id', $sample_id);
-            }else{
-                $project_id = $request->input('projectID');
-                $data = Execparams::where('project_id', $project_id);
-                $reference_genome = $data->value('reference_genome');
-            }
-            $ass = $data->value('ass');    //boolean
-            $cnv = $data->value('cnv');    //boolean
-            $snv = $data->value('snv');    //boolean
-            $bulk = $data->value('bulk');    //boolean
-            $saturation = $data->value('saturation');    //boolean
-            $acquired = $data->value('acquired');    //boolean
-            $saveTrimmed = $data->value('saveTrimmed');    //boolean
-            $saveAlignedIntermediates = $data->value('saveAlignedIntermediates');    //boolean
-            $euk = $data->value('euk');    //boolean
-            $fungus = $data->value('fungus');    //boolean
-            $resume = $data->value('resume');    //boolean
-            $genus = $data->value('genus');     //boolean
-            $genus_name = $data->value('genus_name');    //string
-            $augustus_species = $data->value('augustus_species');    //string
-            $augustus_species_name = $data->value('augustus_species_name');    //string
-            $resfinder_db = $data->value('resfinder_db');     //boolean
-            $nt_db = $data->value('nt_db');     //boolean
-            $kraken_db = $data->value('kraken_db');     //boolean
-            $eggnog = $data->value('eggnog');    //boolean
-            $kofam_profile = $data->value('kofam_profile');    //boolean
-            $kofam_kolist = $data->value('kofam_kolist');     //boolean
-            $eukcc_db = $data->value('eukcc_db');     //boolean
-            if($request->has('sampleID')){
-                return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','sample_id', 'pipelineParams'));
-            }else{
-                return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'reference_genome', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','project_id', 'pipelineParams'));
-            }
         }
-    }
 
-    public function ajax(Request $request)
+    public function get_status(Request $request)
     {
         /**
          * Read .nextflow.log
@@ -572,7 +572,7 @@ class ExecparamsController extends Controller
             $running_project_id = $request->input('running_project_id');
             $runName = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('current_uuid');
         }
-        $weblogs = Weblog::where('runName',$runName)->orderByDesc('created_at')->first();
+        $weblogs = Weblog::where('runName',$runName)->orderByDesc('created_at')->get();
         return response()->json(['code' => 200, 'data' => $weblogs]);
     }
 }

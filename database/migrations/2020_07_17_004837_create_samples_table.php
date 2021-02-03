@@ -34,6 +34,7 @@ class CreateSamplesTable extends Migration
             $table->unsignedBigInteger('projects_id');
             $table->foreign('projects_id')->references('id')->on('projects')->onDelete('cascade');
             $table->tinyInteger('isPrepared')->default(0);
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

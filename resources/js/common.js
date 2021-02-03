@@ -14,41 +14,41 @@ $(function () {
       settings: {
         slidesToShow: 3
       }
-     }, {
+    }, {
       breakpoint: 600,
       settings: {
         slidesToShow: 2
       }
-     }, {
+    }, {
       breakpoint: 0,
       settings: {
         slidesToShow: 1
       }
-     }]
+    }]
   })
-/*
-  $('.owl-carousel').owlCarousel({
-    loop: true,
-    margin: 10,
-    nav: false,
-    dots: true,
-    lazyLoad: true,
-    lazyLoadEager: 1,
-    autoplay: true,
-    autoplayHoverPause: true,
-    responsive: {
-      0: {
-        items: 1
-      },
-      600: {
-        items: 2
-      },
-      1000: {
-        items: 4
+  /*
+    $('.owl-carousel').owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: false,
+      dots: true,
+      lazyLoad: true,
+      lazyLoadEager: 1,
+      autoplay: true,
+      autoplayHoverPause: true,
+      responsive: {
+        0: {
+          items: 1
+        },
+        600: {
+          items: 2
+        },
+        1000: {
+          items: 4
+        }
       }
-    }
-  })
-*/
+    })
+  */
   var index = 0;
   var current_url = window.location.href;
   var url = current_url.split('/').pop();
@@ -369,10 +369,12 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
-            let insert_message = "<div class=\"rem1\">runId: " + data.runId + "</div><div class=\"rem1\">event: " + data.event + "</div><div class=\"rem1\">utcTime: "
-            + data.utcTime + "</div><div class=\"rem1\">process: "
-            + data.process + "</div>";
-            $('.command_out').html(insert_message);
+            for (let i = 0; i < data.length; i++) {
+              let insert_message = "<div class=\"rem1\">runId: " + data[i].runId + "</div><div class=\"rem1\">event: " + data[i].event + "</div><div class=\"rem1\">utcTime: " +
+                data[i].utcTime + "</div><div class=\"rem1\">process: " +
+                data[i].process + "</div><hr>";
+              $('.command_out').append(insert_message);
+            }
           } else {}
         }
       })
@@ -387,10 +389,12 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
-            let insert_message = "<div class=\"rem1\">runId: " + data.runId + "</div><div class=\"rem1\">event: " + data.event + "</div><div class=\"rem1\">utcTime: "
-            + data.utcTime + "</div><div class=\"rem1\">process: "
-            + data.process + "</div>";
-            $('.command_out').html(insert_message);
+            for (let i = 0; i < data.length; i++) {
+              let insert_message = "<div class=\"rem1\">runId: " + data[i].runId + "</div><div class=\"rem1\">event: " + data[i].event + "</div><div class=\"rem1\">utcTime: " +
+                data[i].utcTime + "</div><div class=\"rem1\">process: " +
+                data[i].process + "</div><hr>";
+              $('.command_out').append(insert_message);
+            }
           } else {}
         }
       })

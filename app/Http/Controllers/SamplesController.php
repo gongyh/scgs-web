@@ -6,6 +6,7 @@ use App\Samples;
 use App\Projects;
 use App\Labs;
 use App\User;
+use App\Jobs;
 use App\Applications;
 use App\Species;
 use App\Jobs\MvSamples;
@@ -30,6 +31,15 @@ class SamplesController extends Controller
         $current_lab_id = Projects::where('id', $projectID)->value('labs_id');
         $selectSamples = Samples::where('projects_id', $projectID)->paginate(8);
         $canRun = $selectSamples->count() > 0 ? true : false;
+        if(Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 0){
+            $status = 'waiting';
+        }elseif(Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 1){
+            $status = 'running';
+        }elseif(Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 2){
+            $status = 'failed';
+        }else{
+            $status = 'success';
+        }
         $selectSamples->withPath('/samples?projectID=' . $projectID);
         $sample = new Samples();
         try {
@@ -38,17 +48,17 @@ class SamplesController extends Controller
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->name]])->get()->count() > 0;
                 $user->email == env('ADMIN_EMAIL') ? $isAdmin = true : $isAdmin = false;
-                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun'));
+                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun','status'));
             } else {
                 // not login users
                 $isPI  = false;
                 $isAdmin = false;
-                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun'));
+                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun','status'));
             }
         } catch (\Illuminate\Database\QueryException $ex) {
             // No samples
             $selectSamples = null;
-            return view('Samples.samples', compact('selectSamples', 'projectID', 'project', 'applications','canRun'));
+            return view('Samples.samples', compact('selectSamples', 'projectID', 'project', 'applications','canRun','status'));
         }
     }
 
@@ -133,6 +143,7 @@ class SamplesController extends Controller
                             'filename1' => $fileOne,
                             'filename2' => null,
                             'isPrepared' => 0,
+                            'status' => 0,
                         ]);
                         MvSamples::dispatch($projectID, $fileOne, $fileTwo)->onQueue('MvSamples');
                         if ($request->input('from')) {
@@ -174,6 +185,7 @@ class SamplesController extends Controller
                             'filename1' => $fileOne,
                             'filename2' => $fileTwo,
                             'isPrepared' => 0,
+                            'status' => 0
                         ]);
                         MvSamples::dispatch($projectID, $fileOne, $fileTwo)->onQueue('MvSamples');
                         if ($request->input('from')) {
