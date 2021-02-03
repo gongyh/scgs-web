@@ -62,6 +62,12 @@ class RunPipeline implements ShouldQueue
         $current_job->started = $started;
         $current_job->status = 1; //Running
         $current_job->save();
+        /**
+         * Samples table update
+         */
+        $sample = Samples::find($this->run_sample_id);
+        $sample->status = 1;  //Running
+        $sample->save();
 
         /**
          * Execute params
@@ -87,5 +93,9 @@ class RunPipeline implements ShouldQueue
         $current_job->status = 2; //job failed
         $current_job->finished = $finished;  //finished time
         $current_job->save();
+
+        $sample = Samples::find($this->run_sample_id);
+        $sample->status = 2;  //job failed
+        $sample->save();
     }
 }

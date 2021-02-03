@@ -14,41 +14,41 @@ $(function () {
       settings: {
         slidesToShow: 3
       }
-     }, {
+    }, {
       breakpoint: 600,
       settings: {
         slidesToShow: 2
       }
-     }, {
+    }, {
       breakpoint: 0,
       settings: {
         slidesToShow: 1
       }
-     }]
+    }]
   })
-/*
-  $('.owl-carousel').owlCarousel({
-    loop: true,
-    margin: 10,
-    nav: false,
-    dots: true,
-    lazyLoad: true,
-    lazyLoadEager: 1,
-    autoplay: true,
-    autoplayHoverPause: true,
-    responsive: {
-      0: {
-        items: 1
-      },
-      600: {
-        items: 2
-      },
-      1000: {
-        items: 4
+  /*
+    $('.owl-carousel').owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: false,
+      dots: true,
+      lazyLoad: true,
+      lazyLoadEager: 1,
+      autoplay: true,
+      autoplayHoverPause: true,
+      responsive: {
+        0: {
+          items: 1
+        },
+        600: {
+          items: 2
+        },
+        1000: {
+          items: 4
+        }
       }
-    }
-  })
-*/
+    })
+  */
   var index = 0;
   var current_url = window.location.href;
   var url = current_url.split('/').pop();
@@ -71,9 +71,9 @@ $(function () {
   add_sample_files.Init('addSampleFiles', '/workspace/addSampleFiles/upload');
   var running_sample_id = getQueryVariable('sampleID');
   var running_project_id = getQueryVariable('projectID');
-  var check_progress = false;
   var selectedTypes = [];
-  var read_progress;
+  //   var check_progress = false;
+  //   var read_progress;
 
   $('#type').on('change', function () {
     var type = $('#type').val();
@@ -357,7 +357,7 @@ $(function () {
     }
   });
 
-  function read_nextflowlog() {
+  function read_weblog() {
     if (window.location.href.indexOf('sampleID') != -1) {
       $.ajax({
         url: "/execute/start/status",
@@ -369,10 +369,10 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
-            let insert_message = "<div class=\"rem1\">runId: " + data.runId + "</div><div class=\"rem1\">event: " + data.event + "</div><div class=\"rem1\">utcTime: "
-            + data.utcTime + "</div><div class=\"rem1\">process: "
-            + data.process + "</div>";
-            $('.command_out').html(insert_message);
+            for (let i = 0; i < data.length; i++) {
+              let insert_message = "<span class=\"rem1\">[Pipeline] started at " + data[i].utcTime + "and on " + data[i].event + " at " + data[i].process + "stage.</span><hr>";
+              $('.command_out').append(insert_message);
+            }
           } else {}
         }
       })
@@ -387,31 +387,32 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
-            let insert_message = "<div class=\"rem1\">runId: " + data.runId + "</div><div class=\"rem1\">event: " + data.event + "</div><div class=\"rem1\">utcTime: "
-            + data.utcTime + "</div><div class=\"rem1\">process: "
-            + data.process + "</div>";
-            $('.command_out').html(insert_message);
+            for (let i = 0; i < data.length; i++) {
+              let insert_message = "<span class=\"rem1\">[Pipeline] started at " + data[i].utcTime + "and on " + data[i].event + " at " + data[i].process + "stage.</span><hr>";
+              $('.command_out').append(insert_message);
+            }
           } else {}
         }
       })
     }
   }
 
-  $(".detail").on('click', function (e) {
-    e.preventDefault();
-    check_progress = !check_progress;
-    if (check_progress) {
-      $('.command_out').removeClass('d-none');
-      read_progress = setInterval(() => {
-        read_nextflowlog();
-        let scrollHeight = $(".command_out").prop('scrollHeight');
-        $(".command_out").scrollTop(scrollHeight);
-      }, 5000);
-    } else {
-      $('.command_out').addClass('d-none');
-      clearInterval(read_progress);
-    }
-  })
+  /**
+   * Check Progress to read weblog
+   */
+  //   $(".detail").on('click', function (e) {
+  //     e.preventDefault();
+  //     check_progress = !check_progress;
+  //     if (check_progress) {
+  //       $('.command_out').removeClass('d-none');
+  //       read_progress = setInterval(() => {
+  //         read_weblog();
+  //       }, 5000);
+  //     } else {
+  //       $('.command_out').addClass('d-none');
+  //       clearInterval(read_progress);
+  //     }
+  //   })
 
 
   $('.sample_files_save').on('click', function () {
@@ -458,6 +459,16 @@ $(function () {
       $(this).parent().hide().siblings().show();
     }
   }
+
+  //read weblog
+  if (window.location.href.indexOf('/execute/start') != -1) {
+    var weblogReader = setInterval(() => {
+      read_weblog();
+    }, 5000);
+  } else {
+    clearInterval(weblogReader);
+  }
+
 
   //ncbi-download status
   if (window.location.href.indexOf('/workspace/addSampleFiles') != -1) {

@@ -330,11 +330,6 @@ a:hover {
   }
 }
 
-.command_out,
-.proj_command_out {
-  height: 200px;
-}
-
 .menu {
   width: 240px;
   height: 420px;

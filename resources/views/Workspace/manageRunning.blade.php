@@ -33,7 +33,7 @@
             <tbody>
               @foreach ($running_jobs as $running_job)
               <tr class="table-warning">
-                @if(DB::table('jobs')->where('uuid',$running_job->uuid)->value('sample_id') !== null)
+                @if($running_job->sample_id !== null)
                 <td></td>
                 <th>{{$samples->where('id',$running_job->sample_id)->value('library_id')}}</th>
                 @else
@@ -49,7 +49,13 @@
                 <td class="start_time">{{$running_job->started}}</td>
                 <td></td>
                 <td class="Run_time">{{$now - $running_job->started}}</td>
-                <td><a class="btn btn-sm btn-danger ml-2" href="/workspace/manageRunning/terminate?uuid={{$running_job->current_uuid}}">STOP</a></td>
+                <td>
+                @if($running_job->sample_id !== null)
+                <a class="btn btn-sm btn-danger ml-2" href="/workspace/manageRunning/terminate?uuid={{$running_job->current_uuid}}&sampleID={{$running_job->sample_id}}">STOP</a>
+                @else
+                <a class="btn btn-sm btn-danger ml-2" href="/workspace/manageRunning/terminate?uuid={{$running_job->current_uuid}}">STOP</a>
+                @endif
+                </td>
               </tr>
               @endforeach
             </tbody>

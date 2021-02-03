@@ -44,37 +44,33 @@
           <div class="project_desc pb-3">
             <div class="proj_title">Project Status:</div>
             <div>
-              @if(DB::table('jobs')->where('project_id',$project->id)->count() > 0 && DB::table('jobs')->where('project_id',$project->id)->orderBy('id','desc')->value('status') == 0)
-              <span class="badge badge-warning mt-2">
-                <span>Waiting</span>
-                <span class="dot">...</span>
-              </span>
-              @elseif(DB::table('jobs')->where('project_id',$project->id)->count() > 0 && DB::table('jobs')->where('project_id',$project->id)->orderBy('id','desc')->value('status') == 1)
+              @if(strcmp($status,"not analyzed") == 0)
+              <span class="badge badge-dark mt-2">not analyzed</span>
+              @elseif(strcmp($status,"running") == 0)
               <span class="badge badge-info mt-2">
                 <span>Running</span>
                 <span class="dot">...</span>
               </span>
-              @elseif(DB::table('jobs')->where('project_id',$project->id)->count() > 0 && DB::table('jobs')->where('project_id',$project->id)->orderBy('id','desc')->value('status') == 2)
+              @elseif(strcmp($status,"failed") == 0)
               <span class="badge badge-danger mt-2">
                 <span>failed</span>
               </span>
-              @elseif(DB::table('jobs')->where('project_id',$project->id)->count() > 0 && DB::table('jobs')->where('project_id',$project->id)->orderBy('id','desc')->value('status') == 3)
+              @elseif(strcmp($status,"success") == 0)
               <span class="badge badge-success mt-2">
                 <span>success</span>
               </span>
               @else
-              <span class="badge badge-dark mt-2">not analyzed</span>
               @endif
             </div>
-            @if($isAdmin || $isPI && $canRun)
+            @if(($isAdmin || $isPI) && $canRun)
             <a href="/execute?projectID={{$projectID}}" class="ml-3 btn btn-primary">Execute the project <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
               </svg>
             </a>
             @endif
-            @if(DB::table('jobs')->where('project_id',$projectID)->count() > 0 && DB::table('jobs')->where('project_id',$projectID)->orderBy('id','desc')->value('status') == 3 && ($isAdmin || $isPI))
+            @if(strcmp($status,"success") == 0 && ($isAdmin || $isPI))
             <a href="/successRunning?projectID={{$projectID}}" class="ml-2 btn btn-success">Show Project Report </a>
-            @elseif(DB::table('jobs')->where('project_id',$projectID)->count() > 0 && DB::table('jobs')->where('project_id',$projectID)->value('status') == 1 && ($isAdmin || $isPI))
+            @elseif(strcmp($status,"running") == 0 && ($isAdmin || $isPI))
             <a href="/execute/start?projectID={{$projectID}}" class="ml-2 btn btn-primary">Show Pipeline Status</a>
             @endif
           </div>
@@ -127,13 +123,13 @@
               <div class="font-normal text-wrap text-break">
                 <div class="projectId mt-2">Sample Label :
                   @if($isPI || $isAdmin)
-                  @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() == 0 || DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 0)
+                  @if($selectSample->status == 0)
                   {{$selectSample->sampleLabel}}
-                  @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 1)
+                  @elseif($selectSample->status == 1)
                   <a href="/execute/start?sampleID={{$selectSample->id}}">{{$selectSample->sampleLabel}}</a>
-                  @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 2)
+                  @elseif($selectSample->status == 2)
                   <a href="/failedRunning?uuid={{DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('uuid')}}">{{$selectSample->sampleLabel}}</a>
-                  @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->value('status') == 3)
+                  @elseif($selectSample->status == 3)
                   <a href="/successRunning?sampleID={{$selectSample->id}}">{{$selectSample->sampleLabel}}</a>
                   @endif
                   @else
@@ -145,26 +141,22 @@
                 </div>
                 <div class="">
                   Status :
-                  @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 0)
-                  <span class="badge badge-warning">
-                    <span>Waiting</span>
-                    <span class="dot">...</span>
-                  </span>
-                  @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 1)
+                  @if($selectSample->status == 0)
+                <span class="badge badge-dark">not analyzed</span>
+                  @elseif($selectSample->status == 1)
                   <span class="badge badge-info">
                     <span>Running</span>
                     <span class="dot">...</span>
                   </span>
-                  @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 2)
+                  @elseif($selectSample->status == 2)
                   <span class="badge badge-danger">
                     <span>failed</span>
                   </span>
-                  @elseif(DB::table('jobs')->where('sample_id',$selectSample->id)->count() > 0 && DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 3)
+                  @elseif($selectSample->status == 3)
                   <span class="badge badge-success">
                     <span>success</span>
                   </span>
                   @else
-                  <span class="badge badge-dark">not analyzed</span>
                   @endif
                 </div>
                 @if($isPI || $isAdmin)
@@ -180,7 +172,7 @@
                       <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                     </svg>
                   </a>
-                  @if(DB::table('jobs')->where('sample_id',$selectSample->id)->count() == 0 || DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 2 || DB::table('jobs')->where('sample_id',$selectSample->id)->orderBy('id','desc')->value('status') == 3)
+                  @if($selectSample->status == 0 || $selectSample->status == 3)
                   <a href="/execute?sampleID={{$selectSample->id}}" title="execute the pipeline">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />

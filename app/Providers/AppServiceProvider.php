@@ -49,6 +49,9 @@ class AppServiceProvider extends ServiceProvider
                 if(isset($sample_id)){
                     $projectId = Samples::where('id',$sample_id)->value('projects_id');
                     $project_accession = Projects::where('id',$projectId)->value('doi');
+                    $sample = Samples::find($sample_id);
+                    $sample->status = 2; //success
+                    $sample->save();
                 }else{
                     $project_accession = Projects::where('id',$project_id)->value('doi');
                 }
