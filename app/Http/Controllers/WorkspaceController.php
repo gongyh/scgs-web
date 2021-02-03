@@ -161,6 +161,12 @@ class WorkspaceController extends Controller
         $job = Jobs::find($job_id);
         $job->status = 2;
         $job->save();
+        if($request->input('sampleID')){
+            $sampleID = $request->input('sampleID');
+            $sample = Samples::find($sampleID);
+            $sample->status = 0;
+            $sample->save();
+        }
         return redirect('/workspace/manageRunning');
     }
 

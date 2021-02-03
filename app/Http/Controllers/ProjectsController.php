@@ -25,7 +25,7 @@ class ProjectsController extends Controller
                 $search_project = $request->input('search_project');
                 $current_page = $request->input('page');$types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
                 if($request->input('search_project') == null){
-                    $Projects = Projects::orderBy('id','desc')->paginate(5);
+                    $Projects = Projects::orderBy('id','desc')->paginate(20);
                     if (auth::check()) {
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
@@ -37,7 +37,7 @@ class ProjectsController extends Controller
                         return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types'));
                     }
                 }else{
-                    $Projects = Projects::where('name', 'LIKE', '%' . $search_project . '%')->paginate(5);
+                    $Projects = Projects::where('name', 'LIKE', '%' . $search_project . '%')->paginate(20);
                     if (auth::check()) {
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
@@ -54,7 +54,7 @@ class ProjectsController extends Controller
                 $current_page = $request->input('page');
                 $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
                 if(empty($request->input('select_type'))){
-                    $Projects = Projects::orderBy('id','desc')->paginate(5);
+                    $Projects = Projects::orderBy('id','desc')->paginate(20);
                     if (auth::check()) {
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
@@ -66,7 +66,7 @@ class ProjectsController extends Controller
                         return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type'));
                     }
                 }else{
-                    $Projects = Projects::where('type',$select_type)->paginate(5);
+                    $Projects = Projects::where('type',$select_type)->paginate(20);
                     if (auth::check()) {
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
@@ -80,9 +80,9 @@ class ProjectsController extends Controller
                 }
             }
         } else {
-            $Projects = Projects::orderBy('id','desc')->paginate(5);
+            $Projects = Projects::orderBy('id','desc')->paginate(20);
             $current_page = $request->input('page');
-            $pageSize = 5;
+            $pageSize = 20;
             $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
             try {
                 if (auth::check()) {

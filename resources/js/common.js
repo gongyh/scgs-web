@@ -71,9 +71,9 @@ $(function () {
   add_sample_files.Init('addSampleFiles', '/workspace/addSampleFiles/upload');
   var running_sample_id = getQueryVariable('sampleID');
   var running_project_id = getQueryVariable('projectID');
-  var check_progress = false;
   var selectedTypes = [];
-  var read_progress;
+  //   var check_progress = false;
+  //   var read_progress;
 
   $('#type').on('change', function () {
     var type = $('#type').val();
@@ -357,7 +357,7 @@ $(function () {
     }
   });
 
-  function read_nextflowlog() {
+  function read_weblog() {
     if (window.location.href.indexOf('sampleID') != -1) {
       $.ajax({
         url: "/execute/start/status",
@@ -370,9 +370,7 @@ $(function () {
           if (res.code == 200) {
             let data = res.data;
             for (let i = 0; i < data.length; i++) {
-              let insert_message = "<div class=\"rem1\">runId: " + data[i].runId + "</div><div class=\"rem1\">event: " + data[i].event + "</div><div class=\"rem1\">utcTime: " +
-                data[i].utcTime + "</div><div class=\"rem1\">process: " +
-                data[i].process + "</div><hr>";
+              let insert_message = "<span class=\"rem1\">[Pipeline] started at " + data[i].utcTime + "and on " + data[i].event + " at " + data[i].process + "stage.</span><hr>";
               $('.command_out').append(insert_message);
             }
           } else {}
@@ -390,9 +388,7 @@ $(function () {
           if (res.code == 200) {
             let data = res.data;
             for (let i = 0; i < data.length; i++) {
-              let insert_message = "<div class=\"rem1\">runId: " + data[i].runId + "</div><div class=\"rem1\">event: " + data[i].event + "</div><div class=\"rem1\">utcTime: " +
-                data[i].utcTime + "</div><div class=\"rem1\">process: " +
-                data[i].process + "</div><hr>";
+              let insert_message = "<span class=\"rem1\">[Pipeline] started at " + data[i].utcTime + "and on " + data[i].event + " at " + data[i].process + "stage.</span><hr>";
               $('.command_out').append(insert_message);
             }
           } else {}
@@ -401,21 +397,22 @@ $(function () {
     }
   }
 
-  $(".detail").on('click', function (e) {
-    e.preventDefault();
-    check_progress = !check_progress;
-    if (check_progress) {
-      $('.command_out').removeClass('d-none');
-      read_progress = setInterval(() => {
-        read_nextflowlog();
-        let scrollHeight = $(".command_out").prop('scrollHeight');
-        $(".command_out").scrollTop(scrollHeight);
-      }, 5000);
-    } else {
-      $('.command_out').addClass('d-none');
-      clearInterval(read_progress);
-    }
-  })
+  /**
+   * Check Progress to read weblog
+   */
+  //   $(".detail").on('click', function (e) {
+  //     e.preventDefault();
+  //     check_progress = !check_progress;
+  //     if (check_progress) {
+  //       $('.command_out').removeClass('d-none');
+  //       read_progress = setInterval(() => {
+  //         read_weblog();
+  //       }, 5000);
+  //     } else {
+  //       $('.command_out').addClass('d-none');
+  //       clearInterval(read_progress);
+  //     }
+  //   })
 
 
   $('.sample_files_save').on('click', function () {
@@ -462,6 +459,16 @@ $(function () {
       $(this).parent().hide().siblings().show();
     }
   }
+
+  //read weblog
+  if (window.location.href.indexOf('/execute/start') != -1) {
+    var weblogReader = setInterval(() => {
+      read_weblog();
+    }, 5000);
+  } else {
+    clearInterval(weblogReader);
+  }
+
 
   //ncbi-download status
   if (window.location.href.indexOf('/workspace/addSampleFiles') != -1) {
