@@ -18,7 +18,7 @@ class CreateWeblogTable extends Migration
             $table->string('runName',200);
             $table->string('runId',200);
             $table->string('event',200);
-            $table->string('utcTime',200);
+            $table->timestamps();
             $table->string('process',200);
             $table->timestamps();
         });

@@ -572,7 +572,7 @@ class ExecparamsController extends Controller
             $running_project_id = $request->input('running_project_id');
             $runName = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('current_uuid');
         }
-        $weblogs = Weblog::where('runName',$runName)->orderByDesc('created_at')->first();
+        $weblogs = Weblog::where('runName',$runName)->orderByDesc('created_at');
         return response()->json(['code' => 200, 'data' => $weblogs]);
     }
 }
