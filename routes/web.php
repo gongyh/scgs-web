@@ -87,8 +87,7 @@ Route::group(['prefix' => 'workspace/pipelineParams'], function () {
 
 Route::group(['prefix' => 'execute'], function () {
     Route::any('/', 'ExecparamsController@index');
-    Route::get('/start', 'ExecparamsController@start');
-    Route::post('/start', 'ExecparamsController@get_weblog');
+    Route::any('/start', 'ExecparamsController@start');
     Route::post('/start/status', 'ExecparamsController@get_status');
 });
 

@@ -44,21 +44,21 @@
           <div class="project_desc pb-3">
             <div class="proj_title">Project Status:</div>
             <div>
-              @if(strcmp($status,"waiting")==0)
+              @if(strcmp($status,"waiting")== 0)
               <span class="badge badge-warning mt-2">
-                <span>Waiting</span>
+                <span>waiting</span>
                 <span class="dot">...</span>
               </span>
-              @elseif(strcmp($status,"running")==0)
+              @elseif(strcmp($status,"running") == 0)
               <span class="badge badge-info mt-2">
                 <span>Running</span>
                 <span class="dot">...</span>
               </span>
-              @elseif(strcmp($status,"failed")==0)
+              @elseif(strcmp($status,"failed") == 0)
               <span class="badge badge-danger mt-2">
                 <span>failed</span>
               </span>
-              @elseif(strcmp($status,"success")==0)
+              @elseif(strcmp($status,"success") == 0)
               <span class="badge badge-success mt-2">
                 <span>success</span>
               </span>
@@ -147,8 +147,7 @@
                   Status :
                   @if($selectSample->status == 0)
                   <span class="badge badge-warning">
-                    <span>Waiting</span>
-                    <span class="dot">...</span>
+                    <span class="badge badge-dark">not analyzed</span>
                   </span>
                   @elseif($selectSample->status == 1)
                   <span class="badge badge-info">
@@ -164,7 +163,6 @@
                     <span>success</span>
                   </span>
                   @else
-                  <span class="badge badge-dark">haven't analyzed</span>
                   @endif
                 </div>
                 @if($isPI || $isAdmin)
