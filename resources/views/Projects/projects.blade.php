@@ -100,12 +100,12 @@
               @csrf
               <select id="search_type" name="select_type" class="selectpicker show-tick mb-2 border rounded" data-live-search="true" data-style="btn-default">
                 @if(isset($select_type))
-                <option value=""></option>
+                <option value="">Anything</option>
                 @foreach($types as $type)
                 <option value={{$type}} {{($select_type == $type)?'selected':''}}>{{$type}}</option>
                 @endforeach
                 @else
-                <option value=""></option>
+                <option value="">Anything</option>
                 @foreach($types as $type)
                 <option value={{$type}}>{{$type}}</option>
                 @endforeach

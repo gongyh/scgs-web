@@ -31,9 +31,9 @@
             </thead>
             <tbody>
               @foreach ($user_jobs as $user_job)
-              @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 1)
+              @if($user_job->status == 1)
               <tr class="table-warning">
-                @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('sample_id') !== null)
+                @if($user_job->sample_id !== null)
                 <td></td>
                 <th>
                   <a href="/execute/start?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('library_id')}}</a>
@@ -54,9 +54,9 @@
                 <td> -- </td>
                 <td class="Run_time">{{$now - $user_job->started}}</td>
               </tr>
-              @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 2)
+              @elseif($user_job->status == 2)
               <tr class="table-danger">
-                @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('sample_id') !== null)
+                @if($user_job->sample_id !== null)
                 <td></td>
                 <th>
                   <a href="/failedRunning?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('library_id')}}</a>
@@ -74,9 +74,9 @@
                 <td class="finish_time">{{$user_job->finished}}</td>
                 <td class="Run_time">{{$user_job->finished - $user_job->started}}</td>
               </tr>
-              @elseif(DB::table('jobs')->where('uuid',$user_job->uuid)->value('status') == 3)
+              @elseif($user_job->status == 3)
               <tr class="table-success">
-                @if(DB::table('jobs')->where('uuid',$user_job->uuid)->value('sample_id') !== null)
+                @if($user_job->sample_id !== null)
                 <td></td>
                 <th>
                   <a href="/successRunning?sampleID={{$user_job->sample_id}}">{{$samples->where('id',$user_job->sample_id)->value('library_id')}}</a>
