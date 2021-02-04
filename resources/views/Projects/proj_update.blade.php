@@ -36,7 +36,7 @@
                 <label for="new_collection_date">Collection Date</label><span class="text-danger font-weight-bold">*</span>
               </div>
               <div class="input-group date w-75" id="datetimepicker3" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3" name="collection_date" value="{{$project->collection_date}}">
+                <input type="text" id="collection_date" class="form-control datetimepicker-input" data-target="#datetimepicker3" name="collection_date" value="{{$project->collection_date}}">
                 <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
                   <div class="input-group-text">
                     <i class="glyphicon glyphicon-calendar"></i>
