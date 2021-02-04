@@ -93,10 +93,10 @@
       <div class="other-info">
         <div class="card" style="width: 18rem;">
           <div class="card-body">
-            <h5 class="card-title font-weight-bold">Filter</h5>
-            <hr>
-            <h6 class="card-subtitle mb-2 text-muted font-weight-bold">Type</h6>
             <form action="" method="POST">
+              <h5 class="card-title font-weight-bold">Filter</h5>
+              <hr>
+              <h6 class="card-subtitle mb-2 text-muted font-weight-bold">Type</h6>
               @csrf
               <select id="search_type" name="select_type" class="selectpicker show-tick mb-2 border rounded" data-live-search="true" data-style="btn-default">
                 @if(isset($select_type))
@@ -108,6 +108,20 @@
                 <option value="">Anything</option>
                 @foreach($types as $type)
                 <option value={{$type}}>{{$type}}</option>
+                @endforeach
+                @endif
+              </select>
+              <h6 class="card-subtitle mt-2 mb-2 text-muted font-weight-bold">Date</h6>
+              <select name="select_date" id="search_date" class="selectpicker show-tick mb-2 border rounded" data-live-search="true" data-style="btn-default">
+                @if(isset($select_date))
+                <option value="">Anything</option>
+                @foreach($dates as $date)
+                <option value={{$date}} {{($select_date == $date)?'selected':''}}>{{$date}}</option>
+                @endforeach
+                @else
+                <option value="">Anything</option>
+                @foreach($dates as $date)
+                <option value={{$date}}>{{$date}}</option>
                 @endforeach
                 @endif
               </select>
