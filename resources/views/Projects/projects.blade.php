@@ -111,7 +111,7 @@
                 @endforeach
                 @endif
               </select>
-              <h6 class="card-subtitle mt-2 mb-2 text-muted font-weight-bold">Date</h6>
+              <h6 class="card-subtitle mt-2 mb-2 text-muted font-weight-bold">Release Date</h6>
               <select name="select_date" id="search_date" class="selectpicker show-tick mb-2 border rounded" data-live-search="true" data-style="btn-default">
                 @if(isset($select_date))
                 <option value="">Anything</option>

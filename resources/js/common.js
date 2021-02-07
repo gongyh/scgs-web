@@ -369,11 +369,16 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
+            let div = $('<div></div>');
             for (let i = 0; i < data.length; i++) {
-              let insert_message = "<span class=\"rem1\">[Pipeline] started at " + data[i].utcTime + "and on " + data[i].event + " at " + data[i].process + "stage.</span><hr>";
-              $('.command_out').append(insert_message);
+              let insert_message = "<div class=\"rem1\">" + i + "  [" + data[i].process + "] " + data[i].event + " " + data[i].utcTime + "</div>";
+              div.append(insert_message);
             }
-          } else {}
+            $('.command_out').html(div);
+          } else {
+              let msg = 'pipeline is preparing...';
+              $('.command_out').text(msg);
+          }
         }
       })
     } else {
@@ -387,11 +392,16 @@ $(function () {
         success: function (res) {
           if (res.code == 200) {
             let data = res.data;
+            let div = $('<div></div>');
             for (let i = 0; i < data.length; i++) {
-              let insert_message = "<span class=\"rem1\">[Pipeline] started at " + data[i].utcTime + "and on " + data[i].event + " at " + data[i].process + "stage.</span><hr>";
-              $('.command_out').append(insert_message);
+              let insert_message = "<span class=\"rem1\">[" + data[i].process + "] " + data[i].event + " " + data[i].utcTime + "</span>";
+              div.append(insert_message);
             }
-          } else {}
+            $('.command_out').html(div);
+          } else {
+            let msg = 'pipeline is preparing...';
+            $('.command_out').text(msg);
+          }
         }
       })
     }

@@ -646,3 +646,11 @@ a:hover {
 .create_lab_msg {
   margin-top: -5px;
 }
+
+.command_out {
+  background-color: #222;
+  color: #f1f1f1;
+  font-family: Cousine, monospace;
+  font-size: 17px;
+  line-height: 19px;
+}
