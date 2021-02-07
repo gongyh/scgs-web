@@ -13,8 +13,8 @@ class RamanResultController extends Controller
     {
         $projectID = $request->input('projectID');
         $project = Projects::find($projectID);
-        $projectName = $project->name;
+        $project_doi = $project->doi;
         $spectra = Spectra::where('project', $project->doi)->where('dtype', 'raw')->paginate(50);
-        return view('Raman.Raman', compact('spectra', 'projectID','projectName'));
+        return view('Raman.Raman', compact('spectra', 'projectID','project_doi'));
     }
 }
