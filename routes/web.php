@@ -55,6 +55,7 @@ Route::group(['prefix' => 'workspace'], function () {
     Route::any('/manageRunning/terminate', 'WorkspaceController@runningTerminate')->middleware('auth');
     Route::get('/ncbifilesList', 'WorkspaceController@ncbifilesList');
     Route::get('/ncbi_download_status','WorkspaceController@ncbi_download_status');
+    Route::get('/weblog_clear','WorkspaceController@weblog_clear');
 });
 
 Route::group(['prefix' => 'workspace/institutions'], function () {

@@ -565,7 +565,7 @@ class ExecparamsController extends Controller
         // } else {
         //     return response()->json(['code' => '201', 'data' => 'failed']);
         // }
-        if($request->input('sampleID')){
+        if($request->input('running_sample_id')){
             $running_sample_id = $request->input('running_sample_id');
             $runName = Jobs::where('sample_id', $running_sample_id)->value('current_uuid');
         }else{

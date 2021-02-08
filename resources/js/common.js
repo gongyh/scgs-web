@@ -118,6 +118,8 @@ $(function () {
     }
   }
 
+  $('div.flash_msg').not('.warning').delay(1500).fadeOut(350);
+
   //sra_id_file upload filename display
   $('#sra_id_file').on('change', function (file) {
     $("#sra_id_label").html(this.files[0].name);

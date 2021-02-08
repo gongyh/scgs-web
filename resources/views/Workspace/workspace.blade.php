@@ -24,11 +24,27 @@
               <ul class="products-list product-list-in-box">
                 <li class="item">
                   <div class="product-img mt-1">
-                    <i class="fa fa-unlock-alt fa-2x ext-icon"></i>
+                    <svg class="bi bi-unlock-fill" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M.5 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9z" />
+                      <path fill-rule="evenodd" d="M8.5 4a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z" />
+                    </svg>
                   </div>
                   <div class="product-info">
                     <a href="/password/reset" class="product-title">
-                      password reset
+                      Password Reset
+                    </a>
+                  </div>
+                </li>
+                <li class="item">
+                  <div class="product-img mt-1">
+                    <svg class="bi bi-brush" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M15.213 1.018a.572.572 0 0 1 .756.05.57.57 0 0 1 .057.746C15.085 3.082 12.044 7.107 9.6 9.55c-.71.71-1.42 1.243-1.952 1.596-.508.339-1.167.234-1.599-.197-.416-.416-.53-1.047-.212-1.543.346-.542.887-1.273 1.642-1.977 2.521-2.35 6.476-5.44 7.734-6.411z" />
+                      <path d="M7 12a2 2 0 0 1-2 2c-1 0-2 0-3.5-.5s.5-1 1-1.5 1.395-2 2.5-2a2 2 0 0 1 2 2z" />
+                    </svg>
+                  </div>
+                  <div class="product-info">
+                    <a href="/workspace/weblog_clear" class="product-title">
+                      Weblog Clean
                     </a>
                   </div>
                 </li>

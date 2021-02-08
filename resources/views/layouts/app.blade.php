@@ -122,7 +122,7 @@
     @endif
 
     <main class="pt-4">
-      <div class="text-center">
+      <div class="text-center flash_msg">
         @include('flash::message')
       </div>
       @yield('content')
