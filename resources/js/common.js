@@ -373,13 +373,13 @@ $(function () {
             let data = res.data;
             let div = $('<div></div>');
             for (let i = 0; i < data.length; i++) {
-              let insert_message = "<div class=\"rem1\">" + i + "  [" + data[i].process + "] " + data[i].event + " " + data[i].utcTime + "</div>";
+              let insert_message = "<div class=\"rem1\">" + (i + 1) + "  [" + data[i].process + "] " + data[i].event + " " + data[i].utcTime + "</div>";
               div.append(insert_message);
             }
             $('.command_out').html(div);
           } else {
-              let msg = 'pipeline is preparing...';
-              $('.command_out').text(msg);
+            let msg = 'pipeline is preparing...';
+            $('.command_out').text(msg);
           }
         }
       })
@@ -396,7 +396,7 @@ $(function () {
             let data = res.data;
             let div = $('<div></div>');
             for (let i = 0; i < data.length; i++) {
-              let insert_message = "<span class=\"rem1\">[" + data[i].process + "] " + data[i].event + " " + data[i].utcTime + "</span>";
+              let insert_message = "<div class=\"rem1\">" + (i + 1) + "  [" + data[i].process + "] " + data[i].event + " " + data[i].utcTime + "</div>";
               div.append(insert_message);
             }
             $('.command_out').html(div);
