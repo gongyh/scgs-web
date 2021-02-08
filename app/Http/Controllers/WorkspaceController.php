@@ -6,6 +6,7 @@ use App\Labs;
 use App\Jobs;
 use App\Projects;
 use App\Samples;
+use App\Weblog;
 use App\Ncbiupload;
 use App\Jobs\NCBIDownload;
 use Illuminate\Http\Request;
@@ -189,5 +190,17 @@ class WorkspaceController extends Controller
             $data = array();
             return response()->json(['code' => 200,'data' => $data]);
         }
+    }
+
+    public function weblog_clear()
+    {
+        $jobs = jobs::all();
+        $jobs_currentuuids = array();
+        foreach($jobs as $job){
+            array_push($jobs_currentuuids, $job->current_uuid);
+        }
+        Weblog::whereNotIn('runName',$jobs_currentuuids)->delete();
+        flash('weblog cleaned')->success();
+        return back();
     }
 }

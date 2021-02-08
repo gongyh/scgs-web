@@ -81,7 +81,6 @@
               @isset($myLabs)
               {{$myLabs->links()}}
               @endisset
-
             </div>
           </div>
         </div>
