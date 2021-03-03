@@ -1,7 +1,7 @@
 FROM php:7.3.8-apache
 
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends unzip locales \
+    && apt-get install -y --no-install-recommends unzip locales nodejs \
        libwebp-dev libjpeg-dev libxpm-dev libfreetype6-dev libzip-dev \
     && apt-get autoremove -y && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -35,7 +35,9 @@ COPY . /app
 
 RUN chown -R www-data:www-data /app && a2enmod rewrite
 
-RUN composer install && rm -rf /root/.composer/cache
+RUN rm -f composer.lock && composer install && rm -rf /root/.composer/cache
+RUN curl -L https://www.npmjs.com/install.sh | sh && rm -f package-lock.json \
+    && npm install -y && npm run production && rm -rf /root/.npm
 
 COPY vhost.conf /etc/apache2/sites-available/000-default.conf
 
