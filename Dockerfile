@@ -1,10 +1,10 @@
-FROM composer:1.6.5 as build
+FROM composer:1.7.3 as build
 
 WORKDIR /app
 COPY . /app
 RUN composer install
 
-FROM php:7.1.8-apache
+FROM php:7.3.8-apache
 
 EXPOSE 80
 COPY --from=build /app /app
