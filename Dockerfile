@@ -1,13 +1,45 @@
-FROM composer:1.7.3 as build
-
-WORKDIR /app
-COPY . /app
-RUN composer install
-
 FROM php:7.3.8-apache
 
-EXPOSE 80
-COPY --from=build /app /app
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends unzip locales \
+       libwebp-dev libjpeg-dev libxpm-dev libfreetype6-dev libzip-dev \
+    && apt-get autoremove -y && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+WORKDIR /app
+
+# install composer
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php composer-setup.php \
+    && php -r "unlink('composer-setup.php');" \
+    && mv composer.phar /usr/local/sbin/composer \
+    && chmod +x /usr/local/sbin/composer
+
+# install pecl extension
+RUN pecl install mongodb && docker-php-ext-enable mongodb && rm -rf /tmp/pear
+
+# install GD
+RUN docker-php-ext-configure gd --with-png-dir \
+    --with-jpeg-dir --with-xpm-dir \
+    --with-webp-dir --with-freetype-dir \
+    && docker-php-ext-install -j$(nproc) gd
+
+# install ext-zip
+RUN docker-php-ext-install -j$(nproc) zip
+
+# set locale to utf-8
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+
+COPY . /app
+
+RUN chown -R www-data:www-data /app && a2enmod rewrite
+
+RUN composer install && rm -rf /root/.composer/cache
+
 COPY vhost.conf /etc/apache2/sites-available/000-default.conf
-RUN chown -R www-data:www-data /app \
-    && a2enmod rewrite
+
+RUN rm -rf /tmp/* /var/tmp/*
+
+EXPOSE 80
+
