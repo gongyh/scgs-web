@@ -44,8 +44,8 @@ RUN curl -L https://www.npmjs.com/install.sh | sh && rm -f package-lock.json \
 COPY vhost.conf /etc/apache2/sites-available/000-default.conf
 
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
-    && sed -i 's/post_max_size = 8M/post_max_size = 2000M/g' \
-    && sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 2000M/g'
+    && sed -i 's/post_max_size.*$/post_max_size = 2000M/g' \
+    && sed -i 's/upload_max_filesize.*$/upload_max_filesize = 2000M/g'
 
 RUN rm -rf /tmp/* /var/tmp/*
 
