@@ -3,6 +3,7 @@ FROM php:7.3.8-apache
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends unzip locales nodejs \
        libwebp-dev libjpeg-dev libxpm-dev libfreetype6-dev libzip-dev \
+       iputils-ping libcurl4-openssl-dev pkg-config libssl-dev \
     && apt-get autoremove -y && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
