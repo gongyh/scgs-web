@@ -1,4 +1,5 @@
-FROM php:7.3.8-apache
+FROM quay.io/gongyh/php7.3.8-apache
+#FROM php:7.3.8-apache
 
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends unzip locales nodejs \
