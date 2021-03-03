@@ -24,8 +24,8 @@ RUN docker-php-ext-configure gd --with-png-dir \
     --with-webp-dir --with-freetype-dir \
     && docker-php-ext-install -j$(nproc) gd
 
-# install ext-zip
-RUN docker-php-ext-install -j$(nproc) zip
+# install more php extensions
+RUN docker-php-ext-install -j$(nproc) zip bcmath mysqli pdo_mysql
 
 # set locale to utf-8
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
