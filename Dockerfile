@@ -29,6 +29,9 @@ RUN docker-php-ext-configure gd --with-png-dir \
 # install more php extensions
 RUN docker-php-ext-install -j$(nproc) zip bcmath mysqli pdo_mysql
 
+# install php redis extension
+RUN pecl install redis && docker-php-ext-enable redis && rm -rf /tmp/pear
+
 # set locale to utf-8
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
