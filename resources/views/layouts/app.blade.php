@@ -13,8 +13,6 @@
     <!-- Scripts -->
     <script src="{!! mix('js/app.js')!!}" defer></script>
 
-    @stack('plotting-js')
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <!-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> -->

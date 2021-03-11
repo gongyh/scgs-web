@@ -29,6 +29,7 @@
     "bootstrap-fileinput": "^5.1.2",
     "bootstrap-icons": "^1.2.2",
     "bootstrap-select": "^1.13.18",
+    "caniuse-lite": "^1.0.30001198",
     "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.22",
     "font-awesome": "^4.7.0",

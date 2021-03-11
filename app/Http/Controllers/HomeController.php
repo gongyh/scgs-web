@@ -26,4 +26,14 @@ class HomeController extends Controller
         return view('homepage');
     }
 
+    /**
+     * Show About us page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function aboutus()
+    {
+        return view('aboutus');
+    }
+
 }

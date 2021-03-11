@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('homepage');
-});
-
 Route::group(['prefix' => 'labs'], function () {
     Route::any('/update', 'LabsController@update');
     Route::any('/delete', 'LabsController@delete');
@@ -106,10 +102,8 @@ Route::get('activity/{token}','Auth\RegisterController@activity')->name('user.ac
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/aboutus', function () {
-    return view('aboutus');
-});
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/aboutus', 'HomeController@aboutus');
 
 Route::get('/docs/{page_id?}', 'DocController@index')->name('docs');
 
