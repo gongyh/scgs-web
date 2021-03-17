@@ -19,99 +19,145 @@
       <div class="tab-content" id="v-pills-tabContent">
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
           <div class="bg-white p-3 rounded shadow">
-            <div class="d-flex justify-content-between font-weight-bold text-dark border-bottom pb-2">
+            <div class="font-weight-bold text-dark border-bottom pb-2">
               <div class="rem15">Job Information</div>
-              @if(isset($sample_id))
-              <a class="" href="/successRunning/resultDownload?sampleID={{$sample_id}}">
-                <span class="rem1">Download results.zip </span>
-                <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
-                  <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
-                  <path fill-rule="evenodd" d="M8 6a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 10.293V6.5A.5.5 0 0 1 8 6z" />
-                </svg>
-              </a>
-              @elseif(isset($project_user))
-              <a class="" href="/successRunning/resultDownload?projectID={{$project_id}}">
-                <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
-                  <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
-                  <path fill-rule="evenodd" d="M8 6a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 10.293V6.5A.5.5 0 0 1 8 6z" />
-                </svg>
-              </a>
-              @endif
-            </div>
+              <div class="d-flex mt-2">
+                <p>
+                  <a class="btn btn-light border" type="a" data-toggle="collapse" data-target="#collapse_detail" aria-expanded="false" aria-controls="collapseExample">Show Detail >>
+                  </a>
+                </p>
+                <p class="ml-2">
+                  <a class="btn btn-light border" type="a" data-toggle="collapse" data-target="#collapse_command" aria-expanded="false" aria-controls="collapseExample">Show Command >>
+                  </a>
+                </p>
 
-            @if(isset($sample_user))
-            <div class="d-flex text-dark rem15 mt-2">
-              <div class="mr-3">User : </div>
-              <div class="text-success iframe_sample_user">{{$sample_user}}</div>
+                @if(isset($sample_id))
+                <a class="ml-2 mt-1" href="/successRunning/resultDownload?sampleID={{$sample_id}}">
+                  <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                    <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
+                    <path fill-rule="evenodd" d="M8 6a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 10.293V6.5A.5.5 0 0 1 8 6z" />
+                  </svg>
+                </a>
+                @elseif(isset($project_user))
+                <a class="ml-2 mt-1" href="/successRunning/resultDownload?projectID={{$project_id}}">
+                  <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                    <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
+                    <path fill-rule="evenodd" d="M8 6a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 10.293V6.5A.5.5 0 0 1 8 6z" />
+                  </svg>
+                </a>
+                @endif
+              </div>
             </div>
-            @elseif(isset($project_user))
-            <div class="d-flex text-dark rem15 mt-2">
-              <div class="mr-3">User : </div>
-              <div class="text-success iframe_project_user">{{$project_user}}</div>
-            </div>
-            @endif
-            @if(isset($sample_uuid))
-            <div class="d-none">
-              <div class="mr-3">uuid : </div>
-              <div class="text-success iframe_sample_uuid">{{$sample_uuid}}</div>
-            </div>
-            @elseif(isset($project_uuid))
-            <div class="d-none">
-              <div class="mr-3">uuid : </div>
-              <div class="text-success iframe_project_uuid">{{$project_uuid}}</div>
-            </div>
-            @endif
-            @if(isset($file_prefix))
-            <div class="d-flex text-dark rem15 mt-2">
-              <div class="mr-3">Sample : </div>
-              <div class="text-success iframe_sample_name">{{$file_prefix}}</div>
-            </div>
-            @endif
-            <div class="d-flex text-dark rem15 mt-2">
-              <div class="mr-3">Started : </div>
-              <div class="text-success start_time">{{$started}}</div>
-            </div>
-            <div class="d-flex text-dark rem15 mt-2">
-              <div class="mr-3">Finished : </div>
-              <div class="text-success finish_time">{{$finished}}</div>
-            </div>
-            <div class="d-flex rem15 mt-2 pb-2 border-bottom">
-              <div class="mr-3">Time Period : </div>
-              <div class="text-success Run_time">{{$period}}</div>
-            </div>
-            <p class="mt-3">
-              <a class="btn btn-light border" type="a" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Command >>
-              </a>
-            </p>
-            <div class="collapse" id="collapseExample">
+            <div class="collapse" id="collapse_command">
               <div class="card card-body">
                 {{$command}}
               </div>
             </div>
-            @if(isset($project_user))
-            <div class="table-responsive mt-2">
-              <table id="quast_dataTable" class="display">
-                <thead>
-                  <tr></tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
+            <div class="collapse" id="collapse_detail">
+              <div class="card card-body">
+                @if(isset($sample_user))
+                <div class="d-flex text-dark rem15 mt-2">
+                  <div class="mr-3">User : </div>
+                  <div class="text-success iframe_sample_user">{{$sample_user}}</div>
+                </div>
+                @elseif(isset($project_user))
+                <div class="d-flex text-dark rem15 mt-2">
+                  <div class="mr-3">User : </div>
+                  <div class="text-success iframe_project_user">{{$project_user}}</div>
+                </div>
+                @endif
+                @if(isset($sample_uuid))
+                <div class="d-none">
+                  <div class="mr-3">uuid : </div>
+                  <div class="text-success iframe_sample_uuid">{{$sample_uuid}}</div>
+                </div>
+                @elseif(isset($project_uuid))
+                <div class="d-none">
+                  <div class="mr-3">uuid : </div>
+                  <div class="text-success iframe_project_uuid">{{$project_uuid}}</div>
+                </div>
+                @endif
+                @if(isset($file_prefix))
+                <div class="d-flex text-dark rem15 mt-2">
+                  <div class="mr-3">Sample : </div>
+                  <div class="text-success iframe_sample_name">{{$file_prefix}}</div>
+                </div>
+                @endif
+                <div class="d-flex text-dark rem15 mt-2">
+                  <div class="mr-3">Started : </div>
+                  <div class="text-success start_time">{{$started}}</div>
+                </div>
+                <div class="d-flex text-dark rem15 mt-2">
+                  <div class="mr-3">Finished : </div>
+                  <div class="text-success finish_time">{{$finished}}</div>
+                </div>
+                <div class="d-flex rem15 mt-2 pb-2 border-bottom">
+                  <div class="mr-3">Time Period : </div>
+                  <div class="text-success Run_time">{{$period}}</div>
+                </div>
+              </div>
             </div>
-            @elseif(isset($sample_uuid))
-            <div class="table-responsive mt-2">
-              <table id="quast_dataTable" class="display">
-                <thead>
-                  <tr></tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
+            <!-- quast -->
+            <div class="mt-3 border-bottom">
+              <div class="font-large">Quast</div>
+              @if(isset($project_user))
+              <div class="table-responsive mt-3 mb-3">
+                <table id="quast_dataTable" class="display">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              @elseif(isset($sample_uuid))
+              <div class="table-responsive mt-3 mb-3">
+                <table id="quast_dataTable" class="display">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              @endif
             </div>
-            @endif
+
+            <div class="mt-3">
+              <div class="font-large">Blob</div>
+              @if(isset($project_user))
+              <select id="blob_txt_tabs" class="mt-2" data-live-search="true" data-style="btn-info">
+                @foreach($filename_array as $filename)
+                <option value={{$filename}}>{{$filename}}</option>
+                @endforeach
+              </select>
+              @endif
+              @if(isset($project_user))
+              <div class="table-responsive mt-2 mb-2">
+                <table id="blob_dataTable" class="display">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              @elseif(isset($sample_uuid))
+              <div class="table-responsive mt-2 mb-2">
+                <table id="blob_dataTable" class="display">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              @endif
+            </div>
           </div>
+          <!-- blob table -->
         </div>
 
         <!-- MultiQC -->

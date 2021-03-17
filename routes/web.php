@@ -92,6 +92,8 @@ Route::group(['prefix' => 'execute'], function () {
 Route::group(['prefix' => 'successRunning'], function () {
     Route::get('/', 'ResultController@success_running');
     Route::post('/', 'ResultController@ajax');
+    Route::post('/home', 'ResultController@home');
+    Route::post('/blob', 'ResultController@blob');
     Route::any('/resultDownload', 'ResultController@download_result');
 });
 

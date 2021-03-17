@@ -17,13 +17,17 @@ $(function () {
   var preseq_tabs = $('#preseq_tabs');
   var arg_tabs = $('#arg_tabs');
   var bowtie_tabs = $('#bowtie_tabs');
+  var blob_txt_tabs = $('#blob_txt_tabs');
   var krona = document.createElement('iframe');
 
 
   if (window.location.href.indexOf('successRunning') != -1) {
+    // init
     $('#quast_dataTable thead tr').empty();
     $('#quast_dataTable tbody').empty();
-    read_quast_data();
+    $('#blob_dataTable thead tr').empty();
+    $('#blob_dataTable tbody').empty();
+    quast_blob_data();
   }
 
   if (window.location.href.indexOf('sampleID') != -1) {
@@ -71,10 +75,10 @@ $(function () {
     }
 
     if (preseq_tab != null) {
-        preseq_tab.onclick = function () {
-          read_preseq_cdata();
-        }
+      preseq_tab.onclick = function () {
+        read_preseq_cdata();
       }
+    }
 
     if (arg_tab != null) {
       arg_tab.onclick = function () {
@@ -97,7 +101,6 @@ $(function () {
     iframe_krona_tabs.on('change', function (e) {
       e.preventDefault();
       var krona_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/kraken/' + $('#kraken_tabs option:selected').val() + '.krona.html';
-      console.log(krona_src);
       krona.setAttribute('src', krona_src);
       krona.setAttribute('class', 'embed-responsive-item');
       $('#kraken_report').empty();
@@ -110,6 +113,7 @@ $(function () {
       var blob_src = 'results/' + $('.iframe_project_user').text() + '/' + $('.iframe_project_uuid').text() + '/blob/' + $('#blob_tabs option:selected').val() + '/' + $('#blob_tabs option:selected').val() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
       $('#blob_image').attr('src', blob_src);
     })
+
   }
 
   preseq_tabs.on('click', function (e) {
@@ -152,6 +156,18 @@ $(function () {
     $('#arg_dataTable thead tr').empty();
     $('#arg_dataTable tbody').empty();
     read_arg_data();
+  })
+
+  blob_txt_tabs.on('change', function (e) {
+    e.preventDefault();
+    window.alert = function () {};
+    var table = $('#blob_dataTable').DataTable({
+      paging: false
+    });
+    table.destroy();
+    $('#blob_dataTable thead tr').empty();
+    $('#blob_dataTable tbody').empty();
+    read_blob_txt();
   })
 
   bowtie_tabs.on('change', function (e) {
@@ -480,23 +496,101 @@ $(function () {
     }
   }
 
-  function read_quast_data() {
+  function quast_blob_data() {
     if (window.location.href.indexOf('projectID') != -1) {
       var projectID = getVariable('projectID');
+      var blob = $('#blob_txt_tabs option:selected').val();
       $.ajax({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        url: '/successRunning',
+        url: '/successRunning/home',
         type: 'POST',
         data: {
           projectID: projectID,
-          quast: true
+          blob: blob,
+          home: true
         },
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let data = res.data;
+            let data = res.data.quast;
+            let blob_data = res.data.blob_table;
+            // quast
+            for (let j = 0; j < data[0].length; j++) {
+              let th = $('<th></th>');
+              th.html(data[0][j]);
+              $('#quast_dataTable thead tr').append(th);
+            }
+            for (let i = 1; i < data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
+              }
+              $('#quast_dataTable tbody').append(tr);
+            }
+            data.shift();
+            var quast_table = $('#quast_dataTable').DataTable({
+              data: data,
+            });
+            $('#quast_dataTable tbody').on('click', 'tr', function () {
+              if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+              }
+              else {
+                quast_table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+              }
+            });
+
+            // blob
+            for (let j = 0; j < blob_data[0].length; j++) {
+              let th = $('<th></th>');
+              th.html(blob_data[0][j]);
+              $('#blob_dataTable thead tr').append(th);
+            }
+            for (let i = 1; i < blob_data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < blob_data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
+              }
+              $('#blob_dataTable tbody').append(tr);
+            }
+            blob_data.shift();
+            var blob_table = $('#blob_dataTable').DataTable({
+              data: blob_data,
+            });
+            $('#blob_dataTable tbody').on('click', 'tr', function () {
+              if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+              }
+              else {
+                blob_table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+              }
+            });
+
+          }
+        }
+      })
+    } else {
+      var sampleID = getVariable('sampleID');
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: '/successRunning/home',
+        type: 'POST',
+        data: {
+          sampleID: sampleID,
+          home: true
+        },
+        dataType: 'json',
+        success: function (res) {
+          if (res.code == 200) {
+            let data = res.data.quast;
             for (let j = 0; j < data[0].length; j++) {
               let th = $('<th></th>');
               th.html(data[0][j]);
@@ -526,22 +620,75 @@ $(function () {
           }
         }
       })
+    }
+  }
+
+  function read_blob_txt() {
+    if (window.location.href.indexOf('projectID') != -1) {
+      var projectID = getVariable('projectID');
+      var blob = $('#blob_txt_tabs option:selected').val();
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: '/successRunning/blob',
+        type: 'POST',
+        data: {
+          projectID: projectID,
+          blob: blob
+        },
+        dataType: 'json',
+        success: function (res) {
+          if (res.code == 200) {
+            let blob_data = res.data.blob_table;
+            $('#blob_dataTable thead tr').empty();
+            $('#blob_dataTable tbody').empty();
+            // blob
+            for (let j = 0; j < blob_data[0].length; j++) {
+              let th = $('<th></th>');
+              th.html(blob_data[0][j]);
+              $('#blob_dataTable thead tr').append(th);
+            }
+            for (let i = 1; i < blob_data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < blob_data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
+              }
+              $('#blob_dataTable tbody').append(tr);
+            }
+            blob_data.shift();
+            var blob_table = $('#blob_dataTable').DataTable({
+              data: blob_data,
+            });
+            $('#blob_dataTable tbody').on('click', 'tr', function () {
+              if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+              }
+              else {
+                blob_table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+              }
+            });
+
+          }
+        }
+      })
     } else {
       var sampleID = getVariable('sampleID');
       $.ajax({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        url: '/successRunning',
+        url: '/successRunning/blob',
         type: 'POST',
         data: {
           sampleID: sampleID,
-          quast: true
         },
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let data = res.data;
+            let data = res.data.quast;
             for (let j = 0; j < data[0].length; j++) {
               let th = $('<th></th>');
               th.html(data[0][j]);
@@ -683,6 +830,7 @@ $(function () {
       })
     }
   }
+
 
   function getVariable(variable) {
     var query = window.location.search.substring(1);

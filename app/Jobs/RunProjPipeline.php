@@ -68,7 +68,7 @@ class RunProjPipeline implements ShouldQueue
         $project_accession = Projects::where('id', $project_id)->value('doi');
         $command = $current_job->command . ' -name uuid-' . $current_job->current_uuid . ' -with-weblog ' . env('WEBLOG_SERVER','http://localhost') . '/execute/start';
         $mkdir = 'if [ ! -d "' . $base_path . $project_accession . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . '; fi';
-        $chmod = 'cd ' . $base_path . ' && sudo chown -R apache:apache ' . $project_accession . ' && sudo chmod -R 777 ' . $project_accession;
+        $chmod = 'cd ' . $base_path . ' && sudo chmod -R 777 ' . $project_accession;
         $cd_and_command = 'cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
         system($mkdir);
         system($chmod);

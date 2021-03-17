@@ -170,7 +170,7 @@ class ResultController extends Controller
                     array_push($data, $x, $y);
                     return response()->json(['code' => 200, 'data' => $data]);
                 } else {
-                    return response()->json(['code' => 201, 'data' => 'failed']);
+                    return response()->json(['code' => 404, 'data' => 'failed']);
                 }
             } elseif (strpos($preseq, '_lc')) {
                 if (Storage::disk('local')->exists($preseq_path)) {
@@ -201,7 +201,7 @@ class ResultController extends Controller
                     array_push($data, $total_reads, $expected_distinct, $lower_095ci, $upper_095ci);
                     return response()->json(['code' => 200, 'data' => $data]);
                 } else {
-                    return response()->json(['code' => 201, 'data' => 'failed']);
+                    return response()->json(['code' => 404, 'data' => 'failed']);
                 }
             } else {
                 if (Storage::disk('local')->exists($preseq_path)) {
@@ -232,7 +232,7 @@ class ResultController extends Controller
                     array_push($data, $total_bases, $expected_covered_bases, $lower_095ci, $upper_095ci);
                     return response()->json(['code' => 200, 'data' => $data]);
                 } else {
-                    return response()->json(['code' => 201, 'data' => 'failed']);
+                    return response()->json(['code' => 404, 'data' => 'failed']);
                 }
             }
         } elseif ($request->input('arg')) {
@@ -250,7 +250,7 @@ class ResultController extends Controller
                 }
                 return response()->json(['code' => 200, 'data' => $ARG_data]);
             } else {
-                return response()->json(['code' => 201, 'data' => 'failed']);
+                return response()->json(['code' => 404, 'data' => 'failed']);
             }
         } elseif ($request->input('bowtie')) {
             $bowtie = $request->input('bowtie');
@@ -278,58 +278,139 @@ class ResultController extends Controller
                 array_push($bowtie, $bowtie_header, $bowtie_stats);
                 return response()->json(['code' => 200, 'data' => $bowtie]);
             } else {
-                return response()->json(['code' => 201, 'data' => 'failed']);
-            }
-        } elseif ($request->input('quast')) {
-            if ($request->input('projectID')) {
-                $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
-                $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
-                $sample_sum = count($project_sample_filenames);
-                if (Storage::disk('local')->exists($quast_path)) {
-                    $quast_data = Storage::get($quast_path);
-                    $quast_data = explode("\n", $quast_data);
-                    $quast_show = array();
-                    $quast_sh = array();
-                    $quast_detail = array();
-                    foreach ($quast_data as $quast) {
-                        if (strpos($quast, "#") === false) {
-                            array_push($quast_show, $quast);
-                        }
-                    }
-                    array_pop($quast_show);
-                    foreach($quast_show as $quast_show_str){
-                        $quast_sh_str = explode("\t",$quast_show_str);
-                        array_push($quast_detail, $quast_sh_str);
-                    }
-                    return response()->json(['code' => 200, 'data' => $quast_detail]);
-                } else {
-                    $quast_header = $quast_result =  null;
-                    return response()->json(['code' => 201, 'data' => 'failed']);
-                }
-            } else {
-                $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
-                if (Storage::disk('local')->exists($quast_path)) {
-                    $quast_data = Storage::get($quast_path);
-                    $quast_data = explode("\n", $quast_data);
-                    $quast_show = array();
-                    $quast_sh = array();
-                    $quast_detail = array();
-                    foreach ($quast_data as $quast) {
-                        if (strpos($quast, "#") === false) {
-                            array_push($quast_show, $quast);
-                        }
-                    }
-                    array_pop($quast_show);
-                    foreach($quast_show as $quast_show_str){
-                        $quast_sh_str = explode("\t",$quast_show_str);
-                        array_push($quast_detail, $quast_sh_str);
-                    }
-                    return response()->json(['code' => 200, 'data' => $quast_detail]);
-                } else {
-                    $quast_header = $quast_result = null;
-                    return response()->json(['code' => 201, 'data' => 'failed']);
-                }
+                return response()->json(['code' => 404, 'data' => 'failed']);
             }
         }
     }
+
+    public function home(Request $request)
+    {
+        if ($request->input('projectID')) {
+            $project_id = $request->input('projectID');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
+            $uuid = Jobs::where('project_id', $project_id)->value('uuid');
+        } else {
+            $sample_id = $request->input('sampleID');
+            $project_id = Samples::where('id', $sample_id)->value('projects_id');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
+            $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+        }
+        $blob = $request->input('blob');
+        $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
+        $blob_txt_path = $project_accession . '/' . $uuid .'/results/blob/' . $blob . '/' . $blob . '.blobDB.table.txt';
+        $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
+        $sample_sum = count($project_sample_filenames);
+        if (Storage::disk('local')->exists($quast_path) && Storage::disk('local')->exists($blob_txt_path)) {
+            // quast
+            $quast_data = Storage::get($quast_path);
+            $quast_data = explode("\n", $quast_data);
+            $quast_show = array();
+            $quast_sh = array();
+            $quast_detail = array();
+            foreach ($quast_data as $quast) {
+                if (strpos($quast, "#") === false) {
+                    array_push($quast_show, $quast);
+                }
+            }
+            array_pop($quast_show);
+            foreach($quast_show as $quast_show_str){
+                $quast_sh_str = explode("\t", $quast_show_str);
+                array_push($quast_detail, $quast_sh_str);
+            }
+            // blob_txt
+            $blob_txt = Storage::get($blob_txt_path);
+            $blob_txt = explode("\n", $blob_txt);
+            $blob_txt = array_splice($blob_txt, 10);
+            $blob_table = array();
+            foreach($blob_txt as $blob){
+                $blob = explode("\t", $blob);
+                $len_pos = strpos($blob[0], '_length');
+                $blob[0] = substr($blob[0], 0, $len_pos);
+                array_splice($blob,6,1);
+                array_splice($blob,6,1);
+                array_splice($blob,7,1);
+                array_splice($blob,7,1);
+                array_splice($blob,8,1);
+                array_splice($blob,8,1);
+                array_splice($blob,9,1);
+                array_splice($blob,9,1);
+                array_splice($blob,10,1);
+                array_splice($blob,10,1);
+                array_splice($blob,11,1);
+                array_splice($blob,11,1);
+                array_push($blob_table,$blob);
+            }
+            $data = array('quast' => $quast_detail, 'blob_table' => $blob_table);
+            return response()->json(['code' => 200, 'data' => $data]);
+        } elseif(Storage::disk('local')->exists($quast_path) && !Storage::disk('local')->exists($blob_txt_path)){
+            $quast_data = Storage::get($quast_path);
+            $quast_data = explode("\n", $quast_data);
+            $quast_show = array();
+            $quast_sh = array();
+            $quast_detail = array();
+            foreach ($quast_data as $quast) {
+                if (strpos($quast, "#") === false) {
+                    array_push($quast_show, $quast);
+                }
+            }
+            array_pop($quast_show);
+            foreach($quast_show as $quast_show_str){
+                $quast_sh_str = explode("\t",$quast_show_str);
+                array_push($quast_detail, $quast_sh_str);
+            }
+            $blob_table = array();
+            $data = array('quast' => $quast_detail, 'blob_table' => $blob_table);
+            return response()->json(['code' => 200, 'data' => $data]);
+        } elseif(!Storage::disk('local')->exists($quast_path) && Storage::disk('local')->exists($blob_txt_path)){
+
+        }else {
+            $quast_header = $quast_result =  null;
+            return response()->json(['code' => 404, 'data' => 'failed']);
+        }
+    }
+
+    public function blob(Request $request)
+    {
+        if ($request->input('projectID')) {
+            $project_id = $request->input('projectID');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
+            $uuid = Jobs::where('project_id', $project_id)->value('uuid');
+        } else {
+            $sample_id = $request->input('sampleID');
+            $project_id = Samples::where('id', $sample_id)->value('projects_id');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
+            $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+        }
+        $blob = $request->input('blob');
+        $blob_txt_path = $project_accession . '/' . $uuid .'/results/blob/' . $blob . '/' . $blob . '.blobDB.table.txt';
+        if(Storage::disk('local')->exists($blob_txt_path)){
+            $blob_txt = Storage::get($blob_txt_path);
+            $blob_txt = explode("\n", $blob_txt);
+            $blob_txt = array_splice($blob_txt, 10);
+            $blob_table = array();
+            foreach($blob_txt as $blob){
+                $blob = explode("\t", $blob);
+                $len_pos = strpos($blob[0], '_length');
+                $blob[0] = substr($blob[0], 0, $len_pos);
+                array_splice($blob,6,1);
+                array_splice($blob,6,1);
+                array_splice($blob,7,1);
+                array_splice($blob,7,1);
+                array_splice($blob,8,1);
+                array_splice($blob,8,1);
+                array_splice($blob,9,1);
+                array_splice($blob,9,1);
+                array_splice($blob,10,1);
+                array_splice($blob,10,1);
+                array_splice($blob,11,1);
+                array_splice($blob,11,1);
+                array_push($blob_table,$blob);
+            }
+            $data = array('blob_table' => $blob_table);
+            return response()->json(['code' => 200, 'data' => $data]);
+        }else{
+            return response()->json(['code' => 404, 'data' => 'failed']);
+        }
+    }
+
 }
