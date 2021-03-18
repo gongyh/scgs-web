@@ -12,3 +12,5 @@ npm-debug.log
 yarn-error.log
 .jsbeautifyrc
 /public/results
+/public/js
+/public/css
