@@ -27,7 +27,9 @@ class PipelineParamsController extends Controller
                 'eggnog_db_path' => 'required|max:200',
                 'kofam_profile_path' => 'required|max:200',
                 'kofam_kolist_path' => 'required|max:200',
-                'eukcc_db_path' => 'required|max:200'
+                'eukcc_db_path' => 'required|max:200',
+                'nextflow_path' => 'required|max:200',
+                'nf_core_scgs_path' => 'required|max:200'
             ]);
             $resfinder_db_path = $request->input('resfinder_db_path');
             $nt_db_path = $request->input('nt_db_path');
@@ -36,6 +38,8 @@ class PipelineParamsController extends Controller
             $kofam_profile_path = $request->input('kofam_profile_path');
             $kofam_kolist_path = $request->input('kofam_kolist_path');
             $eukcc_db_path = $request->input('eukcc_db_path');
+            $nextflow_path = $request->input('nextflow_path');
+            $nf_core_scgs_path = $request->input('nf_core_scgs_path');
 
             /**Pipeline params files validated by administrator
              *
@@ -69,6 +73,8 @@ class PipelineParamsController extends Controller
                 $pipelineParams->kofam_profile_path = $kofam_profile_path;
                 $pipelineParams->kofam_kolist_path = $kofam_kolist_path;
                 $pipelineParams->eukcc_db_path = $eukcc_db_path;
+                $pipelineParams->nextflow_path = $nextflow_path;
+                $pipelineParams->nf_core_scgs_path = $nf_core_scgs_path;
                 $pipelineParams->save();
             } else {
                 pipelineParams::create([
@@ -79,6 +85,8 @@ class PipelineParamsController extends Controller
                     'kofam_profile_path' => $kofam_profile_path,
                     'kofam_kolist_path' => $kofam_kolist_path,
                     'eukcc_db_path' => $eukcc_db_path,
+                    'nextflow_path' => $nextflow_path,
+                    'nf_core_scgs_path' => $nf_core_scgs_path
                 ]);
             }
             return redirect('/workspace/pipelineParams');

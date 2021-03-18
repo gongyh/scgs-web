@@ -517,66 +517,71 @@ $(function () {
             let data = res.data.quast;
             let blob_data = res.data.blob_table;
             // quast
-            for (let j = 0; j < data[0].length; j++) {
-              let th = $('<th></th>');
-              th.html(data[0][j]);
-              $('#quast_dataTable thead tr').append(th);
+            if (data != null) {
+              for (let j = 0; j < data[0].length; j++) {
+                let th = $('<th></th>');
+                th.html(data[0][j]);
+                $('#quast_dataTable thead tr').append(th);
+              }
+              for (let i = 1; i < data.length; i++) {
+                let tr = $('<tr></tr>');
+                for (let j = 0; j < data[i].length; j++) {
+                  let td = $('<td></td>');
+                  tr.append(td);
+                }
+                $('#quast_dataTable tbody').append(tr);
+              }
+              data.shift();
+              var quast_table = $('#quast_dataTable').DataTable({
+                data: data,
+              });
+              $('#quast_dataTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                  $(this).removeClass('selected');
+                }
+                else {
+                  quast_table.$('tr.selected').removeClass('selected');
+                  $(this).addClass('selected');
+                }
+              });
             }
-            for (let i = 1; i < data.length; i++) {
-              let tr = $('<tr></tr>');
-              for (let j = 0; j < data[i].length; j++) {
-                let td = $('<td></td>');
-                tr.append(td);
-              }
-              $('#quast_dataTable tbody').append(tr);
-            }
-            data.shift();
-            var quast_table = $('#quast_dataTable').DataTable({
-              data: data,
-            });
-            $('#quast_dataTable tbody').on('click', 'tr', function () {
-              if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-              }
-              else {
-                quast_table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-              }
-            });
 
             // blob
-            for (let j = 0; j < blob_data[0].length; j++) {
-              let th = $('<th></th>');
-              th.html(blob_data[0][j]);
-              $('#blob_dataTable thead tr').append(th);
+            if (blob_data != null) {
+              for (let j = 0; j < blob_data[0].length; j++) {
+                let th = $('<th></th>');
+                th.html(blob_data[0][j]);
+                $('#blob_dataTable thead tr').append(th);
+              }
+              for (let i = 1; i < blob_data.length; i++) {
+                let tr = $('<tr></tr>');
+                for (let j = 0; j < blob_data[i].length; j++) {
+                  let td = $('<td></td>');
+                  tr.append(td);
+                }
+                $('#blob_dataTable tbody').append(tr);
+              }
+              blob_data.shift();
+              var blob_table = $('#blob_dataTable').DataTable({
+                data: blob_data,
+              });
+              $('#blob_dataTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                  $(this).removeClass('selected');
+                }
+                else {
+                  blob_table.$('tr.selected').removeClass('selected');
+                  $(this).addClass('selected');
+                }
+              });
             }
-            for (let i = 1; i < blob_data.length; i++) {
-              let tr = $('<tr></tr>');
-              for (let j = 0; j < blob_data[i].length; j++) {
-                let td = $('<td></td>');
-                tr.append(td);
-              }
-              $('#blob_dataTable tbody').append(tr);
-            }
-            blob_data.shift();
-            var blob_table = $('#blob_dataTable').DataTable({
-              data: blob_data,
-            });
-            $('#blob_dataTable tbody').on('click', 'tr', function () {
-              if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-              }
-              else {
-                blob_table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-              }
-            });
 
           }
         }
       })
     } else {
       var sampleID = getVariable('sampleID');
+      var blob = $('.iframe_sample_name').text();
       $.ajax({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -585,38 +590,73 @@ $(function () {
         type: 'POST',
         data: {
           sampleID: sampleID,
+          blob: blob,
           home: true
         },
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
             let data = res.data.quast;
-            for (let j = 0; j < data[0].length; j++) {
-              let th = $('<th></th>');
-              th.html(data[0][j]);
-              $('#quast_dataTable thead tr').append(th);
+            let blob_data = res.data.blob_table;
+            // quast
+            if (data != null) {
+              for (let j = 0; j < data[0].length; j++) {
+                let th = $('<th></th>');
+                th.html(data[0][j]);
+                $('#quast_dataTable thead tr').append(th);
+              }
+              for (let i = 1; i < data.length; i++) {
+                let tr = $('<tr></tr>');
+                for (let j = 0; j < data[i].length; j++) {
+                  let td = $('<td></td>');
+                  tr.append(td);
+                }
+                $('#quast_dataTable tbody').append(tr);
+              }
+              data.shift();
+              var quast_table = $('#quast_dataTable').DataTable({
+                data: data,
+              });
+              $('#quast_dataTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                  $(this).removeClass('selected');
+                }
+                else {
+                  quast_table.$('tr.selected').removeClass('selected');
+                  $(this).addClass('selected');
+                }
+              });
             }
-            for (let i = 1; i < data.length; i++) {
-              let tr = $('<tr></tr>');
-              for (let j = 0; j < data[i].length; j++) {
-                let td = $('<td></td>');
-                tr.append(td);
+
+            // blob
+            if (blob_data != null) {
+              for (let j = 0; j < blob_data[0].length; j++) {
+                let th = $('<th></th>');
+                th.html(blob_data[0][j]);
+                $('#blob_dataTable thead tr').append(th);
               }
-              $('#quast_dataTable tbody').append(tr);
+              for (let i = 1; i < blob_data.length; i++) {
+                let tr = $('<tr></tr>');
+                for (let j = 0; j < blob_data[i].length; j++) {
+                  let td = $('<td></td>');
+                  tr.append(td);
+                }
+                $('#blob_dataTable tbody').append(tr);
+              }
+              blob_data.shift();
+              var blob_table = $('#blob_dataTable').DataTable({
+                data: blob_data,
+              });
+              $('#blob_dataTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                  $(this).removeClass('selected');
+                }
+                else {
+                  blob_table.$('tr.selected').removeClass('selected');
+                  $(this).addClass('selected');
+                }
+              });
             }
-            data.shift();
-            var quast_table = $('#quast_dataTable').DataTable({
-              data: data,
-            });
-            $('#quast_dataTable tbody').on('click', 'tr', function () {
-              if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-              }
-              else {
-                quast_table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-              }
-            });
           }
         }
       })
@@ -670,7 +710,6 @@ $(function () {
                 $(this).addClass('selected');
               }
             });
-
           }
         }
       })
