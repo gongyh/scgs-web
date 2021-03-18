@@ -134,7 +134,7 @@
                 @endforeach
               </select>
               @endif
-              @if(isset($project_user))
+              <!-- blob table -->
               <div class="table-responsive mt-2 mb-2">
                 <table id="blob_dataTable" class="display">
                   <thead>
@@ -144,20 +144,8 @@
                   </tbody>
                 </table>
               </div>
-              @elseif(isset($sample_uuid))
-              <div class="table-responsive mt-2 mb-2">
-                <table id="blob_dataTable" class="display">
-                  <thead>
-                    <tr></tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-              </div>
-              @endif
             </div>
           </div>
-          <!-- blob table -->
         </div>
 
         <!-- MultiQC -->

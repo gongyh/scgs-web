@@ -362,7 +362,30 @@ class ResultController extends Controller
             $data = array('quast' => $quast_detail, 'blob_table' => $blob_table);
             return response()->json(['code' => 200, 'data' => $data]);
         } elseif(!Storage::disk('local')->exists($quast_path) && Storage::disk('local')->exists($blob_txt_path)){
-
+            $blob_txt = Storage::get($blob_txt_path);
+            $blob_txt = explode("\n", $blob_txt);
+            $blob_txt = array_splice($blob_txt, 10);
+            $blob_table = array();
+            foreach($blob_txt as $blob){
+                $blob = explode("\t", $blob);
+                $len_pos = strpos($blob[0], '_length');
+                $blob[0] = substr($blob[0], 0, $len_pos);
+                array_splice($blob,6,1);
+                array_splice($blob,6,1);
+                array_splice($blob,7,1);
+                array_splice($blob,7,1);
+                array_splice($blob,8,1);
+                array_splice($blob,8,1);
+                array_splice($blob,9,1);
+                array_splice($blob,9,1);
+                array_splice($blob,10,1);
+                array_splice($blob,10,1);
+                array_splice($blob,11,1);
+                array_splice($blob,11,1);
+                array_push($blob_table,$blob);
+            }
+            $data = array('blob_table' => $blob_table);
+            return response()->json(['code' => 200, 'data' => $data]);
         }else {
             $quast_header = $quast_result =  null;
             return response()->json(['code' => 404, 'data' => 'failed']);

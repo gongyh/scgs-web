@@ -22,6 +22,8 @@ class CreatePipelineParamsTable extends Migration
             $table->string('kofam_profile_path', 200);
             $table->string('kofam_kolist_path', 200);
             $table->string('eukuu_db_path', 200);
+            $table->string('nextflow_path', 200);
+            $table->string('nf_core_scgs_path', 200);
             $table->timestamps();
         });
     }
