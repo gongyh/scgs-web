@@ -125,7 +125,7 @@
               @endif
             </div>
 
-            <div class="mt-3">
+            <div class="mt-3 border-bottom">
               <div class="font-large">Blob</div>
               @if(isset($project_user))
               <select id="blob_txt_tabs" class="mt-2" data-live-search="true" data-style="btn-info">
@@ -144,6 +144,18 @@
                   </tbody>
                 </table>
               </div>
+            </div>
+
+            <div class="mt-3">
+            <div class="font-large">Blob Picture</div>
+              @if(isset($project_user))
+              <select id="blob_pic_tabs" class="mt-2" data-live-search="true" data-style="btn-info">
+                @foreach($filename_array as $filename)
+                <option value={{$filename}}>{{$filename}}</option>
+                @endforeach
+              </select>
+              @endif
+              <div id="blob_pic" class="w-100 overflow-hidden"></div>
             </div>
           </div>
         </div>

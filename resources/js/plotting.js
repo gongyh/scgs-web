@@ -18,6 +18,7 @@ $(function () {
   var arg_tabs = $('#arg_tabs');
   var bowtie_tabs = $('#bowtie_tabs');
   var blob_txt_tabs = $('#blob_txt_tabs');
+  var blob_pic_tabs = $('#blob_pic_tabs');
   var krona = document.createElement('iframe');
 
 
@@ -168,6 +169,11 @@ $(function () {
     $('#blob_dataTable thead tr').empty();
     $('#blob_dataTable tbody').empty();
     read_blob_txt();
+  })
+
+  blob_pic_tabs.on('change', function (e) {
+    e.preventDefault();
+    get_blob_pic();
   })
 
   bowtie_tabs.on('change', function (e) {
@@ -500,6 +506,7 @@ $(function () {
     if (window.location.href.indexOf('projectID') != -1) {
       var projectID = getVariable('projectID');
       var blob = $('#blob_txt_tabs option:selected').val();
+      var blob_pic = $('#blob_pic_tabs option:selected').val();
       $.ajax({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -509,6 +516,7 @@ $(function () {
         data: {
           projectID: projectID,
           blob: blob,
+          blob_pic: blob_pic,
           home: true
         },
         dataType: 'json',
@@ -516,6 +524,7 @@ $(function () {
           if (res.code == 200) {
             let data = res.data.quast;
             let blob_data = res.data.blob_table;
+            let blob_pic = res.data.blob_pic;
             // quast
             if (data != null) {
               for (let j = 0; j < data[0].length; j++) {
@@ -576,12 +585,46 @@ $(function () {
               });
             }
 
+            // blob pic
+            if (blob_pic != null) {
+              var blob_picture = document.getElementById('blob_pic');
+              var length = blob_pic.blob_length;
+              var length = length.map(function (i) {
+                return Math.log(i) / Math.log(2);
+              })
+              var trace1 = {
+                x: blob_pic.blob_gc,
+                y: blob_pic.blob_spades,
+                mode: 'markers',
+                text: blob_pic.blob_name,
+                marker: {
+                  size: length
+                }
+              }
+              var blob_pic_data = [trace1];
+              var layout = {
+                title: 'blob',
+                showlegend: false,
+                height: 600,
+                width: 600,
+                xaxis1: {
+                  title: 'GC Proportion'
+                },
+                yaxis1: {
+                  title: 'Spades'
+                }
+              }
+
+              Plotly.newPlot(blob_picture, blob_pic_data, layout);
+            }
+
           }
         }
       })
     } else {
       var sampleID = getVariable('sampleID');
       var blob = $('.iframe_sample_name').text();
+      var blob_pic = $('.iframe_sample_name').text();
       $.ajax({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -591,6 +634,7 @@ $(function () {
         data: {
           sampleID: sampleID,
           blob: blob,
+          blob_pic: blob_pic,
           home: true
         },
         dataType: 'json',
@@ -598,6 +642,7 @@ $(function () {
           if (res.code == 200) {
             let data = res.data.quast;
             let blob_data = res.data.blob_table;
+            let blob_pic = res.data.blob_pic;
             // quast
             if (data != null) {
               for (let j = 0; j < data[0].length; j++) {
@@ -656,6 +701,38 @@ $(function () {
                   $(this).addClass('selected');
                 }
               });
+            }
+
+            // blob_pic
+            if (blob_pic != null) {
+              var blob_picture = document.getElementById('blob_pic');
+              var length = blob_pic.blob_length;
+              var length = length.map(function (i) {
+                return Math.log(i) / Math.log(2);
+              })
+              var trace1 = {
+                x: blob_pic.blob_gc,
+                y: blob_pic.blob_spades,
+                mode: 'markers',
+                text: blob_pic.blob_name,
+                marker: {
+                  size: length
+                }
+              }
+              var blob_pic_data = [trace1];
+              var layout = {
+                title: 'blob',
+                showlegend: false,
+                height: 600,
+                width: 600,
+                xaxis1: {
+                  title: 'GC Proportion'
+                },
+                yaxis1: {
+                  title: 'Spades'
+                }
+              }
+              Plotly.newPlot(blob_picture, blob_pic_data, layout);
             }
           }
         }
@@ -870,6 +947,104 @@ $(function () {
     }
   }
 
+  function get_blob_pic() {
+    if (window.location.href.indexOf('projectID') != -1) {
+      var blob_pic_val = $('#blob_pic_tabs option:selected').val();
+      var projectID = getVariable('projectID');
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: '/successRunning/blob_pic',
+        type: 'POST',
+        data: {
+          'blob_pic': blob_pic_val,
+          'projectID': projectID
+        },
+        dataType: 'json',
+        success: function (res) {
+          var blob_pic = document.getElementById('blob_pic');
+          if (res.code == 200) {
+            let blob_picture = res.data.blob_picture;
+            var length = blob_picture.blob_length;
+            var length = length.map(function (i) {
+              return Math.log(i) / Math.log(2);
+            })
+            var trace1 = {
+              x: blob_picture.blob_gc,
+              y: blob_picture.blob_spades,
+              mode: 'markers',
+              text: blob_picture.blob_name,
+              marker: {
+                size: length
+              }
+            }
+            var blob_pic_data = [trace1];
+            var layout = {
+              title: 'blob',
+              showlegend: false,
+              height: 600,
+              width: 600,
+              xaxis1: {
+                title: 'GC Proportion'
+              },
+              yaxis1: {
+                title: 'Spades'
+              }
+            }
+
+            Plotly.newPlot(blob_pic, blob_pic_data, layout);
+          }
+        }
+      })
+    } else {
+      var sampleID = getVariable('sampleID');
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: '/successRunning',
+        type: 'POST',
+        data: {
+          'sampleID': sampleID
+        },
+        dataType: 'json',
+        success: function (res) {
+          var blob_pic = document.getElementById('blob_pic');
+          if (res.code == 200) {
+            let blob_picture = res.data.blob_picture;
+            var length = blob_picture.blob_length;
+            var length = length.map(function (i) {
+              return Math.log(i) / Math.log(2);
+            })
+            var trace1 = {
+              x: blob_picture.blob_gc,
+              y: blob_picture.blob_spades,
+              mode: 'markers',
+              text: blob_picture.blob_name,
+              marker: {
+                size: length
+              }
+            }
+            var blob_pic_data = [trace1];
+            var layout = {
+              title: 'blob',
+              showlegend: false,
+              height: 600,
+              width: 600,
+              xaxis1: {
+                title: 'GC Proportion'
+              },
+              yaxis1: {
+                title: 'Spades'
+              }
+            }
+            Plotly.newPlot(blob_pic, blob_pic_data, layout);
+          }
+        }
+      })
+    }
+  }
 
   function getVariable(variable) {
     var query = window.location.search.substring(1);
