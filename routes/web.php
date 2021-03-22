@@ -94,6 +94,7 @@ Route::group(['prefix' => 'successRunning'], function () {
     Route::post('/', 'ResultController@ajax');
     Route::post('/home', 'ResultController@home');
     Route::post('/blob', 'ResultController@blob');
+    Route::post('/blob_pic', 'ResultController@blob_pic');
     Route::any('/resultDownload', 'ResultController@download_result');
 });
 

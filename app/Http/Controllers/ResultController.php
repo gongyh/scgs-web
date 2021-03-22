@@ -296,8 +296,10 @@ class ResultController extends Controller
             $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
         }
         $blob = $request->input('blob');
+        $blob_pic_val = $request->input('blob_pic');
         $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
         $blob_txt_path = $project_accession . '/' . $uuid .'/results/blob/' . $blob . '/' . $blob . '.blobDB.table.txt';
+        $blob_pic_path = $project_accession . '/' . $uuid .'/results/blob/' . $blob_pic_val . '/' . $blob_pic_val . '.blobDB.table.txt';
         $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
         $sample_sum = count($project_sample_filenames);
         if (Storage::disk('local')->exists($quast_path) && Storage::disk('local')->exists($blob_txt_path)) {
@@ -340,7 +342,29 @@ class ResultController extends Controller
                 array_splice($blob,11,1);
                 array_push($blob_table,$blob);
             }
-            $data = array('quast' => $quast_detail, 'blob_table' => $blob_table);
+            // blob_picture
+            $blob_pic = Storage::get($blob_pic_path);
+            $blob_pic = explode("\n", $blob_pic);
+            $blob_pic = array_splice($blob_pic, 10);
+            $blob_name = array();
+            $blob_gc = array();
+            $blob_spades = array();
+            $blob_length = array();
+            foreach($blob_pic as $blob){
+                $blob = explode("\t", $blob);
+                $len_pos = strpos($blob[0], '_length');
+                $blob[0] = substr($blob[0], 0, $len_pos);
+                array_push($blob_name, $blob[0]);
+                array_push($blob_gc, $blob[2]);
+                array_push($blob_length, $blob[1]);
+                array_push($blob_spades, $blob[4]);
+            }
+            $blob_name = array_splice($blob_name, 1);
+            $blob_gc = array_splice($blob_gc, 1);
+            $blob_spades = array_splice($blob_spades, 1);
+            $blob_length = array_splice($blob_length, 1);
+            $blob_picture = array('blob_name' => $blob_name, 'blob_gc' => $blob_gc, 'blob_spades' => $blob_spades, 'blob_length' => $blob_length);
+            $data = array('quast' => $quast_detail, 'blob_table' => $blob_table,'blob_pic' => $blob_picture);
             return response()->json(['code' => 200, 'data' => $data]);
         } elseif(Storage::disk('local')->exists($quast_path) && !Storage::disk('local')->exists($blob_txt_path)){
             $quast_data = Storage::get($quast_path);
@@ -362,6 +386,7 @@ class ResultController extends Controller
             $data = array('quast' => $quast_detail, 'blob_table' => $blob_table);
             return response()->json(['code' => 200, 'data' => $data]);
         } elseif(!Storage::disk('local')->exists($quast_path) && Storage::disk('local')->exists($blob_txt_path)){
+            // blob_txt
             $blob_txt = Storage::get($blob_txt_path);
             $blob_txt = explode("\n", $blob_txt);
             $blob_txt = array_splice($blob_txt, 10);
@@ -382,9 +407,31 @@ class ResultController extends Controller
                 array_splice($blob,10,1);
                 array_splice($blob,11,1);
                 array_splice($blob,11,1);
-                array_push($blob_table,$blob);
+                array_push($blob_table, $blob);
             }
-            $data = array('blob_table' => $blob_table);
+            // blob_picture
+            $blob_pic = Storage::get($blob_pic_path);
+            $blob_pic = explode("\n", $blob_pic);
+            $blob_pic = array_splice($blob_pic, 10);
+            $blob_name = array();
+            $blob_gc = array();
+            $blob_spades = array();
+            $blob_length = array();
+            foreach($blob_pic as $blob){
+                $blob = explode("\t", $blob);
+                $len_pos = strpos($blob[0], '_length');
+                $blob[0] = substr($blob[0], 0, $len_pos);
+                array_push($blob_name, $blob[0]);
+                array_push($blob_gc, $blob[2]);
+                array_push($blob_length, $blob[1]);
+                array_push($blob_spades, $blob[4]);
+            }
+            $blob_name = array_splice($blob_name, 1);
+            $blob_gc = array_splice($blob_gc, 1);
+            $blob_spades = array_splice($blob_spades, 1);
+            $blob_length = array_splice($blob_length, 1);
+            $blob_picture = array('blob_name' => $blob_name, 'blob_gc' => $blob_gc, 'blob_spades' => $blob_spades, 'blob_length' => $blob_length);
+            $data = array('blob_table' => $blob_table, 'blob_picture' => $blob_picture);
             return response()->json(['code' => 200, 'data' => $data]);
         }else {
             $quast_header = $quast_result =  null;
@@ -430,6 +477,49 @@ class ResultController extends Controller
                 array_push($blob_table,$blob);
             }
             $data = array('blob_table' => $blob_table);
+            return response()->json(['code' => 200, 'data' => $data]);
+        }else{
+            return response()->json(['code' => 404, 'data' => 'failed']);
+        }
+    }
+
+    public function blob_pic(Request $request)
+    {
+        if ($request->input('projectID')) {
+            $project_id = $request->input('projectID');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
+            $uuid = Jobs::where('project_id', $project_id)->value('uuid');
+        } else {
+            $sample_id = $request->input('sampleID');
+            $project_id = Samples::where('id', $sample_id)->value('projects_id');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
+            $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+        }
+        $blob_pic = $request->input('blob_pic');
+        $blob_pic_path = $project_accession . '/' . $uuid .'/results/blob/' . $blob_pic . '/' . $blob_pic . '.blobDB.table.txt';
+        if(Storage::disk('local')->exists($blob_pic_path)){
+            $blob_pic = Storage::get($blob_pic_path);
+            $blob_pic = explode("\n", $blob_pic);
+            $blob_pic = array_splice($blob_pic, 10);
+            $blob_name = array();
+            $blob_gc = array();
+            $blob_spades = array();
+            $blob_length = array();
+            foreach($blob_pic as $blob){
+                $blob = explode("\t", $blob);
+                $len_pos = strpos($blob[0], '_length');
+                $blob[0] = substr($blob[0], 0, $len_pos);
+                array_push($blob_name, $blob[0]);
+                array_push($blob_gc, $blob[2]);
+                array_push($blob_length, $blob[1]);
+                array_push($blob_spades, $blob[4]);
+            }
+            $blob_name = array_splice($blob_name, 1);
+            $blob_gc = array_splice($blob_gc, 1);
+            $blob_spades = array_splice($blob_spades, 1);
+            $blob_length = array_splice($blob_length, 1);
+            $blob_picture = array('blob_name' => $blob_name, 'blob_gc' => $blob_gc, 'blob_spades' => $blob_spades, 'blob_length' => $blob_length);
+            $data = array('blob_picture' => $blob_picture);
             return response()->json(['code' => 200, 'data' => $data]);
         }else{
             return response()->json(['code' => 404, 'data' => 'failed']);
