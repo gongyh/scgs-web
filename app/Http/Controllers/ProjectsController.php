@@ -139,9 +139,9 @@ class ProjectsController extends Controller
         $labs = Labs::where('principleInvestigator', $username)->get();
         $create_lab_msg = $labs->count() > 0 ? false : true;
         $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
-        $last_accession = DB::table('projects')->orderBy('id','desc')->first()->doi;
-        \preg_match('/CRP0+/',$last_accession,$dir);
-        $accession_number = str_replace($dir[0],'',$last_accession);
+        $last_accession = DB::table('projects')->orderBy('id','desc')->first() ? DB::table('projects')->orderBy('id','desc')->first()->doi : 'CRP00000001';
+        \preg_match('/CRP0+/', $last_accession, $dir);
+        $accession_number = str_replace($dir[0], '', $last_accession);
         $accession_number = \number_format($accession_number);
         $accession_number += 1;
         $access_num = \str_pad($accession_number,8,0,STR_PAD_LEFT);
@@ -225,9 +225,11 @@ class ProjectsController extends Controller
             }
         }
         if ($request->input('labID')) {
-            return view('Projects.proj_create',compact('types'));
+            $show_labs = false;
+            return view('Projects.proj_create',compact('types','show_labs'));
         } else {
-            return view('Projects.proj_create', compact('types','labs','create_lab_msg'));
+            $show_labs = true;
+            return view('Projects.proj_create', compact('types','show_labs','labs','create_lab_msg'));
         }
     }
 

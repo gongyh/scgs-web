@@ -9,14 +9,16 @@
         @csrf
         <div class="d-flex">
           <div class="col-md-6">
+            @if($show_labs)
             <div class="choose_lab input_title">Choose a lab<span class="text-danger font-weight-bold">*</span></div>
             <select class="custom-select selectLab w-75" name="selectLab">
               @foreach($labs as $lab)
               <option value="{{$lab->id}}">{{$lab->name}}</option>
               @endforeach
             </select>
+            @endif
 
-            @if($create_lab_msg)
+            @if($show_labs && $create_lab_msg)
             <div class="text-danger font-weight-bold create_lab_msg">You haven't have a lab yet , please create a lab first!</div>
             @endif
 

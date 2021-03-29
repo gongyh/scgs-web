@@ -154,6 +154,14 @@
                 <option value={{$filename}}>{{$filename}}</option>
                 @endforeach
               </select>
+              <select id="blob_classify" class="mt-2 ml-2" data-live-search="true" data-style="btn-info">
+                <option value="superkingdom">superkingdom</option>
+                <option value="phylum" selected>phylum</option>
+                <option value="order">order</option>
+                <option value="family">family</option>
+                <option value="genus">genus</option>
+                <option value="species">species</option>
+              </select>
               @endif
               <div id="blob_pic" class="w-100 overflow-hidden"></div>
             </div>
