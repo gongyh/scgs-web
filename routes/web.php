@@ -97,6 +97,7 @@ Route::group(['prefix' => 'successRunning'], function () {
     Route::post('/blob_pic', 'ResultController@blob_pic');
     Route::any('/resultDownload', 'ResultController@download_result');
     Route::any('/blob_classify', 'ResultController@blob_classify');
+    Route::get('/test','ResultController@test');
 });
 
 Route::get('/failedRunning', 'ResultController@failed_running');
