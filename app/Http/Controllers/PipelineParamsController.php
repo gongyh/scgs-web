@@ -29,7 +29,8 @@ class PipelineParamsController extends Controller
                 'kofam_kolist_path' => 'required|max:200',
                 'eukcc_db_path' => 'required|max:200',
                 'nextflow_path' => 'required|max:200',
-                'nf_core_scgs_path' => 'required|max:200'
+                'nf_core_scgs_path' => 'required|max:200',
+                'nextflow_profile' => 'required'
             ]);
             $resfinder_db_path = $request->input('resfinder_db_path');
             $nt_db_path = $request->input('nt_db_path');
@@ -40,6 +41,7 @@ class PipelineParamsController extends Controller
             $eukcc_db_path = $request->input('eukcc_db_path');
             $nextflow_path = $request->input('nextflow_path');
             $nf_core_scgs_path = $request->input('nf_core_scgs_path');
+            $nextflow_profile = $request->input('nextflow_profile');
 
             /**Pipeline params files validated by administrator
              *
@@ -75,6 +77,7 @@ class PipelineParamsController extends Controller
                 $pipelineParams->eukcc_db_path = $eukcc_db_path;
                 $pipelineParams->nextflow_path = $nextflow_path;
                 $pipelineParams->nf_core_scgs_path = $nf_core_scgs_path;
+                $pipelineParams->nextflow_profile = $nextflow_profile;
                 $pipelineParams->save();
             } else {
                 pipelineParams::create([
@@ -86,7 +89,8 @@ class PipelineParamsController extends Controller
                     'kofam_kolist_path' => $kofam_kolist_path,
                     'eukcc_db_path' => $eukcc_db_path,
                     'nextflow_path' => $nextflow_path,
-                    'nf_core_scgs_path' => $nf_core_scgs_path
+                    'nf_core_scgs_path' => $nf_core_scgs_path,
+                    'nextflow_profile' => $nextflow_profile
                 ]);
             }
             return redirect('/workspace/pipelineParams');
