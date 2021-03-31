@@ -1147,41 +1147,80 @@ $(function () {
             let superkingdom_data = [];
             for (i = 0; i < data.length; i++) {
               if (superkingdom_list.indexOf(data[i][5]) == -1) {
-                superkingdom_list.push(data[i][5]);
+                if (superkingdom_list.length < 9) {
+                  superkingdom_list.push(data[i][5]);
+                } else {
+                  superkingdom_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < superkingdom_list.length; j++) {
-              let blob = superkingdom_list[j];
-              let name = superkingdom_list[j] + '_name';
-              let length = superkingdom_list[j] + '_length';
-              let gc = superkingdom_list[j] + '_gc';
-              let cov = superkingdom_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][5] == superkingdom_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = superkingdom_list[j];
+                let name = superkingdom_list[j] + '_name';
+                let length = superkingdom_list[j] + '_length';
+                let gc = superkingdom_list[j] + '_gc';
+                let cov = superkingdom_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][5] == superkingdom_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: superkingdom_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: superkingdom_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                superkingdom_data.push(window[blob]);
+              } else {
+                let other_blob = superkingdom_list[j];
+                let other_name = superkingdom_list[j] + '_name';
+                let other_length = superkingdom_list[j] + '_length';
+                let other_gc = superkingdom_list[j] + '_gc';
+                let other_cov = superkingdom_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (superkingdom_list.indexOf(data[v][5]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: superkingdom_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                superkingdom_data.push(window[other_blob]);
               }
-              superkingdom_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1194,41 +1233,80 @@ $(function () {
             let phylum_data = [];
             for (i = 0; i < data.length; i++) {
               if (phylum_list.indexOf(data[i][6]) == -1) {
-                phylum_list.push(data[i][6]);
+                if (phylum_list.length < 9) {
+                  phylum_list.push(data[i][6]);
+                } else {
+                  phylum_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < phylum_list.length; j++) {
-              let blob = phylum_list[j];
-              let name = phylum_list[j] + '_name';
-              let length = phylum_list[j] + '_length';
-              let gc = phylum_list[j] + '_gc';
-              let cov = phylum_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][6] == phylum_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = phylum_list[j];
+                let name = phylum_list[j] + '_name';
+                let length = phylum_list[j] + '_length';
+                let gc = phylum_list[j] + '_gc';
+                let cov = phylum_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][6] == phylum_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: phylum_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: phylum_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                phylum_data.push(window[blob]);
+              } else {
+                let other_blob = phylum_list[j];
+                let other_name = phylum_list[j] + '_name';
+                let other_length = phylum_list[j] + '_length';
+                let other_gc = phylum_list[j] + '_gc';
+                let other_cov = phylum_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (phylum_list.indexOf(data[v][6]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: phylum_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                phylum_data.push(window[other_blob]);
               }
-              phylum_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1241,41 +1319,80 @@ $(function () {
             let order_data = [];
             for (i = 0; i < data.length; i++) {
               if (order_list.indexOf(data[i][7]) == -1) {
-                order_list.push(data[i][7]);
+                if (order_list.length < 9) {
+                  order_list.push(data[i][7]);
+                } else {
+                  order_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < order_list.length; j++) {
-              let blob = order_list[j];
-              let name = order_list[j] + '_name';
-              let length = order_list[j] + '_length';
-              let gc = order_list[j] + '_gc';
-              let cov = order_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][7] == order_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = order_list[j];
+                let name = order_list[j] + '_name';
+                let length = order_list[j] + '_length';
+                let gc = order_list[j] + '_gc';
+                let cov = order_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][7] == order_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: order_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: order_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                order_data.push(window[blob]);
+              } else {
+                let other_blob = order_list[j];
+                let other_name = order_list[j] + '_name';
+                let other_length = order_list[j] + '_length';
+                let other_gc = order_list[j] + '_gc';
+                let other_cov = order_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (order_list.indexOf(data[v][7]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: order_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                order_data.push(window[other_blob]);
               }
-              order_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1373,9 +1490,9 @@ $(function () {
             let genus_list = [];
             let genus_data = [];
             for (i = 0; i < data.length; i++) {
-              if (genus_list.indexOf(data[i][10]) == -1) {
+              if (genus_list.indexOf(data[i][9]) == -1) {
                 if (genus_list.length < 9) {
-                  genus_list.push(data[i][10]);
+                  genus_list.push(data[i][9]);
                 } else {
                   genus_list.push('others');
                   break;
@@ -1394,7 +1511,7 @@ $(function () {
                 window[gc] = [];
                 window[cov] = [];
                 for (v = 0; v < data.length; v++) {
-                  if (data[v][10] == genus_list[j]) {
+                  if (data[v][9] == genus_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
@@ -1426,7 +1543,7 @@ $(function () {
                 window[other_gc] = [];
                 window[other_cov] = [];
                 for (v = 0; v < data.length; v++) {
-                  if (genus_list.indexOf(data[v][10]) == -1) {
+                  if (genus_list.indexOf(data[v][9]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
                     window[other_gc].push(data[v][2]);
@@ -1459,9 +1576,9 @@ $(function () {
             let species_list = [];
             let species_data = [];
             for (i = 0; i < data.length; i++) {
-              if (species_list.indexOf(data[i][8]) == -1) {
+              if (species_list.indexOf(data[i][10]) == -1) {
                 if (species_list.length < 9) {
-                  species_list.push(data[i][8]);
+                  species_list.push(data[i][10]);
                 } else {
                   species_list.push('others');
                   break;
@@ -1480,7 +1597,7 @@ $(function () {
                 window[gc] = [];
                 window[cov] = [];
                 for (v = 0; v < data.length; v++) {
-                  if (data[v][8] == species_list[j]) {
+                  if (data[v][10] == species_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
@@ -1512,7 +1629,7 @@ $(function () {
                 window[other_gc] = [];
                 window[other_cov] = [];
                 for (v = 0; v < data.length; v++) {
-                  if (species_list.indexOf(data[v][8]) == -1) {
+                  if (species_list.indexOf(data[v][10]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
                     window[other_gc].push(data[v][2]);
@@ -1566,41 +1683,80 @@ $(function () {
             let superkingdom_data = [];
             for (i = 0; i < data.length; i++) {
               if (superkingdom_list.indexOf(data[i][5]) == -1) {
-                superkingdom_list.push(data[i][5]);
+                if (superkingdom_list.length < 9) {
+                  superkingdom_list.push(data[i][5]);
+                } else {
+                  superkingdom_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < superkingdom_list.length; j++) {
-              let blob = superkingdom_list[j];
-              let name = superkingdom_list[j] + '_name';
-              let length = superkingdom_list[j] + '_length';
-              let gc = superkingdom_list[j] + '_gc';
-              let cov = superkingdom_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][5] == superkingdom_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = superkingdom_list[j];
+                let name = superkingdom_list[j] + '_name';
+                let length = superkingdom_list[j] + '_length';
+                let gc = superkingdom_list[j] + '_gc';
+                let cov = superkingdom_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][5] == superkingdom_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: superkingdom_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: superkingdom_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                superkingdom_data.push(window[blob]);
+              } else {
+                let other_blob = superkingdom_list[j];
+                let other_name = superkingdom_list[j] + '_name';
+                let other_length = superkingdom_list[j] + '_length';
+                let other_gc = superkingdom_list[j] + '_gc';
+                let other_cov = superkingdom_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (superkingdom_list.indexOf(data[v][5]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: superkingdom_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                superkingdom_data.push(window[other_blob]);
               }
-              superkingdom_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1613,41 +1769,80 @@ $(function () {
             let phylum_data = [];
             for (i = 0; i < data.length; i++) {
               if (phylum_list.indexOf(data[i][6]) == -1) {
-                phylum_list.push(data[i][6]);
+                if (phylum_list.length < 9) {
+                  phylum_list.push(data[i][6]);
+                } else {
+                  phylum_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < phylum_list.length; j++) {
-              let blob = phylum_list[j];
-              let name = phylum_list[j] + '_name';
-              let length = phylum_list[j] + '_length';
-              let gc = phylum_list[j] + '_gc';
-              let cov = phylum_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][6] == phylum_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = phylum_list[j];
+                let name = phylum_list[j] + '_name';
+                let length = phylum_list[j] + '_length';
+                let gc = phylum_list[j] + '_gc';
+                let cov = phylum_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][6] == phylum_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: phylum_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: phylum_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                phylum_data.push(window[blob]);
+              } else {
+                let other_blob = phylum_list[j];
+                let other_name = phylum_list[j] + '_name';
+                let other_length = phylum_list[j] + '_length';
+                let other_gc = phylum_list[j] + '_gc';
+                let other_cov = phylum_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (phylum_list.indexOf(data[v][6]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: phylum_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                phylum_data.push(window[other_blob]);
               }
-              phylum_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1660,41 +1855,80 @@ $(function () {
             let order_data = [];
             for (i = 0; i < data.length; i++) {
               if (order_list.indexOf(data[i][7]) == -1) {
-                order_list.push(data[i][7]);
+                if (order_list.length < 9) {
+                  order_list.push(data[i][7]);
+                } else {
+                  order_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < order_list.length; j++) {
-              let blob = order_list[j];
-              let name = order_list[j] + '_name';
-              let length = order_list[j] + '_length';
-              let gc = order_list[j] + '_gc';
-              let cov = order_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][7] == order_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = order_list[j];
+                let name = order_list[j] + '_name';
+                let length = order_list[j] + '_length';
+                let gc = order_list[j] + '_gc';
+                let cov = order_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][7] == order_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: order_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: order_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                order_data.push(window[blob]);
+              } else {
+                let other_blob = order_list[j];
+                let other_name = order_list[j] + '_name';
+                let other_length = order_list[j] + '_length';
+                let other_gc = order_list[j] + '_gc';
+                let other_cov = order_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (order_list.indexOf(data[v][7]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: order_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                order_data.push(window[other_blob]);
               }
-              order_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1792,9 +2026,9 @@ $(function () {
             let genus_list = [];
             let genus_data = [];
             for (i = 0; i < data.length; i++) {
-              if (genus_list.indexOf(data[i][10]) == -1) {
+              if (genus_list.indexOf(data[i][9]) == -1) {
                 if (genus_list.length < 9) {
-                  genus_list.push(data[i][10]);
+                  genus_list.push(data[i][9]);
                 } else {
                   genus_list.push('others');
                   break;
@@ -1813,7 +2047,7 @@ $(function () {
                 window[gc] = [];
                 window[cov] = [];
                 for (v = 0; v < data.length; v++) {
-                  if (data[v][10] == genus_list[j]) {
+                  if (data[v][9] == genus_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
@@ -1845,7 +2079,7 @@ $(function () {
                 window[other_gc] = [];
                 window[other_cov] = [];
                 for (v = 0; v < data.length; v++) {
-                  if (genus_list.indexOf(data[v][10]) == -1) {
+                  if (genus_list.indexOf(data[v][9]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
                     window[other_gc].push(data[v][2]);
@@ -1878,9 +2112,9 @@ $(function () {
             let species_list = [];
             let species_data = [];
             for (i = 0; i < data.length; i++) {
-              if (species_list.indexOf(data[i][8]) == -1) {
+              if (species_list.indexOf(data[i][10]) == -1) {
                 if (species_list.length < 9) {
-                  species_list.push(data[i][8]);
+                  species_list.push(data[i][10]);
                 } else {
                   species_list.push('others');
                   break;
@@ -1899,7 +2133,7 @@ $(function () {
                 window[gc] = [];
                 window[cov] = [];
                 for (v = 0; v < data.length; v++) {
-                  if (data[v][8] == species_list[j]) {
+                  if (data[v][10] == species_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
@@ -1931,7 +2165,7 @@ $(function () {
                 window[other_gc] = [];
                 window[other_cov] = [];
                 for (v = 0; v < data.length; v++) {
-                  if (species_list.indexOf(data[v][8]) == -1) {
+                  if (species_list.indexOf(data[v][10]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
                     window[other_gc].push(data[v][2]);
