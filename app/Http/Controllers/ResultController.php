@@ -512,7 +512,7 @@ class ResultController extends Controller
             $blob_pic = explode("\n", $blob_pic);
             $blob_pic = array_splice($blob_pic, 10);
             $blob_data = array();
-            foreach($blob_txt as $blob)
+            foreach($blob_pic as $blob)
             {
                 $blob = explode("\t", $blob);
                 $len_pos = strpos($blob[0], '_length');

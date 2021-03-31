@@ -24,6 +24,7 @@ class CreatePipelineParamsTable extends Migration
             $table->string('eukcc_db_path', 200);
             $table->string('nextflow_path', 200);
             $table->string('nf_core_scgs_path', 200);
+            $table->string('nextflow_profile', 200);
             $table->timestamps();
         });
     }

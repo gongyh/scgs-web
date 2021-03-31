@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row middle-area">
     <div class="col-md-3">
-    @include('components.workspace_nav')
+      @include('components.workspace_nav')
     </div>
     <div class="col-md-9">
       <div class="form-group">
@@ -42,6 +42,15 @@
       <div class="form-group">
         <label for="nf_core_scgs_path" class="font-normal">nf-core-scgs path</label>
         <input type="text" class="form-control" id="nf_core_scgs_path" readonly value={{isset($pipelineParams)?$pipelineParams->nf_core_scgs_path:''}}>
+      </div>
+      <div class="font-normal">nextflow profile</div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="nextflow_profile" id="inlineRadio1" value="Local" disabled {{$pipelineParams->nextflow_profile == 'Local'?'checked':''}}>
+        <label class="form-check-label font-normal" for="inlineRadio1">Local</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="nextflow_profile" id="inlineRadio2" value="Kubernetes" disabled {{$pipelineParams->nextflow_profile == 'Kubernetes'?'checked':''}}>
+        <label class="form-check-label font-normal" for="inlineRadio2">Kubernetes</label>
       </div>
       <!-- error message -->
       <div class="mt-4 d-flex justify-content-around">

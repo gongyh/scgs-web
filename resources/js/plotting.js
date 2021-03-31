@@ -174,7 +174,7 @@ $(function () {
 
   blob_pic_tabs.on('change', function (e) {
     e.preventDefault();
-    get_blob_pic();
+    change_blob_pic();
   })
 
   blob_classify_tabs.on('change', function (e) {
@@ -988,7 +988,7 @@ $(function () {
     }
   }
 
-  function get_blob_pic() {
+  function change_blob_pic() {
     if (window.location.href.indexOf('projectID') != -1) {
       var blob_pic_val = $('#blob_pic_tabs option:selected').val();
       var projectID = getVariable('projectID');
@@ -1004,7 +1004,8 @@ $(function () {
         },
         dataType: 'json',
         success: function (res) {
-          var blob_picture = document.getElementById('blob_pic');
+          let blob_picture = document.getElementById('blob_pic');
+          let data = res.data;
           if (res.code == 200) {
             let phylum_list = [];
             let phylum_data = [];
@@ -1067,7 +1068,8 @@ $(function () {
         },
         dataType: 'json',
         success: function (res) {
-          var blob_picture = document.getElementById('blob_pic');
+          let blob_picture = document.getElementById('blob_pic');
+          let data = res.data;
           if (res.code == 200) {
             let phylum_list = [];
             let phylum_data = [];
@@ -1120,7 +1122,7 @@ $(function () {
     }
   }
 
-  // blob superkingdom
+  // blob classify
   function blob_classify() {
     if (window.location.href.indexOf('projectID') != -1) {
       var projectID = getVariable('projectID');
@@ -1286,41 +1288,80 @@ $(function () {
             let family_data = [];
             for (i = 0; i < data.length; i++) {
               if (family_list.indexOf(data[i][8]) == -1) {
-                family_list.push(data[i][8]);
+                if (family_list.length < 9) {
+                  family_list.push(data[i][8]);
+                } else {
+                  family_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < family_list.length; j++) {
-              let blob = family_list[j];
-              let name = family_list[j] + '_name';
-              let length = family_list[j] + '_length';
-              let gc = family_list[j] + '_gc';
-              let cov = family_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][8] == family_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = family_list[j];
+                let name = family_list[j] + '_name';
+                let length = family_list[j] + '_length';
+                let gc = family_list[j] + '_gc';
+                let cov = family_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][8] == family_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: family_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: family_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                family_data.push(window[blob]);
+              } else {
+                let other_blob = family_list[j];
+                let other_name = family_list[j] + '_name';
+                let other_length = family_list[j] + '_length';
+                let other_gc = family_list[j] + '_gc';
+                let other_cov = family_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (family_list.indexOf(data[v][8]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: family_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                family_data.push(window[other_blob]);
               }
-              family_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1332,42 +1373,81 @@ $(function () {
             let genus_list = [];
             let genus_data = [];
             for (i = 0; i < data.length; i++) {
-              if (genus_list.indexOf(data[i][9]) == -1) {
-                genus_list.push(data[i][9]);
+              if (genus_list.indexOf(data[i][10]) == -1) {
+                if (genus_list.length < 9) {
+                  genus_list.push(data[i][10]);
+                } else {
+                  genus_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < genus_list.length; j++) {
-              let blob = genus_list[j];
-              let name = genus_list[j] + '_name';
-              let length = genus_list[j] + '_length';
-              let gc = genus_list[j] + '_gc';
-              let cov = genus_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][9] == genus_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = genus_list[j];
+                let name = genus_list[j] + '_name';
+                let length = genus_list[j] + '_length';
+                let gc = genus_list[j] + '_gc';
+                let cov = genus_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][10] == genus_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: genus_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: genus_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                genus_data.push(window[blob]);
+              } else {
+                let other_blob = genus_list[j];
+                let other_name = genus_list[j] + '_name';
+                let other_length = genus_list[j] + '_length';
+                let other_gc = genus_list[j] + '_gc';
+                let other_cov = genus_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (genus_list.indexOf(data[v][10]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: genus_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                genus_data.push(window[other_blob]);
               }
-              genus_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1379,48 +1459,88 @@ $(function () {
             let species_list = [];
             let species_data = [];
             for (i = 0; i < data.length; i++) {
-              if (species_list.indexOf(data[i][10]) == -1) {
-                species_list.push(data[i][10]);
+              if (species_list.indexOf(data[i][8]) == -1) {
+                if (species_list.length < 9) {
+                  species_list.push(data[i][8]);
+                } else {
+                  species_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < species_list.length; j++) {
-              let blob = species_list[j];
-              let name = species_list[j] + '_name';
-              let length = species_list[j] + '_length';
-              let gc = species_list[j] + '_gc';
-              let cov = species_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][10] == species_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = species_list[j];
+                let name = species_list[j] + '_name';
+                let length = species_list[j] + '_length';
+                let gc = species_list[j] + '_gc';
+                let cov = species_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][8] == species_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: species_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: species_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                species_data.push(window[blob]);
+              } else {
+                let other_blob = species_list[j];
+                let other_name = species_list[j] + '_name';
+                let other_length = species_list[j] + '_length';
+                let other_gc = species_list[j] + '_gc';
+                let other_cov = species_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (species_list.indexOf(data[v][8]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: species_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                species_data.push(window[other_blob]);
               }
-              species_data.push(window[blob]);
             }
             var layout = {
               width: 900,
               height: 900
             }
             Plotly.newPlot(blob_picture, species_data, layout);
+            break;
           }
         }
       })
@@ -1587,41 +1707,80 @@ $(function () {
             let family_data = [];
             for (i = 0; i < data.length; i++) {
               if (family_list.indexOf(data[i][8]) == -1) {
-                family_list.push(data[i][8]);
+                if (family_list.length < 9) {
+                  family_list.push(data[i][8]);
+                } else {
+                  family_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < family_list.length; j++) {
-              let blob = family_list[j];
-              let name = family_list[j] + '_name';
-              let length = family_list[j] + '_length';
-              let gc = family_list[j] + '_gc';
-              let cov = family_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][8] == family_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = family_list[j];
+                let name = family_list[j] + '_name';
+                let length = family_list[j] + '_length';
+                let gc = family_list[j] + '_gc';
+                let cov = family_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][8] == family_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: family_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: family_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                family_data.push(window[blob]);
+              } else {
+                let other_blob = family_list[j];
+                let other_name = family_list[j] + '_name';
+                let other_length = family_list[j] + '_length';
+                let other_gc = family_list[j] + '_gc';
+                let other_cov = family_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (family_list.indexOf(data[v][8]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: family_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                family_data.push(window[other_blob]);
               }
-              family_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1633,42 +1792,81 @@ $(function () {
             let genus_list = [];
             let genus_data = [];
             for (i = 0; i < data.length; i++) {
-              if (genus_list.indexOf(data[i][9]) == -1) {
-                genus_list.push(data[i][9]);
+              if (genus_list.indexOf(data[i][10]) == -1) {
+                if (genus_list.length < 9) {
+                  genus_list.push(data[i][10]);
+                } else {
+                  genus_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < genus_list.length; j++) {
-              let blob = genus_list[j];
-              let name = genus_list[j] + '_name';
-              let length = genus_list[j] + '_length';
-              let gc = genus_list[j] + '_gc';
-              let cov = genus_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][9] == genus_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = genus_list[j];
+                let name = genus_list[j] + '_name';
+                let length = genus_list[j] + '_length';
+                let gc = genus_list[j] + '_gc';
+                let cov = genus_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][10] == genus_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: genus_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: genus_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                genus_data.push(window[blob]);
+              } else {
+                let other_blob = genus_list[j];
+                let other_name = genus_list[j] + '_name';
+                let other_length = genus_list[j] + '_length';
+                let other_gc = genus_list[j] + '_gc';
+                let other_cov = genus_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (genus_list.indexOf(data[v][10]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: genus_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                genus_data.push(window[other_blob]);
               }
-              genus_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1680,48 +1878,88 @@ $(function () {
             let species_list = [];
             let species_data = [];
             for (i = 0; i < data.length; i++) {
-              if (species_list.indexOf(data[i][10]) == -1) {
-                species_list.push(data[i][10]);
+              if (species_list.indexOf(data[i][8]) == -1) {
+                if (species_list.length < 9) {
+                  species_list.push(data[i][8]);
+                } else {
+                  species_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < species_list.length; j++) {
-              let blob = species_list[j];
-              let name = species_list[j] + '_name';
-              let length = species_list[j] + '_length';
-              let gc = species_list[j] + '_gc';
-              let cov = species_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][10] == species_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = species_list[j];
+                let name = species_list[j] + '_name';
+                let length = species_list[j] + '_length';
+                let gc = species_list[j] + '_gc';
+                let cov = species_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][8] == species_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: species_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: species_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                species_data.push(window[blob]);
+              } else {
+                let other_blob = species_list[j];
+                let other_name = species_list[j] + '_name';
+                let other_length = species_list[j] + '_length';
+                let other_gc = species_list[j] + '_gc';
+                let other_cov = species_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (species_list.indexOf(data[v][8]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: species_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                species_data.push(window[other_blob]);
               }
-              species_data.push(window[blob]);
             }
             var layout = {
               width: 900,
               height: 900
             }
             Plotly.newPlot(blob_picture, species_data, layout);
+            break;
           }
         }
       })

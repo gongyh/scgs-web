@@ -70,13 +70,9 @@ class RunProjPipeline implements ShouldQueue
         $pipeline_params = pipelineParams::find(1);
         $nextflow_path = $pipeline_params->nextflow_path;
         $nf_core_scgs_path = $pipeline_params->nf_core_scgs_path;
-        $command = $nextflow_path . ' run '. $nf_core_scgs_path . ' ' . $current_job->command . ' -profile docker,base -name uuid-' . $current_job->current_uuid . ' -with-weblog ' . env('WEBLOG_SERVER','http://localhost') . '/execute/start';
-        $mkdir = 'if [ ! -d "' . $base_path . $project_accession . '/' . $job_uuid . '" ]; then mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . '; fi';
-        $chmod = 'cd ' . $base_path . ' && chmod -R 777 ' . $project_accession;
-        $cd_and_command = 'cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
-        system($mkdir);
-        system($chmod);
-        system($cd_and_command);
+        $command = $nextflow_path . ' run '. $nf_core_scgs_path . ' ' . $current_job->command . ' -profile docker,base -name uuid-' . $current_job->current_uuid . ' -with-weblog '. env('WEBLOG_SERVER', 'http://localhost') .'/execute/start';
+        $cmd_wrap = 'mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . ' && chmod -R 777 ' . $base_path . $project_accession . '/' . $job_uuid . ' && cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
+        system($cmd_wrap);
     }
 
     public function failed()
