@@ -80,7 +80,20 @@ class RunPipeline implements ShouldQueue
         $pipeline_params = pipelineParams::find(1);
         $nextflow_path = $pipeline_params->nextflow_path;
         $nf_core_scgs_path = $pipeline_params->nf_core_scgs_path;
-        $command = $nextflow_path . ' run '. $nf_core_scgs_path . ' ' . $current_job->command . ' -profile docker,base -name uuid-' . $current_job->current_uuid . ' -with-weblog '. env('WEBLOG_SERVER', 'http://localhost') .'/execute/start';
+        $nextflow_profile = $pipeline_params->nextflow_profile;
+        $profile_string = "docker,base";
+        swtich ($nextflow_profile) {
+            case "Local":
+                $profile_string = "docker,base";
+                break;
+            case "Kubernetes":
+                $profile_string = "k8s,standard";
+                break;
+            default:
+                $profile_string = "docker,base";
+                break;
+        }
+        $command = $nextflow_path . ' run '. $nf_core_scgs_path . ' ' . $current_job->command . ' -profile ' . $profile_string . ' -name uuid-' . $current_job->current_uuid . ' -with-weblog '. env('WEBLOG_SERVER', 'http://localhost') .'/execute/start';
         $cmd_wrap = 'mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . ' && chmod -R 777 ' . $base_path . $project_accession . '/' . $job_uuid . ' && cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
         system($cmd_wrap);
     }
