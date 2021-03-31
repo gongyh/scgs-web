@@ -82,7 +82,7 @@ class RunPipeline implements ShouldQueue
         $nf_core_scgs_path = $pipeline_params->nf_core_scgs_path;
         $nextflow_profile = $pipeline_params->nextflow_profile;
         $profile_string = "docker,base";
-        swtich ($nextflow_profile) {
+        switch ($nextflow_profile) {
             case "Local":
                 $profile_string = "docker,base";
                 break;
