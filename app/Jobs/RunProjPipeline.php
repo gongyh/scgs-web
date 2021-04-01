@@ -67,11 +67,12 @@ class RunProjPipeline implements ShouldQueue
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         $project_id = $current_job->project_id;
         $project_accession = Projects::where('id', $project_id)->value('doi');
-        $pipeline_params = pipelineParams::find(1);
+        $pipeline_params = PipelineParams::find(1);
         $nextflow_path = $pipeline_params->nextflow_path;
-        $nf_core_scgs_path = $pipeline_params->nf_core_scgs_path;
+	$nf_core_scgs_path = $pipeline_params->nf_core_scgs_path;
+	$nextflow_profile = $pipeline_params->nextflow_profile;
         $profile_string = "docker,base";
-        swtich ($nextflow_profile) {
+        switch ($nextflow_profile) {
             case "Local":
                 $profile_string = "docker,base";
                 break;

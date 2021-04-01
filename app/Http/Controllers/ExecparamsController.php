@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\User;
 use App\Execparams;
-use App\pipelineParams;
+use App\PipelineParams;
 use App\Projects;
 use App\Labs;
 use App\Samples;
@@ -28,7 +28,7 @@ class ExecparamsController extends Controller
         if ($request->isMethod('POST')) {
             //Get form post data
             $samples = new Samples();
-            $pipelineParams = pipelineParams::find(1);
+            $pipelineParams = PipelineParams::find(1);
             $request->has('sampleID') ? $sample_id = $request->input('sampleID') : $project_id = $request->input('projectID');
             $ass = $request->input('ass') == 'ass' ? true : false;
             $snv = $request->input('snv') == 'snv' ? true : false;
@@ -219,7 +219,7 @@ class ExecparamsController extends Controller
             /**
              * Pipeline params database path
              */
-            $pipeline_params = pipelineParams::find(1);
+            $pipeline_params = PipelineParams::find(1);
             $resfinder_db_path = $pipeline_params->resfinder_db_path;
             $nt_db_path = $pipeline_params->nt_db_path;
             $eggnog_db_path = $pipeline_params->eggnog_db_path;
@@ -384,7 +384,7 @@ class ExecparamsController extends Controller
                 return redirect('/execute/start?projectID=' . $project_id);
             }
         }
-        $pipelineParams = pipelineParams::find(1);
+        $pipelineParams = PipelineParams::find(1);
         if($request->has('sampleID')){
             $sample_id = $request->input('sampleID');
             $can_exec = Jobs::where('sample_id', $sample_id)->count() == 0 || Jobs::where('sample_id', $sample_id)->orderBy('id', 'desc')->value('status') == 2 || Jobs::where('sample_id', $sample_id)->orderBy('id', 'desc')->value('status') == 3;
@@ -503,7 +503,7 @@ class ExecparamsController extends Controller
             $weblog->save();
             return response()->json(['msg' => 'Success!'], 200);
         }else{
-            $pipelineParams = pipelineParams::find(1);
+            $pipelineParams = PipelineParams::find(1);
             $samples = new Samples();
             if($request->input('sampleID')){
                 $sample_id = $request->input('sampleID');
