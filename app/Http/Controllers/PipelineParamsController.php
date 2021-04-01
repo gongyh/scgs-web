@@ -12,9 +12,9 @@ class PipelineParamsController extends Controller
     {
         if (PipelineParams::where('id', 1)->exists()) {
             $PipelineParams = PipelineParams::find(1);
-            return view('Workspace.PipelineParams', ['PipelineParams' => $PipelineParams]);
+            return view('Workspace.pipelineParams', ['PipelineParams' => $PipelineParams]);
         }
-        return view('Workspace.PipelineParams');
+        return view('Workspace.pipelineParams');
     }
 
     public function update(Request $request)
@@ -62,7 +62,7 @@ class PipelineParamsController extends Controller
             $db_path_errors = array_filter($db_path_errors);
 
             if (count($db_path_errors) > 0) {
-                return view('Workspace.PipelineParamsEdit', ['db_path_errors' => $db_path_errors]);
+                return view('Workspace.pipelineParamsEdit', ['db_path_errors' => $db_path_errors]);
             }
              */
 
@@ -93,12 +93,12 @@ class PipelineParamsController extends Controller
                     'nextflow_profile' => $nextflow_profile
                 ]);
             }
-            return redirect('/workspace/PipelineParams');
+            return redirect('/workspace/pipelineParams');
         }
         if (PipelineParams::where('id', 1)->exists()) {
             $PipelineParams = PipelineParams::find(1);
-            return view('Workspace.PipelineParamsEdit', ['PipelineParams' => $PipelineParams]);
+            return view('Workspace.pipelineParamsEdit', ['PipelineParams' => $PipelineParams]);
         }
-        return view('Workspace.PipelineParamsEdit');
+        return view('Workspace.pipelineParamsEdit');
     }
 }

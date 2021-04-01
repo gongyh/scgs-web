@@ -82,30 +82,32 @@ class RunPipeline implements ShouldQueue
         $nf_core_scgs_path = $pipeline_params->nf_core_scgs_path;
         $nextflow_profile = $pipeline_params->nextflow_profile;
         $profile_string = "docker,base";
+        $nextflow_config = "";
         switch ($nextflow_profile) {
             case "Local":
                 $profile_string = "docker,base";
                 break;
             case "Kubernetes":
-                $k8s_config = $base_path . 'k8s.config';
-                $profile_string = ' -profile k8s,standard -c ' . $k8s_config;
-                $k8s_config = \fopen($k8s_config, "w");
-                $k8s_autoMountHostPaths = 'k8s.autoMountHostPaths = false\n';
-                $k8s_launchDir = 'k8s.launchDir = ' . '\'' . $base_path . $project_accession . '/' . $job_uuid . '\'\n';
-                $k8s_workDir = 'k8s.workDir = ' . $base_path . $project_accession . '/' . $job_uuid . '/work\n';
-                $k8s_projectDir = 'k8s.projectDir = \'/workspace/projects\'\n';
-                $k8s_pod = 'k8s.pod = [[volumeClaim: \'scgs-pvc\', mountPath: \''. env('mountPath','/mnt/scgs_data') . '\'], [volumeClaim: \'database-pvc\', mountPath: \'' . env('mountPath','/mnt/scgs_data') . '\']]\n';
-                $k8s_storageClaimName = 'k8s.storageClaimName = \'nfpvc\'\n';
-                $k8s_storageMountPath = 'k8s.storageMountPath = \'/workspace\'\n';
+                $k8s_configf = $base_path . $project_accession . '/' . $job_uuid . '/k8s.config';
+                $profile_string = 'k8s,standard';
+                $k8s_config = \fopen($k8s_configf, "w");
+                $k8s_autoMountHostPaths = 'k8s.autoMountHostPaths = false' . PHP_EOL;
+                $k8s_launchDir = 'k8s.launchDir = ' . '\'' . $base_path . $project_accession . '/' . $job_uuid . '\'' . PHP_EOL;
+                $k8s_workDir = 'k8s.workDir = \'' . $base_path . $project_accession . '/' . $job_uuid . '/work\'' . PHP_EOL;
+                $k8s_projectDir = 'k8s.projectDir = \'/workspace/projects\'' . PHP_EOL;
+                $k8s_pod = 'k8s.pod = ' . env('K8S_POD','[]') . PHP_EOL;
+                $k8s_storageClaimName = 'k8s.storageClaimName = \'nfpvc\'' . PHP_EOL;
+                $k8s_storageMountPath = 'k8s.storageMountPath = \'/workspace\'' . PHP_EOL;
                 $k8s_txt = $k8s_autoMountHostPaths . $k8s_launchDir . $k8s_workDir . $k8s_projectDir . $k8s_pod . $k8s_storageClaimName . $k8s_storageMountPath;
                 \fwrite($k8s_config, $k8s_txt);
                 \fclose($k8s_config);
+                $nextflow_config = " -c " . $k8s_configf;
                 break;
             default:
                 $profile_string = "docker,base";
                 break;
         }
-        $command = $nextflow_path . ' run '. $nf_core_scgs_path . ' ' . $current_job->command . ' -profile ' . $profile_string . ' -name uuid-' . $current_job->current_uuid . ' -with-weblog '. env('WEBLOG_SERVER', 'http://localhost') .'/execute/start';
+        $command = $nextflow_path . $nextflow_config . ' run '. $nf_core_scgs_path . ' ' . $current_job->command . ' -profile ' . $profile_string . ' -name uuid-' . $current_job->current_uuid . ' -with-weblog '. env('WEBLOG_SERVER', 'http://localhost') .'/execute/start';
         $cmd_wrap = 'mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . ' && chmod -R 777 ' . $base_path . $project_accession . '/' . $job_uuid . ' && cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
         system($cmd_wrap);
     }
