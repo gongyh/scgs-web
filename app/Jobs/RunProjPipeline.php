@@ -69,8 +69,8 @@ class RunProjPipeline implements ShouldQueue
         $project_accession = Projects::where('id', $project_id)->value('doi');
         $pipeline_params = PipelineParams::find(1);
         $nextflow_path = $pipeline_params->nextflow_path;
-	$nf_core_scgs_path = $pipeline_params->nf_core_scgs_path;
-	$nextflow_profile = $pipeline_params->nextflow_profile;
+        $nf_core_scgs_path = $pipeline_params->nf_core_scgs_path;
+        $nextflow_profile = $pipeline_params->nextflow_profile;
         $profile_string = "docker,base";
         switch ($nextflow_profile) {
             case "Local":
@@ -78,6 +78,23 @@ class RunProjPipeline implements ShouldQueue
                 break;
             case "Kubernetes":
                 $profile_string = "k8s,standard";
+                $k8s_config = $base_path . 'k8s.config';
+                $k8s_config = \fopen($k8s_config, "w");
+                $k8s_autoMountHostPaths = 'k8s.autoMountHostPaths = false\n';
+                $k8s_launchDir = 'k8s.launchDir = ' . $base_path . $project_accession . '/' . $job_uuid . '\n';
+                $k8s_workDir = 'k8s.workDir = ' . $base_path . $project_accession . '/' . $job_uuid . '/work\n';
+                $k8s_projectDir = 'k8s.projectDir = \'/workspace/projects\'\n';
+                $k8s_pod = 'k8s.pod = [[volumeClaim: \'scgs-pvc\', mountPath: \'/mnt/scgs_data\'], [volumeClaim: \'database-pvc\', mountPath: \'/mnt/databases\']]\n';
+                $k8s_storageClaimName = 'k8s.storageClaimName = \'nfpvc\'\n';
+                $k8s_storageMountPath = 'k8s.storageMountPath = \'/workspace\'\n';
+                \fwrite($k8s_config, $k8s_autoMountHostPaths);
+                \fwrite($k8s_config, $k8s_launchDir);
+                \fwrite($k8s_config, $k8s_workDir);
+                \fwrite($k8s_config, $k8s_projectDir);
+                \fwrite($k8s_config, $k8s_pod);
+                \fwrite($k8s_config, $k8s_storageClaimName);
+                \fwrite($k8s_config, $k8s_storageMountPath);
+                fclose($k8s_config);
                 break;
             default:
                 $profile_string = "docker,base";
