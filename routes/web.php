@@ -49,6 +49,8 @@ Route::group(['prefix' => 'workspace'], function () {
     Route::any('/addSampleFiles/upload', 'WorkspaceController@addSampleFiles')->middleware('auth');
     Route::get('/manageRunning', 'WorkspaceController@manageRunning')->middleware('auth');
     Route::any('/manageRunning/terminate', 'WorkspaceController@runningTerminate')->middleware('auth');
+    Route::get('/manageWaiting', 'WorkspaceController@manageWaiting')->middleware('auth');
+    Route::any('/manageWaiting/terminate', 'WorkspaceController@waitingTerminate')->middleware('auth');
     Route::get('/ncbifilesList', 'WorkspaceController@ncbifilesList');
     Route::get('/ncbi_download_status','WorkspaceController@ncbi_download_status');
     Route::get('/weblog_clear','WorkspaceController@weblog_clear');

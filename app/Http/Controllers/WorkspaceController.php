@@ -171,6 +171,29 @@ class WorkspaceController extends Controller
         return redirect('/workspace/manageRunning');
     }
 
+    public function manageWaiting()
+    {
+        $samples = new Samples();
+        $projects = new Projects();
+        $now = time();
+        $waiting_jobs = Jobs::where('status', 0)->get();
+        return view('Workspace.manageWaiting', compact('now','waiting_jobs','samples','projects'));
+    }
+
+    public function waitingTerminate(Request $request)
+    {
+        if($request->has('sampleID')){
+            $sampleID = $request->input('sampleID');
+            $job_id = Jobs::where([['current_uuid','=','default'],['sample_id','=',$sampleID]])->value('id');
+        }else{
+            $projectID = $request->input('projectID');
+            $job_id = Jobs::where([['current_uuid','=','default'],['project_id','=',$projectID]])->value('id');
+        }
+        $job = Jobs::find($job_id);
+        $job->delete();
+        return redirect('/workspace/manageWaiting');
+    }
+
     public function ncbifilesList()
     {
         $ncbi_files = Storage::files('meta-data/public');

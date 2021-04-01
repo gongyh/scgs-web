@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\pipelineParams;
+use App\PipelineParams;
 
 class PipelineParamsController extends Controller
 {
     //
     public function index()
     {
-        if (pipelineParams::where('id', 1)->exists()) {
-            $pipelineParams = pipelineParams::find(1);
-            return view('Workspace.pipelineParams', ['pipelineParams' => $pipelineParams]);
+        if (PipelineParams::where('id', 1)->exists()) {
+            $PipelineParams = PipelineParams::find(1);
+            return view('Workspace.PipelineParams', ['PipelineParams' => $PipelineParams]);
         }
-        return view('Workspace.pipelineParams');
+        return view('Workspace.PipelineParams');
     }
 
     public function update(Request $request)
@@ -62,25 +62,25 @@ class PipelineParamsController extends Controller
             $db_path_errors = array_filter($db_path_errors);
 
             if (count($db_path_errors) > 0) {
-                return view('Workspace.pipelineParamsEdit', ['db_path_errors' => $db_path_errors]);
+                return view('Workspace.PipelineParamsEdit', ['db_path_errors' => $db_path_errors]);
             }
              */
 
-            if (pipelineParams::where('id', 1)->exists()) {
-                $pipelineParams = pipelineParams::find(1);
-                $pipelineParams->resfinder_db_path = $resfinder_db_path;
-                $pipelineParams->nt_db_path = $nt_db_path;
-                $pipelineParams->kraken_db_path = $kraken_db_path;
-                $pipelineParams->eggnog_db_path = $eggnog_db_path;
-                $pipelineParams->kofam_profile_path = $kofam_profile_path;
-                $pipelineParams->kofam_kolist_path = $kofam_kolist_path;
-                $pipelineParams->eukcc_db_path = $eukcc_db_path;
-                $pipelineParams->nextflow_path = $nextflow_path;
-                $pipelineParams->nf_core_scgs_path = $nf_core_scgs_path;
-                $pipelineParams->nextflow_profile = $nextflow_profile;
-                $pipelineParams->save();
+            if (PipelineParams::where('id', 1)->exists()) {
+                $PipelineParams = PipelineParams::find(1);
+                $PipelineParams->resfinder_db_path = $resfinder_db_path;
+                $PipelineParams->nt_db_path = $nt_db_path;
+                $PipelineParams->kraken_db_path = $kraken_db_path;
+                $PipelineParams->eggnog_db_path = $eggnog_db_path;
+                $PipelineParams->kofam_profile_path = $kofam_profile_path;
+                $PipelineParams->kofam_kolist_path = $kofam_kolist_path;
+                $PipelineParams->eukcc_db_path = $eukcc_db_path;
+                $PipelineParams->nextflow_path = $nextflow_path;
+                $PipelineParams->nf_core_scgs_path = $nf_core_scgs_path;
+                $PipelineParams->nextflow_profile = $nextflow_profile;
+                $PipelineParams->save();
             } else {
-                pipelineParams::create([
+                PipelineParams::create([
                     'resfinder_db_path' => $resfinder_db_path,
                     'nt_db_path' => $nt_db_path,
                     'kraken_db_path' => $kraken_db_path,
@@ -93,12 +93,12 @@ class PipelineParamsController extends Controller
                     'nextflow_profile' => $nextflow_profile
                 ]);
             }
-            return redirect('/workspace/pipelineParams');
+            return redirect('/workspace/PipelineParams');
         }
-        if (pipelineParams::where('id', 1)->exists()) {
-            $pipelineParams = pipelineParams::find(1);
-            return view('Workspace.pipelineParamsEdit', ['pipelineParams' => $pipelineParams]);
+        if (PipelineParams::where('id', 1)->exists()) {
+            $PipelineParams = PipelineParams::find(1);
+            return view('Workspace.PipelineParamsEdit', ['PipelineParams' => $PipelineParams]);
         }
-        return view('Workspace.pipelineParamsEdit');
+        return view('Workspace.PipelineParamsEdit');
     }
 }

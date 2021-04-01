@@ -56,6 +56,7 @@
                     <a class="dropdown-item" href="/workspace/species">Manage Species</a>
                     <a class="dropdown-item" href="/workspace/applications">Manage Applications</a>
                     <a class="dropdown-item" href="/workspace/manageRunning">Manage Running Samples</a>
+                    <a class="dropdown-item" href="/workspace/manageWaiting">Manage Waiting Samples</a>
                     <a class="dropdown-item" href="/workspace/pipelineParams">Basic Pipeline Params</a>
                     <a class="dropdown-item" href="/workspace/ncbifilesList">NCBI Files List</a>
                     @endif
