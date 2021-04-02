@@ -1,3 +1,5 @@
+const { head } = require("lodash");
+
 $(function () {
 
   $('.home-slider').slick({
@@ -372,13 +374,20 @@ $(function () {
           if (res.code == 200) {
             let data = res.data;
             let div = $('<div></div>');
+            let latest_status;
             for (let i = 0; i < data.length; i++) {
               let insert_message = "<div class=\"rem1\">" + (i + 1) + "  [" + data[i].process + "] " + data[i].event + " " + data[i].utcTime + "</div>";
               div.append(insert_message);
+              if(i == data.length -1){
+                latest_status = data[i].process;
+              }
             }
+            $('.running_status').text(latest_status);
             $('.command_out').html(div);
           } else {
+            let head_msg = 'waiting...';
             let msg = 'pipeline is preparing...';
+            $('.running_status').text(head_msg);
             $('.command_out').text(msg);
           }
         }
@@ -395,13 +404,20 @@ $(function () {
           if (res.code == 200) {
             let data = res.data;
             let div = $('<div></div>');
+            let latest_status;
             for (let i = 0; i < data.length; i++) {
               let insert_message = "<div class=\"rem1\">" + (i + 1) + "  [" + data[i].process + "] " + data[i].event + " " + data[i].utcTime + "</div>";
               div.append(insert_message);
+              if(i == data.length -1){
+                  latest_status = data[i].process;
+              }
             }
+            $('.running_status').text(latest_status);
             $('.command_out').html(div);
           } else {
+            let head_msg = 'waiting...';
             let msg = 'pipeline is preparing...';
+            $('.running_status').text(head_msg);
             $('.command_out').text(msg);
           }
         }

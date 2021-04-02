@@ -175,9 +175,11 @@
         </div>
         <div class="tab-pane fade show active" id="weblog" role="tabpanel" aria-labelledby="weblog-tab">
           <div class="bg-white rounded shadow-sm p-2">
-            <div class="mt-2 rem15 text-primary border-bottom">Pipeline Status</div>
-            <div class="command_out text-wrap text-break rounded">
+            <div class="d-flex">
+              <div class="mt-2 font-normal text-primary border-bottom">Pipeline Status</div>
+              <div class="running_status mt-2 ml-2 font-normal">123</div>
             </div>
+            <div class="command_out text-wrap text-break rounded"></div>
           </div>
         </div>
       </div>
