@@ -598,41 +598,80 @@ $(function () {
               let phylum_data = [];
               for (i = 0; i < blob_pic.length; i++) {
                 if (phylum_list.indexOf(blob_pic[i][6]) == -1) {
-                  phylum_list.push(blob_pic[i][6]);
+                  if (phylum_list.length < 9) {
+                    phylum_list.push(blob_pic[i][6]);
+                  } else {
+                    phylum_list.push('others');
+                    break;
+                  }
                 }
               }
               for (j = 0; j < phylum_list.length; j++) {
-                let blob = phylum_list[j];
-                let name = phylum_list[j] + '_name';
-                let length = phylum_list[j] + '_length';
-                let gc = phylum_list[j] + '_gc';
-                let cov = phylum_list[j] + '_cov';
-                window[name] = [];
-                window[length] = [];
-                window[gc] = [];
-                window[cov] = [];
-                for (v = 0; v < blob_pic.length; v++) {
-                  if (blob_pic[v][6] == phylum_list[j]) {
-                    window[name].push(blob_pic[v][0]);
-                    window[length].push(blob_pic[v][1]);
-                    window[gc].push(blob_pic[v][2]);
-                    window[cov].push(blob_pic[v][4]);
+                if (j < 9) {
+                  let blob = phylum_list[j];
+                  let name = phylum_list[j] + '_name';
+                  let length = phylum_list[j] + '_length';
+                  let gc = phylum_list[j] + '_gc';
+                  let cov = phylum_list[j] + '_cov';
+                  window[name] = [];
+                  window[length] = [];
+                  window[gc] = [];
+                  window[cov] = [];
+                  for (v = 0; v < blob_pic.length; v++) {
+                    if (blob_pic[v][6] == phylum_list[j]) {
+                      window[name].push(blob_pic[v][0]);
+                      window[length].push(blob_pic[v][1]);
+                      window[gc].push(blob_pic[v][2]);
+                      window[cov].push(blob_pic[v][4]);
+                    }
                   }
-                }
-                window[length] = window[length].map(function (i) {
-                  return (Math.log(i) / Math.log(2)) * 3;
-                })
-                window[blob] = {
-                  x: window[gc],
-                  y: window[cov],
-                  text: window[name],
-                  name: phylum_list[j],
-                  mode: 'markers',
-                  marker: {
-                    size: window[length],
+                  window[length] = window[length].map(function (i) {
+                    return (Math.log(i) / Math.log(2)) * 3;
+                  })
+                  window[blob] = {
+                    x: window[gc],
+                    y: window[cov],
+                    text: window[name],
+                    name: phylum_list[j],
+                    mode: 'markers',
+                    marker: {
+                      size: window[length],
+                    }
                   }
+                  phylum_data.push(window[blob]);
+                } else {
+                  let other_blob = phylum_list[j];
+                  let other_name = phylum_list[j] + '_name';
+                  let other_length = phylum_list[j] + '_length';
+                  let other_gc = phylum_list[j] + '_gc';
+                  let other_cov = phylum_list[j] + '_cov';
+                  window[other_name] = [];
+                  window[other_length] = [];
+                  window[other_gc] = [];
+                  window[other_cov] = [];
+                  for (v = 0; v < blob_pic.length; v++) {
+                    if (phylum_list.indexOf(blob_pic[v][6]) == -1) {
+                      window[other_name].push(blob_pic[v][0]);
+                      window[other_length].push(blob_pic[v][1]);
+                      window[other_gc].push(blob_pic[v][2]);
+                      window[other_cov].push(blob_pic[v][4]);
+                    }
+                  }
+                  window[other_length] = window[other_length].map(function (i) {
+                    return (Math.log(i) / Math.log(2)) * 3;
+                  })
+                  window[other_blob] = {
+                    x: window[other_gc],
+                    y: window[other_cov],
+                    text: window[other_name],
+                    name: phylum_list[j],
+                    mode: 'markers',
+                    marker: {
+                      size: window[other_length],
+                    }
+                  }
+                  phylum_data.push(window[other_blob]);
                 }
-                phylum_data.push(window[blob]);
               }
               var layout = {
                 width: 900,
@@ -730,43 +769,82 @@ $(function () {
               var blob_picture = document.getElementById('blob_pic');
               let phylum_list = [];
               let phylum_data = [];
-              for (i = 0; i < blob_pic.length; i++) {
-                if (phylum_list.indexOf(blob_pic[i][6]) == -1) {
-                  phylum_list.push(blob_pic[i][6]);
+              for (i = 0; i < data.length; i++) {
+                if (phylum_list.indexOf(data[i][6]) == -1) {
+                  if (phylum_list.length < 9) {
+                    phylum_list.push(data[i][6]);
+                  } else {
+                    phylum_list.push('others');
+                    break;
+                  }
                 }
               }
               for (j = 0; j < phylum_list.length; j++) {
-                let blob = phylum_list[j];
-                let name = phylum_list[j] + '_name';
-                let length = phylum_list[j] + '_length';
-                let gc = phylum_list[j] + '_gc';
-                let cov = phylum_list[j] + '_cov';
-                window[name] = [];
-                window[length] = [];
-                window[gc] = [];
-                window[cov] = [];
-                for (v = 0; v < data.length; v++) {
-                  if (data[v][6] == phylum_list[j]) {
-                    window[name].push(data[v][0]);
-                    window[length].push(data[v][1]);
-                    window[gc].push(data[v][2]);
-                    window[cov].push(data[v][4]);
+                if (j < 9) {
+                  let blob = phylum_list[j];
+                  let name = phylum_list[j] + '_name';
+                  let length = phylum_list[j] + '_length';
+                  let gc = phylum_list[j] + '_gc';
+                  let cov = phylum_list[j] + '_cov';
+                  window[name] = [];
+                  window[length] = [];
+                  window[gc] = [];
+                  window[cov] = [];
+                  for (v = 0; v < data.length; v++) {
+                    if (data[v][6] == phylum_list[j]) {
+                      window[name].push(data[v][0]);
+                      window[length].push(data[v][1]);
+                      window[gc].push(data[v][2]);
+                      window[cov].push(data[v][4]);
+                    }
                   }
-                }
-                window[length] = window[length].map(function (i) {
-                  return (Math.log(i) / Math.log(2)) * 3;
-                })
-                window[blob] = {
-                  x: window[gc],
-                  y: window[cov],
-                  text: window[name],
-                  name: phylum_list[j],
-                  mode: 'markers',
-                  marker: {
-                    size: window[length],
+                  window[length] = window[length].map(function (i) {
+                    return (Math.log(i) / Math.log(2)) * 3;
+                  })
+                  window[blob] = {
+                    x: window[gc],
+                    y: window[cov],
+                    text: window[name],
+                    name: phylum_list[j],
+                    mode: 'markers',
+                    marker: {
+                      size: window[length],
+                    }
                   }
+                  phylum_data.push(window[blob]);
+                } else {
+                  let other_blob = phylum_list[j];
+                  let other_name = phylum_list[j] + '_name';
+                  let other_length = phylum_list[j] + '_length';
+                  let other_gc = phylum_list[j] + '_gc';
+                  let other_cov = phylum_list[j] + '_cov';
+                  window[other_name] = [];
+                  window[other_length] = [];
+                  window[other_gc] = [];
+                  window[other_cov] = [];
+                  for (v = 0; v < data.length; v++) {
+                    if (phylum_list.indexOf(data[v][6]) == -1) {
+                      window[other_name].push(data[v][0]);
+                      window[other_length].push(data[v][1]);
+                      window[other_gc].push(data[v][2]);
+                      window[other_cov].push(data[v][4]);
+                    }
+                  }
+                  window[other_length] = window[other_length].map(function (i) {
+                    return (Math.log(i) / Math.log(2)) * 3;
+                  })
+                  window[other_blob] = {
+                    x: window[other_gc],
+                    y: window[other_cov],
+                    text: window[other_name],
+                    name: phylum_list[j],
+                    mode: 'markers',
+                    marker: {
+                      size: window[other_length],
+                    }
+                  }
+                  phylum_data.push(window[other_blob]);
                 }
-                phylum_data.push(window[blob]);
               }
               var layout = {
                 width: 900,
@@ -1011,41 +1089,80 @@ $(function () {
             let phylum_data = [];
             for (i = 0; i < data.length; i++) {
               if (phylum_list.indexOf(data[i][6]) == -1) {
-                phylum_list.push(data[i][6]);
+                if (phylum_list.length < 9) {
+                  phylum_list.push(data[i][6]);
+                } else {
+                  phylum_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < phylum_list.length; j++) {
-              let blob = phylum_list[j];
-              let name = phylum_list[j] + '_name';
-              let length = phylum_list[j] + '_length';
-              let gc = phylum_list[j] + '_gc';
-              let cov = phylum_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][6] == phylum_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = phylum_list[j];
+                let name = phylum_list[j] + '_name';
+                let length = phylum_list[j] + '_length';
+                let gc = phylum_list[j] + '_gc';
+                let cov = phylum_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][6] == phylum_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: phylum_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: phylum_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                phylum_data.push(window[blob]);
+              } else {
+                let other_blob = phylum_list[j];
+                let other_name = phylum_list[j] + '_name';
+                let other_length = phylum_list[j] + '_length';
+                let other_gc = phylum_list[j] + '_gc';
+                let other_cov = phylum_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (phylum_list.indexOf(data[v][6]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: phylum_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                phylum_data.push(window[other_blob]);
               }
-              phylum_data.push(window[blob]);
             }
             var layout = {
               width: 900,
@@ -1075,41 +1192,80 @@ $(function () {
             let phylum_data = [];
             for (i = 0; i < data.length; i++) {
               if (phylum_list.indexOf(data[i][6]) == -1) {
-                phylum_list.push(data[i][6]);
+                if (phylum_list.length < 9) {
+                  phylum_list.push(data[i][6]);
+                } else {
+                  phylum_list.push('others');
+                  break;
+                }
               }
             }
             for (j = 0; j < phylum_list.length; j++) {
-              let blob = phylum_list[j];
-              let name = phylum_list[j] + '_name';
-              let length = phylum_list[j] + '_length';
-              let gc = phylum_list[j] + '_gc';
-              let cov = phylum_list[j] + '_cov';
-              window[name] = [];
-              window[length] = [];
-              window[gc] = [];
-              window[cov] = [];
-              for (v = 0; v < data.length; v++) {
-                if (data[v][6] == phylum_list[j]) {
-                  window[name].push(data[v][0]);
-                  window[length].push(data[v][1]);
-                  window[gc].push(data[v][2]);
-                  window[cov].push(data[v][4]);
+              if (j < 9) {
+                let blob = phylum_list[j];
+                let name = phylum_list[j] + '_name';
+                let length = phylum_list[j] + '_length';
+                let gc = phylum_list[j] + '_gc';
+                let cov = phylum_list[j] + '_cov';
+                window[name] = [];
+                window[length] = [];
+                window[gc] = [];
+                window[cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (data[v][6] == phylum_list[j]) {
+                    window[name].push(data[v][0]);
+                    window[length].push(data[v][1]);
+                    window[gc].push(data[v][2]);
+                    window[cov].push(data[v][4]);
+                  }
                 }
-              }
-              window[length] = window[length].map(function (i) {
-                return (Math.log(i) / Math.log(2)) * 3;
-              })
-              window[blob] = {
-                x: window[gc],
-                y: window[cov],
-                text: window[name],
-                name: phylum_list[j],
-                mode: 'markers',
-                marker: {
-                  size: window[length],
+                window[length] = window[length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[blob] = {
+                  x: window[gc],
+                  y: window[cov],
+                  text: window[name],
+                  name: phylum_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[length],
+                  }
                 }
+                phylum_data.push(window[blob]);
+              } else {
+                let other_blob = phylum_list[j];
+                let other_name = phylum_list[j] + '_name';
+                let other_length = phylum_list[j] + '_length';
+                let other_gc = phylum_list[j] + '_gc';
+                let other_cov = phylum_list[j] + '_cov';
+                window[other_name] = [];
+                window[other_length] = [];
+                window[other_gc] = [];
+                window[other_cov] = [];
+                for (v = 0; v < data.length; v++) {
+                  if (phylum_list.indexOf(data[v][6]) == -1) {
+                    window[other_name].push(data[v][0]);
+                    window[other_length].push(data[v][1]);
+                    window[other_gc].push(data[v][2]);
+                    window[other_cov].push(data[v][4]);
+                  }
+                }
+                window[other_length] = window[other_length].map(function (i) {
+                  return (Math.log(i) / Math.log(2)) * 3;
+                })
+                window[other_blob] = {
+                  x: window[other_gc],
+                  y: window[other_cov],
+                  text: window[other_name],
+                  name: phylum_list[j],
+                  mode: 'markers',
+                  marker: {
+                    size: window[other_length],
+                  }
+                }
+                phylum_data.push(window[other_blob]);
               }
-              phylum_data.push(window[blob]);
             }
             var layout = {
               width: 900,
