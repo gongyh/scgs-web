@@ -34,8 +34,8 @@ class SpeciesController extends Controller
             // Species create validate
             $this->validate($request, [
                 'new_species_name' => 'required|unique:species,name|max:250',
-                'new_reference_genome' => ['required'],
-                'new_genome_annotation' => ['required']
+                'new_reference_genome' => 'required',
+                'new_genome_annotation' => 'required'
             ]);
             $new_species_name = $request->input('new_species_name');
             if($request->file('new_reference_genome')->isValid()){

@@ -654,3 +654,8 @@ a:hover {
   font-size: 17px;
   line-height: 19px;
 }
+
+.new_reference_genome,
+.new_genome_annotation {
+  opacity: 0;
+}

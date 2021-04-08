@@ -16,11 +16,13 @@
         <p class="tips"><strong>Tips:</strong> 1.<strong>* </strong>means required field;<br />2.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
         <div class="form-group">
           <label for="new_reference_genome" class="input_title">Reference Genome(.fasta/.fa)</label><span class="text-danger">*</span>
-          <input type="file" class="form-control-file" name="new_reference_genome" id="new_reference_genome">
+          <input type="file" class="form-control-file new_reference_genome" name="new_reference_genome" id="new_reference_genome">
+          <div class="btn btn-default border" style="margin-top:-29px">Browse...</div>
         </div>
         <div class="form-group">
           <label for="new_genome_annotation" class="input_title">Genome Annotation(.gff)</label><span class="text-danger">*</span>
-          <input type="file" class="form-control-file" name="new_genome_annotation" id="new_genome_annotation">
+          <input type="file" class="form-control-file new_genome_annotation" name="new_genome_annotation" id="new_genome_annotation">
+          <div class="btn btn-default border" style="margin-top:-29px">Browse...</div>
         </div>
         <!-- error message -->
         @if (count($errors) > 0)
