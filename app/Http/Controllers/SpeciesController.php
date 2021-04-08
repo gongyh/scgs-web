@@ -34,53 +34,25 @@ class SpeciesController extends Controller
             // Species create validate
             $this->validate($request, [
                 'new_species_name' => 'required|unique:species,name|max:250',
-                'new_fasta' => ['required', 'regex:{\.(fasta|fa)$}'],
-                'new_gff' => ['required', 'regex:{\.gff$}']
+                'new_reference_genome' => ['required'],
+                'new_genome_annotation' => ['required']
             ]);
             $new_species_name = $request->input('new_species_name');
-            $new_fasta = $request->input('new_fasta');
-            $new_gff = $request->input('new_gff');
-            // To validate fasta,gff files existed
+            if($request->file('new_reference_genome')->isValid()){
+                $reference_name = $request->file('new_reference_genome')->getClientOriginalName();
+                $reference_path = $request->file('new_reference_genome')->storeAs(env('','reference_genome'),$reference_name);
 
-            // To validate absolute path
-            if (strpos($new_fasta, $base_path) == 0) {
-                // relative path
-                $new_fasta_path = str_replace($base_path, '', $new_fasta);
-                $fasta_exist = Storage::disk('local')->exists($new_fasta_path);
-            } else {
-                $fasta_exist = Storage::disk('local')->exists($new_fasta);
             }
-            if (strpos($new_gff, $base_path) == 0) {
-                $new_gff_path = str_replace($base_path, '', $new_gff);
-                $gff_exist = Storage::disk('local')->exists($new_gff_path);
-            } else {
-                $gff_exist = Storage::disk('local')->exists($new_gff);
+            if($request->file('new_genome_annotation')->isValid()){
+                $annotation_name = $request->file('new_genome_annotation')->getClientOriginalName();
+                $annotation_path = $request->file('new_genome_annotation')->storeAs(env('','annotation_genome'),$annotation_name);
             }
-
-            // Save as relative path
-            $new_fasta = $new_fasta_path ? $new_fasta_path : $new_fasta;
-            $new_gff = $new_gff_path ? $new_gff_path : $new_gff;
-
-            $new_fasta = strpos($new_fasta, '\\') !== false ? str_replace('\\', '/', $new_fasta) : $new_fasta;
-            $new_gff = strpos($new_gff, '\\') !== false ? str_replace('\\', '/', $new_gff) : $new_gff;
-
-            if (!$fasta_exist && $gff_exist) {
-                $file_error = 'fasta file doesn\'t exist';
-                return view('Species.species_create', ['file_error' => $file_error, 'base_path' => $base_path]);
-            } elseif ($fasta_exist && !$gff_exist) {
-                $file_error = 'gff file doesn\'t exist';
-                return view('Species.species_create', ['file_error' => $file_error, 'base_path' => $base_path]);
-            } elseif (!$fasta_exist && !$gff_exist) {
-                $file_error = 'fasta file and gff file doesn\'t exist';
-                return view('Species.species_create', ['file_error' => $file_error, 'base_path' => $base_path]);
-            } else {
-                Species::create([
-                    'name' => $new_species_name,
-                    'fasta' => $new_fasta,
-                    'gff' => $new_gff
-                ]);
-                return redirect('/workspace/species');
-            }
+            Species::create([
+                'name' => $new_species_name,
+                'fasta' => $reference_path,
+                'gff' => $annotation_path
+            ]);
+            return redirect('/workspace/species');
         }
         return view('Species.species_create', ['base_path' => $base_path]);
     }

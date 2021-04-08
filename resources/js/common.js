@@ -372,22 +372,53 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let data = res.data;
+            let weblogs = res.data.weblogs;
+            let runStatus = res.data.runStatus;
             let div = $('<div></div>');
-            let latest_status;
-            for (let i = 0; i < data.length; i++) {
-              let insert_message = "<div class=\"rem1\">" + (i + 1) + "  [" + data[i].process + "] " + data[i].event + " " + data[i].utcTime + "</div>";
+            for (let i = 0; i < weblogs.length; i++) {
+              let insert_message = "<div class=\"rem1\">" + weblogs[i].utcTime + "  [" + weblogs[i].process + "] " + weblogs[i].event + " " + "</div>";
               div.append(insert_message);
-              if(i == data.length -1){
-                latest_status = data[i].process;
-              }
             }
-            $('.running_status').text(latest_status);
+            if (runStatus == 0) {
+              let span_wrapper = $('<span></span>');
+              let span_inner = $('<span></span>');
+              let span_dot = $('<span></span>');
+              span_wrapper.addClass('badge badge-warning');
+              span_inner.text('waiting');
+              span_dot.text('...');
+              span_dot.addClass('dot');
+              span_wrapper.append(span_inner);
+              span_wrapper.append(span_dot);
+              $('.pipeline_status').html(span_wrapper);
+            } else if (runStatus == 1) {
+              let span_wrapper = $('<span></span>');
+              let span_inner = $('<span></span>');
+              let span_dot = $('<span></span>');
+              span_wrapper.addClass('badge badge-info');
+              span_inner.text('running');
+              span_dot.text('...');
+              span_dot.addClass('dot');
+              span_wrapper.append(span_inner);
+              span_wrapper.append(span_dot);
+              $('.pipeline_status').html(span_wrapper);
+            } else if (runStatus == 2) {
+              let span_wrapper = $('<span></span>');
+              let span_inner = $('<span></span>');
+              span_wrapper.addClass('badge badge-danger');
+              span_inner.text('failed');
+              span_wrapper.append(span_inner);
+              $('.pipeline_status').html(span_wrapper);
+            } else {
+              let span_wrapper = $('<span></span>');
+              let span_inner = $('<span></span>');
+              span_wrapper.addClass('badge badge-success');
+              span_inner.text('success');
+              span_wrapper.append(span_inner);
+              $('.pipeline_status').html(span_wrapper);
+            }
             $('.command_out').html(div);
           } else {
-            let head_msg = 'waiting...';
             let msg = 'pipeline is preparing...';
-            $('.running_status').text(head_msg);
             $('.command_out').text(msg);
           }
         }
@@ -402,22 +433,53 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let data = res.data;
+            let weblogs = res.data.weblogs;
+            let runStatus = res.data.runStatus;
             let div = $('<div></div>');
-            let latest_status;
-            for (let i = 0; i < data.length; i++) {
-              let insert_message = "<div class=\"rem1\">" + (i + 1) + "  [" + data[i].process + "] " + data[i].event + " " + data[i].utcTime + "</div>";
+            for (let i = 0; i < weblogs.length; i++) {
+              let insert_message = "<div class=\"rem1\">" + weblogs[i].utcTime + "  [" + weblogs[i].process + "] " + weblogs[i].event + " " + weblogs[i].utcTime + "</div>";
               div.append(insert_message);
-              if(i == data.length -1){
-                  latest_status = data[i].process;
-              }
             }
-            $('.running_status').text(latest_status);
+            if (runStatus == 0) {
+              let span_wrapper = $('<span></span>');
+              let span_inner = $('<span></span>');
+              let span_dot = $('<span></span>');
+              span_wrapper.addClass('badge badge-warning');
+              span_inner.text('waiting');
+              span_dot.text('...');
+              span_dot.addClass('dot');
+              span_wrapper.append(span_inner);
+              span_wrapper.append(span_dot);
+              $('.pipeline_status').html(span_wrapper);
+            } else if (runStatus == 1) {
+              let span_wrapper = $('<span></span>');
+              let span_inner = $('<span></span>');
+              let span_dot = $('<span></span>');
+              span_wrapper.addClass('badge badge-info');
+              span_inner.text('running');
+              span_dot.text('...');
+              span_dot.addClass('dot');
+              span_wrapper.append(span_inner);
+              span_wrapper.append(span_dot);
+              $('.pipeline_status').html(span_wrapper);
+            } else if (runStatus == 2) {
+              let span_wrapper = $('<span></span>');
+              let span_inner = $('<span></span>');
+              span_wrapper.addClass('badge badge-danger');
+              span_inner.text('failed');
+              span_wrapper.append(span_inner);
+              $('.pipeline_status').html(span_wrapper);
+            } else {
+              let span_wrapper = $('<span></span>');
+              let span_inner = $('<span></span>');
+              span_wrapper.addClass('badge badge-success');
+              span_inner.text('success');
+              span_wrapper.append(span_inner);
+              $('.pipeline_status').html(span_wrapper);
+            }
             $('.command_out').html(div);
           } else {
-            let head_msg = 'waiting...';
             let msg = 'pipeline is preparing...';
-            $('.running_status').text(head_msg);
             $('.command_out').text(msg);
           }
         }

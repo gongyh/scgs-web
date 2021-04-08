@@ -55,8 +55,6 @@
                   <tr>
                     <th scope="col" class="table-header">ID</th>
                     <th scope="col" class="table-header">Species</th>
-                    <th scope="col" class="table-header">fasta</th>
-                    <th scope="col" class="table-header">gff</th>
                     <th></th>
                     <th scope="col" class="add"><a href="/workspace/species/create">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -72,8 +70,6 @@
                   @foreach($all_species as $species)
                   <tr>
                     <th scope="row" class="table-item">{{$species->id}}</td>
-                    <td class="table-item">{{$species->name}}</td>
-                    <td class="table-item">{{$species->fasta}}</td>
                     <td class="table-item">{{$species->gff}}</td>
                     <td class="delete">
                       <a href="/workspace/species/delete?speciesID={{$species->id}}&page={{$current_page}}" onclick="if(confirm('Are you sure to delete?')==false) return false;">
