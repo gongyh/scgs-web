@@ -58,7 +58,7 @@ class RunProjPipeline implements ShouldQueue
         $current_job->uuid = $job_uuid;
         $current_job->current_uuid = $job_rawbody['uuid'];
         $current_job->started = $started;
-        $current_job->status = 1; //Running
+        $current_job->status = 1; // Running
         $current_job->save();
 
         /**
@@ -98,7 +98,7 @@ class RunProjPipeline implements ShouldQueue
                 break;
         }
         $command = $nextflow_path . $nextflow_config . ' run '. $nf_core_scgs_path . ' ' . $current_job->command . ' -profile ' . $profile_string . ' -name uuid-' . $current_job->current_uuid . ' -with-weblog '. env('WEBLOG_SERVER', 'http://localhost') .'/execute/start';
-        //dump($command);
+        // dump($command);
         $cmd_wrap = 'mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . ' && chmod -R 777 ' . $base_path . $project_accession . '/' . $job_uuid . ' && cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
         system($cmd_wrap);
     }

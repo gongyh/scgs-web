@@ -376,7 +376,7 @@ $(function () {
             let runStatus = res.data.runStatus;
             let div = $('<div></div>');
             for (let i = 0; i < weblogs.length; i++) {
-              let insert_message = "<div class=\"rem1\">" + weblogs[i].utcTime + "  [" + weblogs[i].process + "] " + weblogs[i].event + " " + "</div>";
+              let insert_message = "<div class=\"rem1\">" + weblogs[i].utcTime + "  [" + weblogs[i].process + "] " + weblogs[i].event + "</div>";
               div.append(insert_message);
             }
             if (runStatus == 0) {
@@ -437,7 +437,7 @@ $(function () {
             let runStatus = res.data.runStatus;
             let div = $('<div></div>');
             for (let i = 0; i < weblogs.length; i++) {
-              let insert_message = "<div class=\"rem1\">" + weblogs[i].utcTime + "  [" + weblogs[i].process + "] " + weblogs[i].event + " " + weblogs[i].utcTime + "</div>";
+              let insert_message = "<div class=\"rem1\">" + weblogs[i].utcTime + "  [" + weblogs[i].process + "] " + weblogs[i].event + "</div>";
               div.append(insert_message);
             }
             if (runStatus == 0) {
