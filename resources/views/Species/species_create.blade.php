@@ -10,17 +10,16 @@
       <form method="post" action="" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-          <label for="new_species_name" class="input_title">Species Name</label><span class="text-danger">*</span>
+          <label for="new_species_name" class="font-normal">Species Name</label><span class="text-danger">*</span>
           <input type="text" class="form-control" name="new_species_name" id="new_species_name" value={{old('new_species_name')?old('new_species_name'):''}}>
         </div>
-        <p class="tips"><strong>Tips:</strong> 1.<strong>* </strong>means required field;<br />2.default root dictionary is '<strong>{{$base_path}}</strong>', you can input the absolute path or relative path based on the root dictionary, you can also change the root dictionary by going to the "<strong>.env</strong>" file to change "<strong>BASE_PATH</strong>" if needed.</p>
         <div class="form-group">
-          <label for="new_reference_genome" class="input_title">Reference Genome(.fasta/.fa)</label><span class="text-danger">*</span>
+          <label for="new_reference_genome" class="font-normal">Reference Genome(.fasta/.fa)</label><span class="text-danger">*</span>
           <input type="file" class="form-control-file new_reference_genome" name="new_reference_genome" id="new_reference_genome">
           <div class="btn btn-default border" style="margin-top:-29px">Browse...</div>
         </div>
         <div class="form-group">
-          <label for="new_genome_annotation" class="input_title">Genome Annotation(.gff)</label><span class="text-danger">*</span>
+          <label for="new_genome_annotation" class="font-normal">Genome Annotation(.gff)</label><span class="text-danger">*</span>
           <input type="file" class="form-control-file new_genome_annotation" name="new_genome_annotation" id="new_genome_annotation">
           <div class="btn btn-default border" style="margin-top:-29px">Browse...</div>
         </div>

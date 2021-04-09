@@ -550,6 +550,7 @@ $(function () {
               var quast_table = $('#quast_dataTable').DataTable({
                 data: data,
               });
+              $('.fading_circles_quast').remove();
               $('#quast_dataTable tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                   $(this).removeClass('selected');
@@ -580,6 +581,7 @@ $(function () {
               var blob_table = $('#blob_dataTable').DataTable({
                 data: blob_data,
               });
+              $('.fading_circles_blob').remove();
               $('#blob_dataTable tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                   $(this).removeClass('selected');

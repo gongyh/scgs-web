@@ -102,6 +102,7 @@
             <!-- quast -->
             <div class="mt-3 border-bottom">
               <div class="font-large">Quast</div>
+              <img class="fading_circles_quast" src="images/Fading_circles.gif" alt="">
               @if(isset($project_user))
               <div class="table-responsive mt-3 mb-3">
                 <table id="quast_dataTable" class="display">
@@ -134,6 +135,7 @@
                 @endforeach
               </select>
               @endif
+              <img class="fading_circles_blob" src="images/Fading_circles.gif" alt="">
               <!-- blob table -->
               <div class="table-responsive mt-2 mb-2">
                 <table id="blob_dataTable" class="display">
@@ -147,7 +149,7 @@
             </div>
 
             <div class="mt-3">
-            <div class="font-large">Blob Picture</div>
+              <div class="font-large">Blob Picture</div>
               @if(isset($project_user))
               <select id="blob_pic_tabs" class="mt-2" data-live-search="true" data-style="btn-info">
                 @foreach($filename_array as $filename)
@@ -163,6 +165,7 @@
                 <option value="species">species</option>
               </select>
               @endif
+              <img class="fading_circles_blob" src="images/Fading_circles.gif" alt="">
               <div id="blob_pic" class="w-100 overflow-hidden"></div>
             </div>
           </div>

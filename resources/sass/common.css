@@ -251,11 +251,6 @@ a:hover {
   margin-bottom: 10px;
 }
 
-.input_title {
-  font-size: 14px;
-  font-family: "Arial";
-}
-
 .type {
   cursor: pointer;
 }
@@ -658,4 +653,11 @@ a:hover {
 .new_reference_genome,
 .new_genome_annotation {
   opacity: 0;
+}
+
+.fading_circles_quast,
+.fading_circles_blob {
+  display: block;
+  margin-top: 100px;
+  margin-left: 100px;
 }
