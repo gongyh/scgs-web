@@ -676,6 +676,10 @@ $(function () {
                 }
               }
               var layout = {
+                yaxis: {
+                  type: 'log',
+                  exponentformat: 'E'
+                },
                 width: 900,
                 height: 900
               }
@@ -849,6 +853,10 @@ $(function () {
                 }
               }
               var layout = {
+                yaxis: {
+                  type: 'log',
+                  exponentformat: 'E'
+                },
                 width: 900,
                 height: 900
               }
@@ -1167,6 +1175,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -1270,6 +1282,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -1381,6 +1397,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -1467,6 +1487,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -1553,6 +1577,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -1639,6 +1667,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -1725,6 +1757,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -1811,6 +1847,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -1917,6 +1957,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -2003,6 +2047,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -2089,6 +2137,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -2175,6 +2227,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -2261,6 +2317,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
@@ -2347,6 +2407,10 @@ $(function () {
               }
             }
             var layout = {
+              yaxis: {
+                type: 'log',
+                exponentformat: 'E'
+              },
               width: 900,
               height: 900
             }
