@@ -661,7 +661,7 @@ var sampleFileInput = function () {
     //Init fileUpload
     control.fileinput({
       uploadUrl: uploadUrl,
-      allowedFileExtensions: ['fasta.gz', 'fastq.gz', 'fasta', 'fastq', 'fa', 'fq'],
+      allowedFileExtensions: ['fasta.gz', 'fastq.gz', 'fasta', 'fastq', 'fa', 'fq','fa.gz','fq.gz'],
       showUpload: true,
       showCaption: true,
       dropZoneEnabled: true,
