@@ -661,3 +661,7 @@ a:hover {
   margin-top: 100px;
   margin-left: 100px;
 }
+
+#explain_resume {
+  cursor: pointer;
+}

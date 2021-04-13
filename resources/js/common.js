@@ -276,27 +276,28 @@ $(function () {
     }
   }
 
-  if ($('#genus').is(':checked')) {
+  if ($('#genus1').is(':checked')) {
     $('.genus_name').show();
   } else {
     $('.genus_name').hide();
   }
 
-  if ($('#augustus_species').is(':checked')) {
+  if ($('#augustus_species1').is(':checked')) {
     $('.augustus_species_name').show();
   } else {
     $('.augustus_species_name').hide();
   }
 
-  $('#genus').on('change', function () {
-    if ($('#genus').is(':checked')) {
+  $('.genus').on('change', function () {
+    if ($('#genus1').is(':checked')) {
       $('.genus_name').show();
     } else {
       $('.genus_name').hide();
     }
   })
-  $('#augustus_species').on('change', function () {
-    if ($('#augustus_species').is(':checked')) {
+
+  $('.augustus_species').on('change', function () {
+    if ($('#augustus_species1').is(':checked')) {
       $('.augustus_species_name').show();
     } else {
       $('.augustus_species_name').hide();

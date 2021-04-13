@@ -23,11 +23,13 @@
               <div class="rem15">Job Information</div>
               <div class="d-flex mt-2">
                 <p>
-                  <a class="btn btn-light border" type="a" data-toggle="collapse" data-target="#collapse_detail" aria-expanded="false" aria-controls="collapseExample">Show Detail >>
+                  <a class="btn btn-light border" type="a" data-toggle="collapse" data-target="#collapse_detail" aria-expanded="false" aria-controls="collapseExample">
+                    Show Detail >>
                   </a>
                 </p>
                 <p class="ml-2">
-                  <a class="btn btn-light border" type="a" data-toggle="collapse" data-target="#collapse_command" aria-expanded="false" aria-controls="collapseExample">Show Command >>
+                  <a class="btn btn-light border" type="a" data-toggle="collapse" data-target="#collapse_command" aria-expanded="false" aria-controls="collapseExample">
+                    Show Command >>
                   </a>
                 </p>
 
