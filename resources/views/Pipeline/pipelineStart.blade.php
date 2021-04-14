@@ -7,6 +7,15 @@
   <div class="row middle-area">
     <div class=""></div>
     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item"><a href="/projects">Projects</a></li>
+          <li class="breadcrumb-item"><a href="/samples?projectID={{$project_id}}">Samples</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Execute</li>
+          </li>
+        </ol>
+      </nav>
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <a class="nav-link active" id="weblog-tab" data-toggle="tab" href="#weblog" role="tab" aria-controls="weblog" aria-selected="false">Pipeline Status</a>
