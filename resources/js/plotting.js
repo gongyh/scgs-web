@@ -22,7 +22,6 @@ $(function () {
   var blob_classify_tabs = $('#blob_classify');
   var krona = document.createElement('iframe');
 
-
   if (window.location.href.indexOf('successRunning') != -1) {
     // init
     $('#quast_dataTable thead tr').empty();
@@ -59,8 +58,8 @@ $(function () {
       }
     }
   } else {
-    var krona_src = 'results/' + $('.iframe_project_uuid').text() + '/kraken/' + iframe_krona_tabs.first().val() + '.krona.html';
-    var blob_src = 'results/' + $('.iframe_project_uuid').text() + '/blob/' + image_blob_tabs.first().val() + '/' + image_blob_tabs.first().val() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
+    var krona_src = 'results/' + $('.iframe_project_accession').text() + '/' + $('.iframe_project_uuid').text() + '/kraken/' + iframe_krona_tabs.first().val() + '.krona.html';
+    var blob_src = 'results/' + $('.iframe_project_accession').text() + '/' + $('.iframe_project_uuid').text() + '/blob/' + image_blob_tabs.first().val() + '/' + image_blob_tabs.first().val() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
     krona.setAttribute('src', krona_src);
     krona.setAttribute('class', 'embed-responsive-item');
     if (krona_tab != null) {
@@ -102,7 +101,7 @@ $(function () {
 
     iframe_krona_tabs.on('change', function (e) {
       e.preventDefault();
-      var krona_src = 'results/' + $('.iframe_project_uuid').text() + '/kraken/' + $('#kraken_tabs option:selected').val() + '.krona.html';
+      var krona_src = 'results/' + $('.iframe_project_accession').text() + '/' + $('.iframe_project_uuid').text() + '/kraken/' + $('#kraken_tabs option:selected').val() + '.krona.html';
       krona.setAttribute('src', krona_src);
       krona.setAttribute('class', 'embed-responsive-item');
       $('#kraken_report').empty();
@@ -112,7 +111,7 @@ $(function () {
     image_blob_tabs.on('change', function (e) {
       e.preventDefault();
       var rootPath = getRootPath();
-      var blob_src = 'results/' + $('.iframe_project_uuid').text() + '/blob/' + $('#blob_tabs option:selected').val() + '/' + $('#blob_tabs option:selected').val() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
+      var blob_src = 'results/' + $('.iframe_project_accession').text() + '/' + $('.iframe_project_uuid').text() + '/blob/' + $('#blob_tabs option:selected').val() + '/' + $('#blob_tabs option:selected').val() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
       $('#blob_image').attr('src', blob_src);
     })
 

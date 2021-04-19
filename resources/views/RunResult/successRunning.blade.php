@@ -81,6 +81,10 @@
                   <div class="text-success iframe_project_uuid">{{$project_uuid}}</div>
                 </div>
                 @endif
+                <div class="d-none">
+                  <div class="mr-3">uuid : </div>
+                  <div class="text-success iframe_project_accession">{{$project_accession}}</div>
+                </div>
                 @if(isset($file_prefix))
                 <div class="d-flex text-dark rem15 mt-2">
                   <div class="mr-3">Sample : </div>

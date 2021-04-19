@@ -23,112 +23,6 @@
         <form action="" method="POST">
           @csrf
           <div class="text-primary rem15">Configuration</div>
-          <div class="accordion mt-2" id="advanced_select">
-            <div class="card">
-              <div class="card-header" id="headingTwo">
-                <h2 class="mb-0">
-                  <button class="btn btn-link btn-block text-left font-weight-bold" type="button" data-toggle="collapse" data-target="#advanced" aria-expanded="true" aria-controls="collapseTwo">
-                    Advanced
-                  </button>
-                </h2>
-              </div>
-              <div id="advanced" class="collapse show" aria-labelledby="headingTwo" data-parent="#advanced_select">
-                <div class="card-body">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"> --cnv </span>
-                    </div>
-                    <div class="form-control">
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="cnv1" name="cnv" class="custom-control-input" value="cnv" {{$cnv?'checked':''}}>
-                        <label class="custom-control-label" for="cnv1">True</label>
-                      </div>
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="cnv2" name="cnv" class="custom-control-input" value="" {{$cnv==false?'checked':''}}>
-                        <label class="custom-control-label" for="cnv2">False</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="input-group mt-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"> --snv </span>
-                    </div>
-                    <div class="form-control">
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="snv1" name="snv" class="custom-control-input" value="snv" {{$snv?'checked':''}}>
-                        <label class="custom-control-label" for="snv1">True</label>
-                      </div>
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="snv2" name="snv" class="custom-control-input" value="" {{$snv==false?'checked':''}}>
-                        <label class="custom-control-label" for="snv2">False</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="input-group mt-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"> --saturation </span>
-                    </div>
-                    <div class="form-control">
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="saturation1" name="saturation" class="custom-control-input" value="saturation" {{$saturation?'checked':''}}>
-                        <label class="custom-control-label" for="saturation1">True</label>
-                      </div>
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="saturation2" name="saturation" class="custom-control-input" value="" {{$saturation==false?'checked':''}}>
-                        <label class="custom-control-label" for="saturation2">False</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="input-group mt-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"> --acquired </span>
-                    </div>
-                    <div class="form-control">
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="acquired1" name="acquired" class="custom-control-input" value="acquired" {{$acquired?'checked':''}}>
-                        <label class="custom-control-label" for="acquired1">True</label>
-                      </div>
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="acquired2" name="acquired" class="custom-control-input" value="" {{$acquired==false?'checked':''}}>
-                        <label class="custom-control-label" for="acquired2">False</label>
-                      </div>
-                    </div>
-                    <div class="input-group mt-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"> --saveTrimmed </span>
-                      </div>
-                      <div class="form-control">
-                        <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="saveTrimmed1" name="saveTrimmed" class="custom-control-input" value="saveTrimmed" {{$saveTrimmed?'checked':''}}>
-                          <label class="custom-control-label" for="saveTrimmed1">True</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="saveTrimmed2" name="saveTrimmed" class="custom-control-input" value="" {{$saveTrimmed==false?'checked':''}}>
-                          <label class="custom-control-label" for="saveTrimmed2">False</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="input-group mt-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"> --saveAlignedIntermediates </span>
-                      </div>
-                      <div class="form-control">
-                        <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="saveAlignedIntermediates1" name="saveAlignedIntermediates" class="custom-control-input" value="saveAlignedIntermediates" {{$saveAlignedIntermediates?'checked':''}}>
-                          <label class="custom-control-label" for="saveAlignedIntermediates1">True</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="saveAlignedIntermediates2" name="saveAlignedIntermediates" class="custom-control-input" value="" {{$saveAlignedIntermediates==false?'checked':''}}>
-                          <label class="custom-control-label" for="saveAlignedIntermediates2">False</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div class="input-group mt-3">
             <div class="input-group-prepend">
               <span class="input-group-text"> --ass </span>
@@ -144,7 +38,6 @@
               </div>
             </div>
           </div>
-
           <div class="input-group mt-3">
             <div class="input-group-prepend">
               <span class="input-group-text"> --bulk </span>
@@ -284,6 +177,111 @@
             </select>
           </div>
 
+          <div class="accordion mt-2" id="advanced_select">
+            <div class="card">
+              <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                  <button class="btn btn-link btn-block text-left font-weight-bold" type="button" data-toggle="collapse" data-target="#advanced" aria-expanded="true" aria-controls="collapseTwo">
+                    Advanced
+                  </button>
+                </h2>
+              </div>
+              <div id="advanced" class="collapse" aria-labelledby="headingTwo" data-parent="#advanced_select">
+                <div class="card-body">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"> --cnv </span>
+                    </div>
+                    <div class="form-control">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="cnv1" name="cnv" class="custom-control-input" value="cnv" {{$cnv?'checked':''}}>
+                        <label class="custom-control-label" for="cnv1">True</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="cnv2" name="cnv" class="custom-control-input" value="" {{$cnv==false?'checked':''}}>
+                        <label class="custom-control-label" for="cnv2">False</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group mt-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"> --snv </span>
+                    </div>
+                    <div class="form-control">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="snv1" name="snv" class="custom-control-input" value="snv" {{$snv?'checked':''}}>
+                        <label class="custom-control-label" for="snv1">True</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="snv2" name="snv" class="custom-control-input" value="" {{$snv==false?'checked':''}}>
+                        <label class="custom-control-label" for="snv2">False</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group mt-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"> --saturation </span>
+                    </div>
+                    <div class="form-control">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="saturation1" name="saturation" class="custom-control-input" value="saturation" {{$saturation?'checked':''}}>
+                        <label class="custom-control-label" for="saturation1">True</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="saturation2" name="saturation" class="custom-control-input" value="" {{$saturation==false?'checked':''}}>
+                        <label class="custom-control-label" for="saturation2">False</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group mt-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"> --acquired </span>
+                    </div>
+                    <div class="form-control">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="acquired1" name="acquired" class="custom-control-input" value="acquired" {{$acquired?'checked':''}}>
+                        <label class="custom-control-label" for="acquired1">True</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="acquired2" name="acquired" class="custom-control-input" value="" {{$acquired==false?'checked':''}}>
+                        <label class="custom-control-label" for="acquired2">False</label>
+                      </div>
+                    </div>
+                    <div class="input-group mt-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> --saveTrimmed </span>
+                      </div>
+                      <div class="form-control">
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="saveTrimmed1" name="saveTrimmed" class="custom-control-input" value="saveTrimmed" {{$saveTrimmed?'checked':''}}>
+                          <label class="custom-control-label" for="saveTrimmed1">True</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="saveTrimmed2" name="saveTrimmed" class="custom-control-input" value="" {{$saveTrimmed==false?'checked':''}}>
+                          <label class="custom-control-label" for="saveTrimmed2">False</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mt-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> --saveAlignedIntermediates </span>
+                      </div>
+                      <div class="form-control">
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="saveAlignedIntermediates1" name="saveAlignedIntermediates" class="custom-control-input" value="saveAlignedIntermediates" {{$saveAlignedIntermediates?'checked':''}}>
+                          <label class="custom-control-label" for="saveAlignedIntermediates1">True</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="saveAlignedIntermediates2" name="saveAlignedIntermediates" class="custom-control-input" value="" {{$saveAlignedIntermediates==false?'checked':''}}>
+                          <label class="custom-control-label" for="saveAlignedIntermediates2">False</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="accordion mt-2" id="database_select">
             <div class="card">
               <div class="card-header" id="headingOne">
@@ -293,7 +291,7 @@
                   </button>
                 </h2>
               </div>
-              <div id="database" class="collapse show" aria-labelledby="headingOne" data-parent="#database_select">
+              <div id="database" class="collapse" aria-labelledby="headingOne" data-parent="#database_select">
                 <div class="card-body">
                   <div class="mt-2">
                     <div class="input-group">
