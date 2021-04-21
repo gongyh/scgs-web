@@ -38,108 +38,6 @@
               </div>
             </div>
           </div>
-          <div class="input-group mt-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> --bulk </span>
-            </div>
-            <div class="form-control">
-              <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="bulk1" name="bulk" class="custom-control-input" value="bulk" {{$bulk?'checked':''}}>
-                <label class="custom-control-label" for="bulk1">True</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="bulk2" name="bulk" class="custom-control-input" value="" {{$bulk==false?'checked':''}}>
-                <label class="custom-control-label" for="bulk2">False</label>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="input-group mt-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"> --euk </span>
-              </div>
-              <div class="form-control">
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="euk1" name="euk" class="custom-control-input" value="euk" {{$euk?'checked':''}}>
-                  <label class="custom-control-label" for="euk1">True</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="euk2" name="euk" class="custom-control-input" value="" {{$euk==false?'checked':''}}>
-                  <label class="custom-control-label" for="euk2">False</label>
-                </div>
-              </div>
-            </div>
-            <div class="input-group mt-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"> --fungus </span>
-              </div>
-              <div class="form-control">
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="fungus1" name="fungus" class="custom-control-input" value="fungus" {{$fungus?'checked':''}}>
-                  <label class="custom-control-label" for="fungus1">True</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="fungus2" name="fungus" class="custom-control-input" value="" {{$fungus==false?'checked':''}}>
-                  <label class="custom-control-label" for="fungus2">False</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="input-group mt-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"> --resume </span>
-              </div>
-              <div class="form-control">
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="resume1" name="resume" class="custom-control-input" value="resume" {{$resume?'checked':''}}>
-                  <label class="custom-control-label" for="resume1">True</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="resume2" name="resume" class="custom-control-input" value="" {{$resume==false?'checked':''}}>
-                  <label class="custom-control-label" for="resume2">False</label>
-                </div>
-              </div>
-              <div class="input-group-append">
-                <span id="explain_resume" class="input-group-text" data-toggle="collapse" data-target="#resume_explain" aria-expanded="false" aria-controls="resume_explain">
-                  <i class="fa fa-lg fa-question-circle"></i>
-                </span>
-              </div>
-            </div>
-            <div class="collapse" id="resume_explain">
-              <div class="card card-body text-danger">
-                Pipeline will restart where teminated last time!
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="input-group mt-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"> --genus </span>
-              </div>
-              <div class="form-control">
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="genus1" name="genus" class="custom-control-input genus" value="genus" {{$genus?'checked':''}}>
-                  <label class="custom-control-label" for="genus1">True</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="genus2" name="genus" class="custom-control-input genus" value="" {{$genus==false?'checked':''}}>
-                  <label class="custom-control-label" for="genus2">False</label>
-                </div>
-              </div>
-            </div>
-            <input type="text" name="genus_name" class="mt-2 w-50 form-control genus_name {{$genus_name == null?'no-display':''}}" value={{$genus_name == null?'':$genus_name}}>
-          </div>
-          <!-- error message -->
-          @if (count($errors) > 0)
-          <div class="alert alert-danger">
-            <ul>
-              @foreach ($errors->all() as $error)
-              <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-          </div>
-          @endif
           @isset($default_reference)
           <div class="input-group mt-3">
             <div class="input-group-prepend">
@@ -153,7 +51,22 @@
             </select>
           </div>
           @endisset
-          <div class="mt-2 border-bottom pb-3">
+          <div class="input-group mt-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> --euk </span>
+            </div>
+            <div class="form-control">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="euk1" name="euk" class="custom-control-input euk" value="euk" {{$euk?'checked':''}}>
+                <label class="custom-control-label" for="euk1">True</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="euk2" name="euk" class="custom-control-input euk" value="" {{$euk==false?'checked':''}}>
+                <label class="custom-control-label" for="euk2">False</label>
+              </div>
+            </div>
+          </div>
+          <div class="euk_true">
             <div class="input-group mt-3">
               <div class="input-group-prepend">
                 <span class="input-group-text"> --augustus_species </span>
@@ -175,7 +88,55 @@
               <option value={{$augustus_species_list}}>{{$augustus_species_list}}</option>
               @endforeach
             </select>
+            <div class="input-group mt-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> --fungus </span>
+              </div>
+              <div class="form-control">
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" id="fungus1" name="fungus" class="custom-control-input" value="fungus" {{$fungus?'checked':''}}>
+                  <label class="custom-control-label" for="fungus1">True</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" id="fungus2" name="fungus" class="custom-control-input" value="" {{$fungus==false?'checked':''}}>
+                  <label class="custom-control-label" for="fungus2">False</label>
+                </div>
+              </div>
+            </div>
           </div>
+          <div class="euk_false">
+            <div class="input-group mt-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> --genus </span>
+              </div>
+              <div class="form-control">
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" id="genus1" name="genus" class="custom-control-input genus" value="genus" {{$genus?'checked':''}}>
+                  <label class="custom-control-label" for="genus1">True</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" id="genus2" name="genus" class="custom-control-input genus" value="" {{$genus==false?'checked':''}}>
+                  <label class="custom-control-label" for="genus2">False</label>
+                </div>
+              </div>
+            </div>
+            <select class="custom-select mt-2 w-50 genus_name {{$genus_name == null?'no-display':''}}" name=" genus_name" id="genus_name">
+              <option selected value="saccharomyces">saccharomyces</option>
+              @foreach($genus_list as $genus)
+              <option value={{$genus}}>{{$genus}}</option>
+              @endforeach
+            </select>
+          </div>
+          <!-- error message -->
+          @if (count($errors) > 0)
+          <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+          </div>
+          @endif
 
           <div class="accordion mt-2" id="advanced_select">
             <div class="card">
@@ -215,6 +176,21 @@
                       <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="snv2" name="snv" class="custom-control-input" value="" {{$snv==false?'checked':''}}>
                         <label class="custom-control-label" for="snv2">False</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group mt-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"> --bulk </span>
+                    </div>
+                    <div class="form-control">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="bulk1" name="bulk" class="custom-control-input" value="bulk" {{$bulk?'checked':''}}>
+                        <label class="custom-control-label" for="bulk1">True</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="bulk2" name="bulk" class="custom-control-input" value="" {{$bulk==false?'checked':''}}>
+                        <label class="custom-control-label" for="bulk2">False</label>
                       </div>
                     </div>
                   </div>
@@ -274,6 +250,33 @@
                         <div class="custom-control custom-radio custom-control-inline">
                           <input type="radio" id="saveAlignedIntermediates2" name="saveAlignedIntermediates" class="custom-control-input" value="" {{$saveAlignedIntermediates==false?'checked':''}}>
                           <label class="custom-control-label" for="saveAlignedIntermediates2">False</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="input-group mt-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"> --resume </span>
+                        </div>
+                        <div class="form-control">
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="resume1" name="resume" class="custom-control-input" value="resume" {{$resume?'checked':''}}>
+                            <label class="custom-control-label" for="resume1">True</label>
+                          </div>
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="resume2" name="resume" class="custom-control-input" value="" {{$resume==false?'checked':''}}>
+                            <label class="custom-control-label" for="resume2">False</label>
+                          </div>
+                        </div>
+                        <div class="input-group-append">
+                          <span id="explain_resume" class="input-group-text" data-toggle="collapse" data-target="#resume_explain" aria-expanded="false" aria-controls="resume_explain">
+                            <i class="fa fa-lg fa-question-circle"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="collapse" id="resume_explain">
+                        <div class="card card-body text-danger">
+                          Pipeline will restart where teminated last time!
                         </div>
                       </div>
                     </div>

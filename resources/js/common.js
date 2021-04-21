@@ -282,6 +282,14 @@ $(function () {
     $('.genus_name').hide();
   }
 
+  if ($('#euk1').is(':checked')) {
+    $('.euk_true').show();
+    $('.euk_false').hide();
+  } else {
+    $('.euk_true').hide();
+    $('.euk_false').show();
+  }
+
   if ($('#augustus_species1').is(':checked')) {
     $('.augustus_species_name').show();
   } else {
@@ -293,6 +301,16 @@ $(function () {
       $('.genus_name').show();
     } else {
       $('.genus_name').hide();
+    }
+  })
+
+  $('.euk').on('change', function () {
+    if ($('#euk1').is(':checked')) {
+      $('.euk_true').show();
+      $('.euk_false').hide();
+    } else {
+      $('.euk_true').hide();
+      $('.euk_false').show();
     }
   })
 
@@ -490,20 +508,23 @@ $(function () {
 
   /**
    * Check Progress to read weblog
+   *
+   *
+   * $(".detail").on('click', function (e) {
+      e.preventDefault();
+      check_progress = !check_progress;
+      if (check_progress) {
+        $('.command_out').removeClass('d-none');
+        read_progress = setInterval(() => {
+          read_weblog();
+        }, 5000);
+      } else {
+        $('.command_out').addClass('d-none');
+        clearInterval(read_progress);
+      }
+    })
    */
-  //   $(".detail").on('click', function (e) {
-  //     e.preventDefault();
-  //     check_progress = !check_progress;
-  //     if (check_progress) {
-  //       $('.command_out').removeClass('d-none');
-  //       read_progress = setInterval(() => {
-  //         read_weblog();
-  //       }, 5000);
-  //     } else {
-  //       $('.command_out').addClass('d-none');
-  //       clearInterval(read_progress);
-  //     }
-  //   })
+
 
 
   $('.sample_files_save').on('click', function () {
