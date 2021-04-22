@@ -262,6 +262,12 @@ a:hover {
   margin: 0 auto;
 }
 
+.download-image {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+}
+
 .finger_to_left {
   display: inline-block;
   width: 1.0rem;
@@ -664,4 +670,9 @@ a:hover {
 
 #explain_resume {
   cursor: pointer;
+}
+
+#arg_dataTable,
+#bowtie_dataTable {
+  width: 100%;
 }

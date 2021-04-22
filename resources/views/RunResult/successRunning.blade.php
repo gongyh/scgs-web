@@ -34,20 +34,12 @@
                 </p>
 
                 @if(isset($sample_id))
-                <a class="ml-2 mt-1" href="/successRunning/resultDownload?sampleID={{$sample_id}}">
-                  <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
-                    <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
-                    <path fill-rule="evenodd" d="M8 6a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 10.293V6.5A.5.5 0 0 1 8 6z" />
-                  </svg>
+                <a class="ml-2 mt-1" href="/successRunning/resultDownload?sampleID={{$sample_id}}" title="Download compress result">
+                  <img src="{{asset('/images/zip.jpg')}}" class="download-image" alt="Download compress result">
                 </a>
                 @elseif(isset($project_user))
-                <a class="ml-2 mt-1" href="/successRunning/resultDownload?projectID={{$project_id}}">
-                  <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
-                    <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z" />
-                    <path fill-rule="evenodd" d="M8 6a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 10.293V6.5A.5.5 0 0 1 8 6z" />
-                  </svg>
+                <a class="ml-2 mt-1" href="/successRunning/resultDownload?projectID={{$project_id}}" title="Download compress result">
+                  <img src="{{asset('/images/zip.jpg')}}" class="download-image" alt="Download compress result">
                 </a>
                 @endif
               </div>
@@ -135,7 +127,7 @@
             <div class="mt-3 border-bottom">
               <div class="font-large">Blob</div>
               @if(isset($project_user))
-              <select id="blob_txt_tabs" class="mt-2" data-live-search="true" data-style="btn-info">
+              <select id="blob_txt_tabs" class="selectpicker show-tick mt-2" data-live-search="true" data-style="btn-info">
                 @foreach($filename_array as $filename)
                 <option value={{$filename}}>{{$filename}}</option>
                 @endforeach
@@ -157,12 +149,12 @@
             <div class="mt-3">
               <div class="font-large">Blob Picture</div>
               @if(isset($project_user))
-              <select id="blob_pic_tabs" class="mt-2" data-live-search="true" data-style="btn-info">
+              <select id="blob_pic_tabs" class="selectpicker show-tick mt-2" data-live-search="true" data-style="btn-info">
                 @foreach($filename_array as $filename)
                 <option value={{$filename}}>{{$filename}}</option>
                 @endforeach
               </select>
-              <select id="blob_classify" class="mt-2 ml-2" data-live-search="true" data-style="btn-info">
+              <select id="blob_classify" class="selectpicker show-tick mt-2 ml-2" data-live-search="true" data-style="btn-info">
                 <option value="superkingdom">superkingdom</option>
                 <option value="phylum" selected>phylum</option>
                 <option value="order">order</option>

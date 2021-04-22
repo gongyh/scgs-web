@@ -66,7 +66,7 @@
               </div>
             </div>
           </div>
-          <div class="euk_true">
+          <div class="euk_true ml-4">
             <div class="input-group mt-3">
               <div class="input-group-prepend">
                 <span class="input-group-text"> --augustus_species </span>
@@ -81,13 +81,13 @@
                   <label class="custom-control-label" for="augustus_species2">False</label>
                 </div>
               </div>
+              <select class="custom-select w-40 augustus_species_name {{$augustus_species_name == null?'no-display':''}}" name=" augustus_species_name" id="augustus_species_name">
+                <option selected value="saccharomyces">saccharomyces</option>
+                @foreach($augustus_species_lists as $augustus_species_list)
+                <option value={{$augustus_species_list}}>{{$augustus_species_list}}</option>
+                @endforeach
+              </select>
             </div>
-            <select class="custom-select mt-2 w-50 augustus_species_name {{$augustus_species_name == null?'no-display':''}}" name=" augustus_species_name" id="augustus_species_name">
-              <option selected value="saccharomyces">saccharomyces</option>
-              @foreach($augustus_species_lists as $augustus_species_list)
-              <option value={{$augustus_species_list}}>{{$augustus_species_list}}</option>
-              @endforeach
-            </select>
             <div class="input-group mt-3">
               <div class="input-group-prepend">
                 <span class="input-group-text"> --fungus </span>
@@ -104,7 +104,7 @@
               </div>
             </div>
           </div>
-          <div class="euk_false">
+          <div class="euk_false ml-4">
             <div class="input-group mt-3">
               <div class="input-group-prepend">
                 <span class="input-group-text"> --genus </span>
@@ -119,13 +119,14 @@
                   <label class="custom-control-label" for="genus2">False</label>
                 </div>
               </div>
+              <select class="custom-select w-40 genus_name {{$genus_name == null?'no-display':''}}" name=" genus_name" id="genus_name">
+                <option selected value="saccharomyces">saccharomyces</option>
+                @foreach($genus_list as $genus)
+                <option value={{$genus}}>{{$genus}}</option>
+                @endforeach
+              </select>
             </div>
-            <select class="custom-select mt-2 w-50 genus_name {{$genus_name == null?'no-display':''}}" name=" genus_name" id="genus_name">
-              <option selected value="saccharomyces">saccharomyces</option>
-              @foreach($genus_list as $genus)
-              <option value={{$genus}}>{{$genus}}</option>
-              @endforeach
-            </select>
+
           </div>
           <!-- error message -->
           @if (count($errors) > 0)
@@ -253,7 +254,7 @@
                         </div>
                       </div>
                     </div>
-                    <div>
+                    <div class="w-100">
                       <div class="input-group mt-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text"> --resume </span>

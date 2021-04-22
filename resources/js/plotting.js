@@ -421,7 +421,12 @@ $(function () {
             $('#arg_dataTable tbody').empty();
             for (let j = 0; j < data[0].length; j++) {
               let th = $('<th></th>');
-              th.text('column ' + (j + 1));
+              if (j == 0) {
+                th.text('Item');
+              }
+              if (j == 1) {
+                th.text('Value');
+              }
               $('#arg_dataTable thead tr').append(th);
             }
             for (let i = 0; i < data.length; i++) {
@@ -475,7 +480,12 @@ $(function () {
             $('#arg_dataTable tbody').empty();
             for (let j = 0; j < data[0].length; j++) {
               let th = $('<th></th>');
-              th.text('column ' + (j + 1));
+              if (j == 0) {
+                th.text('Item');
+              }
+              if (j == 1) {
+                th.text('Value');
+              }
               $('#arg_dataTable thead tr').append(th);
             }
             for (let i = 0; i < data.length; i++) {
@@ -992,7 +1002,12 @@ $(function () {
             });
             for (let j = 0; j < data[0].length; j++) {
               let th = $('<th></th>');
-              th.text('column ' + (j + 1));
+              if (j == 0) {
+                th.text('Item');
+              }
+              if (j == 1) {
+                th.text('Value');
+              }
               $('#bowtie_dataTable thead tr').append(th);
             }
             for (let i = 0; i < data.length; i++) {
@@ -1044,7 +1059,12 @@ $(function () {
             });
             for (let j = 0; j < data[0].length; j++) {
               let th = $('<th></th>');
-              th.text('column ' + (j + 1));
+              if (j == 0) {
+                th.text('Item');
+              }
+              if (j == 1) {
+                th.text('Value');
+              }
               $('#bowtie_dataTable thead tr').append(th);
             }
             for (let i = 0; i < data.length; i++) {
