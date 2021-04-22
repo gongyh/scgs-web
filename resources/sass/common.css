@@ -674,5 +674,5 @@ a:hover {
 
 #arg_dataTable,
 #bowtie_dataTable {
-  width: 100%;
+  width: 100% !important;
 }
