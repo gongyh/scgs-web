@@ -439,7 +439,6 @@
       </div>
     </div>
     <!-- right-column -->
-
   </div>
 </div>
 @endsection

@@ -680,5 +680,5 @@ a:hover {
 .scgs_pipeline {
   display: block;
   width: 100%;
-  height: 500px;
+  height: auto;
 }
