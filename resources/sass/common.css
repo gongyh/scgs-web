@@ -676,3 +676,9 @@ a:hover {
 #bowtie_dataTable {
   width: 100% !important;
 }
+
+.scgs_pipeline {
+  display: block;
+  width: 100%;
+  height: 500px;
+}

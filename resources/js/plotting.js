@@ -622,6 +622,8 @@ $(function () {
                   let length = phylum_list[j] + '_length';
                   let gc = phylum_list[j] + '_gc';
                   let cov = phylum_list[j] + '_cov';
+                  let total_length = phylum_list[j] + '_total_length';
+                  window[total_length] = 0;
                   window[name] = [];
                   window[length] = [];
                   window[gc] = [];
@@ -632,6 +634,7 @@ $(function () {
                       window[length].push(blob_pic[v][1]);
                       window[gc].push(blob_pic[v][2]);
                       window[cov].push(blob_pic[v][4]);
+                      window[total_length] += parseInt(blob_pic[v][1]);
                     }
                   }
                   window[length] = window[length].map(function (i) {
@@ -645,7 +648,8 @@ $(function () {
                     mode: 'markers',
                     marker: {
                       size: window[length],
-                    }
+                    },
+                    total_length: window[total_length]
                   }
                   phylum_data.push(window[blob]);
                 } else {
@@ -677,11 +681,13 @@ $(function () {
                     mode: 'markers',
                     marker: {
                       size: window[other_length],
-                    }
+                    },
+                    total_length: 0
                   }
                   phylum_data.push(window[other_blob]);
                 }
               }
+              phylum_data.sort(compare('total_length'));
               var layout = {
                 yaxis: {
                   type: 'log',
@@ -801,6 +807,8 @@ $(function () {
                   let length = phylum_list[j] + '_length';
                   let gc = phylum_list[j] + '_gc';
                   let cov = phylum_list[j] + '_cov';
+                  let total_length = phylum_list[j] + '_total_length';
+                  window[total_length] = 0;
                   window[name] = [];
                   window[length] = [];
                   window[gc] = [];
@@ -811,6 +819,7 @@ $(function () {
                       window[length].push(data[v][1]);
                       window[gc].push(data[v][2]);
                       window[cov].push(data[v][4]);
+                      window[total_length] += parseInt(data[v][1]);
                     }
                   }
                   window[length] = window[length].map(function (i) {
@@ -824,7 +833,8 @@ $(function () {
                     mode: 'markers',
                     marker: {
                       size: window[length],
-                    }
+                    },
+                    total_length:window[total_length]
                   }
                   phylum_data.push(window[blob]);
                 } else {
@@ -856,11 +866,13 @@ $(function () {
                     mode: 'markers',
                     marker: {
                       size: window[other_length],
-                    }
+                    },
+                    total_length:0
                   }
                   phylum_data.push(window[other_blob]);
                 }
               }
+              phylum_data.sort(compare('total_length'));
               var layout = {
                 yaxis: {
                   type: 'log',
@@ -870,7 +882,6 @@ $(function () {
                 height: 900
               }
               Plotly.newPlot(blob_picture, phylum_data, layout);
-
             }
           }
         }
@@ -1353,6 +1364,8 @@ $(function () {
                 let length = superkingdom_list[j] + '_length';
                 let gc = superkingdom_list[j] + '_gc';
                 let cov = superkingdom_list[j] + '_cov';
+                let total_length = superkingdom_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -1363,6 +1376,7 @@ $(function () {
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
                     window[cov].push(data[v][4]);
+                    window[total_length] += parseInt(data[v][1]);
                   }
                 }
                 window[length] = window[length].map(function (i) {
@@ -1376,7 +1390,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 superkingdom_data.push(window[blob]);
               } else {
@@ -1408,11 +1423,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 superkingdom_data.push(window[other_blob]);
               }
             }
+            superkingdom_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -1443,6 +1460,8 @@ $(function () {
                 let length = phylum_list[j] + '_length';
                 let gc = phylum_list[j] + '_gc';
                 let cov = phylum_list[j] + '_cov';
+                let total_length = phylum_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -1466,7 +1485,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 phylum_data.push(window[blob]);
               } else {
@@ -1498,11 +1518,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 phylum_data.push(window[other_blob]);
               }
             }
+            phylum_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -1533,6 +1555,8 @@ $(function () {
                 let length = order_list[j] + '_length';
                 let gc = order_list[j] + '_gc';
                 let cov = order_list[j] + '_cov';
+                let total_length = order_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -1543,6 +1567,7 @@ $(function () {
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
                     window[cov].push(data[v][4]);
+                    window[total_length] += parseInt(data[v][1]);
                   }
                 }
                 window[length] = window[length].map(function (i) {
@@ -1556,7 +1581,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 order_data.push(window[blob]);
               } else {
@@ -1588,11 +1614,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 order_data.push(window[other_blob]);
               }
             }
+            order_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -1623,6 +1651,8 @@ $(function () {
                 let length = family_list[j] + '_length';
                 let gc = family_list[j] + '_gc';
                 let cov = family_list[j] + '_cov';
+                let total_length = family_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -1633,6 +1663,7 @@ $(function () {
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
                     window[cov].push(data[v][4]);
+                    window[total_length] += parseInt(data[v][1]);
                   }
                 }
                 window[length] = window[length].map(function (i) {
@@ -1646,7 +1677,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 family_data.push(window[blob]);
               } else {
@@ -1678,11 +1710,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 family_data.push(window[other_blob]);
               }
             }
+            family_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -1713,6 +1747,8 @@ $(function () {
                 let length = genus_list[j] + '_length';
                 let gc = genus_list[j] + '_gc';
                 let cov = genus_list[j] + '_cov';
+                let total_length = genus_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -1723,6 +1759,7 @@ $(function () {
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
                     window[cov].push(data[v][4]);
+                    window[total_length] += parseInt(data[v][1]);
                   }
                 }
                 window[length] = window[length].map(function (i) {
@@ -1736,7 +1773,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 genus_data.push(window[blob]);
               } else {
@@ -1768,11 +1806,14 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 genus_data.push(window[other_blob]);
               }
             }
+            genus_data.sort(compare('total_length'));
+
             var layout = {
               yaxis: {
                 type: 'log',
@@ -1803,6 +1844,8 @@ $(function () {
                 let length = species_list[j] + '_length';
                 let gc = species_list[j] + '_gc';
                 let cov = species_list[j] + '_cov';
+                let total_length = species_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -1813,6 +1856,7 @@ $(function () {
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
                     window[cov].push(data[v][4]);
+                    window[total_length] += parseInt(data[v][1]);
                   }
                 }
                 window[length] = window[length].map(function (i) {
@@ -1826,7 +1870,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 species_data.push(window[blob]);
               } else {
@@ -1858,11 +1903,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 species_data.push(window[other_blob]);
               }
             }
+            species_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -1913,6 +1960,8 @@ $(function () {
                 let length = superkingdom_list[j] + '_length';
                 let gc = superkingdom_list[j] + '_gc';
                 let cov = superkingdom_list[j] + '_cov';
+                let total_length = superkingdom_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -1923,6 +1972,7 @@ $(function () {
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
                     window[cov].push(data[v][4]);
+                    window[total_length] += parseInt(data[v][1]);
                   }
                 }
                 window[length] = window[length].map(function (i) {
@@ -1936,7 +1986,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 superkingdom_data.push(window[blob]);
               } else {
@@ -1968,11 +2019,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 superkingdom_data.push(window[other_blob]);
               }
             }
+            superkingdom_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -2003,6 +2056,8 @@ $(function () {
                 let length = phylum_list[j] + '_length';
                 let gc = phylum_list[j] + '_gc';
                 let cov = phylum_list[j] + '_cov';
+                let total_length = phylum_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -2013,6 +2068,7 @@ $(function () {
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
                     window[cov].push(data[v][4]);
+                    window[total_length] += parseInt(data[v][1]);
                   }
                 }
                 window[length] = window[length].map(function (i) {
@@ -2026,7 +2082,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 phylum_data.push(window[blob]);
               } else {
@@ -2058,11 +2115,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 phylum_data.push(window[other_blob]);
               }
             }
+            phylum_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -2093,6 +2152,8 @@ $(function () {
                 let length = order_list[j] + '_length';
                 let gc = order_list[j] + '_gc';
                 let cov = order_list[j] + '_cov';
+                let total_length = order_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -2103,6 +2164,7 @@ $(function () {
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
                     window[cov].push(data[v][4]);
+                    window[total_length] += parseInt(data[v][1]);
                   }
                 }
                 window[length] = window[length].map(function (i) {
@@ -2116,7 +2178,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 order_data.push(window[blob]);
               } else {
@@ -2148,11 +2211,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 order_data.push(window[other_blob]);
               }
             }
+            order_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -2183,6 +2248,8 @@ $(function () {
                 let length = family_list[j] + '_length';
                 let gc = family_list[j] + '_gc';
                 let cov = family_list[j] + '_cov';
+                let total_length = family_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -2193,6 +2260,7 @@ $(function () {
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
                     window[cov].push(data[v][4]);
+                    window[total_length] += parseInt(data[v][1]);
                   }
                 }
                 window[length] = window[length].map(function (i) {
@@ -2206,7 +2274,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 family_data.push(window[blob]);
               } else {
@@ -2238,11 +2307,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 family_data.push(window[other_blob]);
               }
             }
+            family_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -2273,6 +2344,8 @@ $(function () {
                 let length = genus_list[j] + '_length';
                 let gc = genus_list[j] + '_gc';
                 let cov = genus_list[j] + '_cov';
+                let total_length = genus_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -2296,7 +2369,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 genus_data.push(window[blob]);
               } else {
@@ -2328,11 +2402,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 genus_data.push(window[other_blob]);
               }
             }
+            genus_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -2363,6 +2439,8 @@ $(function () {
                 let length = species_list[j] + '_length';
                 let gc = species_list[j] + '_gc';
                 let cov = species_list[j] + '_cov';
+                let total_length = species_list[j] + '_total_length';
+                window[total_length] = 0;
                 window[name] = [];
                 window[length] = [];
                 window[gc] = [];
@@ -2373,6 +2451,7 @@ $(function () {
                     window[length].push(data[v][1]);
                     window[gc].push(data[v][2]);
                     window[cov].push(data[v][4]);
+                    window[total_length] += parseInt(data[v][1]);
                   }
                 }
                 window[length] = window[length].map(function (i) {
@@ -2386,7 +2465,8 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[length],
-                  }
+                  },
+                  total_length: window[total_length]
                 }
                 species_data.push(window[blob]);
               } else {
@@ -2418,11 +2498,13 @@ $(function () {
                   mode: 'markers',
                   marker: {
                     size: window[other_length],
-                  }
+                  },
+                  total_length: 0
                 }
                 species_data.push(window[other_blob]);
               }
             }
+            species_data.sort(compare('total_length'));
             var layout = {
               yaxis: {
                 type: 'log',
@@ -2455,5 +2537,20 @@ $(function () {
     var pos = wwwPath.indexOf(pathName);
     var localhostPath = wwwPath.substring(0, pos);
     return localhostPath;
+  }
+
+  // compare
+  function compare(propertyName) {
+    return function (object1, object2) {
+      var value1 = object1[propertyName];
+      var value2 = object2[propertyName];
+      if (value2 < value1) {
+        return -1;
+      } else if (value2 > value1) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
   }
 })
