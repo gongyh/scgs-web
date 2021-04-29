@@ -1,0 +1,74 @@
+version: '3.5'
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  scgs-seq:
+  scgs-db:
+  scgs-out:
+  scgs-mysql:
+  scgs-redis:
+
+services:
+    school:
+      build:
+        context: .
+      image: school
+      volumes:
+        - scgs-seq:/mnt/data
+        - scgs-db:/mnt/db
+        - scgs-out:/app/public/results
+      ports:
+        - 8081:80
+      networks:
+        - frontend
+        - backend
+      depends_on:
+        - mysql
+        - redis
+
+    queue:
+      image: school
+      depends_on: school
+      command: php /app/artisan horizon
+      volumes:
+        - scgs-seq:/mnt/data
+        - scgs-db:/mnt/db
+        - scgs-out:/app/public/results
+      ports:
+        - 8082:80
+      networks:
+        - backend
+      depends_on:
+        - mysql
+        - redis
+
+    redis:
+      build: ./redis
+      volumes:
+        - scgs-redis:/data
+      ports:
+        - 16379:6379
+      networks:
+        - backend
+
+    mysql:
+      build:
+        context: ./mysql
+      environment:
+        - MYSQL_DATABASE=${DB_DATABASE}
+        - MYSQL_USER=${DB_USERNAME}
+        - MYSQL_PASSWORD=${DB_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+        - TZ="Asia/Shanghai"
+      volumes:
+        - scgs-mysql:/var/lib/mysql
+        - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      ports:
+        - 13306:3306
+      networks:
+        - backend
