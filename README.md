@@ -28,12 +28,15 @@ $ docker-compose up # or docker-compose up -d
 ```
 
 4. Test using skaffold for k8s
+
 4.1 Create a namespace: skaffold
+
 4.2 Prepare all PVs for the PVC
+
 4.3 test in dev mode
+
 ```bash
 $ skaffold dev
-
 ```
 
 ## License
