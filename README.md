@@ -7,9 +7,8 @@ This website application is based on [Laravel](https://laravel.com) framework.
 0. Prerequisites
 ```bash
 $ cp .env.example .env
-vi .env # configration
+$ vi .env # optional
 ```
-Setup your database, and manually modify the configration file `.env`.
 
 1. Autoloader Optimization
 ```bash
@@ -24,6 +23,7 @@ $ npm install && npm run production
 
 3. Test using docker compose
 ```bash
+$ vi docker-compose.yml # optional
 $ docker-compose up # or docker-compose up -d
 ```
 
@@ -34,4 +34,5 @@ Both the Laravel framework and website application are open-sourced software lic
 ## Contact
 
 [Yanhai Gong](mailto:gongyh@qibebt.ac.cn)
+
 [Shiqi Zhou](mailto:zhousq@qibebt.ac.cn)

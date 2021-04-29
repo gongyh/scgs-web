@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: school
+  name: school
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: school
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/backend: "true"
+        io.kompose.network/frontend: "true"
+        io.kompose.service: school
+    spec:
+      containers:
+        - image: school
+          name: school
+          ports:
+            - containerPort: 80
+          resources: {}
+          volumeMounts:
+            - mountPath: /mnt/data
+              name: scgs-seq
+            - mountPath: /mnt/db
+              name: scgs-db
+            - mountPath: /app/public/results
+              name: scgs-out
+      restartPolicy: Always
+      volumes:
+        - name: scgs-seq
+          persistentVolumeClaim:
+            claimName: scgs-seq
+        - name: scgs-db
+          persistentVolumeClaim:
+            claimName: scgs-db
+        - name: scgs-out
+          persistentVolumeClaim:
+            claimName: scgs-out
+status: {}

@@ -1,0 +1,38 @@
+apiVersion: skaffold/v2beta15
+kind: Config
+metadata:
+  name: scgs-web
+build:
+  local:
+    push: false
+  artifacts:
+  - image: mysql
+    context: mysql
+    docker:
+      dockerfile: Dockerfile
+  - image: redis
+    context: redis
+    docker:
+      dockerfile: Dockerfile
+  - image: school
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - backend-networkpolicy.yaml
+    - frontend-networkpolicy.yaml
+    - mysql-claim1-persistentvolumeclaim.yaml
+    - mysql-deployment.yaml
+    - mysql-service.yaml
+    - queue-deployment.yaml
+    - queue-service.yaml
+    - redis-deployment.yaml
+    - redis-service.yaml
+    - scgs-db-persistentvolumeclaim.yaml
+    - scgs-mysql-persistentvolumeclaim.yaml
+    - scgs-out-persistentvolumeclaim.yaml
+    - scgs-redis-persistentvolumeclaim.yaml
+    - scgs-seq-persistentvolumeclaim.yaml
+    - school-deployment.yaml
+    - school-service.yaml
