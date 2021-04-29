@@ -36,3 +36,4 @@ deploy:
     - scgs-seq-persistentvolumeclaim.yaml
     - school-deployment.yaml
     - school-service.yaml
+    defaultNamespace: skaffold
