@@ -27,6 +27,15 @@ $ vi docker-compose.yml # optional
 $ docker-compose up # or docker-compose up -d
 ```
 
+4. Test using skaffold for k8s
+4.1 Create a namespace: skaffold
+4.2 Prepare all PVs for the PVC
+4.3 test in dev mode
+```bash
+$ skaffold dev
+
+```
+
 ## License
 
 Both the Laravel framework and website application are open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
