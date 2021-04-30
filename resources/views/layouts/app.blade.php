@@ -69,11 +69,31 @@
                 </div>
               </li>
               @endif
-              <li class="nav-item">
-                <a href="/aboutus" class="nav-link nav-menu">About</a>
+              <li class="nav-item dropdown">
+                <div class="btn-group workspace">
+                  <a class="nav-link nav-menu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Protocols
+                  </a>
+                  <div class="dropdown-menu workspace-dropdown">
+                    <a class="dropdown-item" href="/">RAGE-Seq Seawater</a>
+                    <a class="dropdown-item" href="/">RAGE-Seq Soil</a>
+                    <a class="dropdown-item" href="/">RAGE-Seq Clinical</a>
+                  </div>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <div class="btn-group workspace">
+                  <a class="nav-link nav-menu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Tools
+                  </a>
+                  <div class="dropdown-menu workspace-dropdown">
+                    <a class="dropdown-item" href="/apps/app/ramand2o">RamanD2O</a>
+                    <a class="dropdown-item" href="/visualization">Visualization</a>
+                  </div>
+                </div>
               </li>
               <li class="nav-item">
-                <a href="/apps/app/ramand2o" class="nav-link nav-menu" target="blank">RamanD2O</a>
+                <a href="/aboutus" class="nav-link nav-menu">About</a>
               </li>
             </ul>
 
