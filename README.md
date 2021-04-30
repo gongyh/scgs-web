@@ -24,6 +24,7 @@ $ npm install && npm run production
 3. Test using docker compose
 ```bash
 $ vi docker-compose.yml # optional
+$ mkdir -p pv pv/seq pv/db pv/redis pv/mysql
 $ docker-compose up # or docker-compose up -d
 ```
 
