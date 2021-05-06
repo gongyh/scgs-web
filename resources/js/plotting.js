@@ -32,7 +32,7 @@ $(function () {
   }
 
   if (window.location.href.indexOf('sampleID') != -1) {
-    var krona_src = 'results/' + $('.iframe_sample_user').text() + '/' + $('.iframe_sample_uuid').text() + '/kraken/' + $('.iframe_sample_name').text() + '.krona.html';
+    var krona_src = '/kraken?sample_uuid=' + $('.iframe_sample_uuid').text() + '&sample_name=' + $('.iframe_sample_name').text();
     krona.setAttribute('src', krona_src);
     krona.setAttribute('class', 'embed-responsive-item');
     if (krona_tab != null) {
@@ -58,8 +58,8 @@ $(function () {
       }
     }
   } else {
-    var krona_src = 'results/' + $('.iframe_project_accession').text() + '/' + $('.iframe_project_uuid').text() + '/kraken/' + iframe_krona_tabs.first().val() + '.krona.html';
-    var blob_src = 'results/' + $('.iframe_project_accession').text() + '/' + $('.iframe_project_uuid').text() + '/blob/' + image_blob_tabs.first().val() + '/' + image_blob_tabs.first().val() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
+    var krona_src = '/kraken?project_uuid=' + $('.iframe_project_uuid').text() + '&sample_name=' + iframe_krona_tabs.first().val();
+    var blob_src = '/blob?project_uuid=' + $('.iframe_project_uuid').text() + '&sample_name=' + image_blob_tabs.first().val();
     krona.setAttribute('src', krona_src);
     krona.setAttribute('class', 'embed-responsive-item');
     if (krona_tab != null) {
@@ -101,7 +101,7 @@ $(function () {
 
     iframe_krona_tabs.on('change', function (e) {
       e.preventDefault();
-      var krona_src = 'results/' + $('.iframe_project_accession').text() + '/' + $('.iframe_project_uuid').text() + '/kraken/' + $('#kraken_tabs option:selected').val() + '.krona.html';
+      var krona_src = '/kraken?project_uuid=' + $('.iframe_project_uuid').text() + '&sample_name=' + $('#kraken_tabs option:selected').val();
       krona.setAttribute('src', krona_src);
       krona.setAttribute('class', 'embed-responsive-item');
       $('#kraken_report').empty();
@@ -111,7 +111,7 @@ $(function () {
     image_blob_tabs.on('change', function (e) {
       e.preventDefault();
       var rootPath = getRootPath();
-      var blob_src = 'results/' + $('.iframe_project_accession').text() + '/' + $('.iframe_project_uuid').text() + '/blob/' + $('#blob_tabs option:selected').val() + '/' + $('#blob_tabs option:selected').val() + '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
+      var blob_src = '/blob?project_uuid=' + $('.iframe_project_uuid').text() + '&sample_name=' + $('#blob_tabs option:selected').val();
       $('#blob_image').attr('src', blob_src);
     })
 
@@ -834,7 +834,7 @@ $(function () {
                     marker: {
                       size: window[length],
                     },
-                    total_length:window[total_length]
+                    total_length: window[total_length]
                   }
                   phylum_data.push(window[blob]);
                 } else {
@@ -867,7 +867,7 @@ $(function () {
                     marker: {
                       size: window[other_length],
                     },
-                    total_length:0
+                    total_length: 0
                   }
                   phylum_data.push(window[other_blob]);
                 }

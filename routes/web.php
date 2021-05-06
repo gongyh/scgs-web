@@ -102,6 +102,9 @@ Route::group(['prefix' => 'successRunning'], function () {
     Route::get('/test','ResultController@test');
 });
 
+Route::get('/multiqc','ResultController@multiqc_result');
+Route::get('/kraken','ResultController@kraken_result');
+Route::get('/blob','ResultController@blob_result');
 Route::get('/failedRunning', 'ResultController@failed_running');
 Route::get('/ramanResult', 'RamanResultController@index');
 

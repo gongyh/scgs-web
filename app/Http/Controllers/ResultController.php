@@ -32,18 +32,6 @@ class ResultController extends Controller
             $sample_id = $request->input('sampleID');
             $project_id = Samples::where('id', $sample_id)->value('projects_id');
             $project_accession = Projects::where('id', $project_id)->value('doi');
-            $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
-            $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $path = $base_path . $project_accession . '/' . $uuid . '/results';
-            $multiqc_mkdir = 'cd ' . public_path() . '/results && mkdir -p ' . $project_accession . '/' . $uuid;
-            $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
-            $cp_kraken = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/kraken ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
-            $cp_blob = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/blob ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
-            system($multiqc_mkdir);
-            system($cp_multiqc);
-            system($cp_kraken);
-            system($cp_blob);
-
             $filename = Samples::where('id', $sample_id)->value('filename1');
             preg_match('/(_trimmed)?(_combined)?(\.R1)?(_1)?(_R1)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$/', $filename, $matches);
             $file_postfix = $matches[0];
@@ -62,21 +50,7 @@ class ResultController extends Controller
             return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid, 'project_id' => $project_id, 'project_accession' => $project_accession , 'file_prefix' => $file_prefix, 'preseq_array' => $preseq_array]);
         } else {
             $project_id = $request->input('projectID');
-            $uuid = Jobs::where('project_id', $project_id)->value('uuid');
             $project_accession = Projects::where('id', $project_id)->value('doi');
-            $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $path = $base_path . $project_accession . '/' . $uuid . '/results';
-            $multiqc_mkdir = 'cd ' . public_path() . '/results && mkdir -p ' . $project_accession . '/' . $uuid;
-            $cp_multiqc = 'if [ -d ' . $path . '/MultiQC ]; then cp -r ' . $path . '/MultiQC ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
-            $cp_kraken = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/kraken ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
-            $cp_blob = 'if [ -d ' . $path . '/kraken ]; then cp -r ' . $path . '/blob ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
-            $cp_preseq = 'if [ -d ' . $path . '/preseq ]; then cp -r ' . $path . '/preseq ' . public_path() . '/results/' . $project_accession . '/' . $uuid . '; fi';
-            system($multiqc_mkdir);
-            system($cp_multiqc);
-            system($cp_kraken);
-            system($cp_blob);
-            system($cp_preseq);
-
             $project_user_id = Jobs::where('project_id', $project_id)->value('user_id');
             $project_user = User::where('id', $project_user_id)->value('name');
             $project_uuid = Jobs::where('project_id', $project_id)->value('uuid');
@@ -101,6 +75,68 @@ class ResultController extends Controller
         }
     }
 
+    public function multiqc_result(Request $request)
+    {
+        if($request->input('sample_uuid')){
+            $sample_uuid = $request->input('sample_uuid');
+            $sample_id = Jobs::where('uuid',$sample_uuid)->value('sample_id');
+            $project_id = Samples::where('id',$sample_id)->value('projects_id');
+            $project_accession = Projects::where('id',$project_id)->value('doi');
+            $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
+            $multiqc_path = $base_path . $project_accession . '/' . $sample_uuid . '/results/MultiQC/multiqc_report.html';
+            return response()->file($multiqc_path);
+        } else {
+            $project_uuid = $request->input('project_uuid');
+            $project_id = Jobs::where('uuid',$project_uuid)->value('project_id');
+            $project_accession = Projects::where('id',$project_id)->value('doi');
+            $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
+            $multiqc_path = $base_path . $project_accession . '/' . $project_uuid . '/results/MultiQC/multiqc_report.html';
+            return response()->file($multiqc_path);
+        }
+    }
+
+    public function kraken_result(Request $request)
+    {
+        $sample_name = $request->input('sample_name');
+        if($request->input('sample_uuid')){
+            $sample_uuid = $request->input('sample_uuid');
+            $sample_id = Jobs::where('uuid',$sample_uuid)->value('sample_id');
+            $project_id = Samples::where('id',$sample_id)->value('projects_id');
+            $project_accession = Projects::where('id',$project_id)->value('doi');
+            $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
+            $krona_path = $base_path . $project_accession . '/' . $sample_uuid . '/results/kraken/' . $sample_name . '.krona.html';
+            return response()->file($krona_path);
+        } else {
+            $project_uuid = $request->input('project_uuid');
+            $project_id = Jobs::where('uuid',$project_uuid)->value('project_id');
+            $project_accession = Projects::where('id',$project_id)->value('doi');
+            $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
+            $krona_path = $base_path . $project_accession . '/' . $project_uuid . '/results/kraken/' . $sample_name . '.krona.html';
+            return response()->file($krona_path);
+        }
+    }
+
+    public function blob_result(Request $request)
+    {
+        $sample_name = $request->input('sample_name');
+        if($request->input('sample_uuid')){
+            $sample_uuid = $request->input('sample_uuid');
+            $sample_id = Jobs::where('uuid',$sample_uuid)->value('sample_id');
+            $project_id = Samples::where('id',$sample_id)->value('projects_id');
+            $project_accession = Projects::where('id',$project_id)->value('doi');
+            $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
+            $blob_path = $base_path . $project_accession . '/' . $sample_uuid . '/results/blob/' . $sample_name . '/' . $sample_name . '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
+            return response()->file($blob_path);
+        } else {
+            $project_uuid = $request->input('project_uuid');
+            $project_id = Jobs::where('uuid',$project_uuid)->value('project_id');
+            $project_accession = Projects::where('id',$project_id)->value('doi');
+            $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
+            $blob_path = $base_path . $project_accession . '/' . $project_uuid . '/results/blob/' . $sample_name . '/' . $sample_name . '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
+            return response()->file($blob_path);
+        }
+    }
+
     public function download_result(Request $request)
     {
         if ($request->input('sampleID')) {
@@ -112,7 +148,6 @@ class ResultController extends Controller
             $result_path  = $project_accession . '/' . $uuid . '/results';
             $zip_name = $project_accession . '/' . $uuid . '/results.zip';
             $zip_full_name = $base_path . $project_accession . '/' . $uuid . '/results.zip';
-
             if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
                 return response()->download($zip_full_name);
             } else {
@@ -126,7 +161,6 @@ class ResultController extends Controller
             $result_path  = $project_accession . '/' . $uuid . '/results';
             $zip_name = $project_accession . '/' . $uuid . '/results.zip';
             $zip_full_name = $base_path . $project_accession . '/' . $uuid . '/results.zip';
-
             if (Storage::disk('local')->exists($result_path) && Storage::disk('local')->exists($zip_name)) {
                 return response()->download($zip_full_name);
             } else {
@@ -581,35 +615,6 @@ class ResultController extends Controller
         }
         array_shift($blob_data);
         return response()->json(['code' => 200, 'data' => $blob_data]);
-    }
-
-    public function test()
-    {
-        $blob_pic = Storage::get('Y7-LCJ3577.blobDB.table.txt');
-        $blob_pic = explode("\n", $blob_pic);
-        $blob_pic = array_splice($blob_pic, 10);
-        $blob_table = array();
-        foreach($blob_pic as $blob)
-        {
-            $blob = explode("\t", $blob);
-            $len_pos = strpos($blob[0], '_length');
-            $blob[0] = substr($blob[0], 0, $len_pos);
-            array_splice($blob,6,1);
-            array_splice($blob,6,1);
-            array_splice($blob,7,1);
-            array_splice($blob,7,1);
-            array_splice($blob,8,1);
-            array_splice($blob,8,1);
-            array_splice($blob,9,1);
-            array_splice($blob,9,1);
-            array_splice($blob,10,1);
-            array_splice($blob,10,1);
-            array_splice($blob,11,1);
-            array_splice($blob,11,1);
-            array_push($blob_table, $blob);
-        }
-        array_shift($blob_table);
-        dd($blob_table);
     }
 
 }
