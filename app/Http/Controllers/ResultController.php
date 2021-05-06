@@ -83,15 +83,25 @@ class ResultController extends Controller
             $project_id = Samples::where('id',$sample_id)->value('projects_id');
             $project_accession = Projects::where('id',$project_id)->value('doi');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $multiqc_path = $base_path . $project_accession . '/' . $sample_uuid . '/results/MultiQC/multiqc_report.html';
-            return response()->file($multiqc_path);
+            $relative_path = $project_accession . '/' . $sample_uuid . '/results/MultiQC/multiqc_report.html';
+            $multiqc_path = $base_path . $relative_path;
+            if(Storage::disk('local')->exists($relative_path)){
+                return response()->file($multiqc_path);
+            } else {
+                return abort('404');
+            }
         } else {
             $project_uuid = $request->input('project_uuid');
             $project_id = Jobs::where('uuid',$project_uuid)->value('project_id');
             $project_accession = Projects::where('id',$project_id)->value('doi');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $multiqc_path = $base_path . $project_accession . '/' . $project_uuid . '/results/MultiQC/multiqc_report.html';
-            return response()->file($multiqc_path);
+            $relative_path = $project_accession . '/' . $project_uuid . '/results/MultiQC/multiqc_report.html';
+            $multiqc_path = $base_path . $relative_path;
+            if(Storage::disk('local')->exists($relative_path)){
+                return response()->file($multiqc_path);
+            } else {
+                return abort('404');
+            }
         }
     }
 
@@ -104,15 +114,25 @@ class ResultController extends Controller
             $project_id = Samples::where('id',$sample_id)->value('projects_id');
             $project_accession = Projects::where('id',$project_id)->value('doi');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $krona_path = $base_path . $project_accession . '/' . $sample_uuid . '/results/kraken/' . $sample_name . '.krona.html';
-            return response()->file($krona_path);
+            $relative_path = $project_accession . '/' . $sample_uuid . '/results/kraken/' . $sample_name . '.krona.html';
+            $krona_path = $base_path . $relative_path;
+            if(Storage::disk('local')->exists($relative_path)){
+                return response()->file($krona_path);
+            } else {
+                return abort('404');
+            }
         } else {
             $project_uuid = $request->input('project_uuid');
             $project_id = Jobs::where('uuid',$project_uuid)->value('project_id');
             $project_accession = Projects::where('id',$project_id)->value('doi');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $krona_path = $base_path . $project_accession . '/' . $project_uuid . '/results/kraken/' . $sample_name . '.krona.html';
-            return response()->file($krona_path);
+            $relative_path = $project_accession . '/' . $project_uuid . '/results/kraken/' . $sample_name . '.krona.html';
+            $krona_path = $base_path . $relative_path;
+            if(Storage::disk('local')->exists($relative_path)){
+                return response()->file($krona_path);
+            } else {
+                return abort('404');
+            }
         }
     }
 
@@ -125,15 +145,25 @@ class ResultController extends Controller
             $project_id = Samples::where('id',$sample_id)->value('projects_id');
             $project_accession = Projects::where('id',$project_id)->value('doi');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $blob_path = $base_path . $project_accession . '/' . $sample_uuid . '/results/blob/' . $sample_name . '/' . $sample_name . '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
-            return response()->file($blob_path);
+            $relative_path = $project_accession . '/' . $sample_uuid . '/results/blob/' . $sample_name . '/' . $sample_name . '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
+            $blob_path = $base_path . $relative_path;
+            if(Storage::disk('local')->exists($relative_path)){
+                return response()->file($blob_path);
+            } else {
+                return abort('404');
+            }
         } else {
             $project_uuid = $request->input('project_uuid');
             $project_id = Jobs::where('uuid',$project_uuid)->value('project_id');
             $project_accession = Projects::where('id',$project_id)->value('doi');
             $base_path =  Storage::disk('local')->getAdapter()->getPathPrefix();
-            $blob_path = $base_path . $project_accession . '/' . $project_uuid . '/results/blob/' . $sample_name . '/' . $sample_name . '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
-            return response()->file($blob_path);
+            $relative_path = $project_accession . '/' . $project_uuid . '/results/blob/' . $sample_name . '/' . $sample_name . '.blobDB.json.bestsum.family.p7.span.200.blobplot.spades.png';
+            $blob_path = $base_path . $relative_path;
+            if(Storage::disk('local')->exists($relative_path)){
+                return response()->file($blob_path);
+            } else {
+                return abort('404');
+            }
         }
     }
 
