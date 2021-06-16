@@ -11,6 +11,7 @@ $(function () {
   var preseq_tab = document.getElementById('v-pills-preseq-tab');
   var arg_tab = document.getElementById('v-pills-arg-tab');
   var bowtie_tab = document.getElementById('v-pills-bowtie-tab');
+  var checkM_tab = document.getElementById('v-pills-checkM-tab');
   var image_blob_tabs = $('#blob_tabs');
   var iframe_krona_tabs = $('#kraken_tabs');
   var preseq_proj_tabs = $('#preseq_proj_tabs');
@@ -57,6 +58,14 @@ $(function () {
         }
       }
     }
+
+    if (checkM_tab != null) {
+      checkM_tab.onclick = function () {
+        if ($('#checkM_dataTable thead tr:has(th)').length == 0) {
+          read_checkM_data();
+        }
+      }
+    }
   } else {
     var krona_src = '/kraken?project_uuid=' + $('.iframe_project_uuid').text() + '&sample_name=' + iframe_krona_tabs.first().val();
     var blob_src = '/blob?project_uuid=' + $('.iframe_project_uuid').text() + '&sample_name=' + image_blob_tabs.first().val();
@@ -95,6 +104,14 @@ $(function () {
         window.alert = function () {};
         if ($('#bowtie_dataTable thead tr:has(th)').length == 0) {
           read_bowtie_data();
+        }
+      }
+    }
+
+    if (checkM_tab != null) {
+      checkM_tab.onclick = function () {
+        if ($('#checkM_dataTable thead tr:has(th)').length == 0) {
+          read_checkM_data();
         }
       }
     }
@@ -173,7 +190,7 @@ $(function () {
 
   blob_pic_tabs.on('change', function (e) {
     e.preventDefault();
-    change_blob_pic();
+    blob_classify();
   })
 
   blob_classify_tabs.on('change', function (e) {
@@ -1104,113 +1121,63 @@ $(function () {
     }
   }
 
-  function change_blob_pic() {
+  //read checkM data
+  function read_checkM_data() {
     if (window.location.href.indexOf('projectID') != -1) {
-      var blob_pic_val = $('#blob_pic_tabs option:selected').val();
       var projectID = getVariable('projectID');
       $.ajax({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        url: '/successRunning/blob_pic',
+        url: '/successRunning',
         type: 'POST',
         data: {
-          'blob_pic': blob_pic_val,
+          'checkM': true,
           'projectID': projectID
         },
         dataType: 'json',
         success: function (res) {
-          let blob_picture = document.getElementById('blob_pic');
-          let data = res.data;
           if (res.code == 200) {
-            let phylum_list = [];
-            let phylum_data = [];
-            for (i = 0; i < data.length; i++) {
-              if (phylum_list.indexOf(data[i][6]) == -1) {
-                if (phylum_list.length < 9) {
-                  phylum_list.push(data[i][6]);
-                } else {
-                  phylum_list.push('others');
-                  break;
-                }
+            var checkM_data = res.data;
+            let data = []
+            checkM_data.forEach(item => {
+              item.forEach((d, i) => {
+                let a = data[i] = data[i] || []
+                a.push(d)
+              })
+            });
+            $('#checkM_dataTable thead tr').empty();
+            $('#checkM_dataTable tbody').empty();
+            for (let j = 0; j < data[0].length; j++) {
+              let th = $('<th></th>');
+              if (j == 0) {
+                th.text('Item');
               }
-            }
-            for (j = 0; j < phylum_list.length; j++) {
-              if (j < 9) {
-                let blob = phylum_list[j];
-                let name = phylum_list[j] + '_name';
-                let length = phylum_list[j] + '_length';
-                let gc = phylum_list[j] + '_gc';
-                let cov = phylum_list[j] + '_cov';
-                window[name] = [];
-                window[length] = [];
-                window[gc] = [];
-                window[cov] = [];
-                for (v = 0; v < data.length; v++) {
-                  if (data[v][6] == phylum_list[j]) {
-                    window[name].push(data[v][0]);
-                    window[length].push(data[v][1]);
-                    window[gc].push(data[v][2]);
-                    window[cov].push(data[v][4]);
-                  }
-                }
-                window[length] = window[length].map(function (i) {
-                  return (Math.log(i) / Math.log(2)) * 3;
-                })
-                window[blob] = {
-                  x: window[gc],
-                  y: window[cov],
-                  text: window[name],
-                  name: phylum_list[j],
-                  mode: 'markers',
-                  marker: {
-                    size: window[length],
-                  }
-                }
-                phylum_data.push(window[blob]);
-              } else {
-                let other_blob = phylum_list[j];
-                let other_name = phylum_list[j] + '_name';
-                let other_length = phylum_list[j] + '_length';
-                let other_gc = phylum_list[j] + '_gc';
-                let other_cov = phylum_list[j] + '_cov';
-                window[other_name] = [];
-                window[other_length] = [];
-                window[other_gc] = [];
-                window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
-                  if (phylum_list.indexOf(data[v][6]) == -1) {
-                    window[other_name].push(data[v][0]);
-                    window[other_length].push(data[v][1]);
-                    window[other_gc].push(data[v][2]);
-                    window[other_cov].push(data[v][4]);
-                  }
-                }
-                window[other_length] = window[other_length].map(function (i) {
-                  return (Math.log(i) / Math.log(2)) * 3;
-                })
-                window[other_blob] = {
-                  x: window[other_gc],
-                  y: window[other_cov],
-                  text: window[other_name],
-                  name: phylum_list[j],
-                  mode: 'markers',
-                  marker: {
-                    size: window[other_length],
-                  }
-                }
-                phylum_data.push(window[other_blob]);
+              if (j == 1) {
+                th.text('Value');
               }
+              $('#checkM_dataTable thead tr').append(th);
             }
-            var layout = {
-              yaxis: {
-                type: 'log',
-                exponentformat: 'E'
-              },
-              width: 900,
-              height: 900
+            for (let i = 0; i < data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
+              }
+              $('#checkM_dataTable tbody').append(tr);
             }
-            Plotly.newPlot(blob_picture, phylum_data, layout);
+            var checkM_table = $('#checkM_dataTable').DataTable({
+              data: data,
+            });
+            $('#checkM_dataTable tbody').on('click', 'tr', function () {
+              if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+              }
+              else {
+                checkM_table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+              }
+            });
           }
         }
       })
@@ -1223,101 +1190,53 @@ $(function () {
         url: '/successRunning',
         type: 'POST',
         data: {
+          'checkM': true,
           'sampleID': sampleID
         },
         dataType: 'json',
         success: function (res) {
-          let blob_picture = document.getElementById('blob_pic');
-          let data = res.data;
           if (res.code == 200) {
-            let phylum_list = [];
-            let phylum_data = [];
-            for (i = 0; i < data.length; i++) {
-              if (phylum_list.indexOf(data[i][6]) == -1) {
-                if (phylum_list.length < 9) {
-                  phylum_list.push(data[i][6]);
-                } else {
-                  phylum_list.push('others');
-                  break;
-                }
+            var checkM_data = res.data;
+            let data = []
+            checkM_data.forEach(item => {
+              item.forEach((d, i) => {
+                let a = data[i] = data[i] || []
+                a.push(d)
+              })
+            })
+            $('#checkM_dataTable thead tr').empty();
+            $('#checkM_dataTable tbody').empty();
+            for (let j = 0; j < data[0].length; j++) {
+              let th = $('<th></th>');
+              if (j == 0) {
+                th.text('Item');
               }
-            }
-            for (j = 0; j < phylum_list.length; j++) {
-              if (j < 9) {
-                let blob = phylum_list[j];
-                let name = phylum_list[j] + '_name';
-                let length = phylum_list[j] + '_length';
-                let gc = phylum_list[j] + '_gc';
-                let cov = phylum_list[j] + '_cov';
-                window[name] = [];
-                window[length] = [];
-                window[gc] = [];
-                window[cov] = [];
-                for (v = 0; v < data.length; v++) {
-                  if (data[v][6] == phylum_list[j]) {
-                    window[name].push(data[v][0]);
-                    window[length].push(data[v][1]);
-                    window[gc].push(data[v][2]);
-                    window[cov].push(data[v][4]);
-                  }
-                }
-                window[length] = window[length].map(function (i) {
-                  return (Math.log(i) / Math.log(2)) * 3;
-                })
-                window[blob] = {
-                  x: window[gc],
-                  y: window[cov],
-                  text: window[name],
-                  name: phylum_list[j],
-                  mode: 'markers',
-                  marker: {
-                    size: window[length],
-                  }
-                }
-                phylum_data.push(window[blob]);
-              } else {
-                let other_blob = phylum_list[j];
-                let other_name = phylum_list[j] + '_name';
-                let other_length = phylum_list[j] + '_length';
-                let other_gc = phylum_list[j] + '_gc';
-                let other_cov = phylum_list[j] + '_cov';
-                window[other_name] = [];
-                window[other_length] = [];
-                window[other_gc] = [];
-                window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
-                  if (phylum_list.indexOf(data[v][6]) == -1) {
-                    window[other_name].push(data[v][0]);
-                    window[other_length].push(data[v][1]);
-                    window[other_gc].push(data[v][2]);
-                    window[other_cov].push(data[v][4]);
-                  }
-                }
-                window[other_length] = window[other_length].map(function (i) {
-                  return (Math.log(i) / Math.log(2)) * 3;
-                })
-                window[other_blob] = {
-                  x: window[other_gc],
-                  y: window[other_cov],
-                  text: window[other_name],
-                  name: phylum_list[j],
-                  mode: 'markers',
-                  marker: {
-                    size: window[other_length],
-                  }
-                }
-                phylum_data.push(window[other_blob]);
+              if (j == 1) {
+                th.text('Value');
               }
+              $('#checkM_dataTable thead tr').append(th);
             }
-            var layout = {
-              yaxis: {
-                type: 'log',
-                exponentformat: 'E'
-              },
-              width: 900,
-              height: 900
+            for (let i = 0; i < data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
+              }
+              $('#checkM_dataTable tbody').append(tr);
             }
-            Plotly.newPlot(blob_picture, phylum_data, layout);
+            var checkM_table = $('#checkM_dataTable').DataTable({
+              data: data,
+            });
+
+            $('#checkM_dataTable tbody').on('click', 'tr', function () {
+              if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+              }
+              else {
+                checkM_table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+              }
+            });
           }
         }
       })

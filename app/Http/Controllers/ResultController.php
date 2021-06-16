@@ -307,7 +307,6 @@ class ResultController extends Controller
                 $arg_data = explode("\n", $arg_data);
                 array_pop($arg_data);
                 $ARG_data = array();
-                $arg_detail = array();
                 foreach ($arg_data as $arg) {
                     $arg = explode("\t", $arg);
                     array_push($ARG_data, $arg);
@@ -341,6 +340,31 @@ class ResultController extends Controller
                 $bowtie = array();
                 array_push($bowtie, $bowtie_header, $bowtie_stats);
                 return response()->json(['code' => 200, 'data' => $bowtie]);
+            } else {
+                return response()->json(['code' => 404, 'data' => 'failed']);
+            }
+        } elseif($request->input('checkM')){
+            if ($request->input('projectID')) {
+                $project_id = $request->input('projectID');
+                $project_accession = Projects::where('id', $project_id)->value('doi');
+                $uuid = Jobs::where('project_id', $project_id)->value('uuid');
+            } else {
+                $sample_id = $request->input('sampleID');
+                $project_id = Samples::where('id', $sample_id)->value('projects_id');
+                $project_accession = Projects::where('id', $project_id)->value('doi');
+                $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+            }
+            $checkM_path =  $project_accession . '/' . $uuid . '/results/CheckM/spades_checkM.txt';
+            if(Storage::disk('local')->exists($checkM_path)) {
+                $checkM = Storage::get($checkM_path);
+                $checkM = explode("\n", $checkM);
+                array_pop($checkM);
+                $checkM_data = array();
+                foreach ($checkM as $checkM_d) {
+                    $checkM_d = explode("\t", $checkM_d);
+                    array_push($checkM_data, $checkM_d);
+                }
+                return response()->json(['code' => 200, 'data' => $checkM_data]);
             } else {
                 return response()->json(['code' => 404, 'data' => 'failed']);
             }
@@ -503,7 +527,6 @@ class ResultController extends Controller
                 array_push($blob_picture, $blob);
             }
             array_shift($blob_picture);
-
             $data = array('blob_table' => $blob_table, 'blob_picture' => $blob_picture);
             return response()->json(['code' => 200, 'data' => $data]);
         }else {
@@ -551,53 +574,6 @@ class ResultController extends Controller
             }
             $data = array('blob_table' => $blob_table);
             return response()->json(['code' => 200, 'data' => $data]);
-        }else{
-            return response()->json(['code' => 404, 'data' => 'failed']);
-        }
-    }
-
-    public function blob_pic(Request $request)
-    {
-        if ($request->input('projectID')) {
-            $project_id = $request->input('projectID');
-            $project_accession = Projects::where('id', $project_id)->value('doi');
-            $uuid = Jobs::where('project_id', $project_id)->value('uuid');
-        } else {
-            $sample_id = $request->input('sampleID');
-            $project_id = Samples::where('id', $sample_id)->value('projects_id');
-            $project_accession = Projects::where('id', $project_id)->value('doi');
-            $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
-        }
-        $blob_pic = $request->input('blob_pic');
-        $blob_pic_path = $project_accession . '/' . $uuid .'/results/blob/' . $blob_pic . '/' . $blob_pic . '.blobDB.table.txt';
-        if(Storage::disk('local')->exists($blob_pic_path)){
-            // blob_picture
-            $blob_pic = Storage::get($blob_pic_path);
-            $blob_pic = explode("\n", $blob_pic);
-            $blob_pic = array_splice($blob_pic, 10);
-            $blob_data = array();
-            foreach($blob_pic as $blob)
-            {
-                $blob = explode("\t", $blob);
-                $len_pos = strpos($blob[0], '_length');
-                $blob[0] = substr($blob[0], 0, $len_pos);
-                array_splice($blob,6,1);
-                array_splice($blob,6,1);
-                array_splice($blob,7,1);
-                array_splice($blob,7,1);
-                array_splice($blob,8,1);
-                array_splice($blob,8,1);
-                array_splice($blob,9,1);
-                array_splice($blob,9,1);
-                array_splice($blob,10,1);
-                array_splice($blob,10,1);
-                array_splice($blob,11,1);
-                array_splice($blob,11,1);
-                array_push($blob_data, $blob);
-            }
-            array_shift($blob_data);
-
-            return response()->json(['code' => 200, 'data' => $blob_data]);
         }else{
             return response()->json(['code' => 404, 'data' => 'failed']);
         }

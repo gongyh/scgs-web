@@ -297,6 +297,24 @@
             </table>
           </div>
         </div>
+
+        <!-- checkM -->
+        <div class="tab-pane fade" id="v-pills-checkM" role="tabpanel" aria-labelledby="v-pills-checkM-tab">
+          <div id="iframe_browser" class="checkM_report mb-2 overflow-auto">
+            <div id="iframe_browser_header">
+              <div id="iframe_browser_title">CheckM Reports</div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table id="checkM_dataTable" class="display">
+              <thead>
+                <tr></tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     <!-- right-column -->
@@ -310,6 +328,7 @@
           <a id="v-pills-preseq-tab" data-toggle="pill" href="#v-pills-preseq" role="tab" aria-controls="v-pills-preseq" aria-selected="false">Preseq</a>
           <a id="v-pills-arg-tab" data-toggle="pill" href="#v-pills-arg" role="tab" aria-controls="v-pills-arg" aria-selected="false">ARG</a>
           <a id="v-pills-bowtie-tab" data-toggle="pill" href="#v-pills-bowtie" role="tab" aria-controls="v-pills-bowtie" aria-selected="false">Bowtie</a>
+          <a id="v-pills-checkM-tab" data-toggle="pill" href="#v-pills-checkM" role="tab" aria-controls="v-pills-checkM" aria-selected="false">CheckM</a>
         </div>
       </div>
     </div>
