@@ -12,7 +12,6 @@
           <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item"><a href="/projects">Projects</a></li>
           <li class="breadcrumb-item active" aria-current="page">Samples</li>
-          </li>
         </ol>
       </nav>
       <div class="result">
@@ -68,7 +67,7 @@
               </svg>
             </a>
             @endif
-            @if(strcmp($status,"success") == 0 && ($isAdmin || $isPI))
+            @if(strcmp($status,"success") == 0 && ($isAdmin || $isPI || $is_release))
             <a href="/successRunning?projectID={{$projectID}}" class="ml-2 btn btn-success">Show Project Report </a>
             @elseif(strcmp($status,"running") == 0 && ($isAdmin || $isPI))
             <a href="/execute/start?projectID={{$projectID}}" class="ml-2 btn btn-primary">Show Pipeline Status</a>
@@ -122,7 +121,7 @@
               <div class="project_id mr-4 font-large">{{$loop->iteration}}</div>
               <div class="font-normal text-wrap text-break">
                 <div class="projectId mt-2">Sample Label :
-                  @if($isPI || $isAdmin)
+                  @if($isPI || $isAdmin || $is_release)
                   @if($selectSample->status == 0)
                   {{$selectSample->sampleLabel}}
                   @elseif($selectSample->status == 1)

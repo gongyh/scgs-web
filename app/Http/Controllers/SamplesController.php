@@ -42,6 +42,10 @@ class SamplesController extends Controller
         }else{
             $status = '';
         }
+        //to judge if can be released
+        $now = date("Y-m-d");
+        $release_date = Projects::where('id', $projectID)->value('release_date');
+        strtotime($now) - strtotime($release_date) > 0 ? $is_release = true : $is_release = false;
         $selectSamples->withPath('/samples?projectID=' . $projectID);
         $sample = new Samples();
         try {
@@ -50,17 +54,17 @@ class SamplesController extends Controller
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->name]])->get()->count() > 0;
                 $user->email == env('ADMIN_EMAIL') ? $isAdmin = true : $isAdmin = false;
-                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun','status'));
+                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun','status','is_release'));
             } else {
                 // not login users
                 $isPI  = false;
                 $isAdmin = false;
-                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun','status'));
+                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun','status','is_release'));
             }
         } catch (\Illuminate\Database\QueryException $ex) {
             // No samples
             $selectSamples = null;
-            return view('Samples.samples', compact('selectSamples', 'projectID', 'project', 'applications','canRun','status'));
+            return view('Samples.samples', compact('selectSamples', 'projectID', 'project', 'applications','canRun','status','is_release'));
         }
     }
 

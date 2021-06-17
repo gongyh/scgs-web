@@ -1138,46 +1138,40 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            var checkM_data = res.data;
-            let data = []
-            checkM_data.forEach(item => {
-              item.forEach((d, i) => {
-                let a = data[i] = data[i] || []
-                a.push(d)
-              })
-            });
-            $('#checkM_dataTable thead tr').empty();
-            $('#checkM_dataTable tbody').empty();
-            for (let j = 0; j < data[0].length; j++) {
-              let th = $('<th></th>');
-              if (j == 0) {
-                th.text('Item');
+            var data = res.data;
+            let checkM_data = []
+            data.forEach(item => {
+                item.forEach((d, i) => {
+                  let a = checkM_data[i] = checkM_data[i] || []
+                  a.push(d)
+                })
+              });
+            for (let j = 0; j < checkM_data[0].length; j++) {
+                let th = $('<th></th>');
+                th.html(checkM_data[0][j]);
+                $('#checkM_dataTable thead tr').append(th);
               }
-              if (j == 1) {
-                th.text('Value');
+              for (let i = 1; i < checkM_data.length; i++) {
+                let tr = $('<tr></tr>');
+                for (let j = 0; j < checkM_data[i].length; j++) {
+                  let td = $('<td></td>');
+                  tr.append(td);
+                }
+                $('#checkM_dataTable tbody').append(tr);
               }
-              $('#checkM_dataTable thead tr').append(th);
-            }
-            for (let i = 0; i < data.length; i++) {
-              let tr = $('<tr></tr>');
-              for (let j = 0; j < data[i].length; j++) {
-                let td = $('<td></td>');
-                tr.append(td);
-              }
-              $('#checkM_dataTable tbody').append(tr);
-            }
-            var checkM_table = $('#checkM_dataTable').DataTable({
-              data: data,
-            });
-            $('#checkM_dataTable tbody').on('click', 'tr', function () {
-              if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-              }
-              else {
-                checkM_table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-              }
-            });
+              checkM_data.shift();
+              var checkM_table = $('#checkM_dataTable').DataTable({
+                data: checkM_data,
+              });
+              $('#checkM_dataTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                  $(this).removeClass('selected');
+                }
+                else {
+                  checkM_table.$('tr.selected').removeClass('selected');
+                  $(this).addClass('selected');
+                }
+              });
           }
         }
       })
@@ -1196,47 +1190,40 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            var checkM_data = res.data;
-            let data = []
-            checkM_data.forEach(item => {
-              item.forEach((d, i) => {
-                let a = data[i] = data[i] || []
-                a.push(d)
-              })
-            })
-            $('#checkM_dataTable thead tr').empty();
-            $('#checkM_dataTable tbody').empty();
-            for (let j = 0; j < data[0].length; j++) {
-              let th = $('<th></th>');
-              if (j == 0) {
-                th.text('Item');
+            var data = res.data;
+            let checkM_data = []
+            data.forEach(item => {
+                item.forEach((d, i) => {
+                  let a = checkM_data[i] = checkM_data[i] || []
+                  a.push(d)
+                })
+              });
+            for (let j = 0; j < checkM_data[0].length; j++) {
+                let th = $('<th></th>');
+                th.html(checkM_data[0][j]);
+                $('#checkM_dataTable thead tr').append(th);
               }
-              if (j == 1) {
-                th.text('Value');
+              for (let i = 1; i < checkM_data.length; i++) {
+                let tr = $('<tr></tr>');
+                for (let j = 0; j < checkM_data[i].length; j++) {
+                  let td = $('<td></td>');
+                  tr.append(td);
+                }
+                $('#checkM_dataTable tbody').append(tr);
               }
-              $('#checkM_dataTable thead tr').append(th);
-            }
-            for (let i = 0; i < data.length; i++) {
-              let tr = $('<tr></tr>');
-              for (let j = 0; j < data[i].length; j++) {
-                let td = $('<td></td>');
-                tr.append(td);
-              }
-              $('#checkM_dataTable tbody').append(tr);
-            }
-            var checkM_table = $('#checkM_dataTable').DataTable({
-              data: data,
-            });
-
-            $('#checkM_dataTable tbody').on('click', 'tr', function () {
-              if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-              }
-              else {
-                checkM_table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-              }
-            });
+              checkM_data.shift();
+              var checkM_table = $('#checkM_dataTable').DataTable({
+                data: checkM_data,
+              });
+              $('#checkM_dataTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                  $(this).removeClass('selected');
+                }
+                else {
+                  checkM_table.$('tr.selected').removeClass('selected');
+                  $(this).addClass('selected');
+                }
+              });
           }
         }
       })
