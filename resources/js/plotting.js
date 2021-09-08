@@ -713,7 +713,9 @@ $(function () {
                 width: 900,
                 height: 900
               }
-              Plotly.newPlot(blob_picture, phylum_data, layout);
+              $('#draw_blob_pic').onclick = function(){
+                Plotly.newPlot(blob_picture, phylum_data, layout);
+              }
             }
           }
         }
@@ -898,7 +900,9 @@ $(function () {
                 width: 900,
                 height: 900
               }
-              Plotly.newPlot(blob_picture, phylum_data, layout);
+              $('#draw_blob_pic').onclick = function(){
+                Plotly.newPlot(blob_picture, phylum_data, layout);
+              }
             }
           }
         }
