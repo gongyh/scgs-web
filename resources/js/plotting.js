@@ -713,9 +713,10 @@ $(function () {
                 width: 900,
                 height: 900
               }
-              $('#draw_blob_pic').onclick = function(){
+              $('#draw_blob_pic').on('click', function () {
+                console.log("success");
                 Plotly.newPlot(blob_picture, phylum_data, layout);
-              }
+              });
             }
           }
         }
@@ -900,9 +901,10 @@ $(function () {
                 width: 900,
                 height: 900
               }
-              $('#draw_blob_pic').onclick = function(){
+              $('#draw_blob_pic').on('click', function () {
+                console.log("success");
                 Plotly.newPlot(blob_picture, phylum_data, layout);
-              }
+              });
             }
           }
         }
@@ -1145,37 +1147,37 @@ $(function () {
             var data = res.data;
             let checkM_data = []
             data.forEach(item => {
-                item.forEach((d, i) => {
-                  let a = checkM_data[i] = checkM_data[i] || []
-                  a.push(d)
-                })
-              });
+              item.forEach((d, i) => {
+                let a = checkM_data[i] = checkM_data[i] || []
+                a.push(d)
+              })
+            });
             for (let j = 0; j < checkM_data[0].length; j++) {
-                let th = $('<th></th>');
-                th.html(checkM_data[0][j]);
-                $('#checkM_dataTable thead tr').append(th);
+              let th = $('<th></th>');
+              th.html(checkM_data[0][j]);
+              $('#checkM_dataTable thead tr').append(th);
+            }
+            for (let i = 1; i < checkM_data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < checkM_data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
               }
-              for (let i = 1; i < checkM_data.length; i++) {
-                let tr = $('<tr></tr>');
-                for (let j = 0; j < checkM_data[i].length; j++) {
-                  let td = $('<td></td>');
-                  tr.append(td);
-                }
-                $('#checkM_dataTable tbody').append(tr);
+              $('#checkM_dataTable tbody').append(tr);
+            }
+            checkM_data.shift();
+            var checkM_table = $('#checkM_dataTable').DataTable({
+              data: checkM_data,
+            });
+            $('#checkM_dataTable tbody').on('click', 'tr', function () {
+              if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
               }
-              checkM_data.shift();
-              var checkM_table = $('#checkM_dataTable').DataTable({
-                data: checkM_data,
-              });
-              $('#checkM_dataTable tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                  $(this).removeClass('selected');
-                }
-                else {
-                  checkM_table.$('tr.selected').removeClass('selected');
-                  $(this).addClass('selected');
-                }
-              });
+              else {
+                checkM_table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+              }
+            });
           }
         }
       })
@@ -1197,37 +1199,37 @@ $(function () {
             var data = res.data;
             let checkM_data = []
             data.forEach(item => {
-                item.forEach((d, i) => {
-                  let a = checkM_data[i] = checkM_data[i] || []
-                  a.push(d)
-                })
-              });
+              item.forEach((d, i) => {
+                let a = checkM_data[i] = checkM_data[i] || []
+                a.push(d)
+              })
+            });
             for (let j = 0; j < checkM_data[0].length; j++) {
-                let th = $('<th></th>');
-                th.html(checkM_data[0][j]);
-                $('#checkM_dataTable thead tr').append(th);
+              let th = $('<th></th>');
+              th.html(checkM_data[0][j]);
+              $('#checkM_dataTable thead tr').append(th);
+            }
+            for (let i = 1; i < checkM_data.length; i++) {
+              let tr = $('<tr></tr>');
+              for (let j = 0; j < checkM_data[i].length; j++) {
+                let td = $('<td></td>');
+                tr.append(td);
               }
-              for (let i = 1; i < checkM_data.length; i++) {
-                let tr = $('<tr></tr>');
-                for (let j = 0; j < checkM_data[i].length; j++) {
-                  let td = $('<td></td>');
-                  tr.append(td);
-                }
-                $('#checkM_dataTable tbody').append(tr);
+              $('#checkM_dataTable tbody').append(tr);
+            }
+            checkM_data.shift();
+            var checkM_table = $('#checkM_dataTable').DataTable({
+              data: checkM_data,
+            });
+            $('#checkM_dataTable tbody').on('click', 'tr', function () {
+              if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
               }
-              checkM_data.shift();
-              var checkM_table = $('#checkM_dataTable').DataTable({
-                data: checkM_data,
-              });
-              $('#checkM_dataTable tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                  $(this).removeClass('selected');
-                }
-                else {
-                  checkM_table.$('tr.selected').removeClass('selected');
-                  $(this).addClass('selected');
-                }
-              });
+              else {
+                checkM_table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+              }
+            });
           }
         }
       })
