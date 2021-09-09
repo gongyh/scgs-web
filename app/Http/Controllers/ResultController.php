@@ -420,7 +420,7 @@ class ResultController extends Controller
             $blob_txt = array_splice($blob_txt, 10);
             $blob_table = array();
             $length  = count($blob_txt) > 30000 ? 30000 : count($blob_txt);
-            for($i = 0; $i <= $length; $i++){
+            for($i = 0; $i <= $length-1; $i++){
                 $blob = explode("\t", $blob_txt[$i]);
                 $len_pos = strpos($blob[0], '_length');
                 $blob[0] = substr($blob[0], 0, $len_pos);
@@ -436,7 +436,7 @@ class ResultController extends Controller
                 array_splice($blob,10,1);
                 array_splice($blob,11,1);
                 array_splice($blob,11,1);
-                array_push($blob_table,$blob);
+                array_push($blob_table, $blob);
             }
             // blob_picture
             $blob_pic = Storage::get($blob_pic_path);
@@ -492,7 +492,7 @@ class ResultController extends Controller
             $blob_txt = array_splice($blob_txt, 10);
             $blob_table = array();
             $length  = count($blob_txt) > 30000 ? 30000 : count($blob_txt);
-            for($i = 0; $i <= $length; $i++){
+            for($i = 0; $i <= $length-1; $i++){
                 $blob = explode("\t", $blob_txt[$i]);
                 $len_pos = strpos($blob[0], '_length');
                 $blob[0] = substr($blob[0], 0, $len_pos);
@@ -508,7 +508,7 @@ class ResultController extends Controller
                 array_splice($blob,10,1);
                 array_splice($blob,11,1);
                 array_splice($blob,11,1);
-                array_push($blob_table,$blob);
+                array_push($blob_table, $blob);
             }
             // blob_picture
             $blob_pic = Storage::get($blob_pic_path);
