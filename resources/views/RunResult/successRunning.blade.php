@@ -154,6 +154,7 @@
                 <option value={{$filename}}>{{$filename}}</option>
                 @endforeach
               </select>
+              @endif
               <select id="blob_classify" class="selectpicker show-tick mt-2 ml-2" data-live-search="true" data-style="btn-info">
                 <option value="superkingdom">superkingdom</option>
                 <option value="phylum" selected>phylum</option>
@@ -162,7 +163,6 @@
                 <option value="genus">genus</option>
                 <option value="species">species</option>
               </select>
-              @endif
               <button id="draw_blob_pic" class="btn btn-info btn-default mt-2 ml-2">Draw</button>
               <img class="fading_circles_blob" src="images/Fading_circles.gif" alt="">
               <div id="blob_pic" class="w-100 overflow-hidden"></div>

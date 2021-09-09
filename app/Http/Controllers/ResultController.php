@@ -536,7 +536,7 @@ class ResultController extends Controller
                 array_push($blob_picture, $blob);
             }
             array_shift($blob_picture);
-            $data = array('blob_table' => $blob_table, 'blob_picture' => $blob_picture);
+            $data = array('blob_table' => $blob_table, 'blob_pic' => $blob_picture);
             return response()->json(['code' => 200, 'data' => $data]);
         }else {
             $quast_header = $quast_result =  null;
