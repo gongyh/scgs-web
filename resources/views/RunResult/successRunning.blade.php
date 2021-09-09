@@ -163,6 +163,8 @@
                 <option value="species">species</option>
               </select>
               <button id="draw_blob_pic" class="btn btn-info btn-default mt-2 ml-2">Draw</button>
+              @elseif(isset($project_user))
+              <button id="draw_blob_pic" class="btn btn-info btn-default mt-2 ml-2">Draw</button>
               @endif
               <img class="fading_circles_blob" src="images/Fading_circles.gif" alt="">
               <div id="blob_pic" class="w-100 overflow-hidden"></div>
