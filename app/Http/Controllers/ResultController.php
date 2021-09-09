@@ -29,6 +29,7 @@ class ResultController extends Controller
          * Copy MultiQC and Kraken report to public/results
          */
         if ($request->input('sampleID')) {
+            // Sample
             $sample_id = $request->input('sampleID');
             $project_id = Samples::where('id', $sample_id)->value('projects_id');
             $project_accession = Projects::where('id', $project_id)->value('doi');
@@ -49,6 +50,7 @@ class ResultController extends Controller
             $command = Jobs::where('sample_id', $sample_id)->value('command');
             return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'sample_id' => $sample_id, 'sample_user' => $sample_user, 'sample_uuid' => $sample_uuid, 'project_id' => $project_id, 'project_accession' => $project_accession , 'file_prefix' => $file_prefix, 'preseq_array' => $preseq_array]);
         } else {
+            // Project
             $project_id = $request->input('projectID');
             $project_accession = Projects::where('id', $project_id)->value('doi');
             $project_user_id = Jobs::where('project_id', $project_id)->value('user_id');
@@ -75,6 +77,7 @@ class ResultController extends Controller
         }
     }
 
+    // multiQC result
     public function multiqc_result(Request $request)
     {
         if($request->input('sample_uuid')){
@@ -105,6 +108,7 @@ class ResultController extends Controller
         }
     }
 
+    // kraken result
     public function kraken_result(Request $request)
     {
         $sample_name = $request->input('sample_name');
@@ -136,6 +140,7 @@ class ResultController extends Controller
         }
     }
 
+    // blob result
     public function blob_result(Request $request)
     {
         $sample_name = $request->input('sample_name');
@@ -167,6 +172,7 @@ class ResultController extends Controller
         }
     }
 
+    // download result
     public function download_result(Request $request)
     {
         if ($request->input('sampleID')) {
@@ -199,7 +205,8 @@ class ResultController extends Controller
         }
     }
 
-    public function ajax(Request $request)
+
+    public function preseq_arg_bowtie_checkM(Request $request)
     {
         if ($request->input('projectID')) {
             $project_id = $request->input('projectID');
@@ -412,8 +419,8 @@ class ResultController extends Controller
             $blob_txt = explode("\n", $blob_txt);
             $blob_txt = array_splice($blob_txt, 10);
             $blob_table = array();
-            foreach($blob_txt as $blob){
-                $blob = explode("\t", $blob);
+            for($i = 0; $i <= 3000; $i++){
+                $blob = explode("\t", $blob_txt[$i]);
                 $len_pos = strpos($blob[0], '_length');
                 $blob[0] = substr($blob[0], 0, $len_pos);
                 array_splice($blob,6,1);
@@ -483,8 +490,8 @@ class ResultController extends Controller
             $blob_txt = explode("\n", $blob_txt);
             $blob_txt = array_splice($blob_txt, 10);
             $blob_table = array();
-            foreach($blob_txt as $blob){
-                $blob = explode("\t", $blob);
+            for($i = 0; $i <= 3000; $i++){
+                $blob = explode("\t", $blob_txt[$i]);
                 $len_pos = strpos($blob[0], '_length');
                 $blob[0] = substr($blob[0], 0, $len_pos);
                 array_splice($blob,6,1);
@@ -499,7 +506,7 @@ class ResultController extends Controller
                 array_splice($blob,10,1);
                 array_splice($blob,11,1);
                 array_splice($blob,11,1);
-                array_push($blob_table, $blob);
+                array_push($blob_table,$blob);
             }
             // blob_picture
             $blob_pic = Storage::get($blob_pic_path);
@@ -531,50 +538,6 @@ class ResultController extends Controller
             return response()->json(['code' => 200, 'data' => $data]);
         }else {
             $quast_header = $quast_result =  null;
-            return response()->json(['code' => 404, 'data' => 'failed']);
-        }
-    }
-
-    public function blob(Request $request)
-    {
-        if ($request->input('projectID')) {
-            $project_id = $request->input('projectID');
-            $project_accession = Projects::where('id', $project_id)->value('doi');
-            $uuid = Jobs::where('project_id', $project_id)->value('uuid');
-        } else {
-            $sample_id = $request->input('sampleID');
-            $project_id = Samples::where('id', $sample_id)->value('projects_id');
-            $project_accession = Projects::where('id', $project_id)->value('doi');
-            $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
-        }
-        $blob = $request->input('blob');
-        $blob_txt_path = $project_accession . '/' . $uuid .'/results/blob/' . $blob . '/' . $blob . '.blobDB.table.txt';
-        if(Storage::disk('local')->exists($blob_txt_path)){
-            $blob_txt = Storage::get($blob_txt_path);
-            $blob_txt = explode("\n", $blob_txt);
-            $blob_txt = array_splice($blob_txt, 10);
-            $blob_table = array();
-            foreach($blob_txt as $blob){
-                $blob = explode("\t", $blob);
-                $len_pos = strpos($blob[0], '_length');
-                $blob[0] = substr($blob[0], 0, $len_pos);
-                array_splice($blob,6,1);
-                array_splice($blob,6,1);
-                array_splice($blob,7,1);
-                array_splice($blob,7,1);
-                array_splice($blob,8,1);
-                array_splice($blob,8,1);
-                array_splice($blob,9,1);
-                array_splice($blob,9,1);
-                array_splice($blob,10,1);
-                array_splice($blob,10,1);
-                array_splice($blob,11,1);
-                array_splice($blob,11,1);
-                array_push($blob_table,$blob);
-            }
-            $data = array('blob_table' => $blob_table);
-            return response()->json(['code' => 200, 'data' => $data]);
-        }else{
             return response()->json(['code' => 404, 'data' => 'failed']);
         }
     }

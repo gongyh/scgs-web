@@ -93,10 +93,8 @@ Route::group(['prefix' => 'execute'], function () {
 
 Route::group(['prefix' => 'successRunning'], function () {
     Route::get('/', 'ResultController@success_running');
-    Route::post('/', 'ResultController@ajax');
+    Route::post('/', 'ResultController@preseq_arg_bowtie_checkM');
     Route::post('/home', 'ResultController@home');
-    Route::post('/blob', 'ResultController@blob');
-    Route::post('/blob_pic', 'ResultController@blob_pic');
     Route::any('/resultDownload', 'ResultController@download_result');
     Route::any('/blob_classify', 'ResultController@blob_classify');
 });
