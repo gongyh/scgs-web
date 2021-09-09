@@ -419,7 +419,8 @@ class ResultController extends Controller
             $blob_txt = explode("\n", $blob_txt);
             $blob_txt = array_splice($blob_txt, 10);
             $blob_table = array();
-            for($i = 0; $i <= 30000; $i++){
+            $length  = count($blob_txt) > 30000 ? 30000 : count($blob_txt);
+            for($i = 0; $i <= $length; $i++){
                 $blob = explode("\t", $blob_txt[$i]);
                 $len_pos = strpos($blob[0], '_length');
                 $blob[0] = substr($blob[0], 0, $len_pos);
@@ -490,7 +491,8 @@ class ResultController extends Controller
             $blob_txt = explode("\n", $blob_txt);
             $blob_txt = array_splice($blob_txt, 10);
             $blob_table = array();
-            for($i = 0; $i <= 30000; $i++){
+            $length  = count($blob_txt) > 30000 ? 30000 : count($blob_txt);
+            for($i = 0; $i <= $length; $i++){
                 $blob = explode("\t", $blob_txt[$i]);
                 $len_pos = strpos($blob[0], '_length');
                 $blob[0] = substr($blob[0], 0, $len_pos);
