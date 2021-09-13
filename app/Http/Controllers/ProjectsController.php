@@ -164,10 +164,10 @@ class ProjectsController extends Controller
                 $new_proj_desc = $request->input('new_proj_desc');
                 $new_type = $request->input('new_type');
                 $new_collection_date = $request->input('new_collection_date');
-                $date = \DateTime::createFromFormat('d/m/Y',$new_collection_date);
+                $date = \DateTime::createFromFormat('m/d/Y',$new_collection_date);
                 $new_collection_date = $date->format('Y-m-d');
                 $new_release_date = $request->input('new_release_date');
-                $r_date = \DateTime::createFromFormat('d/m/Y',$new_release_date);
+                $r_date = \DateTime::createFromFormat('m/d/Y',$new_release_date);
                 $new_release_date = $r_date->format('Y-m-d');
                 $new_location = $request->input('new_location');
                 $labID = $request->input('labID');
@@ -201,10 +201,10 @@ class ProjectsController extends Controller
                 $new_proj_desc = $request->input('new_proj_desc');
                 $new_type = $request->input('new_type');
                 $new_collection_date = $request->input('new_collection_date');
-                $date = \DateTime::createFromFormat('d/m/Y',$new_collection_date);
+                $date = \DateTime::createFromFormat('m/d/Y',$new_collection_date);
                 $new_collection_date = $date->format('Y-m-d');
                 $new_release_date = $request->input('new_release_date');
-                $r_date = \DateTime::createFromFormat('d/m/Y',$new_release_date);
+                $r_date = \DateTime::createFromFormat('m/d/Y',$new_release_date);
                 $new_release_date = $date->format('Y-m-d');
                 $new_location = $request->input('new_location');
                 Projects::create([
@@ -286,6 +286,11 @@ class ProjectsController extends Controller
                     'max:250',
                     Rule::unique('projects')->ignore($proj_id)
                 ],
+                'release_date' => [
+                    'required',
+                    'max:250',
+                    Rule::unique('projects')->ignore($proj_id)
+                ],
                 'location' => [
                     'required',
                     'max:250',
@@ -296,10 +301,10 @@ class ProjectsController extends Controller
             $new_desc = $input['description'];
             $new_type = $input['type'];
             $new_collection_date = $input['collection_date'];
-            $date = \DateTime::createFromFormat('d/m/Y',$new_collection_date);
+            $date = \DateTime::createFromFormat('m/d/Y',$new_collection_date);
             $new_collection_date = $date->format('Y-m-d');
             $new_release_date = $input['release_date'];
-            $r_date = \DateTime::createFromFormat('d/m/Y',$new_release_date);
+            $r_date = \DateTime::createFromFormat('m/d/Y',$new_release_date);
             $new_release_date = $r_date->format('Y-m-d');
             $new_location = $input['location'];
             $project['name'] = $new_proj;
