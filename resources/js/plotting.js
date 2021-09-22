@@ -455,6 +455,7 @@ $(function () {
               $('#arg_dataTable tbody').append(tr);
             }
             var arg_table = $('#arg_dataTable').DataTable({
+              deferRender: true,
               data: data,
             });
             $('#arg_dataTable tbody').on('click', 'tr', function () {
@@ -514,6 +515,7 @@ $(function () {
               $('#arg_dataTable tbody').append(tr);
             }
             var arg_table = $('#arg_dataTable').DataTable({
+              deferRender: true,
               data: data,
             });
 
@@ -572,6 +574,7 @@ $(function () {
               }
               data.shift();
               var quast_table = $('#quast_dataTable').DataTable({
+                deferRender: true,
                 data: data,
               });
               $('.fading_circles_quast').remove();
@@ -761,6 +764,7 @@ $(function () {
               }
               data.shift();
               var quast_table = $('#quast_dataTable').DataTable({
+                deferRender: true,
                 data: data,
               });
               $('.fading_circles_quast').remove();
@@ -792,6 +796,7 @@ $(function () {
               }
               blob_data.shift();
               var blob_table = $('#blob_dataTable').DataTable({
+                deferRender: true,
                 data: blob_data,
               });
               $('.fading_circles_blob').remove();
@@ -949,6 +954,7 @@ $(function () {
             }
             blob_data.shift();
             var blob_table = $('#blob_dataTable').DataTable({
+              deferRender: true,
               data: blob_data,
             });
             $('#blob_dataTable tbody').on('click', 'tr', function () {
@@ -993,6 +999,7 @@ $(function () {
             }
             data.shift();
             var quast_table = $('#quast_dataTable').DataTable({
+              deferRender: true,
               data: data,
             });
             $('#quast_dataTable tbody').on('click', 'tr', function () {
@@ -1054,6 +1061,7 @@ $(function () {
               $('#bowtie_dataTable tbody').append(tr);
             }
             var bowtie_table = $('#bowtie_dataTable').DataTable({
+              deferRender: true,
               data: data,
             });
             $('#bowtie_dataTable tbody').on('click', 'tr', function () {
@@ -1111,6 +1119,7 @@ $(function () {
               $('#bowtie_dataTable tbody').append(tr);
             }
             var bowtie_table = $('#bowtie_dataTable').DataTable({
+              deferRender: true,
               data: data,
             });
             $('#bowtie_dataTable tbody').on('click', 'tr', function () {
@@ -1168,6 +1177,7 @@ $(function () {
             }
             checkM_data.shift();
             var checkM_table = $('#checkM_dataTable').DataTable({
+              deferRender: true,
               data: checkM_data,
             });
             $('#checkM_dataTable tbody').on('click', 'tr', function () {
@@ -1220,6 +1230,7 @@ $(function () {
             }
             checkM_data.shift();
             var checkM_table = $('#checkM_dataTable').DataTable({
+              deferRender: true,
               data: checkM_data,
             });
             $('#checkM_dataTable tbody').on('click', 'tr', function () {
