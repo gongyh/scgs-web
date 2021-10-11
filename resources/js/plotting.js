@@ -184,7 +184,6 @@ $(function () {
       paging: false
     });
     table.destroy();
-    $('#blob_dataTable thead tr').empty();
     $('#blob_dataTable tbody').empty();
     read_blob_txt();
   })
@@ -951,11 +950,6 @@ $(function () {
           var blob_header = [];
           for (var i = 0; i < blob_header_num; i++) {
             blob_header.push(null);
-          }
-          for (let j = 0; j < blob_data[0].length; j++) {
-            let th = $('<th></th>');
-            th.html(blob_data[0][j]);
-            $('#blob_dataTable thead tr').append(th);
           }
           var blob_table = $('#blob_dataTable').DataTable({
             "destroy": true,
