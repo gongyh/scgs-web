@@ -664,7 +664,6 @@ var FileInput = function () {
     control.on("fileuploaded", function (event, data, previewId, index) {
       $("#myModal_" + ctrlName).modal("hide");
       if (data == undefined) {
-        console.log('incorrect file type!');
         return;
       }
       location.reload();
@@ -701,7 +700,6 @@ var sampleFileInput = function () {
     control.on("fileuploaded", function (event, data, previewId, index) {
       $("#" + ctrlName).modal("hide");
       if (data.code == 200) {
-        console.log(data);
         return;
       }
     });

@@ -378,6 +378,42 @@ class ResultController extends Controller
         }
     }
 
+    public function quast(Request $request)
+    {
+        if ($request->input('projectID')) {
+            $project_id = $request->input('projectID');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
+            $uuid = Jobs::where('project_id', $project_id)->value('uuid');
+        } else {
+            $sample_id = $request->input('sampleID');
+            $project_id = Samples::where('id', $sample_id)->value('projects_id');
+            $project_accession = Projects::where('id', $project_id)->value('doi');
+            $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+        }
+        $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
+        if (Storage::disk('disk')->exists($quast_path)) {
+            $quast_data = Storage::get($quast_path);
+            $quast_data = explode("\n", $quast_data);
+            $quast_show = array();
+            $quast_sh = array();
+            $quast_detail = array();
+            foreach ($quast_data as $quast) {
+                if (strpos($quast, "#") === false) {
+                    array_push($quast_show, $quast);
+                }
+            }
+            array_pop($quast_show);
+            foreach($quast_show as $quast_show_str){
+                $quast_sh_str = explode("\t", $quast_show_str);
+                array_push($quast_detail, $quast_sh_str);
+            }
+            $data = array('data' => $quast_detail);
+            return response()->json(['code' => 200, 'data' => $data]);
+        } else {
+            return response()->json(['code' => 404, 'data' => 'failed']);
+        }
+    }
+
     public function home(Request $request)
     {
         if ($request->input('projectID')) {
@@ -562,6 +598,7 @@ class ResultController extends Controller
             $blob_txt = Storage::get($blob_txt_path);
             $blob_txt = explode("\n", $blob_txt);
             $blob_txt = array_splice($blob_txt, 10);
+            array_shift($blob_txt);
             $blob_table = array();
             foreach($blob_txt as $blob){
                 $blob = explode("\t", $blob);
@@ -581,10 +618,9 @@ class ResultController extends Controller
                 array_splice($blob,11,1);
                 array_push($blob_table,$blob);
             }
-            $data = array('blob_table' => $blob_table);
-            return response()->json(['code' => 200, 'data' => $data]);
+            return response()->json(['data' => $blob_table]);
         }else{
-            return response()->json(['code' => 404, 'data' => 'failed']);
+            return response()->json(['data' => 'failed']);
         }
     }
 

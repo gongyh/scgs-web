@@ -133,7 +133,6 @@
                 @endforeach
               </select>
               @endif
-              <img class="fading_circles_blob" src="images/Fading_circles.gif" alt="">
               <!-- blob table -->
               <div class="table-responsive mt-2 mb-2">
                 <table id="blob_dataTable" class="display">
@@ -164,7 +163,6 @@
                 <option value="species">species</option>
               </select>
               <button id="draw_blob_pic" class="btn btn-info btn-default mt-2 ml-2">Draw</button>
-              <img class="fading_circles_blob" src="images/Fading_circles.gif" alt="">
               <div id="blob_pic" class="w-100 overflow-hidden"></div>
             </div>
           </div>

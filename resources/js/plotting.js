@@ -1,5 +1,6 @@
 var Plotly = require('plotly.js/dist/plotly');
 var $ = require('jquery');
+const { isArray } = require('lodash');
 require('datatables.net');
 
 $(function () {
@@ -591,24 +592,30 @@ $(function () {
 
             // blob
             if (blob_data != null) {
+              var blob_header_num = blob_data[0].length;
+              var blob_header = [];
+              for (var i = 0; i < blob_header_num; i++) {
+                blob_header.push(null);
+              }
               for (let j = 0; j < blob_data[0].length; j++) {
                 let th = $('<th></th>');
                 th.html(blob_data[0][j]);
                 $('#blob_dataTable thead tr').append(th);
               }
-              for (let i = 1; i < blob_data.length; i++) {
-                let tr = $('<tr></tr>');
-                for (let j = 0; j < blob_data[i].length; j++) {
-                  let td = $('<td></td>');
-                  tr.append(td);
-                }
-                $('#blob_dataTable tbody').append(tr);
-              }
-              blob_data.shift();
               var blob_table = $('#blob_dataTable').DataTable({
-                data: blob_data,
+                "destroy": true,
+                "ajax": {
+                  "url": "/successRunning/blob",
+                  "type": "POST",
+                  "data": {
+                    projectID: projectID,
+                    blob: blob,
+                  }
+                },
+                "deferRender": true,
+                "processing": true,
+                "aoColumns": blob_header,
               });
-              $('.fading_circles_blob').remove();
               $('#blob_dataTable tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                   $(this).removeClass('selected');
@@ -743,7 +750,6 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            console.log(res.data);
             let data = res.data.quast;
             let blob_data = res.data.blob_table;
             let blob_pic = res.data.blob_pic;
@@ -781,25 +787,30 @@ $(function () {
 
             // blob
             if (blob_data != null) {
+              var blob_header_num = blob_data[0].length;
+              var blob_header = [];
+              for (var i = 0; i < blob_header_num; i++) {
+                blob_header.push(null);
+              }
               for (let j = 0; j < blob_data[0].length; j++) {
                 let th = $('<th></th>');
                 th.html(blob_data[0][j]);
                 $('#blob_dataTable thead tr').append(th);
               }
-              for (let i = 1; i < blob_data.length; i++) {
-                let tr = $('<tr></tr>');
-                for (let j = 0; j < blob_data[i].length; j++) {
-                  let td = $('<td></td>');
-                  tr.append(td);
-                }
-                $('#blob_dataTable tbody').append(tr);
-              }
-              blob_data.shift();
               var blob_table = $('#blob_dataTable').DataTable({
-                deferRender: true,
-                data: blob_data,
+                "destroy": true,
+                "ajax": {
+                  "url": "/successRunning/blob",
+                  "type": "POST",
+                  "data": {
+                    sampleID: sampleID,
+                    blob: blob,
+                  }
+                },
+                "deferRender": true,
+                "processing": true,
+                "aoColumns": blob_header,
               });
-              $('.fading_circles_blob').remove();
               $('#blob_dataTable tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                   $(this).removeClass('selected');
@@ -919,102 +930,60 @@ $(function () {
   }
 
   function read_blob_txt() {
-    if (window.location.href.indexOf('projectID') != -1) {
-      var projectID = getVariable('projectID');
-      var blob = $('#blob_txt_tabs option:selected').val();
-      $.ajax({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        url: '/successRunning/blob',
-        type: 'POST',
-        data: {
-          projectID: projectID,
-          blob: blob
-        },
-        dataType: 'json',
-        success: function (res) {
-          if (res.code == 200) {
-            let blob_data = res.data.blob_table;
-            $('#blob_dataTable thead tr').empty();
-            $('#blob_dataTable tbody').empty();
-            // blob
-            for (let j = 0; j < blob_data[0].length; j++) {
-              let th = $('<th></th>');
-              th.html(blob_data[0][j]);
-              $('#blob_dataTable thead tr').append(th);
-            }
-            for (let i = 1; i < blob_data.length; i++) {
-              let tr = $('<tr></tr>');
-              for (let j = 0; j < blob_data[i].length; j++) {
-                let td = $('<td></td>');
-                tr.append(td);
-              }
-              $('#blob_dataTable tbody').append(tr);
-            }
-            blob_data.shift();
-            var blob_table = $('#blob_dataTable').DataTable({
-              deferRender: true,
-              data: blob_data,
-            });
-            $('#blob_dataTable tbody').on('click', 'tr', function () {
-              if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-              }
-              else {
-                blob_table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-              }
-            });
+    var projectID = getVariable('projectID');
+    var blob = $('#blob_txt_tabs option:selected').val();
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      url: '/successRunning/blob',
+      type: 'POST',
+      data: {
+        projectID: projectID,
+        blob: blob
+      },
+      dataType: 'json',
+      success: function (res) {
+        if (res.data != 'failed') {
+          let blob_data = res.data;
+          // blob
+          var blob_header_num = blob_data[0].length;
+          var blob_header = [];
+          for (var i = 0; i < blob_header_num; i++) {
+            blob_header.push(null);
           }
-        }
-      })
-    } else {
-      var sampleID = getVariable('sampleID');
-      $.ajax({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        url: '/successRunning/blob',
-        type: 'POST',
-        data: {
-          sampleID: sampleID,
-        },
-        dataType: 'json',
-        success: function (res) {
-          if (res.code == 200) {
-            let data = res.data.quast;
-            for (let j = 0; j < data[0].length; j++) {
-              let th = $('<th></th>');
-              th.html(data[0][j]);
-              $('#quast_dataTable thead tr').append(th);
-            }
-            for (let i = 1; i < data.length; i++) {
-              let tr = $('<tr></tr>');
-              for (let j = 0; j < data[i].length; j++) {
-                let td = $('<td></td>');
-                tr.append(td);
-              }
-              $('#quast_dataTable tbody').append(tr);
-            }
-            data.shift();
-            var quast_table = $('#quast_dataTable').DataTable({
-              deferRender: true,
-              data: data,
-            });
-            $('#quast_dataTable tbody').on('click', 'tr', function () {
-              if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-              }
-              else {
-                quast_table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-              }
-            });
+          for (let j = 0; j < blob_data[0].length; j++) {
+            let th = $('<th></th>');
+            th.html(blob_data[0][j]);
+            $('#blob_dataTable thead tr').append(th);
           }
+          var blob_table = $('#blob_dataTable').DataTable({
+            "destroy": true,
+            "ajax": {
+              "url": "/successRunning/blob",
+              "type": "POST",
+              "data": {
+                projectID: projectID,
+                blob: blob,
+              }
+            },
+            "deferRender": true,
+            "processing": true,
+            "aoColumns": blob_header,
+          });
+          $('#blob_dataTable tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+              $(this).removeClass('selected');
+            }
+            else {
+              blob_table.$('tr.selected').removeClass('selected');
+              $(this).addClass('selected');
+            }
+          });
         }
-      })
-    }
+      }
+    })
+
   }
 
   function read_bowtie_data() {

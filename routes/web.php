@@ -95,6 +95,7 @@ Route::group(['prefix' => 'successRunning'], function () {
     Route::get('/', 'ResultController@success_running');
     Route::post('/', 'ResultController@preseq_arg_bowtie_checkM');
     Route::post('/home', 'ResultController@home');
+    Route::post('/quast', 'ResultController@quast');
     Route::post('/blob','ResultController@blob');
     Route::post('/blob_pic','ResultController@blob_pic');
     Route::any('/resultDownload', 'ResultController@download_result');
