@@ -427,7 +427,8 @@ class ExecparamsController extends Controller
                 $eukcc_db = $data->value('eukcc_db');     //boolean
                 return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','sample_id','project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists','genus_list'));
             } else {
-                $ass = $cnv = $snv = $bulk = $saturation = $acquired = $saveTrimmed = $saveAlignedIntermediates = $resume = $euk = $fungus = $genus = $augustus_species = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = $eukcc_db = false;
+                $ass = $cnv = $snv = $saturation = $acquired = $resume = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = $eukcc_db = true;
+                $bulk = $saveTrimmed = $saveAlignedIntermediates = $euk = $fungus = $genus = $augustus_species =  false;
                 $genus_name = $augustus_species_name = null;
                 return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','sample_id', 'project_id','PipelineParams', 'can_exec', 'augustus_species_lists','genus_list'));
             }
@@ -476,7 +477,8 @@ class ExecparamsController extends Controller
                 $eukcc_db = $data->value('eukcc_db');
                 return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db','project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'species_list', 'default_reference','genus_list'));
             } else {
-                $ass = $cnv = $snv = $bulk = $saturation = $acquired = $saveTrimmed = $saveAlignedIntermediates = $resume = $euk = $fungus = $genus = $augustus_species = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = $eukcc_db = false;
+                $ass = $cnv = $snv = $saturation = $acquired = $resume = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = $eukcc_db = true;
+                $bulk = $saveTrimmed = $saveAlignedIntermediates = $euk = $fungus = $genus = $augustus_species =  false;
                 $genus_name = $augustus_species_name = null;
                 $species_list = Species::all();
                 return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'species_list', 'default_reference','genus_list'));
