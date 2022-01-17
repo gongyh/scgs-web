@@ -13,7 +13,6 @@ require('owl.carousel2/dist/owl.carousel.min');
 require('slick-carousel/slick/slick.min');
 require('./datetimepicker');
 require('./common');
-require('./plotting');
 
 window.Vue = require('vue');
 

@@ -17,7 +17,7 @@
   <div class="row text-center home-slider">
     <div class="mb-4">
       <div class="card h-100">
-        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <img class="card-img-top" src="https://via.placeholder.com/500x325" alt="">
         <div class="card-body">
           <h4 class="card-title">SCGS Pipeline</h4>
           <p class="card-text">SAG analysis</p>
@@ -30,7 +30,7 @@
 
     <div class="mb-4">
       <div class="card h-100">
-        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <img class="card-img-top" src="https://via.placeholder.com/500x325" alt="">
         <div class="card-body">
           <h4 class="card-title">RamanD2O</h4>
           <p class="card-text">Ramanome analysis</p>
@@ -43,7 +43,7 @@
 
     <div class="mb-4">
       <div class="card h-100">
-        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <img class="card-img-top" src="https://via.placeholder.com/500x325" alt="">
         <div class="card-body">
           <h4 class="card-title">RamanID</h4>
           <p class="card-text">Pathogens identification</p>
@@ -56,7 +56,7 @@
 
     <div class="mb-4">
       <div class="card h-100">
-        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <img class="card-img-top" src="https://via.placeholder.com/500x325" alt="">
         <div class="card-body">
           <h4 class="card-title">Pathways</h4>
           <p class="card-text">Metabolic pathways</p>
@@ -69,7 +69,7 @@
 
     <div class="mb-4">
       <div class="card h-100">
-        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <img class="card-img-top" src="https://via.placeholder.com/500x325" alt="">
         <div class="card-body">
           <h4 class="card-title">Drug Resistance</h4>
           <p class="card-text">AST testing</p>
@@ -82,7 +82,7 @@
 
     <div class="mb-4">
       <div class="card h-100">
-        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <img class="card-img-top" src="https://via.placeholder.com/500x325" alt="">
         <div class="card-body">
           <h4 class="card-title">GWAS</h4>
           <p class="card-text">Mutants screening</p>

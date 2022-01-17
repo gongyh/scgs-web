@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('plotting-js')
+<script src="{!! mix('js/plotting.js')!!}"></script>
+@endpush
+
 @section('content')
 <div class="container">
 
@@ -174,12 +178,7 @@
             <div id="iframe_browser_header">
               <div id="iframe_browser_title">MultiQC Reports</div>
             </div>
-            <div class="embed-responsive embed-responsive-4by3">
-              @if(isset($sample_id))
-              <iframe class="embed-responsive-item" src='/multiqc?sample_uuid={{$sample_uuid}}' allowfullscreen></iframe>
-              @elseif(isset($project_user))
-              <iframe class="embed-responsive-item" src='/multiqc?project_uuid={{$project_uuid}}' allowfullscreen></iframe>
-              @endif
+            <div id="multiqc_report" class="multiqc_report embed-responsive embed-responsive-4by3">
             </div>
           </div>
         </div>
