@@ -187,11 +187,9 @@
           </div>
         </div>
       </div>
-      <div>
         @if($selectSamples != null)
         {{$selectSamples->links()}}
         @endif
-      </div>
     </div>
     <!-- right-column -->
     <div class="right-column">

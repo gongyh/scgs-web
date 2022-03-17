@@ -96,8 +96,8 @@ Route::group(['prefix' => 'successRunning'], function () {
     Route::post('/', 'ResultController@preseq_arg_bowtie_checkM');
     Route::post('/home', 'ResultController@home');
     Route::post('/quast', 'ResultController@quast');
-    Route::post('/blob','ResultController@blob');
-    Route::post('/blob_pic','ResultController@blob_pic');
+    Route::post('/blob', 'ResultController@blob_body');
+    Route::post('/get_blob_header', 'ResultController@get_blob_header');
     Route::any('/resultDownload', 'ResultController@download_result');
     Route::any('/blob_classify', 'ResultController@blob_classify');
 });

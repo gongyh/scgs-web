@@ -151,13 +151,6 @@
 
             <div class="mt-3">
               <div class="font-large">Blob Picture</div>
-              @if(isset($project_user))
-              <select id="blob_pic_tabs" class="selectpicker show-tick mt-2" data-live-search="true" data-style="btn-info">
-                @foreach($filename_array as $filename)
-                <option value={{$filename}}>{{$filename}}</option>
-                @endforeach
-              </select>
-              @endif
               <select id="blob_classify" class="selectpicker show-tick mt-2 ml-2" data-live-search="true" data-style="btn-info">
                 <option value="superkingdom">superkingdom</option>
                 <option value="phylum" selected>phylum</option>

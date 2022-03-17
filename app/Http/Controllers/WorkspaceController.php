@@ -160,7 +160,7 @@ class WorkspaceController extends Controller
         $uuid = $request->input('uuid');
         $job_id = Jobs::where('current_uuid',$uuid)->value('id');
         $job = Jobs::find($job_id);
-        $job->status = 2;
+        $job->status = 3;
         $job->save();
         if($request->input('sampleID')){
             $sampleID = $request->input('sampleID');

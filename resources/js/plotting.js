@@ -1,4 +1,4 @@
-var Plotly = require('plotly.js/dist/plotly');
+var Plotly = require('plotly.js/dist/plotly-basic.js');
 var $ = require('jquery');
 const { isArray } = require('lodash');
 require('datatables.net');
@@ -18,7 +18,6 @@ $(function () {
   var arg_tabs = $('#arg_tabs');
   var bowtie_tabs = $('#bowtie_tabs');
   var blob_txt_tabs = $('#blob_txt_tabs');
-  var blob_pic_tabs = $('#blob_pic_tabs');
   var blob_classify_tabs = $('#blob_classify');
   var krona = document.createElement('iframe');
   var multiqc = document.createElement('iframe');
@@ -70,13 +69,13 @@ $(function () {
       }
     }
 
-    if(MultiQC != null) {
+    if (MultiQC != null) {
       MultiQC.onclick = function () {
-	var multiqc_report = document.getElementsByClassName('multiqc_report')[0];
+        var multiqc_report = document.getElementsByClassName('multiqc_report')[0];
         multiqc_report.appendChild(multiqc);
         setTimeout(() => {
-	  multiqc.contentWindow.location.reload(true);
-	}, 1000);
+          multiqc_report.contentWindow.location.reload(true);
+        }, 1000);
       }
     }
   } else {
@@ -99,7 +98,7 @@ $(function () {
         var multiqc_report = document.getElementsByClassName('multiqc_report')[0];
         multiqc_report.appendChild(multiqc);
         setTimeout(() => {
-          multiqc.contentWindow.location.reload(true);
+          multiqc_report.contentWindow.location.reload(true);
         }, 1000);
       }
     }
@@ -153,7 +152,6 @@ $(function () {
 
     image_blob_tabs.on('change', function (e) {
       e.preventDefault();
-      var rootPath = getRootPath();
       var blob_src = '/blob?project_uuid=' + $('.iframe_project_uuid').text() + '&sample_name=' + $('#blob_tabs option:selected').val();
       $('#blob_image').attr('src', blob_src);
     })
@@ -211,10 +209,6 @@ $(function () {
     table.destroy();
     $('#blob_dataTable tbody').empty();
     read_blob_txt();
-  })
-
-  blob_pic_tabs.on('change', function (e) {
-    e.preventDefault();
     blob_classify();
   })
 
@@ -547,7 +541,6 @@ $(function () {
     if (window.location.href.indexOf('projectID') != -1) {
       var projectID = getVariable('projectID');
       var blob = $('#blob_txt_tabs option:selected').val();
-      var blob_pic = $('#blob_pic_tabs option:selected').val();
       $.ajax({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -557,34 +550,33 @@ $(function () {
         data: {
           projectID: projectID,
           blob: blob,
-          blob_pic: blob_pic,
           home: true
         },
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let data = res.data.quast;
-            let blob_data = res.data.blob_table;
+            let quast_data = res.data.quast;
+            let blob_header = res.data.blob_header;
             let blob_pic = res.data.blob_pic;
             // quast
-            if (data != null) {
-              for (let j = 0; j < data[0].length; j++) {
+            if (quast_data != null) {
+              for (let j = 0; j < quast_data[0].length; j++) {
                 let th = $('<th></th>');
-                th.html(data[0][j]);
+                th.html(quast_data[0][j]);
                 $('#quast_dataTable thead tr').append(th);
               }
-              for (let i = 1; i < data.length; i++) {
+              for (let i = 1; i < quast_data.length; i++) {
                 let tr = $('<tr></tr>');
-                for (let j = 0; j < data[i].length; j++) {
+                for (let j = 0; j < quast_data[i].length; j++) {
                   let td = $('<td></td>');
                   tr.append(td);
                 }
                 $('#quast_dataTable tbody').append(tr);
               }
-              data.shift();
+              quast_data.shift();
               var quast_table = $('#quast_dataTable').DataTable({
                 deferRender: true,
-                data: data,
+                data: quast_data,
               });
               $('.fading_circles_quast').remove();
               $('#quast_dataTable tbody').on('click', 'tr', function () {
@@ -599,18 +591,18 @@ $(function () {
             }
 
             // blob
-            if (blob_data != null) {
-              var blob_header_num = blob_data[0].length;
-              var blob_header = [];
+            if (blob_header != null) {
+              var blob_header_num = blob_header[0].length;
+              var blobHeader = [];
               for (var i = 0; i < blob_header_num; i++) {
-                blob_header.push(null);
+                blobHeader.push(null);
               }
-              for (let j = 0; j < blob_data[0].length; j++) {
+              for (let j = 0; j < blob_header[0].length; j++) {
                 let th = $('<th></th>');
-                th.html(blob_data[0][j]);
+                th.html(blob_header[0][j]);
                 $('#blob_dataTable thead tr').append(th);
               }
-              var blob_table = $('#blob_dataTable').DataTable({
+              var blobTable = $('#blob_dataTable').DataTable({
                 "destroy": true,
                 "ajax": {
                   "url": "/successRunning/blob",
@@ -622,7 +614,7 @@ $(function () {
                 },
                 "deferRender": true,
                 "processing": true,
-                "aoColumns": blob_header,
+                "aoColumns": blobHeader,
               });
               $('#blob_dataTable tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
@@ -633,10 +625,8 @@ $(function () {
                   $(this).addClass('selected');
                 }
               });
-            }
 
-            // blob pic
-            if (blob_pic != null) {
+              // blob_picture
               var blob_picture = document.getElementById('blob_pic');
               var draw_blob_pic = $('#draw_blob_pic');
               let phylum_list = [];
@@ -758,28 +748,28 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let data = res.data.quast;
-            let blob_data = res.data.blob_table;
+            let quast_data = res.data.quast;
+            let blob_header = res.data.blob_header;
             let blob_pic = res.data.blob_pic;
             // quast
-            if (data != null) {
-              for (let j = 0; j < data[0].length; j++) {
+            if (quast_data != null) {
+              for (let j = 0; j < quast_data[0].length; j++) {
                 let th = $('<th></th>');
-                th.html(data[0][j]);
+                th.html(quast_data[0][j]);
                 $('#quast_dataTable thead tr').append(th);
               }
-              for (let i = 1; i < data.length; i++) {
+              for (let i = 1; i < quast_data.length; i++) {
                 let tr = $('<tr></tr>');
-                for (let j = 0; j < data[i].length; j++) {
+                for (let j = 0; j < quast_data[i].length; j++) {
                   let td = $('<td></td>');
                   tr.append(td);
                 }
                 $('#quast_dataTable tbody').append(tr);
               }
-              data.shift();
+              quast_data.shift();
               var quast_table = $('#quast_dataTable').DataTable({
                 deferRender: true,
-                data: data,
+                data: quast_data,
               });
               $('.fading_circles_quast').remove();
               $('#quast_dataTable tbody').on('click', 'tr', function () {
@@ -794,18 +784,18 @@ $(function () {
             }
 
             // blob
-            if (blob_data != null) {
-              var blob_header_num = blob_data[0].length;
-              var blob_header = [];
+            if (blob_header != null) {
+              var blob_header_num = blob_header[0].length;
+              var blobHeader = [];
               for (var i = 0; i < blob_header_num; i++) {
-                blob_header.push(null);
+                blobHeader.push(null);
               }
-              for (let j = 0; j < blob_data[0].length; j++) {
+              for (let j = 0; j < blob_header[0].length; j++) {
                 let th = $('<th></th>');
-                th.html(blob_data[0][j]);
+                th.html(blob_header[0][j]);
                 $('#blob_dataTable thead tr').append(th);
               }
-              var blob_table = $('#blob_dataTable').DataTable({
+              var blobTable = $('#blob_dataTable').DataTable({
                 "destroy": true,
                 "ajax": {
                   "url": "/successRunning/blob",
@@ -817,7 +807,7 @@ $(function () {
                 },
                 "deferRender": true,
                 "processing": true,
-                "aoColumns": blob_header,
+                "aoColumns": blobHeader,
               });
               $('#blob_dataTable tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
@@ -944,7 +934,7 @@ $(function () {
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
-      url: '/successRunning/blob',
+      url: '/successRunning/get_blob_header',
       type: 'POST',
       data: {
         projectID: projectID,
@@ -953,12 +943,12 @@ $(function () {
       dataType: 'json',
       success: function (res) {
         if (res.data != 'failed') {
-          let blob_data = res.data;
+          let blob_header = res.data.blob_header;
           // blob
-          var blob_header_num = blob_data[0].length;
-          var blob_header = [];
+          var blob_header_num = blob_header[0].length;
+          var blobHeader = [];
           for (var i = 0; i < blob_header_num; i++) {
-            blob_header.push(null);
+            blobHeader.push(null);
           }
           var blob_table = $('#blob_dataTable').DataTable({
             "destroy": true,
@@ -972,7 +962,7 @@ $(function () {
             },
             "deferRender": true,
             "processing": true,
-            "aoColumns": blob_header,
+            "aoColumns": blobHeader,
           });
           $('#blob_dataTable tbody').on('click', 'tr', function () {
             if ($(this).hasClass('selected')) {
@@ -1224,7 +1214,8 @@ $(function () {
   function blob_classify() {
     if (window.location.href.indexOf('projectID') != -1) {
       var projectID = getVariable('projectID');
-      var blob = $('#blob_pic_tabs option:selected').val()
+      var blob = $('#blob_txt_tabs option:selected').val();
+      var blob_classify = $('#blob_classify_tabs option:selected').val();
       $.ajax({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1232,8 +1223,9 @@ $(function () {
         url: '/successRunning/blob_classify',
         type: 'POST',
         data: {
+          'projectID': projectID,
           'blob': blob,
-          'projectID': projectID
+          'blob_classify': blob_classify
         },
         dataType: 'json',
         success: function (res) {
@@ -1829,8 +1821,8 @@ $(function () {
         url: '/successRunning/blob_classify',
         type: 'POST',
         data: {
-          'blob_classify': 'superkingdom',
           'sampleID': sampleID,
+          'blob_classify': 'superkingdom',
           'blob': blob,
         },
         dataType: 'json',
@@ -2429,13 +2421,18 @@ $(function () {
     return (false);
   }
 
-  function getRootPath() {
+  /**
+   * Utils getRootPath()
+   */
+  /**
+   function getRootPath() {
     var wwwPath = window.document.location.href;
     var pathName = window.document.location.pathname;
     var pos = wwwPath.indexOf(pathName);
     var localhostPath = wwwPath.substring(0, pos);
     return localhostPath;
   }
+  */
 
   // compare
   function compare(propertyName) {
