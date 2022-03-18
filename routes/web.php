@@ -120,3 +120,5 @@ Route::get('/docs/{page_id?}', 'DocController@index')->name('docs');
 Route::get('/contact', 'Contact2Controller@index');
 Route::post('/contact', 'Contact2Controller@store');
 
+Route::get('/healthcheck', [ScgsHealthcheckController::class, 'handle']);
+

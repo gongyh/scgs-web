@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9bfd58749ada8f0b654f6714dabafbc",
+    "content-hash": "d18cfe1ad911c35e479409a5fb10f301",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5634,6 +5634,84 @@
                 }
             ],
             "time": "2021-09-25T23:10:38+00:00"
+        },
+        {
+            "name": "renoki-co/laravel-healthchecks",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/renoki-co/laravel-healthchecks.git",
+                "reference": "a715e76e607e76e2ef67d2a2ae48124d6d57fc1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/renoki-co/laravel-healthchecks/zipball/a715e76e607e76e2ef67d2a2ae48124d6d57fc1f",
+                "reference": "a715e76e607e76e2ef67d2a2ae48124d6d57fc1f",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "illuminate/routing": "^8.83|^9.0.1",
+                "illuminate/support": "^8.83|^9.0.1"
+            },
+            "require-dev": {
+                "laravel/legacy-factories": "^1.3",
+                "mockery/mockery": "^1.5",
+                "orchestra/testbench": "^6.28|^7.0",
+                "orchestra/testbench-core": "^6.28|^7.0",
+                "phpunit/phpunit": "^9.5.13"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "RenokiCo\\LaravelHealthchecks\\LaravelHealthcheckServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "RenokiCo\\LaravelHealthchecks\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Renoki",
+                    "homepage": "https://github.com/rennokki",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Healthchecks is a simple controller class that helps you build your own healthchecks endpoint without issues.",
+            "homepage": "https://github.com/renoki-co/laravel-healthchecks",
+            "keywords": [
+                "checks",
+                "controller",
+                "endpoint",
+                "healthcheck",
+                "laravel",
+                "php",
+                "server"
+            ],
+            "support": {
+                "issues": "https://github.com/renoki-co/laravel-healthchecks/issues",
+                "source": "https://github.com/renoki-co/laravel-healthchecks/tree/2.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/rennokki",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-02-09T22:05:32+00:00"
         },
         {
             "name": "ricadesign/laravel-contact",
