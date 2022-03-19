@@ -2,3 +2,4 @@ docker-compose.yml
 *.yaml
 /pv
 .git
+.env

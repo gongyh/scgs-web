@@ -1,6 +1,9 @@
 # https://github.com/renoki-co/laravel-docker-base
 FROM quay.io/renokico/laravel-base:octane-1.1.0-4.6-php8.0-alpine
 
+# install pecl extension
+RUN pecl install mongodb && docker-php-ext-enable mongodb && rm -rf /tmp/pear
+
 COPY . /var/www/html
 
 RUN mkdir -p /var/www/html/storage/logs/ && \

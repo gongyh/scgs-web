@@ -1,5 +1,24 @@
+FROM ncbi/sra-tools:x86_64-3.0.0 AS build-sra-tools
+
 # https://github.com/renoki-co/laravel-docker-base
 FROM quay.io/renokico/laravel-base:worker-1.2.0-8.0-cli-alpine
+
+RUN apk --update add bash procps graphviz openjdk8-jre python3 && \
+    rm -rf /var/cache/apk/*
+
+COPY --from=build-sra-tools /usr/local/bin /usr/local/bin
+COPY --from=build-sra-tools /root/.ncbi /root/.ncbi
+
+# install parallel-fastq-dump
+RUN wget -q -O parallel-fastq-dump.0.6.7.tar.gz https://github.com/rvalieris/parallel-fastq-dump/archive/refs/tags/0.6.7.tar.gz && \
+  tar xzvf parallel-fastq-dump.0.6.7.tar.gz && cd parallel-fastq-dump-0.6.7 && \
+  chmod +x parallel-fastq-dump && cp parallel-fastq-dump /usr/local/bin/ && \
+  rm -rf ../parallel-fastq-dump.0.6.7.tar.gz ../parallel-fastq-dump-0.6.7
+
+# install nextflow
+RUN mkdir /opt/nextflow && cd /opt/nextflow && \
+    curl -s https://get.nextflow.io | bash && \
+    ln -s /opt/nextflow/nextflow /usr/local/bin/nextflow
 
 COPY . /var/www/html
 
