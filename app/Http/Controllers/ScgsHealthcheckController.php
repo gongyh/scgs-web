@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use RenokiCo\LaravelHealthchecks\Http\Controllers\HealthcheckController;
 
