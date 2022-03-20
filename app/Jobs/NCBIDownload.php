@@ -49,7 +49,7 @@ class NCBIDownload implements ShouldQueue
 
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         $user_dir = $base_path . 'meta-data/public';
-        $fastq_dump = '/mnt/scc8t/zhousq/Minoconda3/bin/parallel-fastq-dump --sra-id ' . $this->sra_id . ' --threads 4 --outdir ' . $user_dir . '/ --split-files --gzip';
+        $fastq_dump = 'parallel-fastq-dump --sra-id ' . $this->sra_id . ' --threads 4 --outdir ' . $user_dir . '/ --split-files --gzip';
         system($fastq_dump);
         $cp_ncbi_file = 'cp ' . $base_path . 'meta-data/public/' . $this->sra_id . '_1.fastq.gz ' . $base_path . 'meta-data/' . $this->username . ' && cp ' . $base_path . 'meta-data/public/' . $this->sra_id . '_2.fastq.gz ' . $base_path . 'meta-data/' . $this->username;
         system($cp_ncbi_file);
