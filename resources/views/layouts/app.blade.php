@@ -10,11 +10,6 @@
 
   <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{!! mix('js/app.js')!!}" defer></script>
- 
-    @stack('plotting-js')
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <!-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> -->
@@ -157,6 +152,11 @@
     </footer>
 
   </div>
+
+<!-- Scripts -->
+<script src="{!! mix('js/app.js')!!}" defer></script>
+
+@stack('plotting-js')
 
 <!-- Page specific script -->
 @yield('script')

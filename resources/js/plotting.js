@@ -1,7 +1,7 @@
-var Plotly = require('plotly.js/dist/plotly-basic.js');
-var $ = require('jquery');
+//var Plotly = require('plotly.js/dist/plotly-basic.min.js');
+//var $ = require('jquery');
 const { isArray } = require('lodash');
-require('datatables.net');
+require('datatables.net-dt/js/dataTables.dataTables.min.js');
 
 $(function () {
   var MultiQC = document.getElementById('v-pills-multiqc-tab');
