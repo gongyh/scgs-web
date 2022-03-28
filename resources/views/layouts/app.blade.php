@@ -154,7 +154,7 @@
   </div>
 
 <!-- Scripts -->
-<script src="{!! mix('js/app.js')!!}" defer></script>
+<script src="{!! mix('js/app.js')!!}"></script>
 
 @stack('plotting-js')
 

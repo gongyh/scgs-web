@@ -324,7 +324,6 @@
 
 @push('plotting-js')
 <script src="https://cdn.staticfile.org/plotly.js/2.11.1/plotly-basic.min.js" defer></script>
-<script src="{!! mix('js/plotting.js')!!}" defer></script>
 @endpush
 
 @endsection
