@@ -17,6 +17,13 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
+    <!-- Scripts -->
+    <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+    @stack('plotting-js')
+    <script src="{!! mix('js/manifest.js')!!}"></script>
+    <script src="{!! mix('js/vendor.js')!!}"></script>
+    <script src="{!! mix('js/app.js')!!}"></script>
+
     <!-- Page specific styles -->
     @yield('style')
 </head>
@@ -152,11 +159,6 @@
     </footer>
 
   </div>
-
-<!-- Scripts -->
-<script src="{!! mix('js/app.js')!!}"></script>
-
-@stack('plotting-js')
 
 <!-- Page specific script -->
 @yield('script')

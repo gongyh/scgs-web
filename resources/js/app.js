@@ -14,9 +14,9 @@ require('slick-carousel/slick/slick.min');
 require('./datetimepicker');
 require('./common');
 
-require('./plotting')
+//require('./plotting')
 
-window.Vue = require('vue');
+//window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your

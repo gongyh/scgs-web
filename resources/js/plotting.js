@@ -1,9 +1,12 @@
-//var Plotly = require('plotly.js/dist/plotly-basic.min.js');
-var $ = require('jquery');
-const { isArray } = require('lodash');
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
 require('datatables.net');
 
+import 'plotly';
+
 $(function () {
+
   var MultiQC = document.getElementById('v-pills-multiqc-tab');
   var krona_tab = document.getElementById('v-pills-krona-tab');
   var blob_tab = document.getElementById('v-pills-blob-tab');
@@ -631,7 +634,7 @@ $(function () {
               var draw_blob_pic = $('#draw_blob_pic');
               let phylum_list = [];
               let phylum_data = [];
-              for (i = 0; i < blob_pic.length; i++) {
+              for (var i = 0; i < blob_pic.length; i++) {
                 if (phylum_list.indexOf(blob_pic[i][6]) == -1) {
                   if (phylum_list.length < 9) {
                     phylum_list.push(blob_pic[i][6]);
@@ -641,7 +644,7 @@ $(function () {
                   }
                 }
               }
-              for (j = 0; j < phylum_list.length; j++) {
+              for (var j = 0; j < phylum_list.length; j++) {
                 if (j < 9) {
                   let blob = phylum_list[j];
                   let name = phylum_list[j] + '_name';
@@ -688,7 +691,7 @@ $(function () {
                   window[other_length] = [];
                   window[other_gc] = [];
                   window[other_cov] = [];
-                  for (v = 0; v < blob_pic.length; v++) {
+                  for (var v = 0; v < blob_pic.length; v++) {
                     if (phylum_list.indexOf(blob_pic[v][6]) == -1) {
                       window[other_name].push(blob_pic[v][0]);
                       window[other_length].push(blob_pic[v][1]);
@@ -826,7 +829,7 @@ $(function () {
               var draw_blob_pic = $('#draw_blob_pic');
               let phylum_list = [];
               let phylum_data = [];
-              for (i = 0; i < blob_pic.length; i++) {
+              for (var i = 0; i < blob_pic.length; i++) {
                 if (phylum_list.indexOf(blob_pic[i][6]) == -1) {
                   if (phylum_list.length < 9) {
                     phylum_list.push(blob_pic[i][6]);
@@ -836,7 +839,7 @@ $(function () {
                   }
                 }
               }
-              for (j = 0; j < phylum_list.length; j++) {
+              for (var j = 0; j < phylum_list.length; j++) {
                 if (j < 9) {
                   let blob = phylum_list[j];
                   let name = phylum_list[j] + '_name';
@@ -849,7 +852,7 @@ $(function () {
                   window[length] = [];
                   window[gc] = [];
                   window[cov] = [];
-                  for (v = 0; v < blob_pic.length; v++) {
+                  for (var v = 0; v < blob_pic.length; v++) {
                     if (blob_pic[v][6] == phylum_list[j]) {
                       window[name].push(blob_pic[v][0]);
                       window[length].push(blob_pic[v][1]);
@@ -883,7 +886,7 @@ $(function () {
                   window[other_length] = [];
                   window[other_gc] = [];
                   window[other_cov] = [];
-                  for (v = 0; v < blob_pic.length; v++) {
+                  for (var v = 0; v < blob_pic.length; v++) {
                     if (phylum_list.indexOf(blob_pic[v][6]) == -1) {
                       window[other_name].push(blob_pic[v][0]);
                       window[other_length].push(blob_pic[v][1]);
@@ -1235,7 +1238,7 @@ $(function () {
           case 'superkingdom':
             let superkingdom_list = [];
             let superkingdom_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (superkingdom_list.indexOf(data[i][5]) == -1) {
                 if (superkingdom_list.length < 9) {
                   superkingdom_list.push(data[i][5]);
@@ -1245,7 +1248,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < superkingdom_list.length; j++) {
+            for (var j = 0; j < superkingdom_list.length; j++) {
               if (j < 9) {
                 let blob = superkingdom_list[j];
                 let name = superkingdom_list[j] + '_name';
@@ -1292,7 +1295,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (superkingdom_list.indexOf(data[v][5]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
@@ -1331,7 +1334,7 @@ $(function () {
           case 'phylum':
             let phylum_list = [];
             let phylum_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (phylum_list.indexOf(data[i][6]) == -1) {
                 if (phylum_list.length < 9) {
                   phylum_list.push(data[i][6]);
@@ -1341,7 +1344,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < phylum_list.length; j++) {
+            for (var j = 0; j < phylum_list.length; j++) {
               if (j < 9) {
                 let blob = phylum_list[j];
                 let name = phylum_list[j] + '_name';
@@ -1354,7 +1357,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][6] == phylum_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -1387,7 +1390,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (phylum_list.indexOf(data[v][6]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
@@ -1426,7 +1429,7 @@ $(function () {
           case 'order':
             let order_list = [];
             let order_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (order_list.indexOf(data[i][7]) == -1) {
                 if (order_list.length < 9) {
                   order_list.push(data[i][7]);
@@ -1436,7 +1439,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < order_list.length; j++) {
+            for (var j = 0; j < order_list.length; j++) {
               if (j < 9) {
                 let blob = order_list[j];
                 let name = order_list[j] + '_name';
@@ -1449,7 +1452,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][7] == order_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -1483,7 +1486,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (order_list.indexOf(data[v][7]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
@@ -1522,7 +1525,7 @@ $(function () {
           case 'family':
             let family_list = [];
             let family_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (family_list.indexOf(data[i][8]) == -1) {
                 if (family_list.length < 9) {
                   family_list.push(data[i][8]);
@@ -1532,7 +1535,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < family_list.length; j++) {
+            for (var j = 0; j < family_list.length; j++) {
               if (j < 9) {
                 let blob = family_list[j];
                 let name = family_list[j] + '_name';
@@ -1545,7 +1548,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][8] == family_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -1579,7 +1582,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (family_list.indexOf(data[v][8]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
@@ -1618,7 +1621,7 @@ $(function () {
           case 'genus':
             let genus_list = [];
             let genus_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (genus_list.indexOf(data[i][9]) == -1) {
                 if (genus_list.length < 9) {
                   genus_list.push(data[i][9]);
@@ -1628,7 +1631,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < genus_list.length; j++) {
+            for (var j = 0; j < genus_list.length; j++) {
               if (j < 9) {
                 let blob = genus_list[j];
                 let name = genus_list[j] + '_name';
@@ -1641,7 +1644,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][9] == genus_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -1675,7 +1678,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (genus_list.indexOf(data[v][9]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
@@ -1715,7 +1718,7 @@ $(function () {
           case 'species':
             let species_list = [];
             let species_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (species_list.indexOf(data[i][10]) == -1) {
                 if (species_list.length < 9) {
                   species_list.push(data[i][10]);
@@ -1725,7 +1728,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < species_list.length; j++) {
+            for (var j = 0; j < species_list.length; j++) {
               if (j < 9) {
                 let blob = species_list[j];
                 let name = species_list[j] + '_name';
@@ -1738,7 +1741,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][10] == species_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -1833,7 +1836,7 @@ $(function () {
           case 'superkingdom':
             let superkingdom_list = [];
             let superkingdom_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (superkingdom_list.indexOf(data[i][5]) == -1) {
                 if (superkingdom_list.length < 9) {
                   superkingdom_list.push(data[i][5]);
@@ -1843,7 +1846,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < superkingdom_list.length; j++) {
+            for (var j = 0; j < superkingdom_list.length; j++) {
               if (j < 9) {
                 let blob = superkingdom_list[j];
                 let name = superkingdom_list[j] + '_name';
@@ -1856,7 +1859,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][5] == superkingdom_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -1890,7 +1893,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (superkingdom_list.indexOf(data[v][5]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
@@ -1929,7 +1932,7 @@ $(function () {
           case 'phylum':
             let phylum_list = [];
             let phylum_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (phylum_list.indexOf(data[i][6]) == -1) {
                 if (phylum_list.length < 9) {
                   phylum_list.push(data[i][6]);
@@ -1939,7 +1942,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < phylum_list.length; j++) {
+            for (var j = 0; j < phylum_list.length; j++) {
               if (j < 9) {
                 let blob = phylum_list[j];
                 let name = phylum_list[j] + '_name';
@@ -1952,7 +1955,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][6] == phylum_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -1986,7 +1989,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (phylum_list.indexOf(data[v][6]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
@@ -2025,7 +2028,7 @@ $(function () {
           case 'order':
             let order_list = [];
             let order_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (order_list.indexOf(data[i][7]) == -1) {
                 if (order_list.length < 9) {
                   order_list.push(data[i][7]);
@@ -2035,7 +2038,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < order_list.length; j++) {
+            for (var j = 0; j < order_list.length; j++) {
               if (j < 9) {
                 let blob = order_list[j];
                 let name = order_list[j] + '_name';
@@ -2048,7 +2051,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][7] == order_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -2082,7 +2085,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (order_list.indexOf(data[v][7]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
@@ -2121,7 +2124,7 @@ $(function () {
           case 'family':
             let family_list = [];
             let family_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (family_list.indexOf(data[i][8]) == -1) {
                 if (family_list.length < 9) {
                   family_list.push(data[i][8]);
@@ -2131,7 +2134,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < family_list.length; j++) {
+            for (var j = 0; j < family_list.length; j++) {
               if (j < 9) {
                 let blob = family_list[j];
                 let name = family_list[j] + '_name';
@@ -2144,7 +2147,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][8] == family_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -2178,7 +2181,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (family_list.indexOf(data[v][8]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
@@ -2217,7 +2220,7 @@ $(function () {
           case 'genus':
             let genus_list = [];
             let genus_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (genus_list.indexOf(data[i][9]) == -1) {
                 if (genus_list.length < 9) {
                   genus_list.push(data[i][9]);
@@ -2227,7 +2230,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < genus_list.length; j++) {
+            for (var j = 0; j < genus_list.length; j++) {
               if (j < 9) {
                 let blob = genus_list[j];
                 let name = genus_list[j] + '_name';
@@ -2240,7 +2243,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][9] == genus_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -2273,7 +2276,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (genus_list.indexOf(data[v][9]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
@@ -2312,7 +2315,7 @@ $(function () {
           case 'species':
             let species_list = [];
             let species_data = [];
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
               if (species_list.indexOf(data[i][10]) == -1) {
                 if (species_list.length < 9) {
                   species_list.push(data[i][10]);
@@ -2322,7 +2325,7 @@ $(function () {
                 }
               }
             }
-            for (j = 0; j < species_list.length; j++) {
+            for (var j = 0; j < species_list.length; j++) {
               if (j < 9) {
                 let blob = species_list[j];
                 let name = species_list[j] + '_name';
@@ -2335,7 +2338,7 @@ $(function () {
                 window[length] = [];
                 window[gc] = [];
                 window[cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (data[v][10] == species_list[j]) {
                     window[name].push(data[v][0]);
                     window[length].push(data[v][1]);
@@ -2369,7 +2372,7 @@ $(function () {
                 window[other_length] = [];
                 window[other_gc] = [];
                 window[other_cov] = [];
-                for (v = 0; v < data.length; v++) {
+                for (var v = 0; v < data.length; v++) {
                   if (species_list.indexOf(data[v][10]) == -1) {
                     window[other_name].push(data[v][0]);
                     window[other_length].push(data[v][1]);
