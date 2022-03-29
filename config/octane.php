@@ -36,7 +36,7 @@ return [
     |
     */
 
-    'server' => env('OCTANE_SERVER', 'roadrunner'),
+    'server' => env('OCTANE_SERVER', 'swoole'),
 
     /*
     |--------------------------------------------------------------------------
@@ -216,6 +216,13 @@ return [
     |
     */
 
-    'max_execution_time' => 30,
+    'max_execution_time' => 300,
+
+    // set swoole max upload/post file size to 2000M
+    'swoole' => [
+        'options' => [
+            'package_max_length' => 1024 * 1024 * 2000,
+        ],
+    ],
 
 ];

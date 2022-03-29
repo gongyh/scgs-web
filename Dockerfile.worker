@@ -20,12 +20,7 @@ RUN mkdir /opt/nextflow && cd /opt/nextflow && \
     curl -s https://get.nextflow.io | bash && \
     ln -s /opt/nextflow/nextflow /usr/local/bin/nextflow
 
-COPY . /var/www/html
-
-RUN mkdir -p /var/www/html/storage/logs/ && \
-    chown -R www-data:www-data /var/www/html && \
-    rm -rf tests/ .git/ .github/ *.md && \
-    rm -rf vendor/*/test/ vendor/*/tests/*
+COPY --chown=www-data:www-data . /var/www/html
 
 WORKDIR /var/www/html
 

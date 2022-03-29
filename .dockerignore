@@ -3,3 +3,8 @@ docker-compose.yml
 /pv
 .git
 .env
+storage/logs/*
+tests/*
+*.md
+vendor/*/test/*
+vendor/*/tests/*
