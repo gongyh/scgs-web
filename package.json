@@ -13,7 +13,7 @@
     "axios": "^0.21",
     "cross-env": "^7.0",
     "jquery": "^3.2",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.0",
     "laravel-mix": "^5.0.5",
     "laravel-mix-bundle-analyzer": "^1.0.5",
     "laravel-mix-ignore": "^1.0.1",
