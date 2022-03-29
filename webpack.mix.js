@@ -1,4 +1,6 @@
 const mix = require('laravel-mix');
+require('laravel-mix-bundle-analyzer');
+require('laravel-mix-ignore');
 
 /*
  |--------------------------------------------------------------------------
@@ -17,6 +19,17 @@ mix.webpackConfig({
         plotly: 'Plotly',
     },
 });
+
+mix.bundleAnalyzer({
+    openAnalyzer: false,
+    analyzerMode: 'static',
+    generateStatsFile: false,
+});
+
+mix.ignore(
+    /^\.\/locale$/,
+    /moment$/
+);
 
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')

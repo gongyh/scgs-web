@@ -5,12 +5,12 @@
  */
 
 require('./bootstrap');
-window.moment = require('../../node_modules/moment/moment');
-require('bootstrap-fileinput/js/fileinput.min.js');
+window.moment = require('moment/moment');
+require('bootstrap-fileinput/js/fileinput');
 require('bootstrap-fileinput/js/locales/zh');
 require('bootstrap-select/dist/js/bootstrap-select');
-require('owl.carousel2/dist/owl.carousel.min');
-require('slick-carousel/slick/slick.min');
+require('owl.carousel2/dist/owl.carousel');
+require('slick-carousel/slick/slick');
 require('./datetimepicker');
 require('./common');
 
