@@ -11,6 +11,6 @@
 
 sed -i "s/'package_max_length' => 10 * 1024 * 1024,/'package_max_length' => 2000 * 1024 * 1024,/g" vendor/laravel/octane/src/Commands/StartSwooleCommand.php
 
-php artisan config:cache
+#php artisan config:cache # will disable .env variables outside config
 php artisan route:cache
 php artisan view:cache
