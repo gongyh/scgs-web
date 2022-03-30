@@ -77,6 +77,9 @@ class RunPipeline implements ShouldQueue
         $sample_id = $current_job->sample_id;
         $project_id = Samples::where('id', $sample_id)->value('projects_id');
         $project_accession = Projects::where('id', $project_id)->value('doi');
+        $workdir = $base_path . $project_accession . '/' . $job_uuid;
+        system('mkdir -p ' . $workdir . ' && chmod -R 777 ' . $workdir);
+
         $pipeline_params = PipelineParams::find(1);
         $nextflow_path = $pipeline_params->nextflow_path;
         $nf_core_scgs_path = $pipeline_params->nf_core_scgs_path;
@@ -88,17 +91,18 @@ class RunPipeline implements ShouldQueue
                 $profile_string = "docker,base";
                 break;
             case "Kubernetes":
-                $k8s_configf = $base_path . $project_accession . '/' . $job_uuid . '/k8s.config';
+                $k8s_configf = $workdir . '/k8s.config';
                 $profile_string = 'k8s,standard';
                 $k8s_config = \fopen($k8s_configf, "w");
                 $k8s_autoMountHostPaths = 'k8s.autoMountHostPaths = false' . PHP_EOL;
-                $k8s_launchDir = 'k8s.launchDir = ' . '\'' . $base_path . $project_accession . '/' . $job_uuid . '\'' . PHP_EOL;
-                $k8s_workDir = 'k8s.workDir = \'' . $base_path . $project_accession . '/' . $job_uuid . '/work\'' . PHP_EOL;
-                $k8s_projectDir = 'k8s.projectDir = \'/workspace/projects\'' . PHP_EOL;
-                $k8s_pod = 'k8s.pod = ' . env('K8S_POD','[]') . PHP_EOL;
-                $k8s_storageClaimName = 'k8s.storageClaimName = \'nfpvc\'' . PHP_EOL;
-                $k8s_storageMountPath = 'k8s.storageMountPath = \'/workspace\'' . PHP_EOL;
-                $k8s_txt = $k8s_autoMountHostPaths . $k8s_launchDir . $k8s_workDir . $k8s_projectDir . $k8s_pod . $k8s_storageClaimName . $k8s_storageMountPath;
+                $k8s_launchDir = 'k8s.launchDir = ' . '\'' . $workdir . '\'' . PHP_EOL;
+                $k8s_workDir = 'k8s.workDir = \'' . $workdir . '/work\'' . PHP_EOL;
+                $k8s_projectDir = 'k8s.projectDir = \'' . $base_path . '/projects\'' . PHP_EOL;
+                $k8s_pod = 'k8s.pod = [[volumeClaim:"scgs-db-pvc", mountPath:"/mnt/share"],[imagePullPolicy:"IfNotPresent"],[nodeSelector:"kubernetes.io/hostname: gnode7"]]' . PHP_EOL;
+                $k8s_storageClaimName = 'k8s.storageClaimName = \'scgs-data-pvc\'' . PHP_EOL;
+                $k8s_storageMountPath = 'k8s.storageMountPath = \'' . $base_path . '\'' . PHP_EOL;
+                $k8s_namespace = "k8s.namespace = 'school'" . PHP_EOL;
+                $k8s_txt = $k8s_autoMountHostPaths . $k8s_launchDir . $k8s_workDir . $k8s_projectDir . $k8s_pod . $k8s_storageClaimName . $k8s_storageMountPath . $k8s_namespace;
                 \fwrite($k8s_config, $k8s_txt);
                 \fclose($k8s_config);
                 $nextflow_config = " -c " . $k8s_configf;
@@ -108,8 +112,9 @@ class RunPipeline implements ShouldQueue
                 break;
         }
         $command = $nextflow_path . $nextflow_config . ' run '. $nf_core_scgs_path . ' ' . $current_job->command . ' -profile ' . $profile_string . ' -name uuid-' . $current_job->current_uuid . ' -with-weblog '. env('WEBLOG_SERVER', 'http://localhost') .'/execute/start';
-        $cmd_wrap = 'mkdir -p ' . $base_path . $project_accession . '/' . $job_uuid . ' && chmod -R 777 ' . $base_path . $project_accession . '/' . $job_uuid . ' && cd ' . $base_path . $project_accession . '/' . $job_uuid . ' && ' . $command;
-        system($cmd_wrap);
+        $cmd_wrap = 'cd ' . $workdir . ' && ' . $command;
+        $output = shell_exec($cmd_wrap);
+        file_put_contents('/var/log/scgs_jobs.log', '+++++++++++++++++\n'.$output.'***************\n', FILE_APPEND);
     }
 
     public function failed()

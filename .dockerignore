@@ -8,3 +8,4 @@ tests/*
 *.md
 vendor/*/test/*
 vendor/*/tests/*
+develop.sh
