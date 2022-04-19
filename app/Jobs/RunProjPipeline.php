@@ -19,11 +19,19 @@ class RunProjPipeline implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 7*24*3600;
+
+    /**
      * Create a new job instance.
      *
      * @return void
      */
     protected $run_project_id;
+
     public function __construct($run_project_id)
     {
         //

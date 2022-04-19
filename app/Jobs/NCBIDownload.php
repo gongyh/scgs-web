@@ -17,12 +17,21 @@ class NCBIDownload implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 24*3600; // one day
+
+    /**
      * Create a new job instance.
      *
      * @return void
      */
     private $username;
+
     private $sra_id;
+
     public function __construct($username, $sra_id)
     {
         //

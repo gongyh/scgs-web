@@ -13,6 +13,21 @@
     </div>
   </header>
 
+  <!-- Guides information -->
+  <div id="guidesCarousel" class="carousel slide" data-ride="carousel">
+   <div class="carousel-inner">
+    <div class="carousel-item active" data-interval="5000">
+      <p>Please login to use the pipeline!</p>
+    </div>
+    <div class="carousel-item" data-interval="5000">
+      <p>You need to create a project!</p>
+    </div>
+    <div class="carousel-item" data-interval="5000">
+      <p>You need to upload your sequencing data!</p>
+    </div>
+   </div>
+  </div>
+
   <!-- Page Features -->
   <div class="row text-center home-slider">
     <div class="mb-4">

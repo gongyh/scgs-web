@@ -360,9 +360,33 @@ class SamplesController extends Controller
         if ($request->file('sample_file')->isValid()) {
             $filename = $projectID . '_samples_temp.xlsx';
             $request->file('sample_file')->storeAs('', $filename);
-            Excel::import(new SamplesImport, $filename);
+            $file_array = Excel::toArray(new SamplesImport, $filename);
+            $file_array = $file_array[0];
+            array_shift($file_array);
+            foreach ($file_array as $array) {
+                Samples::create([
+                    'sampleLabel' => $array[0],
+                    'library_id' => $array[1],
+                    'library_strategy' => $array[2],
+                    'library_source' => $array[3],
+                    'library_selection' => $array[4],
+                    'pairends' => $array[5] == 'paired' ? true : false,
+                    'platform' => $array[6],
+                    'instrument_model' => $array[7],
+                    'design_description' => $array[8],
+                    'filetype' => $array[9],
+                    'applications_id' => Applications::where('name', $array[10])->value('id'),
+                    'projects_id' => $projectID,
+                    'species_id' => Species::where('name', $array[11])->value('id'),
+                    'filename1' => $array[12],
+                    'filename2' => $array[13],
+                    'isPrepared' => 0,
+                    'status' => 0
+                ]);
+                MvSamples::dispatch($projectID, $array[12], $array[13])->onQueue('MvSamples');
+            }
             Storage::delete($filename);
-            return response()->json(['code' => '200']);
+            return response()->json(['code' => 200]);
         }
     }
 

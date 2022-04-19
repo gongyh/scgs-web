@@ -83,7 +83,6 @@
                   </div>
                 </div>
                 <select class="custom-select w-40 augustus_species_name {{$augustus_species_name == null?'no-display':''}}" name=" augustus_species_name" id="augustus_species_name">
-                  <option selected value="saccharomyces">saccharomyces</option>
                   @foreach($augustus_species_lists as $augustus_species_list)
                   <option value={{$augustus_species_list}}>{{$augustus_species_list}}</option>
                   @endforeach
@@ -121,9 +120,8 @@
                   </div>
                 </div>
                 <select class="custom-select w-40 genus_name {{$genus_name == null?'no-display':''}}" name=" genus_name" id="genus_name">
-                  <option selected value="saccharomyces">saccharomyces</option>
                   @foreach($genus_list as $genus)
-                  <option value={{$genus}}>{{$genus}}</option>
+                  <option value={{$genus}} {{strcmp($genus,$genus_name) == 0 ? 'selected' : ''}}>{{$genus}}</option>
                   @endforeach
                 </select>
               </div>

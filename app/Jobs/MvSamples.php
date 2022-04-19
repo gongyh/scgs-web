@@ -18,13 +18,22 @@ class MvSamples implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 24*3600; // one day
+
+    /**
      * Create a new job instance.
      *
      * @return void
      */
 
     private $project_id;
+
     private $filename1;
+
     private $filename2;
 
     public function __construct($project_id, $filename1, $filename2)
