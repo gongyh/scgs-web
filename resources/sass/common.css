@@ -683,13 +683,10 @@ a:hover {
   height: auto;
 }
 
-#guides {
-  margin-bottom: 1rem;
-}
 
 #guides .step {
   display: inline-block;
-  width: 17%;
+  width: 16%;
   vertical-align: super;
 }
 
