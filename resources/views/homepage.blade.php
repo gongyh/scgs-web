@@ -16,15 +16,23 @@
   <!-- Guides information -->
   <div id="guides">
     <div class="step btn btn-success">
-      <p>Please <a href="/login">login</a> to use the pipeline!</p>
+      <p><a href="/login">login</a>Register and Login</p>
     </div>
     <span class="arrow">&#8594;</span>
     <div class="step btn btn-success">
-      <p>You need to <a href="/projects/create">create a project</a>!</p>
+      <p><a href="/projects/create">Create projects</a></p>
     </div>
     <span class="arrow">&#8594;</span>
     <div class="step btn btn-success">
-      <p>You need to <a href="/workspace/addSampleFiles">upload your sequencing data</a>!</p>
+      <p><a href="/workspace/addSampleFiles">Upload sequences</a></p>
+    </div>
+    <span class="arrow">&#8594;</span>
+    <div class="step btn btn-success">
+      <p><a href="/workspace/myProject">Analyze project/samples</a></p>
+    </div>
+    <span class="arrow">&#8594;</span>
+    <div class="step btn btn-success">
+      <p><a href="/workspace/myProject">Results inspection</a></p>
     </div>
   </div>
 

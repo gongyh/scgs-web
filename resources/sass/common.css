@@ -683,12 +683,21 @@ a:hover {
   height: auto;
 }
 
-#guides step {
+#guides {
+  margin-bottom: 1rem;
+}
+
+#guides .step {
   border: 1px black solid;
   display: inline-block;
 }
 
-#guides arrow {
-  font-size: 25px;
+#guides .step p {
+  margin-bottom: 0;
+  font-size: x-large;
+}
+
+#guides .arrow {
+  font-size: x-large;
   color: red;
 }
