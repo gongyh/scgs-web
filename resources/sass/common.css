@@ -682,3 +682,13 @@ a:hover {
   width: 100%;
   height: auto;
 }
+
+#guides step {
+  border: 1px black solid;
+  display: inline-block;
+}
+
+#guides arrow {
+  font-size: 25px;
+  color: red;
+}
