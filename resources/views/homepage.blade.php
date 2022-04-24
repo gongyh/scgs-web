@@ -15,24 +15,24 @@
 
   <!-- Guides information -->
   <div id="guides">
-    <div class="step btn btn-success">
-      <p><a href="/login">login</a>Register and Login</p>
+    <div class="step">
+      <p><a class="btn btn-primary" href="/login">Signup & Login</a></p>
     </div>
     <span class="arrow">&#8594;</span>
-    <div class="step btn btn-success">
-      <p><a href="/projects/create">Create projects</a></p>
+    <div class="step">
+      <p><a class="btn btn-primary" href="/projects/create">Create projects</a></p>
     </div>
     <span class="arrow">&#8594;</span>
-    <div class="step btn btn-success">
-      <p><a href="/workspace/addSampleFiles">Upload sequences</a></p>
+    <div class="step">
+      <p><a class="btn btn-primary" href="/workspace/addSampleFiles">Upload sequences</a></p>
     </div>
     <span class="arrow">&#8594;</span>
-    <div class="step btn btn-success">
-      <p><a href="/workspace/myProject">Analyze project/samples</a></p>
+    <div class="step">
+      <p><a class="btn btn-primary" href="/workspace/myProject">Analyze projects</a></p>
     </div>
     <span class="arrow">&#8594;</span>
-    <div class="step btn btn-success">
-      <p><a href="/workspace/myProject">Results inspection</a></p>
+    <div class="step">
+      <p><a class="btn btn-primary" href="/workspace/myProject">Inspect results</a></p>
     </div>
   </div>
 

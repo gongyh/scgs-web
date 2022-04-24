@@ -688,16 +688,21 @@ a:hover {
 }
 
 #guides .step {
-  border: 1px black solid;
   display: inline-block;
+  width: 17%;
+  vertical-align: super;
 }
 
 #guides .step p {
   margin-bottom: 0;
-  font-size: x-large;
+  font-size: large;
+}
+
+#guides .step p a {
+  width: 100%;
 }
 
 #guides .arrow {
-  font-size: x-large;
+  font-size: xx-large;
   color: red;
 }
