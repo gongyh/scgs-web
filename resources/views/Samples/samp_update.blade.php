@@ -153,11 +153,11 @@
                 <div class="form-group" title="Paired-end or Single">
                   <label>Paired-end</label><span class="text-danger"> *</span>
                   <div class="custom-control custom-radio">
-                    <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single">
+                    <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single" @if($sample->pairends == 0)checked @endif>
                     <label class="custom-control-label" for="customRadio1">Single</label>
                   </div>
                   <div class="custom-control custom-radio">
-                    <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" checked>
+                    <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" @if($sample->pairends == 0)checked @endif>
                     <label class="custom-control-label" for="customRadio2">Paired-end</label>
                   </div>
                 </div>

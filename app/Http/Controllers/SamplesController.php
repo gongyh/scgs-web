@@ -129,7 +129,7 @@ class SamplesController extends Controller
                 }
                 $fileOne = $request->input('new_fileOne');
                 $fileTwo = $request->input('new_fileTwo');
-                if ($fileTwo == null) {
+                if (strcmp($request->input('isPairends'), 'Single') == 0) {
                     $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
                     if ($file1_exist) {
                         Samples::create([
@@ -277,15 +277,10 @@ class SamplesController extends Controller
                     $isPairends = 1;
                     break;
             }
-            $fileOne = $request->input('fileOne');
-            $fileTwo = $request->input('fileTwo');
-            if ($fileTwo == null) {
-                    $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
+            if (strcmp($request->input('isPairends'), 'Single') == 0) {
+                $fileOne = $request->input('fileOne');    
+                $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
                 if($file1_exist){
-                    $mk_project_dir = 'if [ ! -d "' . $base_path . $Accession . '" ]; then mkdir -p ' . $base_path . $Accession . '; fi';
-                    $cp_sample_file = 'cp ' . $base_path . 'meta-data/' . $fileOne . ' ' . $base_path . $Accession;
-                    system($mk_project_dir);
-                    system($cp_sample_file);
                     $sample['sampleLabel'] = $sample_label;
                     $sample['library_id'] = $library_id;
                     $sample['library_strategy'] = $library_strategy;
@@ -298,8 +293,9 @@ class SamplesController extends Controller
                     $sample['species_id'] = $select_species;
                     $sample['pairends'] = $isPairends;
                     $sample['filename1'] = $fileOne;
-                    $sample['filename2'] = $fileTwo;
+                    $sample['filename2'] = null;
                     $sample->save();
+                    MvSamples::dispatch($projectID, $fileOne, null)->onQueue('MvSamples');
                     if ($request->input('from')) {
                         // From workspace to myProject
                         return redirect('/workspace/samples?projectID=' . $projectID);
@@ -312,8 +308,10 @@ class SamplesController extends Controller
                     return back()->withErrors($file_error);
                 }
             } else {
-                    $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
-                    $file2_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileTwo);
+                $fileOne = $request->input('fileOne');
+                $fileTwo = $request->input('fileTwo');
+                $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
+                $file2_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileTwo);
                 // Return error message
                 if (!$file1_exist && $file2_exist) {
                     $file_error = 'file1 doesn\'t exist';
@@ -325,10 +323,6 @@ class SamplesController extends Controller
                     $file_error = 'file1 and file2 doesn\'t exist';
                     return back()->withError($file_error);
                 } else {
-                    $mk_project_dir = 'if [ ! -d "' . $base_path . $Accession . '" ]; then mkdir -p ' . $base_path . $Accession . '; fi';
-                    $cp_sample_file = 'cp ' . $base_path . 'meta-data/' . $fileOne . ' ' . $base_path . $Accession .'&& cp ' . $base_path . 'meta-data/' . $fileTwo . ' ' . $base_path . $Accession;
-                    system($mk_project_dir);
-                    system($cp_sample_file);
                     $sample['sampleLabel'] = $sample_label;
                     $sample['library_id'] = $library_id;
                     $sample['library_strategy'] = $library_strategy;
@@ -343,6 +337,7 @@ class SamplesController extends Controller
                     $sample['filename1'] = $fileOne;
                     $sample['filename2'] = $fileTwo;
                     $sample->save();
+                    MvSamples::dispatch($projectID, $fileOne, $fileTwo)->onQueue('MvSamples');
                     if ($request->input('from')) {
                         return redirect('/workspace/samples?projectID=' . $projectID);
                     } else {
