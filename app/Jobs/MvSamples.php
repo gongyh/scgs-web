@@ -59,10 +59,10 @@ class MvSamples implements ShouldQueue
         $user = Labs::where('id', $lab_id)->value('principleInvestigator');
         $sample = Samples::find($sample_id);
         $mk_project_dir = 'if [ ! -d "' . $base_path . $Accession . '" ]; then mkdir -p ' . $base_path . $Accession . '; fi';
-        if($this->filename2 == null){
-            $cp_sample_file = 'if [ ! -f "' . $base_path . $Accession . '/' . $this->filename1 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename1 . ' ' . $base_path . $Accession;
+        if(is_null($this->filename2)){
+            $cp_sample_file = 'if [ ! -f "' . $base_path . $Accession . '/' . $this->filename1 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename1 . ' ' . $base_path . $Accession . '; fi';
         }else{
-            $cp_sample_file = 'if [ ! -f "' . $base_path . $Accession . '/' . $this->filename1 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename1 . ' ' . $base_path . $Accession . ' && if [ ! -f "' . $base_path . $Accession . '/' . $this->filename2 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename2 . ' ' . $base_path . $Accession;
+            $cp_sample_file = 'if [ ! -f "' . $base_path . $Accession . '/' . $this->filename1 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename1 . ' ' . $base_path . $Accession . '; fi && if [ ! -f "' . $base_path . $Accession . '/' . $this->filename2 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename2 . ' ' . $base_path . $Accession . '; fi';
         }
         system($mk_project_dir);
         system($cp_sample_file);

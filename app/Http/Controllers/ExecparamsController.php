@@ -273,7 +273,7 @@ class ExecparamsController extends Controller
                     $cmd = '--reads "' . $base_path . $accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . $resume . '--outdir results -w work';
                 } else {
                     // SingleEnds
-                    $cmd = '--reads "' . $base_path . $accession . '/' .$filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds ' . $resume . '--outdir results -w work';
+                    $cmd = '--reads "' . $base_path . $accession . '/' .$filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--single_end ' . $resume . '--outdir results -w work';
                 }
 
             }else{
@@ -305,6 +305,7 @@ class ExecparamsController extends Controller
                 $file_postfix = $matches[0];
                 $file_prefix = Str::before($filename1, $file_postfix);
                 $filename = str_replace($file_prefix, '*', $filename1);
+                $filename_single = $filename;
                 $replace_num_position = strrpos($filename, '1');
                 $filename = substr_replace($filename, '[1,2]', $replace_num_position, 1);
 
@@ -313,7 +314,7 @@ class ExecparamsController extends Controller
                     $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . $resume . '--outdir results -w work';
                 } else {
                     // Single
-                    $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--singleEnds ' . $resume . '--outdir results -w work';
+                    $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename_single . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--single_end ' . $resume . '--outdir results -w work';
                 }
             }
 

@@ -157,7 +157,7 @@
                     <label class="custom-control-label" for="customRadio1">Single</label>
                   </div>
                   <div class="custom-control custom-radio">
-                    <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" @if($sample->pairends == 0)checked @endif>
+                    <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" @if($sample->pairends == 1)checked @endif>
                     <label class="custom-control-label" for="customRadio2">Paired-end</label>
                   </div>
                 </div>
