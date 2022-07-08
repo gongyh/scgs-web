@@ -35,7 +35,7 @@
     "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.22",
     "font-awesome": "^4.7.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "owl.carousel2": "^2.2.1",
     "plotly.js": "^1.58.1",
     "slick-carousel": "^1.8.1"
