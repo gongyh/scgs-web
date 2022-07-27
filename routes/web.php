@@ -35,7 +35,7 @@ Route::group(['prefix' => 'samples'], function () {
     Route::any('/delete', 'SamplesController@delete');
     Route::any('/upload', 'SamplesController@upload');
     Route::get('/template/download', 'SamplesController@download');
-    Route::any('/fileUpload','SamplesController@file_upload');
+    Route::any('/fileUpload', 'SamplesController@file_upload');
 });
 
 Route::group(['prefix' => 'workspace'], function () {
@@ -52,8 +52,8 @@ Route::group(['prefix' => 'workspace'], function () {
     Route::get('/manageWaiting', 'WorkspaceController@manageWaiting')->middleware('auth');
     Route::any('/manageWaiting/terminate', 'WorkspaceController@waitingTerminate')->middleware('auth');
     Route::get('/ncbifilesList', 'WorkspaceController@ncbifilesList');
-    Route::get('/ncbi_download_status','WorkspaceController@ncbi_download_status');
-    Route::get('/weblog_clear','WorkspaceController@weblog_clear');
+    Route::get('/ncbi_download_status', 'WorkspaceController@ncbi_download_status');
+    Route::get('/weblog_clear', 'WorkspaceController@weblog_clear');
 });
 
 Route::group(['prefix' => 'workspace/institutions'], function () {
@@ -93,22 +93,26 @@ Route::group(['prefix' => 'execute'], function () {
 
 Route::group(['prefix' => 'successRunning'], function () {
     Route::get('/', 'ResultController@success_running');
-    Route::post('/', 'ResultController@preseq_arg_bowtie_checkM');
     Route::post('/home', 'ResultController@home');
     Route::post('/quast', 'ResultController@quast');
     Route::post('/blob', 'ResultController@blob_body');
     Route::post('/get_blob_header', 'ResultController@get_blob_header');
-    Route::any('/resultDownload', 'ResultController@download_result');
     Route::any('/blob_classify', 'ResultController@blob_classify');
+    Route::any('/resultDownload', 'ResultController@download_result');
+    Route::post('/preseq', 'ResultController@preseq');
+    Route::post('/arg', 'ResultController@arg');
+    Route::post('/bowtie', 'ResultController@bowtie');
+    Route::post('/checkM', 'ResultController@checkM');
+    Route::post('/eukcc', 'ResultController@eukcc');
 });
 
-Route::get('/multiqc','ResultController@multiqc_result');
-Route::get('/kraken','ResultController@kraken_result');
-Route::get('/blob','ResultController@blob_result');
+Route::get('/multiqc', 'ResultController@multiqc');
+Route::get('/kraken', 'ResultController@kraken');
+Route::get('/blob', 'ResultController@blob_result');
 Route::get('/failedRunning', 'ResultController@failed_running');
 Route::get('/ramanResult', 'RamanResultController@index');
 
-Route::get('activity/{token}','Auth\RegisterController@activity')->name('user.activity');
+Route::get('activity/{token}', 'Auth\RegisterController@activity')->name('user.activity');
 
 Auth::routes();
 
@@ -121,4 +125,3 @@ Route::get('/contact', 'Contact2Controller@index');
 Route::post('/contact', 'Contact2Controller@store');
 
 Route::get('/health', 'ScgsHealthcheckController@handle');
-

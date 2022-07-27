@@ -30,12 +30,12 @@
               </div>
               <div class="form-control overflow-auto">
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="ass1" name="ass" class="custom-control-input" value="ass" {{$ass?'checked':''}}>
-                  <label class="custom-control-label" for="ass1">True</label>
+                  <input type="radio" id="ass_1" name="ass" class="custom-control-input" value="ass" {{$ass?'checked':''}}>
+                  <label class="custom-control-label" for="ass_1">True</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="ass2" name="ass" class="custom-control-input" value="" {{$ass==false?'checked':''}}>
-                  <label class="custom-control-label" for="ass2">False</label>
+                  <input type="radio" id="ass_2" name="ass" class="custom-control-input" value="" {{$ass?'':'checked'}}>
+                  <label class="custom-control-label" for="ass_2">False</label>
                 </div>
               </div>
             </div>
@@ -58,12 +58,12 @@
               </div>
               <div class="form-control overflow-auto">
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="euk1" name="euk" class="custom-control-input euk" value="euk" {{$euk?'checked':''}}>
-                  <label class="custom-control-label" for="euk1">True</label>
+                  <input type="radio" id="euk_1" name="euk" class="custom-control-input euk" value="euk" {{$euk?'checked':''}}>
+                  <label class="custom-control-label" for="euk_1">True</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" id="euk2" name="euk" class="custom-control-input euk" value="" {{$euk==false?'checked':''}}>
-                  <label class="custom-control-label" for="euk2">False</label>
+                  <input type="radio" id="euk_2" name="euk" class="custom-control-input euk" value="" {{$euk?'':'checked'}}>
+                  <label class="custom-control-label" for="euk_2">False</label>
                 </div>
               </div>
             </div>
@@ -74,12 +74,12 @@
                 </div>
                 <div class="form-control overflow-auto">
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="augustus_species1" name="augustus_species" class="custom-control-input augustus_species" value="augustus_species" {{$augustus_species?'checked':''}}>
-                    <label class="custom-control-label" for="augustus_species1">True</label>
+                    <input type="radio" id="augustus_species_1" name="augustus_species" class="custom-control-input augustus_species" value="augustus_species" {{$augustus_species?'checked':''}}>
+                    <label class="custom-control-label" for="augustus_species_1">True</label>
                   </div>
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="augustus_species2" name="augustus_species" class="custom-control-input augustus_species" value="" {{$augustus_species==false?'checked':''}}>
-                    <label class="custom-control-label" for="augustus_species2">False</label>
+                    <input type="radio" id="augustus_species_2" name="augustus_species" class="custom-control-input augustus_species" value="" {{$augustus_species?'':'checked'}}>
+                    <label class="custom-control-label" for="augustus_species_2">False</label>
                   </div>
                 </div>
                 <select class="custom-select w-40 augustus_species_name {{$augustus_species_name == null?'no-display':''}}" name=" augustus_species_name" id="augustus_species_name">
@@ -94,12 +94,12 @@
                 </div>
                 <div class="form-control overflow-auto">
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="fungus1" name="fungus" class="custom-control-input" value="fungus" {{$fungus?'checked':''}}>
-                    <label class="custom-control-label" for="fungus1">True</label>
+                    <input type="radio" id="fungus_1" name="fungus" class="custom-control-input" value="fungus" {{$fungus?'checked':''}}>
+                    <label class="custom-control-label" for="fungus_1">True</label>
                   </div>
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="fungus2" name="fungus" class="custom-control-input" value="" {{$fungus==false?'checked':''}}>
-                    <label class="custom-control-label" for="fungus2">False</label>
+                    <input type="radio" id="fungus_2" name="fungus" class="custom-control-input" value="" {{$fungus?'':'checked'}}>
+                    <label class="custom-control-label" for="fungus_2">False</label>
                   </div>
                 </div>
               </div>
@@ -111,17 +111,17 @@
                 </div>
                 <div class="form-control overflow-auto">
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="genus1" name="genus" class="custom-control-input genus" value="genus" {{$genus?'checked':''}}>
-                    <label class="custom-control-label" for="genus1">True</label>
+                    <input type="radio" id="genus_1" name="genus" class="custom-control-input genus" value="genus" {{$genus?'checked':''}}>
+                    <label class="custom-control-label" for="genus_1">True</label>
                   </div>
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="genus2" name="genus" class="custom-control-input genus" value="" {{$genus==false?'checked':''}}>
-                    <label class="custom-control-label" for="genus2">False</label>
+                    <input type="radio" id="genus_2" name="genus" class="custom-control-input genus" value="" {{$genus?'':'checked'}}>
+                    <label class="custom-control-label" for="genus_2">False</label>
                   </div>
                 </div>
-                <select class="custom-select w-40 genus_name {{$genus_name == null?'no-display':''}}" name=" genus_name" id="genus_name">
+                <select class="custom-select w-40 genus_name {{$genus_name == null?'no-display':''}}" name="genus_name" id="genus_name">
                   @foreach($genus_list as $genus)
-                  <option value={{$genus}} {{strcmp($genus,$genus_name) == 0 ? 'selected' : ''}}>{{$genus}}</option>
+                  <option value={{$genus}} {{strcmp($genus, $genus_name) == 0 ? 'selected' : ''}}>{{$genus}}</option>
                   @endforeach
                 </select>
               </div>
@@ -133,11 +133,26 @@
               <ul>
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
-                  @endforeach
+                @endforeach
               </ul>
             </div>
             @endif
 
+            <div class="input-group mt-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> --nanopore </span>
+              </div>
+              <div class="form-control overflow-auto">
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" id="nanopore_1" name="nanopore" class="custom-control-input nanopore" value="nanopore" {{$nanopore?'checked':''}}>
+                  <label class="custom-control-label" for="nanopore_1">True</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" id="nanopore_2" name="nanopore" class="custom-control-input nanopore" value="" {{$nanopore?'':'checked'}}>
+                  <label class="custom-control-label" for="nanopore_2">False</label>
+                </div>
+              </div>
+            </div>
             <div class="accordion mt-2" id="advanced_select">
               <div class="card">
                 <div class="card-header" id="headingTwo">
@@ -155,12 +170,12 @@
                       </div>
                       <div class="form-control overflow-auto">
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="cnv1" name="cnv" class="custom-control-input" value="cnv" {{$cnv?'checked':''}}>
-                          <label class="custom-control-label" for="cnv1">True</label>
+                          <input type="radio" id="cnv_1" name="cnv" class="custom-control-input" value="cnv" {{$cnv?'checked':''}}>
+                          <label class="custom-control-label" for="cnv_1">True</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="cnv2" name="cnv" class="custom-control-input" value="" {{$cnv==false?'checked':''}}>
-                          <label class="custom-control-label" for="cnv2">False</label>
+                          <input type="radio" id="cnv_2" name="cnv" class="custom-control-input" value="" {{$cnv?'':'checked'}}>
+                          <label class="custom-control-label" for="cnv_2">False</label>
                         </div>
                       </div>
                     </div>
@@ -170,12 +185,12 @@
                       </div>
                       <div class="form-control overflow-auto">
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="snv1" name="snv" class="custom-control-input" value="snv" {{$snv?'checked':''}}>
-                          <label class="custom-control-label" for="snv1">True</label>
+                          <input type="radio" id="snv_1" name="snv" class="custom-control-input" value="snv" {{$snv?'checked':''}}>
+                          <label class="custom-control-label" for="snv_1">True</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="snv2" name="snv" class="custom-control-input" value="" {{$snv==false?'checked':''}}>
-                          <label class="custom-control-label" for="snv2">False</label>
+                          <input type="radio" id="snv_2" name="snv" class="custom-control-input" value="" {{$snv?'':'checked'}}>
+                          <label class="custom-control-label" for="snv_2">False</label>
                         </div>
                       </div>
                     </div>
@@ -185,12 +200,12 @@
                       </div>
                       <div class="form-control overflow-auto">
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="bulk1" name="bulk" class="custom-control-input" value="bulk" {{$bulk?'checked':''}}>
-                          <label class="custom-control-label" for="bulk1">True</label>
+                          <input type="radio" id="bulk_1" name="bulk" class="custom-control-input" value="bulk" {{$bulk?'checked':''}}>
+                          <label class="custom-control-label" for="bulk_1">True</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="bulk2" name="bulk" class="custom-control-input" value="" {{$bulk==false?'checked':''}}>
-                          <label class="custom-control-label" for="bulk2">False</label>
+                          <input type="radio" id="bulk_2" name="bulk" class="custom-control-input" value="" {{$bulk?'':'checked'}}>
+                          <label class="custom-control-label" for="bulk_2">False</label>
                         </div>
                       </div>
                     </div>
@@ -200,12 +215,12 @@
                       </div>
                       <div class="form-control overflow-auto">
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="saturation1" name="saturation" class="custom-control-input" value="saturation" {{$saturation?'checked':''}}>
-                          <label class="custom-control-label" for="saturation1">True</label>
+                          <input type="radio" id="saturation_1" name="saturation" class="custom-control-input" value="saturation" {{$saturation?'checked':''}}>
+                          <label class="custom-control-label" for="saturation_1">True</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="saturation2" name="saturation" class="custom-control-input" value="" {{$saturation==false?'checked':''}}>
-                          <label class="custom-control-label" for="saturation2">False</label>
+                          <input type="radio" id="saturation_2" name="saturation" class="custom-control-input" value="" {{$saturation?'':'checked'}}>
+                          <label class="custom-control-label" for="saturation_2">False</label>
                         </div>
                       </div>
                     </div>
@@ -215,12 +230,12 @@
                       </div>
                       <div class="form-control overflow-auto">
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="acquired1" name="acquired" class="custom-control-input" value="acquired" {{$acquired?'checked':''}}>
-                          <label class="custom-control-label" for="acquired1">True</label>
+                          <input type="radio" id="acquired_1" name="acquired" class="custom-control-input" value="acquired" {{$acquired?'checked':''}}>
+                          <label class="custom-control-label" for="acquired_1">True</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" id="acquired2" name="acquired" class="custom-control-input" value="" {{$acquired==false?'checked':''}}>
-                          <label class="custom-control-label" for="acquired2">False</label>
+                          <input type="radio" id="acquired_2" name="acquired" class="custom-control-input" value="" {{$acquired?'':'checked'}}>
+                          <label class="custom-control-label" for="acquired_2">False</label>
                         </div>
                       </div>
                       <div class="input-group mt-3">
@@ -229,12 +244,12 @@
                         </div>
                         <div class="form-control overflow-auto">
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="saveTrimmed1" name="saveTrimmed" class="custom-control-input" value="saveTrimmed" {{$saveTrimmed?'checked':''}}>
-                            <label class="custom-control-label" for="saveTrimmed1">True</label>
+                            <input type="radio" id="saveTrimmed_1" name="saveTrimmed" class="custom-control-input" value="saveTrimmed" {{$saveTrimmed?'checked':''}}>
+                            <label class="custom-control-label" for="saveTrimmed_1">True</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="saveTrimmed2" name="saveTrimmed" class="custom-control-input" value="" {{$saveTrimmed==false?'checked':''}}>
-                            <label class="custom-control-label" for="saveTrimmed2">False</label>
+                            <input type="radio" id="saveTrimmed_2" name="saveTrimmed" class="custom-control-input" value="" {{$saveTrimmed?'':'checked'}}>
+                            <label class="custom-control-label" for="saveTrimmed_2">False</label>
                           </div>
                         </div>
                       </div>
@@ -244,12 +259,27 @@
                         </div>
                         <div class="form-control overflow-auto">
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="saveAlignedIntermediates1" name="saveAlignedIntermediates" class="custom-control-input" value="saveAlignedIntermediates" {{$saveAlignedIntermediates?'checked':''}}>
-                            <label class="custom-control-label" for="saveAlignedIntermediates1">True</label>
+                            <input type="radio" id="saveAlignedIntermediates_1" name="saveAlignedIntermediates" class="custom-control-input" value="saveAlignedIntermediates" {{$saveAlignedIntermediates?'checked':''}}>
+                            <label class="custom-control-label" for="saveAlignedIntermediates_1">True</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="saveAlignedIntermediates2" name="saveAlignedIntermediates" class="custom-control-input" value="" {{$saveAlignedIntermediates==false?'checked':''}}>
-                            <label class="custom-control-label" for="saveAlignedIntermediates2">False</label>
+                            <input type="radio" id="saveAlignedIntermediates_2" name="saveAlignedIntermediates" class="custom-control-input" value="" {{$saveAlignedIntermediates?'':'checked'}}>
+                            <label class="custom-control-label" for="saveAlignedIntermediates_2">False</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="input-group mt-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"> --no-normalize </span>
+                        </div>
+                        <div class="form-control overflow-auto">
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="no_normalize_1" name="no_normalize" class="custom-control-input" value="no_normalize" {{$no_normalize?'checked':''}}>
+                            <label class="custom-control-label" for="no_normalize_1">True</label>
+                          </div>
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="no_normalize_2" name="no_normalize" class="custom-control-input" value="" {{$no_normalize?'':'checked'}}>
+                            <label class="custom-control-label" for="no_normalize_2">False</label>
                           </div>
                         </div>
                       </div>
@@ -260,12 +290,12 @@
                           </div>
                           <div class="form-control overflow-auto">
                             <div class="custom-control custom-radio custom-control-inline">
-                              <input type="radio" id="resume1" name="resume" class="custom-control-input" value="resume" {{$resume?'checked':''}}>
-                              <label class="custom-control-label" for="resume1">True</label>
+                              <input type="radio" id="resume_1" name="resume" class="custom-control-input" value="resume" {{$resume?'checked':''}}>
+                              <label class="custom-control-label" for="resume_1">True</label>
                             </div>
                             <div class="custom-control custom-radio custom-control-inline">
-                              <input type="radio" id="resume2" name="resume" class="custom-control-input" value="" {{$resume==false?'checked':''}}>
-                              <label class="custom-control-label" for="resume2">False</label>
+                              <input type="radio" id="resume_2" name="resume" class="custom-control-input" value="" {{$resume?'':'checked'}}>
+                              <label class="custom-control-label" for="resume_2">False</label>
                             </div>
                           </div>
                           <div class="input-group-append">
@@ -303,12 +333,12 @@
                         </div>
                         <div class="form-control">
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="resfinder_db1" name="resfinder_db" class="custom-control-input" value="resfinder_db" {{$resfinder_db?'checked':''}}>
-                            <label class="custom-control-label" for="resfinder_db1">True</label>
+                            <input type="radio" id="resfinder_db_1" name="resfinder_db" class="custom-control-input" value="resfinder_db" {{$resfinder_db?'checked':''}}>
+                            <label class="custom-control-label" for="resfinder_db_1">True</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="resfinder_db2" name="resfinder_db" class="custom-control-input" value="" {{$resfinder_db==false?'checked':''}}>
-                            <label class="custom-control-label" for="resfinder_db2">False</label>
+                            <input type="radio" id="resfinder_db_2" name="resfinder_db" class="custom-control-input" value="" {{$resfinder_db?'':'checked'}}>
+                            <label class="custom-control-label" for="resfinder_db_2">False</label>
                           </div>
                         </div>
                       </div>
@@ -323,12 +353,12 @@
                         </div>
                         <div class="form-control">
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="nt_db1" name="nt_db" class="custom-control-input" value="nt_db" {{$nt_db?'checked':''}}>
-                            <label class="custom-control-label" for="nt_db1">True</label>
+                            <input type="radio" id="nt_db_1" name="nt_db" class="custom-control-input" value="nt_db" {{$nt_db?'checked':''}}>
+                            <label class="custom-control-label" for="nt_db_1">True</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="nt_db2" name="nt_db" class="custom-control-input" value="" {{$nt_db==false?'checked':''}}>
-                            <label class="custom-control-label" for="nt_db2">False</label>
+                            <input type="radio" id="nt_db_2" name="nt_db" class="custom-control-input" value="" {{$nt_db?'':'checked'}}>
+                            <label class="custom-control-label" for="nt_db_2">False</label>
                           </div>
                         </div>
                       </div>
@@ -341,12 +371,12 @@
                         </div>
                         <div class="form-control">
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="kraken_db1" name="kraken_db" class="custom-control-input" value="kraken_db" {{$kraken_db?'checked':''}}>
-                            <label class="custom-control-label" for="kraken_db1">True</label>
+                            <input type="radio" id="kraken_db_1" name="kraken_db" class="custom-control-input" value="kraken_db" {{$kraken_db?'checked':''}}>
+                            <label class="custom-control-label" for="kraken_db_1">True</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="kraken_db2" name="kraken_db" class="custom-control-input" value="" {{$kraken_db==false?'checked':''}}>
-                            <label class="custom-control-label" for="kraken_db2">False</label>
+                            <input type="radio" id="kraken_db_2" name="kraken_db" class="custom-control-input" value="" {{$kraken_db?'':'checked'}}>
+                            <label class="custom-control-label" for="kraken_db_2">False</label>
                           </div>
                         </div>
                       </div>
@@ -359,12 +389,12 @@
                         </div>
                         <div class="form-control">
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="eggnog1" name="eggnog_db" class="custom-control-input" value="eggnog_db" {{$eggnog?'checked':''}}>
-                            <label class="custom-control-label" for="eggnog1">True</label>
+                            <input type="radio" id="eggnog_1" name="eggnog_db" class="custom-control-input" value="eggnog_db" {{$eggnog?'checked':''}}>
+                            <label class="custom-control-label" for="eggnog_1">True</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="eggnog2" name="eggnog_db" class="custom-control-input" value="" {{$eggnog==false?'checked':''}}>
-                            <label class="custom-control-label" for="eggnog2">False</label>
+                            <input type="radio" id="eggnog_2" name="eggnog_db" class="custom-control-input" value="" {{$eggnog?'':'checked'}}>
+                            <label class="custom-control-label" for="eggnog_2">False</label>
                           </div>
                         </div>
                       </div>
@@ -377,12 +407,12 @@
                         </div>
                         <div class="form-control">
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="kofam_profile1" name="kofam_profile" class="custom-control-input" value="kofam_profile" {{$kofam_profile?'checked':''}}>
-                            <label class="custom-control-label" for="kofam_profile1">True</label>
+                            <input type="radio" id="kofam_profile_1" name="kofam_profile" class="custom-control-input" value="kofam_profile" {{$kofam_profile?'checked':''}}>
+                            <label class="custom-control-label" for="kofam_profile_1">True</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="kofam_profile2" name="kofam_profile" class="custom-control-input" value="" {{$kofam_profile==false?'checked':''}}>
-                            <label class="custom-control-label" for="kofam_profile2">False</label>
+                            <input type="radio" id="kofam_profile_2" name="kofam_profile" class="custom-control-input" value="" {{$kofam_profile?'':'checked'}}>
+                            <label class="custom-control-label" for="kofam_profile_2">False</label>
                           </div>
                         </div>
                       </div>
@@ -395,12 +425,12 @@
                         </div>
                         <div class="form-control">
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="kofam_kolist1" name="kofam_kolist" class="custom-control-input" value="kofam_kolist" {{$kofam_kolist?'checked':''}}>
-                            <label class="custom-control-label" for="kofam_kolist1">True</label>
+                            <input type="radio" id="kofam_kolist_1" name="kofam_kolist" class="custom-control-input" value="kofam_kolist" {{$kofam_kolist?'checked':''}}>
+                            <label class="custom-control-label" for="kofam_kolist_1">True</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="kofam_kolist2" name="kofam_kolist" class="custom-control-input" value="" {{$kofam_kolist==false?'checked':''}}>
-                            <label class="custom-control-label" for="kofam_kolist2">False</label>
+                            <input type="radio" id="kofam_kolist_2" name="kofam_kolist" class="custom-control-input" value="" {{$kofam_kolist?'':'checked'}}>
+                            <label class="custom-control-label" for="kofam_kolist_2">False</label>
                           </div>
                         </div>
                       </div>
@@ -413,12 +443,12 @@
                         </div>
                         <div class="form-control">
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="eukcc_db1" name="eukcc_db" class="custom-control-input" value="eukcc_db" {{$eukcc_db?'checked':''}}>
-                            <label class="custom-control-label" for="eukcc_db1">True</label>
+                            <input type="radio" id="eukcc_db_1" name="eukcc_db" class="custom-control-input" value="eukcc_db" {{$eukcc_db?'checked':''}}>
+                            <label class="custom-control-label" for="eukcc_db_1">True</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="eukcc_db2" name="eukcc_db" class="custom-control-input" value="" {{$eukcc_db==false?'checked':''}}>
-                            <label class="custom-control-label" for="eukcc_db2">False</label>
+                            <input type="radio" id="eukcc_db_2" name="eukcc_db" class="custom-control-input" value="" {{$eukcc_db?'':'checked'}}>
+                            <label class="custom-control-label" for="eukcc_db_2">False</label>
                           </div>
                         </div>
                       </div>

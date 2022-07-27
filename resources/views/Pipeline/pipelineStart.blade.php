@@ -27,7 +27,7 @@
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade" id="configuration" role="tabpanel" aria-labelledby="configuration-tab">
           <div class="d-flex">
-            <div class="col-md-6 bg-white rounded shadow-sm p-3 rem1 overflow-auto">
+            <div class="col-md-9 bg-white rounded shadow-sm p-3 rem1 overflow-auto">
               <div class="d-flex">
                 <div class="rem15">Configuration</div>
                 @if(isset($sample_id))
@@ -38,6 +38,10 @@
                 <div class="custom-control custom-checkbox mt-2">
                   <input type="checkbox" class="custom-control-input" id="ass" name="ass" value="ass" {{$ass?'checked':''}} disabled>
                   <label class="custom-control-label" for="ass">ass</label>
+                </div>
+                <div class="custom-control custom-checkbox mt-2 ml-3">
+                  <input type="checkbox" class="custom-control-input" id="nanopore" name="nanopore" value="nanopore" {{$nanopore?'checked':''}} disabled>
+                  <label class="custom-control-label" for="nanopore">nanopore</label>
                 </div>
                 <div class="custom-control custom-checkbox mt-2 ml-3">
                   <input type="checkbox" class="custom-control-input" id="cnv" name="cnv" value="cnv" {{$cnv?'checked':''}} disabled>
@@ -68,6 +72,10 @@
                 <div class="custom-control custom-checkbox mt-2 ml-3">
                   <input type="checkbox" class="custom-control-input" id="saveAlignedIntermediates" name="saveAlignedIntermediates" value="saveAlignedIntermediates" {{$saveAlignedIntermediates?'checked':''}} disabled>
                   <label class="custom-control-label" for="saveAlignedIntermediates">saveAlignedIntermediates</label>
+                </div>
+                <div class="custom-control custom-checkbox mt-2 ml-3">
+                  <input type="checkbox" class="custom-control-input" id="no_normalize" name="no_normalize" value="no_normalize" {{$no_normalize?'checked':''}} disabled>
+                  <label class="custom-control-label" for="no_normalize">no_normalize</label>
                 </div>
               </div>
               <div class="d-flex flex-wrap">
@@ -179,7 +187,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 bg-white rounded shadow-sm p-3">Explain...</div>
+            <div class="col-md-3 bg-white rounded shadow-sm p-3"></div>
           </div>
         </div>
         <div class="tab-pane fade show active" id="weblog" role="tabpanel" aria-labelledby="weblog-tab">

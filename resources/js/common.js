@@ -169,7 +169,7 @@ $(function () {
    * Convert task start time to year:month:second
    */
   function Sec2Time(time) {
-    let datetime = new Date(time).getTime();
+    var datetime = new Date(time).getTime();
     var date = new Date(datetime);
     var y = date.getFullYear();
     var m = date.getMonth() + 1;
@@ -268,7 +268,7 @@ $(function () {
    * Execute params setting
    */
   const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist', 'eukcc_db'];
-  for (let i = 0; i < db_list.length; i++) {
+  for (var i = 0; i < db_list.length; i++) {
     if ($('#' + db_list[i]).is(':checked')) {
       $('.' + db_list[i] + '_path').show();
     } else {
@@ -276,13 +276,21 @@ $(function () {
     }
   }
 
-  if ($('#genus1').is(':checked')) {
+  if ($('#nanopore_1').is(':checked')) {
+    $('#cnv_2').prop('checked', true);
+    $('#snv_2').prop('checked', true);
+    $('#cnv_1').attr('disabled', 'disabled');
+    $('#snv_1').attr('disabled', 'disabled');
+  } else {
+  }
+
+  if ($('#genus_1').is(':checked')) {
     $('.genus_name').show();
   } else {
     $('.genus_name').hide();
   }
 
-  if ($('#euk1').is(':checked')) {
+  if ($('#euk_1').is(':checked')) {
     $('.euk_true').show();
     $('.euk_false').hide();
   } else {
@@ -290,14 +298,28 @@ $(function () {
     $('.euk_false').show();
   }
 
-  if ($('#augustus_species1').is(':checked')) {
+  if ($('#augustus_species_1').is(':checked')) {
     $('.augustus_species_name').show();
   } else {
     $('.augustus_species_name').hide();
   }
 
+  $('.nanopore').on('change', function () {
+    if ($('#nanopore_1').is(':checked')) {
+      $('#cnv_2').prop('checked', true);
+      $('#snv_2').prop('checked', true);
+      $('#cnv_1').attr('disabled', 'disabled');
+      $('#snv_1').attr('disabled', 'disabled');
+    } else {
+      $('#cnv_1').removeAttr('disabled');
+      $('#snv_1').removeAttr('disabled');
+      $('#cnv_1').prop('checked', true);
+      $('#snv_1').prop('checked', true);
+    }
+  })
+
   $('.genus').on('change', function () {
-    if ($('#genus1').is(':checked')) {
+    if ($('#genus_1').is(':checked')) {
       $('.genus_name').show();
     } else {
       $('.genus_name').hide();
@@ -305,22 +327,25 @@ $(function () {
   })
 
   $('.euk').on('change', function () {
-    if ($('#euk1').is(':checked')) {
+    if ($('#euk_1').is(':checked')) {
       $('.euk_true').show();
       $('.euk_false').hide();
+      $('#eukcc_db_1').prop('checked', true);
     } else {
       $('.euk_true').hide();
       $('.euk_false').show();
+      $('#eukcc_db_2').prop('checked', true);
     }
   })
 
   $('.augustus_species').on('change', function () {
-    if ($('#augustus_species1').is(':checked')) {
+    if ($('#augustus_species_1').is(':checked')) {
       $('.augustus_species_name').show();
     } else {
       $('.augustus_species_name').hide();
     }
   })
+
   $('#resfinder_db').on('change', function () {
     if ($('#resfinder_db').is(':checked')) {
       $('.resfinder_db_path').show();
@@ -335,6 +360,7 @@ $(function () {
       $('.nt_db_path').hide();
     }
   })
+
   $('#eggnog_db').on('change', function () {
     if ($('#eggnog_db').is(':checked')) {
       $('.eggnog_db_path').show();
@@ -342,6 +368,7 @@ $(function () {
       $('.eggnog_db_path').hide();
     }
   })
+
   $('#kraken_db').on('change', function () {
     if ($('#kraken_db').is(':checked')) {
       $('.kraken_db_path').show();
@@ -349,6 +376,7 @@ $(function () {
       $('.kraken_db_path').hide();
     }
   })
+
   $('#kofam_profile').on('change', function () {
     if ($('#kofam_profile').is(':checked')) {
       $('.kofam_profile_path').show();
@@ -356,6 +384,7 @@ $(function () {
       $('.kofam_profile_path').hide();
     }
   })
+
   $('#kofam_kolist').on('change', function () {
     if ($('#kofam_kolist').is(':checked')) {
       $('.kofam_kolist_path').show();
@@ -363,6 +392,7 @@ $(function () {
       $('.kofam_kolist_path').hide();
     }
   })
+
   $('#eukcc_db').on('change', function () {
     if ($('#eukcc_db').is(':checked')) {
       $('.eukcc_db_path').show();
@@ -391,17 +421,17 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let weblogs = res.data.weblogs;
-            let runStatus = res.data.runStatus;
-            let div = $('<div></div>');
-            for (let i = 0; i < weblogs.length; i++) {
-              let insert_message = "<div class=\"rem1\">" + weblogs[i].utcTime + "  [" + weblogs[i].process + "] " + weblogs[i].event + "</div>";
+            var weblogs = res.data.weblogs;
+            var runStatus = res.data.runStatus;
+            var div = $('<div></div>');
+            for (var i = 0; i < weblogs.length; i++) {
+              var insert_message = "<div class=\"rem1\">" + weblogs[i].utcTime + "  [" + weblogs[i].process + "] " + weblogs[i].event + "</div>";
               div.append(insert_message);
             }
             if (runStatus == 0) {
-              let span_wrapper = $('<span></span>');
-              let span_inner = $('<span></span>');
-              let span_dot = $('<span></span>');
+              var span_wrapper = $('<span></span>');
+              var span_inner = $('<span></span>');
+              var span_dot = $('<span></span>');
               span_wrapper.addClass('badge badge-warning');
               span_inner.text('waiting');
               span_dot.text('...');
@@ -410,9 +440,9 @@ $(function () {
               span_wrapper.append(span_dot);
               $('.pipeline_status').html(span_wrapper);
             } else if (runStatus == 1) {
-              let span_wrapper = $('<span></span>');
-              let span_inner = $('<span></span>');
-              let span_dot = $('<span></span>');
+              var span_wrapper = $('<span></span>');
+              var span_inner = $('<span></span>');
+              var span_dot = $('<span></span>');
               span_wrapper.addClass('badge badge-info');
               span_inner.text('running');
               span_dot.text('...');
@@ -421,15 +451,15 @@ $(function () {
               span_wrapper.append(span_dot);
               $('.pipeline_status').html(span_wrapper);
             } else if (runStatus == 2) {
-              let span_wrapper = $('<span></span>');
-              let span_inner = $('<span></span>');
+              var span_wrapper = $('<span></span>');
+              var span_inner = $('<span></span>');
               span_wrapper.addClass('badge badge-danger');
               span_inner.text('failed');
               span_wrapper.append(span_inner);
               $('.pipeline_status').html(span_wrapper);
             } else {
-              let span_wrapper = $('<span></span>');
-              let span_inner = $('<span></span>');
+              var span_wrapper = $('<span></span>');
+              var span_inner = $('<span></span>');
               span_wrapper.addClass('badge badge-success');
               span_inner.text('success');
               span_wrapper.append(span_inner);
@@ -437,7 +467,7 @@ $(function () {
             }
             $('.command_out').html(div);
           } else {
-            let msg = 'pipeline is preparing...';
+            var msg = 'pipeline is preparing...';
             $('.command_out').text(msg);
           }
         }
@@ -452,17 +482,17 @@ $(function () {
         dataType: 'json',
         success: function (res) {
           if (res.code == 200) {
-            let weblogs = res.data.weblogs;
-            let runStatus = res.data.runStatus;
-            let div = $('<div></div>');
-            for (let i = 0; i < weblogs.length; i++) {
-              let insert_message = "<div class=\"rem1\">" + weblogs[i].utcTime + "  [" + weblogs[i].process + "] " + weblogs[i].event + "</div>";
+            var weblogs = res.data.weblogs;
+            var runStatus = res.data.runStatus;
+            var div = $('<div></div>');
+            for (var i = 0; i < weblogs.length; i++) {
+              var insert_message = "<div class=\"rem1\">" + weblogs[i].utcTime + "  [" + weblogs[i].process + "] " + weblogs[i].event + "</div>";
               div.append(insert_message);
             }
             if (runStatus == 0) {
-              let span_wrapper = $('<span></span>');
-              let span_inner = $('<span></span>');
-              let span_dot = $('<span></span>');
+              var span_wrapper = $('<span></span>');
+              var span_inner = $('<span></span>');
+              var span_dot = $('<span></span>');
               span_wrapper.addClass('badge badge-warning');
               span_inner.text('waiting');
               span_dot.text('...');
@@ -471,9 +501,9 @@ $(function () {
               span_wrapper.append(span_dot);
               $('.pipeline_status').html(span_wrapper);
             } else if (runStatus == 1) {
-              let span_wrapper = $('<span></span>');
-              let span_inner = $('<span></span>');
-              let span_dot = $('<span></span>');
+              var span_wrapper = $('<span></span>');
+              var span_inner = $('<span></span>');
+              var span_dot = $('<span></span>');
               span_wrapper.addClass('badge badge-info');
               span_inner.text('running');
               span_dot.text('...');
@@ -482,15 +512,15 @@ $(function () {
               span_wrapper.append(span_dot);
               $('.pipeline_status').html(span_wrapper);
             } else if (runStatus == 2) {
-              let span_wrapper = $('<span></span>');
-              let span_inner = $('<span></span>');
+              var span_wrapper = $('<span></span>');
+              var span_inner = $('<span></span>');
               span_wrapper.addClass('badge badge-danger');
               span_inner.text('failed');
               span_wrapper.append(span_inner);
               $('.pipeline_status').html(span_wrapper);
             } else {
-              let span_wrapper = $('<span></span>');
-              let span_inner = $('<span></span>');
+              var span_wrapper = $('<span></span>');
+              var span_inner = $('<span></span>');
               span_wrapper.addClass('badge badge-success');
               span_inner.text('success');
               span_wrapper.append(span_inner);
@@ -498,7 +528,7 @@ $(function () {
             }
             $('.command_out').html(div);
           } else {
-            let msg = 'pipeline is preparing...';
+            var msg = 'pipeline is preparing...';
             $('.command_out').text(msg);
           }
         }
@@ -682,7 +712,7 @@ var sampleFileInput = function () {
     //Init fileUpload
     control.fileinput({
       uploadUrl: uploadUrl,
-      allowedFileExtensions: ['fasta.gz', 'fastq.gz', 'fasta', 'fastq', 'fa', 'fq','fa.gz','fq.gz'],
+      allowedFileExtensions: ['fasta.gz', 'fastq.gz', 'fasta', 'fastq', 'fa', 'fq', 'fa.gz', 'fq.gz'],
       showUpload: true,
       showCaption: true,
       dropZoneEnabled: true,

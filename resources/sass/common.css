@@ -32,6 +32,10 @@ a:hover {
   font-size: 1.5rem;
 }
 
+.font-small {
+    font-size: 12px;
+}
+
 .font-normal {
   font-size: 18px;
 }
@@ -83,16 +87,43 @@ a:hover {
 
 
 /* navbar */
+.navbar {
+  min-height: 70px;
+}
+
+#nav-title {
+  font-size: 20px;
+}
+
+.navbar a {
+  color: #fff;
+  font-size: 16px;
+}
+
+.navbar a:hover {
+  color: #fff;
+}
+
+.dropdown-item:hover {
+  color: #3276b1 !important;
+}
+
 .nav-menu:first-child {
   margin-left: 1.0rem;
 }
 
 .top-nav {
-  background-image: linear-gradient(to right, rgb(173, 218, 248), rgb(149, 195, 238), rgb(240, 187, 231));
+  background-image: linear-gradient(to bottom, #285e8e 0%, #3276b1 100%);
+  border-color: #e7e7e7;
 }
 
 .dropdown-menu {
   min-width: 0 !important;
+}
+
+.workspace-dropdown {
+  background-image: linear-gradient(to bottom, #285e8e 0%, #3276b1 100%);
+  ;
 }
 
 .contact {
@@ -111,14 +142,6 @@ a:hover {
 
 .workspace {
   cursor: pointer;
-}
-
-.workspace-dropdown {
-  background-image: linear-gradient(to right, rgb(173, 218, 248), rgb(149, 195, 238), rgb(240, 187, 231));
-}
-
-#Logout {
-  background-image: linear-gradient(to right, rgb(173, 218, 248), rgb(149, 195, 238), rgb(240, 187, 231));
 }
 
 /* middle-area */
@@ -421,8 +444,7 @@ a:hover {
 #arg_tabs li,
 #bowtie_tabs li {
   margin: 5px -10px 0;
-  border-top-right-radius: 35px 32px;
-  border-top-left-radius: 20px 40px;
+  border-top-left-radius: 20px 30px;
   padding: 0 33px 0 19px;
   height: 32px;
   background: #ddd;
@@ -527,6 +549,7 @@ a:hover {
 
 #preseq_report {
   height: 600px;
+  background-color: #fff;
 }
 
 .glyphicon {
