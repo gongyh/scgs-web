@@ -57,6 +57,14 @@ $(function () {
         kraken_report.appendChild(krona);
       }
     }
+    if (preseq_tab != null) {
+      preseq_tab.onclick = function () {
+        $('#preseq_tabs li:first').addClass('active');
+        if ($('#preseq_report').has('div').length == 0) {
+          read_preseq_cdata();
+        }
+      }
+    }
     if (arg_tab != null) {
       arg_tab.onclick = function () {
         if ($('#arg_dataTable thead tr:has(th)').length == 0) {
@@ -115,7 +123,9 @@ $(function () {
     }
     if (preseq_tab != null) {
       preseq_tab.onclick = function () {
-        read_preseq_cdata();
+        if ($('#preseq_report').has('div').length == 0) {
+          read_preseq_cdata();
+        }
       }
     }
     if (arg_tab != null) {
@@ -171,13 +181,12 @@ $(function () {
     $(this).addClass('active');
     var new_preseq_report = $('<div></div>');
     new_preseq_report.attr('id', 'preseq_report');
-    new_preseq_report.addClass('w-100 overflow-hidden');
-    $('.preseq_report').append(new_preseq_report);
-    if ($(this).text().indexOf('_c') != -1) {
+    new_preseq_report.addClass('w-100 overflow-hidden shadow p-3 bg-white rounded border');
+    $('.preseq_report').after(new_preseq_report);
+    if ($('#preseq_proj_tabs option:selected').val().indexOf('_c') != -1) {
       read_preseq_cdata();
-    } else {
-      read_preseq_lcgcdata();
     }
+    read_preseq_lcgcdata();
   })
 
   preseq_proj_tabs.on('change', function (e) {
@@ -185,13 +194,12 @@ $(function () {
     $('#preseq_report').remove();
     var new_preseq_report = $('<div></div>');
     new_preseq_report.attr('id', 'preseq_report');
-    new_preseq_report.addClass('w-100 overflow-hidden');
-    $('.preseq_report').append(new_preseq_report);
+    new_preseq_report.addClass('w-100 overflow-hidden shadow p-3 bg-white rounded border');
+    $('.preseq_report').after(new_preseq_report);
     if ($('#preseq_proj_tabs option:selected').val().indexOf('_c') != -1) {
       read_preseq_cdata();
-    } else {
-      read_preseq_lcgcdata();
     }
+    read_preseq_lcgcdata();
   })
 
   arg_tabs.on('change', function (e) {
@@ -270,7 +278,13 @@ $(function () {
               x: a_axios,
               y: y_axios
             }], {
-              margin: { t: 0 }
+              margin: { t: 0 },
+              xaxis: {
+                title: 'total reads'
+              },
+              yaxis: {
+                title: 'distinct reads'
+              }
             })
           } else {
             $('#preseq_report').empty();
@@ -302,7 +316,13 @@ $(function () {
               x: a_axios,
               y: y_axios
             }], {
-              margin: { t: 0 }
+              margin: { t: 0 },
+              xaxis: {
+                title: 'total reads'
+              },
+              yaxis: {
+                title: 'distinct reads'
+              }
             })
           } else {
             $('#preseq_report').empty();
@@ -366,6 +386,9 @@ $(function () {
                 side: 'right',
                 title: 'Number of Manual Labels',
                 overlaying: 'y'
+              },
+              xaxis: {
+                title: 'total reads'
               }
             };
             Plotly.plot(preseq_report, {
@@ -430,6 +453,9 @@ $(function () {
                 side: 'right',
                 title: 'Number of Manual Labels',
                 overlaying: 'y'
+              },
+              xaxis: {
+                title: 'total reads'
               }
             };
             Plotly.plot(preseq_report, {

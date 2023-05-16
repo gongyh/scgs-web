@@ -26,20 +26,25 @@ class SamplesController extends Controller
      */
     public function index(Request $request)
     {
+        ## Project status
         $projectID = $request->input('projectID');
+        $current_page = $request->input('page');
+        $pageSize = 8;
         $project = Projects::find($projectID);
         $current_lab_id = Projects::where('id', $projectID)->value('labs_id');
         $selectSamples = Samples::where('projects_id', $projectID)->paginate(8);
         $canRun = $selectSamples->count() > 0 ? true : false;
-        if(Jobs::where('project_id',$projectID)->count() ==0 || (Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 0)){
+        if (Jobs::where('project_id', $projectID)->count() == 0) {
             $status = 'not analyzed';
-        }elseif(Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 1){
+        } elseif ((Jobs::where('project_id', $projectID)->count() > 0 && Jobs::where('project_id', $projectID)->orderBy('id', 'desc')->value('status') == 0)) {
+            $status = 'queueing';
+        } elseif (Jobs::where('project_id', $projectID)->count() > 0 && Jobs::where('project_id', $projectID)->orderBy('id', 'desc')->value('status') == 1) {
             $status = 'running';
-        }elseif(Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 2){
+        } elseif (Jobs::where('project_id', $projectID)->count() > 0 && Jobs::where('project_id', $projectID)->orderBy('id', 'desc')->value('status') == 2) {
             $status = 'failed';
-        }elseif(Jobs::where('project_id',$projectID)->count() > 0 &&Jobs::where('project_id',$projectID)->orderBy('id','desc')->value('status') == 3){
+        } elseif (Jobs::where('project_id', $projectID)->count() > 0 && Jobs::where('project_id', $projectID)->orderBy('id', 'desc')->value('status') == 3) {
             $status = 'success';
-        }else{
+        } else {
             $status = '';
         }
         //to judge if can be released
@@ -54,35 +59,39 @@ class SamplesController extends Controller
                 $user = Auth::user();
                 $isPI = Labs::where([['id', $current_lab_id], ['principleInvestigator', $user->name]])->get()->count() > 0;
                 $user->email == env('ADMIN_EMAIL') ? $isAdmin = true : $isAdmin = false;
-                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun','status','is_release'));
+                return view('Samples.samples', compact('selectSamples', 'current_page', 'pageSize', 'isPI', 'isAdmin', 'projectID', 'project', 'sample', 'canRun', 'status', 'is_release'));
             } else {
                 // not login users
                 $isPI  = false;
                 $isAdmin = false;
-                return view('Samples.samples', compact('selectSamples', 'isPI', 'isAdmin', 'projectID', 'project', 'sample','canRun','status','is_release'));
+                return view('Samples.samples', compact('selectSamples', 'current_page', 'pageSize', 'isPI', 'isAdmin', 'projectID', 'project', 'sample', 'canRun', 'status', 'is_release'));
             }
         } catch (\Illuminate\Database\QueryException $ex) {
             // No samples
             $selectSamples = null;
-            return view('Samples.samples', compact('selectSamples', 'projectID', 'project', 'applications','canRun','status','is_release'));
+            return view('Samples.samples', compact('selectSamples', 'current_page', 'pageSize', 'projectID', 'project', 'applications', 'canRun', 'status', 'is_release'));
         }
     }
 
     public function create(Request $request)
     {
         $projectID = $request->input('projectID');
-        $Accession = Projects::where('id',$projectID)->value('doi');
-        $lab_id = Projects::where('id',$projectID)->value('labs_id');
-        $user = Labs::where('id',$lab_id)->value('principleInvestigator');
+        $lab_id = Projects::where('id', $projectID)->value('labs_id');
+        $user = Labs::where('id', $lab_id)->value('principleInvestigator');
         $user = User::where('name', $user)->value('name');
         $applications = Applications::all();
         $all_species = Species::all();
         $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : array();
-        $files = array();
-        foreach($sample_files as $sample_file){
+        $file1 = array();
+        $file2 = array();
+        foreach ($sample_files as $sample_file) {
             $file_prefix = 'meta-data/' . $user . '/';
             $sample_file = str_replace($file_prefix, '', $sample_file);
-            array_push($files, $sample_file);
+            if (strpos($sample_file, 'R1') || strpos($sample_file, '_1') || strpos($sample_file, '.1') || strpos($sample_file, '.1_val_1') || strpos($sample_file, '_R1_val_1')) {
+                array_push($file1, $sample_file);
+            } else {
+                array_push($file2, $sample_file);
+            }
         }
         $library_strategies = array('WGA', 'WGS', 'WXS', 'RNA-Seq', 'miRNA-Seq', 'WCS', 'CLONE', 'POOLCLONE', 'AMPLICON', 'FINISHING', 'CLONEEND', 'CHIP-Seq', 'MNase-Seq', 'DNase-Hypersensitivity', 'Bisulfite-Seq', 'Tn-Seq', 'EST', 'FL-cDNA', 'CTS', 'MRE-Seq', 'MeDIP-Seq', 'MBD-Seq', 'Synthetic-Long-Read', 'ATAC-Seq', 'ChIA-PET', 'FAIRE-seq', 'Hi-C', 'ncRNA-Seq', 'RAD-Seq', 'RIP-Seq', 'SELEX', 'ssRNA-seq', 'Targeted-Capture', 'Tethered Chromation Conformation Capture', 'OTHER');
         $library_sources = array('GENOMIC', 'TRANSCRIPTOMIC', 'METAGENOMIC', 'METATRANSCRIPTOMIC', 'SYNTHETIC', 'VIRAL RNA', 'GENOMIC SINGLE CELL', 'TRANSCRIPTOMIC SINGLE CELL', 'OTHER');
@@ -162,8 +171,8 @@ class SamplesController extends Controller
                         return back()->withErrors($file_error);
                     }
                 } else {
-                        $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
-                        $file2_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileTwo);
+                    $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
+                    $file2_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileTwo);
                     if (!$file1_exist && $file2_exist) {
                         $file_error = 'file1 doesn\'t exist';
                         return back()->withErrors($file_error);
@@ -203,7 +212,7 @@ class SamplesController extends Controller
                 }
             }
         }
-        return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections, 'files' => $files]);
+        return view('Samples.samp_create', ['applications' => $applications, 'all_species' => $all_species, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections, 'file1' => $file1, 'file2' => $file2]);
     }
 
     public function delete(Request $request)
@@ -222,17 +231,16 @@ class SamplesController extends Controller
     public function update(Request $request)
     {
         $sample_id = $request->input('sampleID');
-        $projectID = Samples::where('id',$sample_id)->value('projects_id');
-        $Accession = Projects::where('id',$projectID)->value('doi');
-        $lab_id = Projects::where('id',$projectID)->value('labs_id');
-        $user = Labs::where('id',$lab_id)->value('principleInvestigator');
+        $projectID = Samples::where('id', $sample_id)->value('projects_id');
+        $lab_id = Projects::where('id', $projectID)->value('labs_id');
+        $user = Labs::where('id', $lab_id)->value('principleInvestigator');
         $sample = Samples::find($sample_id);
         $app = Applications::find($sample['applications_id']);
         $applications = Applications::all();
         $all_species = Species::all();
         $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : array();
         $files = array();
-        foreach($sample_files as $sample_file){
+        foreach ($sample_files as $sample_file) {
             $file_prefix = 'meta-data/' . $user . '/';
             $sample_file = str_replace($file_prefix, '', $sample_file);
             array_push($files, $sample_file);
@@ -254,9 +262,7 @@ class SamplesController extends Controller
                 'design_description' => 'required|max:500',
                 'select_application' => 'required',
                 'select_species' => 'nullable',
-                'isPairends' => 'required',
-                'fileOne' => ['required', 'regex:{(\.R1)?(_1)?(_R1)?(_trimmed)?(_combined)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$}'],
-                'fileTwo' => ['nullable', 'regex:{(\.R2)?(_2)?(_R2)?(_trimmed)?(_combined)?(\.2_val_2)?(_R2_val_2)?(\.fq)?(\.fastq)?(\.gz)?$}']
+                'isPairends' => 'required'
             ]);
             $projectID = $request->input('projectID');
             $sample_label = $request->input('sample_label');
@@ -277,76 +283,25 @@ class SamplesController extends Controller
                     $isPairends = 1;
                     break;
             }
-            if (strcmp($request->input('isPairends'), 'Single') == 0) {
-                $fileOne = $request->input('fileOne');    
-                $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
-                if($file1_exist){
-                    $sample['sampleLabel'] = $sample_label;
-                    $sample['library_id'] = $library_id;
-                    $sample['library_strategy'] = $library_strategy;
-                    $sample['library_source'] = $library_source;
-                    $sample['library_selection'] = $library_selection;
-                    $sample['platform'] = $platform;
-                    $sample['instrument_model'] = $instrument_model;
-                    $sample['design_description'] = $design_description;
-                    $sample['applications_id'] = $select_application;
-                    $sample['species_id'] = $select_species;
-                    $sample['pairends'] = $isPairends;
-                    $sample['filename1'] = $fileOne;
-                    $sample['filename2'] = null;
-                    $sample->save();
-                    MvSamples::dispatch($projectID, $fileOne, null)->onQueue('MvSamples');
-                    if ($request->input('from')) {
-                        // From workspace to myProject
-                        return redirect('/workspace/samples?projectID=' . $projectID);
-                    } else {
-                        // From home to sample
-                        return redirect('/samples?projectID=' . $projectID);
-                    }
-                } else {
-                    $file_error = 'file1 doesn\'t exist';
-                    return back()->withErrors($file_error);
-                }
+            $sample['sampleLabel'] = $sample_label;
+            $sample['library_id'] = $library_id;
+            $sample['library_strategy'] = $library_strategy;
+            $sample['library_source'] = $library_source;
+            $sample['library_selection'] = $library_selection;
+            $sample['platform'] = $platform;
+            $sample['instrument_model'] = $instrument_model;
+            $sample['design_description'] = $design_description;
+            $sample['applications_id'] = $select_application;
+            $sample['species_id'] = $select_species;
+            $sample['pairends'] = $isPairends;
+            $sample->save();
+            if ($request->input('from')) {
+                return redirect('/workspace/samples?projectID=' . $projectID);
             } else {
-                $fileOne = $request->input('fileOne');
-                $fileTwo = $request->input('fileTwo');
-                $file1_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileOne);
-                $file2_exist = Storage::disk('local')->exists('meta-data/' . $user . '/' . $fileTwo);
-                // Return error message
-                if (!$file1_exist && $file2_exist) {
-                    $file_error = 'file1 doesn\'t exist';
-                    return back()->withErrors($file_error);
-                } elseif ($file1_exist && !$file2_exist) {
-                    $file_error = 'file2 doesn\'t exist';
-                    return back()->withErrors($file_error);
-                } elseif (!$file1_exist && !$file2_exist) {
-                    $file_error = 'file1 and file2 doesn\'t exist';
-                    return back()->withError($file_error);
-                } else {
-                    $sample['sampleLabel'] = $sample_label;
-                    $sample['library_id'] = $library_id;
-                    $sample['library_strategy'] = $library_strategy;
-                    $sample['library_source'] = $library_source;
-                    $sample['library_selection'] = $library_selection;
-                    $sample['platform'] = $platform;
-                    $sample['instrument_model'] = $instrument_model;
-                    $sample['design_description'] = $design_description;
-                    $sample['applications_id'] = $select_application;
-                    $sample['species_id'] = $select_species;
-                    $sample['pairends'] = $isPairends;
-                    $sample['filename1'] = $fileOne;
-                    $sample['filename2'] = $fileTwo;
-                    $sample->save();
-                    MvSamples::dispatch($projectID, $fileOne, $fileTwo)->onQueue('MvSamples');
-                    if ($request->input('from')) {
-                        return redirect('/workspace/samples?projectID=' . $projectID);
-                    } else {
-                        return redirect('/samples?projectID=' . $projectID);
-                    }
-                }
+                return redirect('/samples?projectID=' . $projectID);
             }
         }
-        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections,'files' => $files]);
+        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections, 'files' => $files]);
     }
 
     public function upload(Request $request)
@@ -389,4 +344,29 @@ class SamplesController extends Controller
     {
         return response()->download(storage_path('Sample_template.xlsx'));
     }
+
+    /**
+     *
+     */
+    // public function search(Request $request)
+    // {
+    //     $projectID = $request->input('projectID');
+    //     $identity = $request->input('identity');
+    //     $lab_id = Projects::where('id', $projectID)->value('labs_id');
+    //     $user = Labs::where('id', $lab_id)->value('principleInvestigator');
+    //     $user = User::where('name', $user)->value('name');
+    //     $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : array();
+    //     $files = array();
+    //     $all_files = array();
+    //     foreach ($sample_files as $sample_file) {
+    //         $file_prefix = 'meta-data/' . $user . '/';
+    //         $sample_file = str_replace($file_prefix, '', $sample_file);
+    //         if (strpos($sample_file, $identity) !== false) {
+    //             array_push($files, $sample_file);
+    //         }
+    //         array_push($all_files, $sample_file);
+    //     }
+    //     empty($identity) ? $tag = true : $tag = false;
+    //     return response()->json(['code' => 200, 'files' => $files, 'all_files' => $all_files, 'tag' => $tag]);
+    // }
 }

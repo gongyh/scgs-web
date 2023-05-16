@@ -14,6 +14,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         "execute/start",
         "successRunning/quast",
-        "successRunning/blob"
+        "successRunning/blob",
+        "workspace/addSampleFiles/upload",
+        "authenticate",
     ];
 }

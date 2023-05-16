@@ -48,27 +48,13 @@
               <div>
                 <label for="new_collection_date">Collection Date</label><span class="text-danger font-weight-bold">*</span>
               </div>
-              <div class="input-group date w-75" id="datetimepicker" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" name="new_collection_date">
-                <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
-                  <div class="input-group-text">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                  </div>
-                </div>
-              </div>
+              <input id="cDate" type="text" name="new_collection_date">
             </div>
             <div class="form-group">
               <div>
                 <label for="new_release_date">Release Date</label><span class="text-danger font-weight-bold">*</span>
               </div>
-              <div class="input-group date w-75" id="datetimepicker1" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="new_release_date">
-                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                  <div class="input-group-text">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                  </div>
-                </div>
-              </div>
+              <input id="rDate" type="text" name="new_release_date">
             </div>
           </div>
           <div class="col-md-6">
@@ -87,7 +73,7 @@
               <ul>
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
-                  @endforeach
+                @endforeach
               </ul>
             </div>
             @endif

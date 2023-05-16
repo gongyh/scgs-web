@@ -39,7 +39,7 @@
   <div class="row text-center home-slider">
     <div class="mb-4">
       <div class="card h-100">
-        <img class="card-img-top" src="https://via.placeholder.com/500x325" alt="">
+        <img class="card-img-top" src="images/school_mp.jpg" alt="">
         <div class="card-body">
           <h4 class="card-title">Pathways</h4>
           <p class="card-text">Metabolic pathways</p>
@@ -52,7 +52,7 @@
 
     <div class="mb-4">
       <div class="card h-100">
-        <img class="card-img-top" src="https://via.placeholder.com/500x325" alt="">
+        <img class="card-img-top" src="images/school_bgc.jpg" alt="">
         <div class="card-body">
           <h4 class="card-title">BGCs</h4>
           <p class="card-text">Biosynthetic gene clusters</p>
@@ -65,7 +65,7 @@
 
     <div class="mb-4">
       <div class="card h-100">
-        <img class="card-img-top" src="https://via.placeholder.com/500x325" alt="">
+        <img class="card-img-top" src="images/school_resistome.jpg" alt="">
         <div class="card-body">
           <h4 class="card-title">Resistome</h4>
           <p class="card-text">Drug resistance</p>
@@ -78,7 +78,7 @@
 
     <div class="mb-4">
       <div class="card h-100">
-        <img class="card-img-top" src="https://via.placeholder.com/500x325" alt="">
+        <img class="card-img-top" src="images/school_gwas.jpg" alt="">
         <div class="card-body">
           <h4 class="card-title">GWAS</h4>
           <p class="card-text">Mutants screening</p>

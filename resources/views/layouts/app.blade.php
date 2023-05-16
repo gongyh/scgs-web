@@ -18,11 +18,12 @@
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
   @stack('plotting-js')
   <script src="{!! mix('js/manifest.js')!!}"></script>
   <script src="{!! mix('js/vendor.js')!!}"></script>
   <script src="{!! mix('js/app.js')!!}"></script>
+  <script src="{!! mix('js/layui_style.js')!!}"></script>
 
   <!-- Page specific styles -->
   @yield('style')
@@ -30,139 +31,230 @@
 
 <body>
   <a id="back-top"></a>
-  <div id="app">
-    <nav class="navbar navbar-expand-lg bg-light top-nav">
-      <div class="container">
-        <a id="nav-title" href="/">
-          {{ config('app.name', 'Laravel') }}
-        </a>
-        <button style="color:#fff;font-size:20px" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-          <span class="navbar-toggler-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
-            </svg>
-          </span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <!-- Left Side Of Navbar -->
-          <ul class="nav navbar-nav mr-auto">
-            <li class="nav-item">
-              <a href="/projects" class="nav-link nav-menu">Projects</a>
-            </li>
-            @if(Auth::check())
-            <li class="nav-item dropdown">
-              <div class="btn-group workspace">
-                <a class="nav-link nav-menu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Workspace
+  <ul class="header layui-nav" lay-filter="">
+    <div class="container">
+      <div class="row d-flex">
+        <div class="d-flex flex-fill">
+          <li class="layui-nav-item">
+            <a href="/">
+              <strong class="layui-font-18 text-white">Home</strong>
+            </a>
+          </li>
+          <li class="layui-nav-item">
+            <a href="/projects">
+              <strong class="layui-font-18 text-white">Projects</strong>
+            </a>
+          </li>
+          @if(Auth::check())
+          <li class="layui-nav-item">
+            <a class="text-white" href="javascript:;">
+              <strong class="layui-font-18 text-white">Workspace</strong>
+            </a>
+            <dl class="layui-nav-child">
+              <!-- 二级菜单 -->
+              <dd>
+                <a href="/workspace">
+                  <div class="layui-font-18">Management Center</div>
                 </a>
-                <div class="dropdown-menu workspace-dropdown">
-                  <a class="dropdown-item" href="/workspace">Management Center</a>
-                  @if(Auth::user()->name == 'admin')
-                  <hr>
-                  <a class="dropdown-item" href="/workspace/institutions">Manage Institutions</a>
-                  <a class="dropdown-item" href="/workspace/species">Manage Species</a>
-                  <a class="dropdown-item" href="/workspace/applications">Manage Applications</a>
-                  <a class="dropdown-item" href="/workspace/manageRunning">Manage Running Samples</a>
-                  <a class="dropdown-item" href="/workspace/manageWaiting">Manage Waiting Samples</a>
-                  <a class="dropdown-item" href="/workspace/pipelineParams">Basic Pipeline Params</a>
-                  <a class="dropdown-item" href="/workspace/ncbifilesList">NCBI Files List</a>
-                  @endif
-                  <hr>
-                  <a class="dropdown-item" href="/workspace/myLab">My Labs</a>
-                  <a class="dropdown-item" href="/workspace/myProject">My Projects</a>
-                  <a class="dropdown-item" href="/workspace/runningSample">Pipeline Status</a>
-                  <a class="dropdown-item" href="/workspace/addSampleFiles">Add Sample Files</a>
-                </div>
-              </div>
-            </li>
-            @endif
-            <li class="nav-item dropdown">
-              <div class="btn-group workspace">
-                <a class="nav-link nav-menu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Protocols
+              </dd>
+              <hr>
+              @if(Auth::user()->name == 'admin')
+              <dd>
+                <a href="/workspace/institutions">
+                  <div class="layui-font-18">Manage Institutions</div>
                 </a>
-                <div class="dropdown-menu workspace-dropdown">
-                  <a class="dropdown-item" href="/">RAGE-Seq Seawater</a>
-                  <a class="dropdown-item" href="/">RAGE-Seq Soil</a>
-                  <a class="dropdown-item" href="/">RAGE-Seq Clinical</a>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <div class="btn-group workspace">
-                <a class="nav-link nav-menu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Tools
+              </dd>
+              <dd>
+                <a href="/workspace/species">
+                  <div class="layui-font-18">
+                    Manage Species
+                  </div>
                 </a>
-                <div class="dropdown-menu workspace-dropdown">
-                  <a class="dropdown-item" href="/apps/app/ramand2o">RamanD2O</a>
-                  <a class="dropdown-item" href="/visualization">Visualization</a>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a href="/aboutus" class="nav-link nav-menu">About</a>
-            </li>
-          </ul>
-
-          <!-- Right Side Of Navbar -->
-          <ul class="navbar-nav ml-auto">
-            <!-- Authentication Links -->
-            @guest
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-            </li>
-            @if (Route::has('register'))
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-            </li>
-            @endif
-            @else
-            <li class="nav-item dropdown">
-              <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                <svg class="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                </svg>
-                <span>{{ Auth::user()->name }}<span class="caret"></span></span>
-              </a>
-
-              <div id="Logout" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+              </dd>
+              <dd>
+                <a href="/workspace/applications">
+                  <div class="layui-font-18">
+                    Manage Applications
+                  </div>
+                </a>
+              </dd>
+              <dd>
+                <a href="/workspace/manageRunning">
+                  <div class="layui-font-18">
+                    Manage Running Samples
+                  </div>
+                </a>
+              </dd>
+              <dd>
+                <a href="/workspace/manageWaiting">
+                  <div class="layui-font-18">
+                    Manage Waiting Samples
+                  </div>
+                </a>
+              </dd>
+              <dd>
+                <a href="/workspace/pipelineParams">
+                  <div class="layui-font-18">
+                    Basic Pipeline Params
+                  </div>
+                </a>
+              </dd>
+              <dd>
+                <a href="/workspace/ncbifilesList">
+                  <div class="layui-font-18">
+                    NCBI Files List
+                  </div>
+                </a>
+              </dd>
+              @endif
+              <hr>
+              <dd>
+                <a href="/workspace/myLab">
+                  <div class="layui-font-18">
+                    My labs
+                  </div>
+                </a>
+              </dd>
+              <dd>
+                <a href="/workspace/myProject">
+                  <div class="layui-font-18">
+                    My projects
+                  </div>
+                </a>
+              </dd>
+              <dd>
+                <a href="/workspace/runningSample">
+                  <div class="layui-font-18">
+                    Pipeline status
+                  </div>
+                </a>
+              </dd>
+              <dd>
+                <a href="/workspace/addSampleFiles">
+                  <div class="layui-font-18">
+                    Upload sample files
+                  </div>
+                </a>
+              </dd>
+            </dl>
+          </li>
+          @endif
+          <li class="layui-nav-item">
+            <a class="text-white" href="javascript:;">
+              <strong class="layui-font-18 text-white">Protocols</strong>
+            </a>
+            <dl class="layui-nav-child">
+              <!-- 二级菜单 -->
+              <dd>
+                <a href="/">
+                  <div class="layui-font-18">RAGE-Seq Seawater</div>
+                </a>
+              </dd>
+              <dd>
+                <a href="/">
+                  <div class="layui-font-18">RAGE-Seq Soil</div>
+                </a>
+              </dd>
+              <dd>
+                <a href="/">
+                  <div class="layui-font-18">RAGE-Seq Clinical</div>
+                </a>
+              </dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item">
+            <a class="text-white" href="javascript:;">
+              <strong class="layui-font-18 text-white">Tools</strong>
+            </a>
+            <dl class="layui-nav-child">
+              <!-- 二级菜单 -->
+              <dd>
+                <a href="/apps/app/ramand2o">
+                  <div class="layui-font-18">RamanD2O</div>
+                </a>
+              </dd>
+              <dd>
+                <a href="/visualization">
+                  <div class="layui-font-18">Visualization</div>
+                </a>
+              </dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item">
+            <a href="/aboutus">
+              <strong class="layui-font-18 text-white">
+                About
+              </strong>
+            </a>
+          </li>
+        </div>
+        <div class="d-flex justify-content-end">
+          @guest
+          <li class="layui-nav-item">
+            <a class="nav-link text-white" href="{{ route('login') }}">
+              <strong class="layui-font-18">
+                {{ __('Login') }}
+              </strong>
+            </a>
+          </li>
+          @if (Route::has('register'))
+          <li class="layui-nav-item">
+            <a class="nav-link text-white" href="{{ route('register') }}">
+              <strong class="layui-font-18">
+                {{ __('Register') }}
+              </strong>
+            </a>
+          </li>
+          @endif
+          @else
+          <li class="layui-nav-item">
+            <a id="javascript:;">
+              <svg class="bi bi-person-fill mb-1" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+              </svg>
+              <span class="layui-font-16 login-name">{{ Auth::user()->name }}<span class="caret"></span></span>
+            </a>
+            <dl class="layui-nav-child">
+              <!-- 二级菜单 -->
+              <dd>
+                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                  {{ __('Logout') }}
+                  <span class="layui-font-16">
+                    {{ __('Logout') }}
+                  </span>
                 </a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf
                 </form>
-              </div>
-            </li>
-            @endguest
-          </ul>
+              </dd>
+            </dl>
+          </li>
+          @endguest
         </div>
+        <!-- Authentication Links -->
       </div>
-    </nav>
-    @if(!strpos(URL::current(),'/aboutus'))
-    <div class="banner">
-      <div class="banner-image"></div>
-    </div>
-    @endif
-
-    <main class="pt-4">
-      <div class="text-center flash_msg">
-        @include('flash::message')
-      </div>
-      @yield('content')
-    </main>
-
-    <!-- Footer -->
-    <footer class="py-3 mt-3 bg-secondary w-100">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Single Cell Center, Qingdao Institute of Bioenergy and Bioprocess Technology, Chinese Academy of Sciences 2020-2022</p>
-      </div>
-    </footer>
-
+  </ul>
+  @if(!strpos(URL::current(),'/aboutus'))
+  <div class="banner">
+    <div class="banner-image"></div>
   </div>
+  @endif
+
+  <main class="main pt-4">
+    <div class="text-center flash_msg">
+      @include('flash::message')
+    </div>
+    @yield('content')
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer py-3 mt-5 w-100 layui-bg-cyan">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Single Cell Center, Qingdao Institute of Bioenergy and Bioprocess Technology, Chinese Academy of Sciences 2020-2022</p>
+    </div>
+  </footer>
+
 
   <!-- Page specific script -->
   @yield('script')

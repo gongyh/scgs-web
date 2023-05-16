@@ -7,8 +7,14 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap.scss';
 
+// LayUI
+@import '~layui/dist/css/layui.css';
+
 // Fontawesome
-@import '~font-awesome/scss/font-awesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
 
 @import '~bootstrap-fileinput/css/fileinput.min.css';
 
@@ -21,7 +27,5 @@
 @import '~slick-carousel/slick/slick.scss';
 @import '~slick-carousel/slick/slick-theme.scss';
 
-//datatimepicker
-@import './datetimepicker.css';
-
+@import '~jquery-datetimepicker/jquery.datetimepicker.css';
 @import './common.css';

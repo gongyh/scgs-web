@@ -41,6 +41,7 @@ class ExecparamsController extends Controller
             $request->input('saturation') == 'saturation' ? $execute_params['saturation'] = true : $execute_params['saturation'] = false;
             $request->input('no_normalize') == 'no_normalize' ? $execute_params['no_normalize'] = true : $execute_params['no_normalize'] = false;
             $request->input('acquired') == 'acquired' ? $execute_params['acquired'] = true : $execute_params['acquired'] = false;
+            $request->input('split') == 'split' ? $execute_params['split'] = true : $execute_params['split'] = false;
             $request->input('saveTrimmed') == 'saveTrimmed' ? $execute_params['saveTrimmed'] = true : $execute_params['saveTrimmed'] = false;
             $request->input('saveAlignedIntermediates') == 'saveAlignedIntermediates' ? $execute_params['saveAlignedIntermediates'] = true : $execute_params['saveAlignedIntermediates'] = false;
             if ($request->has('reference_genome')) {
@@ -62,7 +63,7 @@ class ExecparamsController extends Controller
             $eggnog = $request->input('eggnog_db') == 'eggnog_db' ? $execute_params['eggnog_db'] = true : $execute_params['eggnog_db'] = false;
             $request->input('kraken_db') == 'kraken_db' ? $execute_params['kraken_db'] = true : $execute_params['kraken_db'] = false;
             $request->input('kofam_profile') == 'kofam_profile' ? $execute_params['kofam_profile'] = true : $execute_params['kofam_profile'] = false;
-            $request->input('kofam_kolist') == 'kofam_kolist' ? $execute_params['kofam_kolist'] = true : $execute_params['kofam_kolist'] = false;
+            $request->input('kofam_profile') == 'kofam_profile' ? $execute_params['kofam_kolist'] = true : $execute_params['kofam_kolist'] = false;
             $request->input('eukcc_db') == 'eukcc_db' ? $execute_params['eukcc_db'] = true : $execute_params['eukcc_db'] = false;
             if ($execute_params['genus'] != null) {
                 $this->validate($request, [
@@ -125,6 +126,7 @@ class ExecparamsController extends Controller
             $no_normalize = $execute_params->no_normalize ? '--no_normalize ' : '';
             $saturation = $execute_params->saturation ? '--saturation ' : '';
             $acquired = $execute_params->acquired ? '--acquired ' : '';
+            $split = $execute_params->split ? '--split ' : '';
             $saveTrimmed = $execute_params->saveTrimmed ? '--saveTrimmed ' : '';
             $saveAlignedIntermediates = $execute_params->saveAlignedIntermediates ? '--saveAlignedIntermediates ' : '';
             $euk = $execute_params->euk ? '--euk ' : '';
@@ -196,10 +198,10 @@ class ExecparamsController extends Controller
 
                 if ($filename2 != null) {
                     // PairEnds
-                    $cmd = '--reads "' . $base_path . $accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . $resume . '--outdir results -w work';
+                    $cmd = '--reads "' . $base_path . $accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . $resume . '--outdir results -w work';
                 } else {
                     // SingleEnds
-                    $cmd = '--reads "' . $base_path . $accession . '/' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--single_end ' . $resume . '--outdir results -w work';
+                    $cmd = '--reads "' . $base_path . $accession . '/' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--single_end ' . $resume . '--outdir results -w work';
                 }
             } else {
                 $projectID = $request->input('projectID');
@@ -236,18 +238,22 @@ class ExecparamsController extends Controller
 
                 if ($filename2 != null) {
                     // Paired-End
-                    $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . $resume . '--outdir results -w work';
+                    $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . $resume . '--outdir results -w work';
                 } else {
                     // Single
-                    $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename_single . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--single_end ' . $resume . '--outdir results -w work';
+                    $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename_single . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--single_end ' . $resume . '--outdir results -w work';
                 }
             }
 
             /**
-             * Jobs add records
+             * Add jobs records and change sample status
              */
             if ($request->has('sampleID')) {
                 $sample_id = $request->input('sampleID');
+                $sample = Samples::find($sample_id);
+                # change sample status
+                $sample['status'] = 4; # 4: queueing
+                $sample->save();
                 $project_id = Samples::where('id', $sample_id)->value('projects_id');
                 $lab_id = Projects::where('id', $project_id)->value('labs_id');
                 $user_name = Labs::where('id', $lab_id)->value('principleInvestigator');
@@ -270,6 +276,7 @@ class ExecparamsController extends Controller
                     $job->user_id = $user_id;
                     $job->sample_id = $sample_id;
                     $job->project_id = null;
+                    $job->current_uuid = 'restart';
                     $job->started = '000';
                     $job->finished = '000';
                     $job->command = $cmd;
@@ -300,6 +307,7 @@ class ExecparamsController extends Controller
                     $job->user_id = $user_id;
                     $job->project_id = $project_id;
                     $job->sample_id = null;
+                    $job->current_uuid = 'restart';
                     $job->started = '000';
                     $job->finished = '000';
                     $job->command = $cmd;
@@ -336,6 +344,7 @@ class ExecparamsController extends Controller
                 $nanopore = $data->nanopore;
                 $saturation = $data->saturation;
                 $acquired = $data->acquired;
+                $split = property_exists($data, "split") ? $data->split : false;
                 $saveTrimmed = $data->saveTrimmed;
                 $saveAlignedIntermediates = $data->saveAlignedIntermediates;
                 $no_normalize = $data->no_normalize;
@@ -353,12 +362,12 @@ class ExecparamsController extends Controller
                 $kofam_profile = $data->kofam_profile;
                 $kofam_kolist = $data->kofam_kolist;
                 $eukcc_db = $data->eukcc_db;
-                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'sample_id', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'genus_list'));
+                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'sample_id', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'genus_list'));
             } else {
-                $ass = $cnv = $snv = $saturation = $acquired = $resume = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = true;
-                $nanopore = $bulk = $saveTrimmed = $saveAlignedIntermediates = $no_normalize = $euk = $fungus = $genus = $augustus_species = $eukcc_db = false;
+                $ass  = $acquired = $resume = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = true;
+                $cnv = $snv = $saturation =  $split = $nanopore = $bulk = $saveTrimmed = $saveAlignedIntermediates = $no_normalize = $euk = $fungus = $genus = $augustus_species = $eukcc_db = false;
                 $genus_name = $augustus_species_name = null;
-                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'sample_id', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'genus_list'));
+                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'sample_id', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'genus_list'));
             }
         } else {
             $project_id = $request->input('projectID');
@@ -388,6 +397,7 @@ class ExecparamsController extends Controller
                 $nanopore = $data->nanopore;
                 $saturation = $data->saturation;
                 $acquired = $data->acquired;
+                $split = property_exists($data, "split") ? $data->split : false;
                 $saveTrimmed = $data->saveTrimmed;
                 $saveAlignedIntermediates = $data->saveAlignedIntermediates;
                 $no_normalize = $data->no_normalize;
@@ -405,13 +415,13 @@ class ExecparamsController extends Controller
                 $kofam_profile = $data->kofam_profile;
                 $kofam_kolist = $data->kofam_kolist;
                 $eukcc_db = $data->eukcc_db;
-                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'species_list', 'default_reference', 'genus_list'));
+                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'species_list', 'default_reference', 'genus_list'));
             } else {
-                $ass = $cnv = $snv = $saturation = $acquired = $resume = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = true;
-                $bulk = $nanopore = $no_normalize = $saveTrimmed = $saveAlignedIntermediates = $euk = $fungus = $genus = $augustus_species = $eukcc_db = false;
+                $ass = $acquired = $resume = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = true;
+                $cnv = $snv = $saturation = $split = $bulk = $nanopore = $no_normalize = $saveTrimmed = $saveAlignedIntermediates = $euk = $fungus = $genus = $augustus_species = $eukcc_db = false;
                 $genus_name = $augustus_species_name = null;
                 $species_list = Species::all();
-                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'species_list', 'default_reference', 'genus_list'));
+                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'species_list', 'default_reference', 'genus_list'));
             }
         }
     }
@@ -464,6 +474,7 @@ class ExecparamsController extends Controller
             $nanopore = $data->nanopore;
             $saturation = $data->saturation;
             $acquired = $data->acquired;
+            $split = $data->split;
             $saveTrimmed = $data->saveTrimmed;
             $saveAlignedIntermediates = $data->saveAlignedIntermediates;
             $no_normalize = $data->no_normalize;
@@ -483,9 +494,9 @@ class ExecparamsController extends Controller
             $eukcc_db = $data->eukcc_db;
             if ($request->has('sampleID')) {
                 $project_id = Samples::where('id', $sample_id)->value('projects_id');
-                return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'sample_id', 'project_id', 'PipelineParams'));
+                return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'sample_id', 'project_id', 'PipelineParams'));
             } else {
-                return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'reference_genome', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'project_id', 'PipelineParams'));
+                return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'reference_genome', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'project_id', 'PipelineParams'));
             }
         }
     }
@@ -521,8 +532,13 @@ class ExecparamsController extends Controller
             $runName = Jobs::where('project_id', $running_project_id)->value('current_uuid');
             $runStatus = Jobs::where('project_id', $running_project_id)->value('status');
         }
-        $weblogs = Weblog::where('runName', $runName)->orderByDesc('created_at')->get();
-        $data = array('weblogs' => $weblogs, 'runStatus' => $runStatus);
-        return response()->json(['code' => 200, 'data' => $data]);
+        if ($runName == 'restart') {
+            $data = array();
+            return response()->json(['code' => 202, 'data' => $data]);
+        } else {
+            $weblogs = Weblog::where('runName', $runName)->orderByDesc('created_at')->get();
+            $data = array('weblogs' => $weblogs, 'runStatus' => $runStatus);
+            return response()->json(['code' => 200, 'data' => $data]);
+        }
     }
 }

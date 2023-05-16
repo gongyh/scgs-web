@@ -63,6 +63,10 @@
                   <input type="checkbox" class="custom-control-input" id="acquired" name="acquired" value="acquired" {{$acquired?'checked':''}} disabled>
                   <label class="custom-control-label" for="acquired ml-3">acquired</label>
                 </div>
+                <div class="custom-control custom-checkbox mt-2 ml-3">
+                  <input type="checkbox" class="custom-control-input" id="split" name="split" value="split" {{$split?'checked':''}} disabled>
+                  <label class="custom-control-label" for="split ml-3">split</label>
+                </div>
               </div>
               <div class="d-flex flex-wrap">
                 <div class="custom-control custom-checkbox mt-2">
@@ -196,7 +200,7 @@
               <div class="mt-2 font-normal text-primary border-bottom">Pipeline Status</div>
               <div class="pipeline_status pt-2 ml-2"></div>
             </div>
-            <div class="command_out text-wrap text-break rounded"></div>
+            <div class="command_out text-wrap text-break rounded overflow-auto"></div>
           </div>
         </div>
       </div>

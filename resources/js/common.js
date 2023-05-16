@@ -1,5 +1,8 @@
 //const { head } = require("lodash");
 
+import { indexOf } from "lodash";
+import { monthsShort } from "moment";
+
 $(function () {
 
   $('.home-slider').slick({
@@ -56,6 +59,7 @@ $(function () {
   var url = current_url.split('/').pop();
   var url_noparams = url.indexOf('?') != -1 ? url.slice(0, url.indexOf('?')) : url;
   var workspace_nav = document.getElementsByClassName('workspace-nav');
+  var create_sample_form = document.getElementById('create_sample_form');
   var sample_url = window.location.href;
   var projectID_pos = sample_url.indexOf('projectID');
   if (projectID_pos != -1) {
@@ -82,8 +86,23 @@ $(function () {
     $('#new_type').val(type);
   });
 
-  $('#datetimepicker,#datetimepicker1,#datetimepicker3,#datetimepicker4').datetimepicker({
-    format: 'L'
+  // collection date/release date datetimepicker init
+  $('#cDate').datetimepicker(
+  {
+    timepicker: false,
+    format: 'Y-m-d'
+  });
+
+  $('#rDate').datetimepicker(
+  {
+    value: getNextYear(),
+    timepicker: false,
+    format: 'Y-m-d'
+  });
+
+  $('#rDate_m, #cDate_m').datetimepicker({
+    timepicker: false,
+    format: 'Y-m-d'
   });
 
   $('.type').on('click', function () {
@@ -153,54 +172,38 @@ $(function () {
   })
 
   /**
-   * Get url params
+   *
    */
-  function getQueryVariable(variable) {
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split("=");
-      if (pair[0] == variable) { return pair[1]; }
-    }
-    return (false);
-  }
-
-  /**
-   * Convert task start time to year:month:second
-   */
-  function Sec2Time(time) {
-    var datetime = new Date(time).getTime();
-    var date = new Date(datetime);
-    var y = date.getFullYear();
-    var m = date.getMonth() + 1;
-    m = m < 10 ? ('0' + m) : m;
-    var d = date.getDate();
-    d = d < 10 ? ('0' + d) : d;
-    var h = date.getHours();
-    h = h < 10 ? ('0' + h) : h;
-    var minute = date.getMinutes();
-    var second = date.getSeconds();
-    minute = minute < 10 ? ('0' + minute) : minute;
-    second = second < 10 ? ('0' + second) : second;
-    return y + '-' + m + '-' + d + ' ' + ' ' + h + ':' + minute + ':' + second;
-  }
-
-  /**
-   * Pairend control upload files number
-   */
-  if ($("input[type='radio']:checked").val() == 'Single') {
-    $(".file_two").hide();
-  } else {
-    $(".file_two").show();
-  }
-
-  $("input[type = 'radio']").change(function () {
-    if ($("input[type='radio']:checked").val() == 'Single') {
-      $(".file_two").hide();
-    } else {
-      $(".file_two").show();
-    }
-  })
+  //   $('.search-sample').on('input', function (e) {
+  //     projectID = getQueryVariable('projectID')
+  //     axios.post('/samples/search', {
+  //         identity: this.value,
+  //         projectID: projectID
+  //       })
+  //       .then(function (response) {
+  //         if (response.data.tag) {
+  //           $('.sample_list').show()
+  //         } else {
+  //           if (response.data.files.length != 0) {
+  //             var list = response.data.files
+  //             console.log(list)
+  //             for (var i = 0; i < list.length; i++) {
+  //               var insert_list = '';
+  //               insert_list += ' <input type=\"checkbox\" id="' + list[i] + '" value="' + list[i] + '" title="' + list[i] + '" />'
+  //             }
+  //             var insert_text = '<label class=\"layui-form-label\">File</label><div class=\"layui-input-block\"><input type=\"checkbox\">123</input></div>';
+  //             var insert = '<label class=\"layui-form-label\">File</label><div class=\"layui-input-block\"></div>';
+  //             $('.sample_list').empty()
+  //             $('.sample_list').html(insert_text)
+  //           } else {
+  //             $('.sample_list').hide()
+  //           }
+  //         }
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //       });
+  //   })
 
   /**
    * Sample platform selected change instrument model options
@@ -281,8 +284,7 @@ $(function () {
     $('#snv_2').prop('checked', true);
     $('#cnv_1').attr('disabled', 'disabled');
     $('#snv_1').attr('disabled', 'disabled');
-  } else {
-  }
+  } else {}
 
   if ($('#genus_1').is(':checked')) {
     $('.genus_name').show();
@@ -555,19 +557,10 @@ $(function () {
     })
    */
 
-
-
   $('.sample_files_save').on('click', function () {
-    if ($('input[type=checkbox]:checked').length > 2) {
-      window.alert('Too many sample files are chosen');
-    } else if ($('input[type=checkbox]:checked').length == 2) {
-      $('#new_fileOne').val($('input[type=checkbox]:checked')[0].value);
-      $('#new_fileTwo').val($('input[type=checkbox]:checked')[1].value);
-      $('#addFileModal').modal('hide');
-    } else {
-      $('#new_fileOne').val($('input[type=checkbox]:checked')[0].value);
-      $('#addFileModal').modal('hide');
-    }
+    $('#new_fileOne').val($('#new_file1 option:selected').text());
+    $('#new_fileTwo').val($('#new_file2 option:selected').text());
+    $('#addFileModal').modal('hide');
   })
 
   //select types
@@ -575,7 +568,6 @@ $(function () {
     $("#search_type option:selected").each(function () {
       selectedTypes.push($(this).val());
     });
-
   })
 
   /**
@@ -606,7 +598,7 @@ $(function () {
   if (window.location.href.indexOf('/execute/start') != -1) {
     var weblogReader = setInterval(() => {
       read_weblog();
-    }, 5000);
+    }, 10000);
   } else {
     clearInterval(weblogReader);
   }
@@ -669,6 +661,26 @@ var dateToString = function (date) {
   return dateTime;
 }
 
+/**
+ * Convert task start time to year:month:second
+ */
+function Sec2Time(time) {
+  var datetime = new Date(time).getTime();
+  var date = new Date(datetime);
+  var y = date.getFullYear();
+  var m = date.getMonth() + 1;
+  m = m < 10 ? ('0' + m) : m;
+  var d = date.getDate();
+  d = d < 10 ? ('0' + d) : d;
+  var h = date.getHours();
+  h = h < 10 ? ('0' + h) : h;
+  var minute = date.getMinutes();
+  var second = date.getSeconds();
+  minute = minute < 10 ? ('0' + minute) : minute;
+  second = second < 10 ? ('0' + second) : second;
+  return y + '-' + m + '-' + d + ' ' + ' ' + h + ':' + minute + ':' + second;
+}
+
 var FileInput = function () {
   var oFile = new Object();
 
@@ -712,7 +724,8 @@ var sampleFileInput = function () {
     //Init fileUpload
     control.fileinput({
       uploadUrl: uploadUrl,
-      allowedFileExtensions: ['fasta.gz', 'fastq.gz', 'fasta', 'fastq', 'fa', 'fq', 'fa.gz', 'fq.gz'],
+      allowedFileExtensions: ['gz', 'fastq', 'fq'],
+      notAllowedFilenameExtensions: ['\\s+', '^((?!(_1\.fastq\.gz)?(_2\.fastq\.gz)?(_1\.fq\.gz)?(_2\.fq\.gz)?(_1\.fq)?(_2\.fq)?(_R1\.fastq\.gz)?(_R2\.fastq\.gz)?(_R1\.fq\.gz)?(_R2\.fq\.gz)?(_R1\.fq)?(_R2\.fq)?$).)*$'],
       showUpload: true,
       showCaption: true,
       dropZoneEnabled: true,
@@ -723,7 +736,7 @@ var sampleFileInput = function () {
       enctype: 'multipart/form-data',
       validateInitialCount: true,
       previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-      msgFilesTooMany: "You have uploaded ({n}) files, but max file count is {m}！",
+      msgFilesTooMany: "You have uploaded ({n}) files, but max file count is {m}!",
     });
 
     //Event after upload file
@@ -736,3 +749,37 @@ var sampleFileInput = function () {
   }
   return oFile;
 };
+
+// release date init
+function getNextYear() {
+  var date = new Date();
+  var nextYear = date.getFullYear() + 1;
+  var month = ('0' + (date.getMonth() + 1)).slice(-2);
+  var day = date.getDate();
+  var nextyear_today = nextYear + '-' + month + '-' + day;
+  return nextyear_today;
+}
+
+/**
+ * Get url params
+ */
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) { return pair[1]; }
+  }
+  return (false);
+}
+
+/**
+ * get different elements between two arrays
+ */
+function getNewArr(a, b) {
+  const arr = [...a, ...b];
+  const newArr = arr.filter(item => {
+    return !(a.includes(item) && b.includes(item));
+  });
+  return newArr;
+}

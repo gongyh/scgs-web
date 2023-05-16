@@ -11,7 +11,7 @@ require('bootstrap-fileinput/js/locales/zh');
 require('bootstrap-select/dist/js/bootstrap-select');
 require('owl.carousel2/dist/owl.carousel');
 require('slick-carousel/slick/slick');
-require('./datetimepicker');
+require('jquery-datetimepicker/build/jquery.datetimepicker.full')
 require('./common');
 
 //require('./plotting')

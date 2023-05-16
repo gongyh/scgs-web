@@ -3,7 +3,7 @@ FROM ncbi/sra-tools:x86_64-3.0.0 AS build-sra-tools
 # https://github.com/renoki-co/laravel-docker-base
 FROM quay.io/renokico/laravel-base:worker-1.2.0-8.0-cli-alpine
 
-RUN apk --update add bash procps graphviz openjdk8-jre python3 && \
+RUN apk --update add bash procps graphviz openjdk11-jre python3 && \
     rm -rf /var/cache/apk/*
 
 COPY --from=build-sra-tools /usr/local/bin /usr/local/bin

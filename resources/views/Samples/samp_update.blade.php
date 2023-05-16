@@ -14,7 +14,7 @@
               <input type="text" class="form-control" name="sample_label" id="sample_label" value={{$sample->sampleLabel}}>
             </div>
             <div class="form-group">
-              <label for="library_id">Accession</label><span class="text-danger"> *</span>
+              <label for="library_id">Library ID</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="library_id" id="library_id" value={{$sample->library_id}}>
             </div>
             <div class="form-group">
@@ -121,6 +121,8 @@
                 <option value="BGISEQ-500" class="BgiSeq">BGISEQ-500</option>
               </select>
             </div>
+          </div>
+          <div class="w-50">
             <div class="form-group" title="Free-form description of the methods used to create the sequencing library">
               <label for="design_description">Design Description</label><span class="text-danger"> *</span>
               <textarea class="form-control" name="design_description" id="design_description">{{$sample->design_description}}</textarea>
@@ -129,8 +131,6 @@
               <label for="filetype">Filetype</label><span class="text-danger"> *</span>
               <input type="text" class="form-control" name="filetype" id="filetype" disabled value="fastq">
             </div>
-          </div>
-          <div class="w-50">
             <div class="form-group">
               <label for="select_application">Choose a Application</label><span class="text-danger"> *</span>
               <select class="custom-select" name="select_application" id="select_application">
@@ -163,33 +163,11 @@
                 </div>
                 <div class="form-group">
                   <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
-                  <div class="btn-group ml-2">
-                    <button type="button" class="btn btn-info btn-sm">select files</button>
-                    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                      @foreach($files as $file)
-                      <span class="dropdown-item file_one_update">{{$file}}</span>
-                      @endforeach
-                    </div>
-                  </div>
-                  <input type="text" class="form-control mt-2" name="fileOne" id="fileOne" value={{$sample->filename1}}>
+                  <input disabled type="text" class="form-control mt-2" name="fileOne" id="fileOne" value={{$sample->filename1}}>
                 </div>
                 <div class="form-group file_two">
                   <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
-                  <div class="btn-group ml-2">
-                    <button type="button" class="btn btn-info btn-sm">select files</button>
-                    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                      @foreach($files as $file)
-                      <span class="dropdown-item file_two_update">{{$file}}</span>
-                      @endforeach
-                    </div>
-                  </div>
-                  <input type="text" class="form-control fileTwo" name="fileTwo" id="fileTwo" value={{$sample->filename2}}>
+                  <input disabled type="text" class="form-control mt-2" name="fileTwo" id="fileTwo" value={{$sample->filename2}}>
                 </div>
                 <!-- error message -->
                 @if (count($errors) > 0)
@@ -197,7 +175,7 @@
                   <ul>
                     @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
-                      @endforeach
+                    @endforeach
                   </ul>
                 </div>
                 @endif
@@ -210,8 +188,10 @@
                 @endisset
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
+        </div>
+        <div class="mt-2 d-flex flex-row-reverse">
+          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
     </div>

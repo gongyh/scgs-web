@@ -29,7 +29,7 @@ class ResultController extends Controller
          * Copy MultiQC and Kraken report to public/results
          */
         if ($request->input('sampleID')) {
-            // Sample
+            // Samples
             $sample_id = $request->input('sampleID');
             $project_id = Samples::where('id', $sample_id)->value('projects_id');
             $project_accession = Projects::where('id', $project_id)->value('doi');
@@ -59,7 +59,7 @@ class ResultController extends Controller
                 'species' => $species, 'project_id' => $project_id, 'project_accession' => $project_accession, 'file_prefix' => $file_prefix, 'preseq_array' => $preseq_array
             ]);
         } else {
-            // Project
+            // Projects
             $project_id = $request->input('projectID');
             $project_accession = Projects::where('id', $project_id)->value('doi');
             $project_user_id = Jobs::where('project_id', $project_id)->value('user_id');
@@ -74,18 +74,30 @@ class ResultController extends Controller
             $started = Jobs::where('project_id', $project_id)->value('started');
             $finished = Jobs::where('project_id', $project_id)->value('finished');
             $period = $finished - $started;
+            $result_path = $project_accession . '/' . $project_uuid . '/results/';
             $filename_array = array();
             $preseq_array = array();
+            $blob_path = $result_path . 'blob/';
             $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
-            foreach ($project_sample_filenames as $sample_filename) {
-                $sample_filename = $sample_filename['filename1'];
-                preg_match('/(_trimmed)?(_combined)?(\.R1)?(_1)?(\.1)?(_R1)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$/', $sample_filename, $matches);
-                $file_postfix = $matches[0];
-                $file_prefix = Str::before($sample_filename, $file_postfix);
-                $file_prefix = explode('/', $file_prefix);
-                $file_prefix = end($file_prefix);
-                array_push($filename_array, $file_prefix);
-                array_push($preseq_array, $file_prefix . '_c', $file_prefix . '_lc', $file_prefix . '_gc');
+            if (Storage::disk('local')->exists($blob_path)) {
+                $directories = Storage::directories($blob_path);
+                foreach ($directories as $directory) {
+                    $filename = explode("/", $directory);
+                    $filename = end($filename);
+                    array_push($filename_array, $filename);
+                    array_push($preseq_array, $filename . '_c', $filename . '_lc', $filename . '_gc');
+                }
+            } else {
+                foreach ($project_sample_filenames as $sample_filename) {
+                    $sample_filename = $sample_filename['filename1'];
+                    preg_match('/(_trimmed)?(_combined)?(\.R1)?(_1)?(\.1)?(_R1)?(\.1_val_1)?(_R1_val_1)?(\.fq)?(\.fastq)?(\.gz)?$/', $sample_filename, $matches);
+                    $file_postfix = $matches[0];
+                    $file_prefix = Str::before($sample_filename, $file_postfix);
+                    $file_prefix = explode('/', $file_prefix);
+                    $file_prefix = end($file_prefix);
+                    array_push($filename_array, $file_prefix);
+                    array_push($preseq_array, $file_prefix . '_c', $file_prefix . '_lc', $file_prefix . '_gc');
+                }
             }
             $command = Jobs::where('project_id', $project_id)->value('command');
             return view('RunResult.successRunning', ['started' => $started, 'finished' => $finished, 'period' => $period, 'command' => $command, 'project_user' => $project_user, 'project_uuid' => $project_uuid, 'project_id' => $project_id, 'project_accession' => $project_accession, 'species' => $species, 'filename_array' => $filename_array, 'preseq_array' => $preseq_array]);
@@ -112,7 +124,7 @@ class ResultController extends Controller
         $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
         $sample_sum = count($project_sample_filenames);
         if (Storage::disk('local')->exists($quast_path) && Storage::disk('local')->exists($blob_txt_path)) {
-            // quast
+            // Quast
             $quast_data = Storage::get($quast_path);
             $quast_data = explode("\n", $quast_data);
             $quast_show = array();
@@ -197,7 +209,7 @@ class ResultController extends Controller
             $data = array('quast' => $quast_detail, 'blob_table' => $blob_table);
             return response()->json(['code' => 200, 'data' => $data]);
         } elseif (!Storage::disk('local')->exists($quast_path) && Storage::disk('local')->exists($blob_txt_path)) {
-            // blob_header
+            // Blob_header
             $blob_txt = Storage::get($blob_txt_path);
             $blob_txt = explode("\n", $blob_txt);
             $blob_txt = array_splice($blob_txt, 10);
@@ -252,7 +264,7 @@ class ResultController extends Controller
         }
     }
 
-    // download result
+    // Download result
     public function download_result(Request $request)
     {
         if ($request->input('sampleID')) {
@@ -767,9 +779,9 @@ class ResultController extends Controller
             $files = Storage::files($base_path);
             foreach ($files as $file) {
                 $pattern = '/' . $bowtie . '.*?(.txt)$/is';
-                    if (preg_match($pattern, $file)) {
-                        $bowtie_path = $file;
-                    }
+                if (preg_match($pattern, $file)) {
+                    $bowtie_path = $file;
+                }
             }
             $bowtie_data = Storage::get($bowtie_path);
             $bowtie_data = explode("\n", $bowtie_data);

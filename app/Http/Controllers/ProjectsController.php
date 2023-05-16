@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use App\Labs;
 use App\Projects;
+use Illuminate\Contracts\Queue\Job;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -22,113 +23,113 @@ class ProjectsController extends Controller
     public function index(Request $request)
     {
         if ($request->isMethod('POST')) {
-            if($request->has('search_project')){
+            if ($request->has('search_project')) {
                 $search_project = $request->input('search_project');
                 $current_page = $request->input('page');
-                $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
-                $dates = array('2019','2020','2021');
-                if($request->input('search_project') == null){
-                    $Projects = Projects::orderBy('id','desc')->paginate(20);
+                $types = array('Marine', 'Skin', 'Gut', 'Oral', 'Freshwater', 'Soil', 'Building', 'Non_mammal_animal', 'Other_humanbodysite', 'Nose', 'Urogenital', 'Mammal_animal', 'Plant', 'River', 'Lake', 'Other_animal', 'Food', 'Sand', 'Milk');
+                $dates = array('2019', '2020', '2021', '2022');
+                if ($request->input('search_project') == null) {
+                    $Projects = Projects::orderBy('id', 'desc')->paginate(20);
                     if (auth::check()) {
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
                         $isAdmin = $user->email == env('ADMIN_EMAIL');
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'dates'));
                     } else {
                         $isPI  = collect();
                         $isAdmin = false;
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'dates'));
                     }
-                }else{
+                } else {
                     $Projects = Projects::where('name', 'LIKE', '%' . $search_project . '%')->paginate(20);
                     if (auth::check()) {
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
                         $isAdmin = $user->email == env('ADMIN_EMAIL');
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'dates'));
                     } else {
                         $isPI  = collect();
                         $isAdmin = false;
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'dates'));
                     }
                 }
-            }else{
+            } else {
                 $select_type = $request->input('select_type');
                 $select_date = $request->input('select_date');
                 $current_page = $request->input('page');
-                $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
-                $dates = array('2019','2020','2021');
-                if(empty($select_type) && empty($select_date)){
-                    $Projects = Projects::orderBy('id','desc')->paginate(20);
+                $types = array('Marine', 'Skin', 'Gut', 'Oral', 'Freshwater', 'Soil', 'Building', 'Non_mammal_animal', 'Other_humanbodysite', 'Nose', 'Urogenital', 'Mammal_animal', 'Plant', 'River', 'Lake', 'Other_animal', 'Food', 'Sand', 'Milk');
+                $dates = array('2019', '2020', '2021', '2022');
+                if (empty($select_type) && empty($select_date)) {
+                    $Projects = Projects::orderBy('id', 'desc')->paginate(20);
                     if (auth::check()) {
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
                         $isAdmin = $user->email == env('ADMIN_EMAIL');
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type','select_date','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'select_type', 'select_date', 'dates'));
                     } else {
                         $isPI  = collect();
                         $isAdmin = false;
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type','select_date','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'select_type', 'select_date', 'dates'));
                     }
-                }elseif(isset($select_type) && empty($select_date)){
-                    $Projects = Projects::where('type',$select_type)->paginate(20);
+                } elseif (isset($select_type) && empty($select_date)) {
+                    $Projects = Projects::where('type', $select_type)->paginate(20);
                     if (auth::check()) {
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
                         $isAdmin = $user->email == env('ADMIN_EMAIL');
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type','select_date','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'select_type', 'select_date', 'dates'));
                     } else {
                         $isPI  = collect();
                         $isAdmin = false;
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type','select_date','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'select_type', 'select_date', 'dates'));
                     }
-                }elseif(empty($select_type) && isset($select_date)){
-                    $Projects = Projects::whereYear('release_date',$select_date)->paginate(20);
+                } elseif (empty($select_type) && isset($select_date)) {
+                    $Projects = Projects::whereYear('release_date', $select_date)->paginate(20);
                     if (auth::check()) {
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
                         $isAdmin = $user->email == env('ADMIN_EMAIL');
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type','select_date','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'select_type', 'select_date', 'dates'));
                     } else {
                         $isPI  = collect();
                         $isAdmin = false;
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type','select_date','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'select_type', 'select_date', 'dates'));
                     }
-                }else{
-                    $Projects = Projects::where('type',$select_type)->whereYear('release_date',$select_date)->paginate(20);
+                } else {
+                    $Projects = Projects::where('type', $select_type)->whereYear('release_date', $select_date)->paginate(20);
                     if (auth::check()) {
                         $user = Auth::user();
                         $isPI = Labs::where('principleInvestigator', $user->name)->get();
                         $isAdmin = $user->email == env('ADMIN_EMAIL');
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type','select_date','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'select_type', 'select_date', 'dates'));
                     } else {
                         $isPI  = collect();
                         $isAdmin = false;
-                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','types','select_type','select_date','dates'));
+                        return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'types', 'select_type', 'select_date', 'dates'));
                     }
                 }
             }
         } else {
-            $Projects = Projects::orderBy('id','desc')->paginate(20);
+            $Projects = Projects::orderBy('id', 'desc')->paginate(20);
             $current_page = $request->input('page');
             $pageSize = 20;
-            $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
-            $dates = array('2019','2020','2021');
+            $types = array('Marine', 'Skin', 'Gut', 'Oral', 'Freshwater', 'Soil', 'Building', 'Non_mammal_animal', 'Other_humanbodysite', 'Nose', 'Urogenital', 'Mammal_animal', 'Plant', 'River', 'Lake', 'Other_animal', 'Food', 'Sand', 'Milk');
+            $dates = array('2019', '2020', '2021', '2022');
             try {
                 if (auth::check()) {
                     $user = Auth::user();
                     $isPI = Labs::where('principleInvestigator', $user->name)->get();
                     $isAdmin = $user->email == env('ADMIN_EMAIL');
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','pageSize','types','dates'));
+                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'pageSize', 'types', 'dates'));
                 } else {
                     $isPI  = collect();
                     $isAdmin = false;
-                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page','pageSize','types','dates'));
+                    return view('Projects.projects', compact('Projects', 'isPI', 'isAdmin', 'current_page', 'pageSize', 'types', 'dates'));
                 }
             } catch (\Illuminate\Database\QueryException $ex) {
                 // No projects records
                 $Projects = null;
-                return view('Projects.projects', compact('Projects','types','dates'));
+                return view('Projects.projects', compact('Projects', 'types', 'dates'));
             }
         }
     }
@@ -138,13 +139,13 @@ class ProjectsController extends Controller
         $username = Auth::user()->name;
         $labs = Labs::where('principleInvestigator', $username)->get();
         $create_lab_msg = $labs->count() > 0 ? false : true;
-        $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
-        $last_accession = DB::table('projects')->orderBy('id','desc')->first() ? DB::table('projects')->orderBy('id','desc')->first()->doi : 'CRP00000001';
+        $types = array('Marine', 'Skin', 'Gut', 'Oral', 'Freshwater', 'Soil', 'Building', 'Non_mammal_animal', 'Other_humanbodysite', 'Nose', 'Urogenital', 'Mammal_animal', 'Plant', 'River', 'Lake', 'Other_animal', 'Food', 'Sand', 'Milk');
+        $last_accession = DB::table('projects')->orderBy('id', 'desc')->first() ? DB::table('projects')->orderBy('id', 'desc')->first()->doi : 'CRP00000001';
         \preg_match('/CRP0+/', $last_accession, $dir);
         $accession_number = str_replace($dir[0], '', $last_accession);
         $accession_number = \number_format($accession_number);
         $accession_number += 1;
-        $access_num = \str_pad($accession_number,8,0,STR_PAD_LEFT);
+        $access_num = \str_pad($accession_number, 8, 0, STR_PAD_LEFT);
         $new_accession = "CRP" . $access_num;
         if ($request->isMethod('POST')) {
             $user = Auth::user();
@@ -164,11 +165,7 @@ class ProjectsController extends Controller
                 $new_proj_desc = $request->input('new_proj_desc');
                 $new_type = $request->input('new_type');
                 $new_collection_date = $request->input('new_collection_date');
-                $date = \DateTime::createFromFormat('m/d/Y',$new_collection_date);
-                $new_collection_date = $date->format('Y-m-d');
                 $new_release_date = $request->input('new_release_date');
-                $r_date = \DateTime::createFromFormat('m/d/Y',$new_release_date);
-                $new_release_date = $r_date->format('Y-m-d');
                 $new_location = $request->input('new_location');
                 $labID = $request->input('labID');
                 Projects::create([
@@ -201,11 +198,7 @@ class ProjectsController extends Controller
                 $new_proj_desc = $request->input('new_proj_desc');
                 $new_type = $request->input('new_type');
                 $new_collection_date = $request->input('new_collection_date');
-                $date = \DateTime::createFromFormat('m/d/Y',$new_collection_date);
-                $new_collection_date = $date->format('Y-m-d');
                 $new_release_date = $request->input('new_release_date');
-                $r_date = \DateTime::createFromFormat('m/d/Y',$new_release_date);
-                $new_release_date = $date->format('Y-m-d');
                 $new_location = $request->input('new_location');
                 Projects::create([
                     'labs_id' => $labId,
@@ -226,10 +219,10 @@ class ProjectsController extends Controller
         }
         if ($request->input('labID')) {
             $show_labs = false;
-            return view('Projects.proj_create',compact('types','show_labs'));
+            return view('Projects.proj_create', compact('types', 'show_labs'));
         } else {
             $show_labs = true;
-            return view('Projects.proj_create', compact('types','show_labs','labs','create_lab_msg'));
+            return view('Projects.proj_create', compact('types', 'show_labs', 'labs', 'create_lab_msg'));
         }
     }
 
@@ -262,7 +255,7 @@ class ProjectsController extends Controller
     {
         $proj_id = $request->input('projectID');
         $project = Projects::find($proj_id);
-        $types = array('Marine','Skin','Gut','Oral','Freshwater','Soil','Building','Non_mammal_animal','Other_humanbodysite','Nose','Urogenital','Mammal_animal','Plant','River','Lake','Other_animal','Food','Sand','Milk');
+        $types = array('Marine', 'Skin', 'Gut', 'Oral', 'Freshwater', 'Soil', 'Building', 'Non_mammal_animal', 'Other_humanbodysite', 'Nose', 'Urogenital', 'Mammal_animal', 'Plant', 'River', 'Lake', 'Other_animal', 'Food', 'Sand', 'Milk');
         if ($request->isMethod('POST')) {
             $input = $request->all();
             Validator::make($input, [
@@ -274,38 +267,29 @@ class ProjectsController extends Controller
                 'description' => [
                     'required',
                     'max:2000',
-                    Rule::unique('projects')->ignore($proj_id)
                 ],
                 'type' => [
                     'required',
                     'max:250',
-                    Rule::unique('projects')->ignore($proj_id)
                 ],
                 'collection_date' => [
                     'required',
                     'max:250',
-                    Rule::unique('projects')->ignore($proj_id)
                 ],
                 'release_date' => [
                     'required',
                     'max:250',
-                    Rule::unique('projects')->ignore($proj_id)
                 ],
                 'location' => [
                     'required',
                     'max:250',
-                    Rule::unique('projects')->ignore($proj_id)
                 ]
             ])->validate();
             $new_proj = $input['name'];
             $new_desc = $input['description'];
             $new_type = $input['type'];
             $new_collection_date = $input['collection_date'];
-            $date = \DateTime::createFromFormat('m/d/Y',$new_collection_date);
-            $new_collection_date = $date->format('Y-m-d');
             $new_release_date = $input['release_date'];
-            $r_date = \DateTime::createFromFormat('m/d/Y',$new_release_date);
-            $new_release_date = $r_date->format('Y-m-d');
             $new_location = $input['location'];
             $project['name'] = $new_proj;
             $project['description'] = $new_desc;
@@ -330,6 +314,6 @@ class ProjectsController extends Controller
                 }
             }
         }
-        return view('Projects.proj_update', ['project' => $project,'types' => $types]);
+        return view('Projects.proj_update', ['project' => $project, 'types' => $types]);
     }
 }

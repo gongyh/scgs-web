@@ -60,12 +60,12 @@ class MvSamples implements ShouldQueue
         $sample = Samples::find($sample_id);
         $mk_project_dir = 'if [ ! -d "' . $base_path . $Accession . '" ]; then mkdir -p ' . $base_path . $Accession . '; fi';
         if(is_null($this->filename2)){
-            $cp_sample_file = 'if [ ! -f "' . $base_path . $Accession . '/' . $this->filename1 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename1 . ' ' . $base_path . $Accession . '; fi';
+            $mv_sample_file = 'if [ ! -f "' . $base_path . $Accession . '/' . $this->filename1 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename1 . ' ' . $base_path . $Accession . '; fi';
         }else{
-            $cp_sample_file = 'if [ ! -f "' . $base_path . $Accession . '/' . $this->filename1 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename1 . ' ' . $base_path . $Accession . '; fi && if [ ! -f "' . $base_path . $Accession . '/' . $this->filename2 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename2 . ' ' . $base_path . $Accession . '; fi';
+            $mv_sample_file = 'if [ ! -f "' . $base_path . $Accession . '/' . $this->filename1 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename1 . ' ' . $base_path . $Accession . '; fi && if [ ! -f "' . $base_path . $Accession . '/' . $this->filename2 . '" ]; then cp ' . $base_path . 'meta-data/' . $user . '/' . $this->filename2 . ' ' . $base_path . $Accession . '; fi';
         }
         system($mk_project_dir);
-        system($cp_sample_file);
+        system($mv_sample_file);
         $sample->isPrepared = 1;  //Prepared : 1
         $sample->save();
     }

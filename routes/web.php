@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,69 +13,68 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'labs'], function () {
-    Route::any('/update', 'LabsController@update');
-    Route::any('/delete', 'LabsController@delete');
-    Route::any('/create', 'LabsController@create')->middleware('auth');
-    Route::get('/projects', 'ProjectsController@selectProj');
+    Route::any('update', 'LabsController@update')->middleware('ban_labs_update');
+    Route::any('delete', 'LabsController@delete')->middleware('ban_operation');
+    Route::any('create', 'LabsController@create')->middleware('auth');
+    Route::get('projects', 'ProjectsController@selectProj');
 });
 
-Route::group(['prefix' => 'projects'], function () {
-    Route::any('/', 'ProjectsController@index');
-    Route::any('/update', 'ProjectsController@update');
-    Route::any('/delete', 'ProjectsController@delete');
-    Route::any('/create', 'ProjectsController@create')->middleware('auth');
-    Route::get('/projectInfo', 'ProjectsController@detail');
+Route::middleware('auth')->group(function () {
+    Route::any('projects/', 'ProjectsController@index')->withoutMiddleware('auth');
+    Route::any('projects/update', 'ProjectsController@update');
+    Route::any('projects/delete', 'ProjectsController@delete');
+    Route::any('projects/create', 'ProjectsController@create');
 });
 
-Route::group(['prefix' => 'samples'], function () {
-    Route::get('/', 'SamplesController@index');
-    Route::any('/update', 'SamplesController@update');
-    Route::any('/create', 'SamplesController@create');
-    Route::any('/delete', 'SamplesController@delete');
-    Route::any('/upload', 'SamplesController@upload');
-    Route::get('/template/download', 'SamplesController@download');
-    Route::any('/fileUpload', 'SamplesController@file_upload');
+Route::middleware('auth')->group(function () {
+    Route::get('samples/', 'SamplesController@index')->withoutMiddleware('auth');
+    Route::any('samples/update', 'SamplesController@update');
+    Route::any('samples/create', 'SamplesController@create');
+    Route::any('samples/delete', 'SamplesController@delete');
+    Route::any('samples/upload', 'SamplesController@upload');
+    Route::get('samples/template/download', 'SamplesController@download');
+    Route::any('samples/fileUpload', 'SamplesController@file_upload');
 });
 
-Route::group(['prefix' => 'workspace'], function () {
-    Route::get('/', 'WorkspaceController@index')->middleware('auth');
-    Route::get('/myLab', 'WorkspaceController@myLab')->middleware('auth');
-    Route::get('/myProject', 'WorkspaceController@myProject')->middleware('auth');
-    Route::get('/myLab/projects', 'WorkspaceController@myProject')->middleware('auth');
-    Route::any('/samples', 'SamplesController@index')->middleware('auth');
-    Route::get('/runningSample', 'RunController@index')->middleware('auth');
-    Route::any('/addSampleFiles', 'WorkspaceController@addSamples')->middleware('auth');
-    Route::any('/addSampleFiles/upload', 'WorkspaceController@addSampleFiles')->middleware('auth');
-    Route::get('/manageRunning', 'WorkspaceController@manageRunning')->middleware('auth');
-    Route::any('/manageRunning/terminate', 'WorkspaceController@runningTerminate')->middleware('auth');
-    Route::get('/manageWaiting', 'WorkspaceController@manageWaiting')->middleware('auth');
-    Route::any('/manageWaiting/terminate', 'WorkspaceController@waitingTerminate')->middleware('auth');
-    Route::get('/ncbifilesList', 'WorkspaceController@ncbifilesList');
-    Route::get('/ncbi_download_status', 'WorkspaceController@ncbi_download_status');
-    Route::get('/weblog_clear', 'WorkspaceController@weblog_clear');
+Route::middleware('auth')->group(function () {
+    Route::get('workspace/', 'WorkspaceController@index');
+    Route::get('workspace/myLab', 'WorkspaceController@myLab');
+    Route::get('workspace/myProject', 'WorkspaceController@myProject');
+    Route::get('workspace/myLab/projects', 'WorkspaceController@myProject');
+    Route::any('workspace/samples', 'SamplesController@index');
+    Route::get('workspace/runningSample', 'RunController@index');
+    Route::any('workspace/addSampleFiles', 'WorkspaceController@addSamples');
+    Route::any('workspace/addSampleFiles/upload', 'WorkspaceController@addSampleFiles');
+    Route::get('workspace/manageRunning', 'WorkspaceController@manageRunning');
+    Route::any('workspace/manageRunning/terminate', 'WorkspaceController@runningTerminate');
+    Route::get('workspace/manageWaiting', 'WorkspaceController@manageWaiting');
+    Route::any('workspace/manageWaiting/terminate', 'WorkspaceController@waitingTerminate');
+    Route::get('workspace/ncbifilesList', 'WorkspaceController@ncbifilesList');
+    Route::get('workspace/ncbi_download_status', 'WorkspaceController@ncbi_download_status');
+    Route::get('workspace/weblog_clear', 'WorkspaceController@weblog_clear');
 });
 
-Route::group(['prefix' => 'workspace/institutions'], function () {
-    Route::get('/', 'InstitutionsController@index')->middleware('ban_operation');
-    Route::any('/create', 'InstitutionsController@create')->middleware('ban_operation');
-    Route::any('/delete', 'InstitutionsController@delete')->middleware('ban_operation');
-    Route::any('/update', 'InstitutionsController@update')->middleware('ban_operation');
+Route::middleware('ban_operation')->group(function () {
+    Route::get('workspace/institutions/', 'InstitutionsController@index');
+    Route::any('workspace/institutions/create', 'InstitutionsController@create');
+    Route::any('workspace/institutions/delete', 'InstitutionsController@delete');
+    Route::any('workspace/institutions/update', 'InstitutionsController@update');
 });
 
-Route::group(['prefix' => 'workspace/species'], function () {
-    Route::get('/', 'SpeciesController@index')->middleware('ban_operation');
-    Route::any('/update', 'SpeciesController@update')->middleware('ban_operation');
-    Route::any('/create', 'SpeciesController@create')->middleware('ban_operation');
-    Route::any('/delete', 'SpeciesController@delete')->middleware('ban_operation');
-    Route::any('/template/download', 'SpeciesController@download')->middleware('ban_operation');
-    Route::any('/upload', 'SpeciesController@upload')->middleware('ban_operation');
+Route::middleware('ban_operation')->group(function () {
+    Route::get('workspace/species/', 'SpeciesController@index');
+    Route::any('workspace/species/update', 'SpeciesController@update');
+    Route::any('workspace/species/create', 'SpeciesController@create');
+    Route::any('workspace/species/delete', 'SpeciesController@delete');
+    Route::any('workspace/species/template/download', 'SpeciesController@download');
+    Route::any('workspace/species/upload', 'SpeciesController@upload');
 });
 
-Route::group(['prefix' => 'workspace/applications'], function () {
-    Route::get('/', 'ApplicationsController@index')->middleware('ban_operation');
-    Route::any('/update', 'ApplicationsController@update')->middleware('ban_operation');
-    Route::any('/create', 'ApplicationsController@create')->middleware('ban_operation');
-    Route::any('/delete', 'ApplicationsController@delete')->middleware('ban_operation');
+Route::middleware('ban_operation')->group(function () {
+    Route::get('workspace/applications', 'ApplicationsController@index');
+    Route::any('workspace/applications/update', 'ApplicationsController@update');
+    Route::any('workspace/applications/create', 'ApplicationsController@create');
+    Route::any('workspace/applications/delete', 'ApplicationsController@delete');
 });
 
 Route::group(['prefix' => 'workspace/pipelineParams'], function () {
@@ -92,7 +90,7 @@ Route::group(['prefix' => 'execute'], function () {
 });
 
 Route::group(['prefix' => 'successRunning'], function () {
-    Route::get('/', 'ResultController@success_running');
+    Route::get('/', 'ResultController@success_running')->middleware('browse_result');
     Route::post('/home', 'ResultController@home');
     Route::post('/quast', 'ResultController@quast');
     Route::post('/blob', 'ResultController@blob_body');
@@ -125,3 +123,6 @@ Route::get('/contact', 'Contact2Controller@index');
 Route::post('/contact', 'Contact2Controller@store');
 
 Route::get('/health', 'ScgsHealthcheckController@handle');
+
+Route::post('/authenticate', 'AuthenticateController@index');
+
