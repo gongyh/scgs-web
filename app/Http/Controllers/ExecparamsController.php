@@ -20,6 +20,7 @@ use App\Weblog;
 use App\Jobs\RunPipeline;
 use App\Jobs\RunProjPipeline;
 use PhpOffice\PhpSpreadsheet\Helper\Sample;
+use stdClass;
 
 class ExecparamsController extends Controller
 {
@@ -33,17 +34,18 @@ class ExecparamsController extends Controller
 
             //Get form post data
             $request->has('sampleID') ? $sample_id = $request->input('sampleID') : $project_id = $request->input('projectID');
-            $request->input('ass') == 'ass' ? $execute_params['ass'] = true : $execute_params['ass'] = false;
-            $request->input('snv') == 'snv' ? $execute_params['snv'] = true : $execute_params['snv'] = false;
-            $request->input('cnv') == 'cnv' ? $execute_params['cnv'] = true : $execute_params['cnv'] = false;
-            $request->input('bulk') == 'bulk' ? $execute_params['bulk'] = true : $execute_params['bulk'] = false;
-            $request->input('nanopore') == 'nanopore' ? $execute_params['nanopore'] = true : $execute_params['nanopore'] = false;
-            $request->input('saturation') == 'saturation' ? $execute_params['saturation'] = true : $execute_params['saturation'] = false;
-            $request->input('no_normalize') == 'no_normalize' ? $execute_params['no_normalize'] = true : $execute_params['no_normalize'] = false;
-            $request->input('acquired') == 'acquired' ? $execute_params['acquired'] = true : $execute_params['acquired'] = false;
-            $request->input('split') == 'split' ? $execute_params['split'] = true : $execute_params['split'] = false;
-            $request->input('saveTrimmed') == 'saveTrimmed' ? $execute_params['saveTrimmed'] = true : $execute_params['saveTrimmed'] = false;
-            $request->input('saveAlignedIntermediates') == 'saveAlignedIntermediates' ? $execute_params['saveAlignedIntermediates'] = true : $execute_params['saveAlignedIntermediates'] = false;
+            $switch = array(
+                'ass', 'snv', 'cnv', 'bulk', 'nanopore', 'saturation', 'no_normalize', 'acquired', 'split', 'split_euk', 'acdc', 'blob',
+                'saveTrimmed', 'saveAlignedIntermediates', 'graphbin', 'euk', 'fungus', 'resume', 'genus', 'augustus_species', 'point',
+                'nt', 'eggnog', 'kraken', 'kofam_profile', 'checkm2', 'eukcc_db', 'gtdb'
+            );
+            foreach ($switch as $i) {
+                if ($request->input($i) == $i) {
+                    $execute_params[$i] = true;
+                } else {
+                    $execute_params[$i] = false;
+                }
+            }
             if ($request->has('reference_genome')) {
                 if ($request->input('reference_genome') == 'denovo') {
                     $execute_params['reference_genome'] = 'denovo';
@@ -53,19 +55,8 @@ class ExecparamsController extends Controller
                     $execute_params['reference_genome'] = $reference_genome;
                 }
             }
-            $request->input('euk') == 'euk' ? $execute_params['euk'] = true : $execute_params['euk'] = false;
-            $request->input('fungus') == 'fungus' ? $execute_params['fungus'] = true : $execute_params['fungus'] = false;
-            $request->input('resume') == 'resume' ? $execute_params['resume'] = true : $execute_params['resume'] = false;
-            $request->input('genus') == 'genus' ? $execute_params['genus'] = true : $execute_params['genus'] = false;
-            $request->input('augustus_species') == 'augustus_species' ? $execute_params['augustus_species'] = true : $execute_params['augustus_species'] = false;
-            $request->input('resfinder_db') == 'resfinder_db' ? $execute_params['resfinder_db'] = true : $execute_params['resfinder_db'] = false;
-            $request->input('nt_db') == 'nt_db' ? $execute_params['nt_db'] = true : $execute_params['nt_db'] = false;
-            $eggnog = $request->input('eggnog_db') == 'eggnog_db' ? $execute_params['eggnog_db'] = true : $execute_params['eggnog_db'] = false;
-            $request->input('kraken_db') == 'kraken_db' ? $execute_params['kraken_db'] = true : $execute_params['kraken_db'] = false;
-            $request->input('kofam_profile') == 'kofam_profile' ? $execute_params['kofam_profile'] = true : $execute_params['kofam_profile'] = false;
             $request->input('kofam_profile') == 'kofam_profile' ? $execute_params['kofam_kolist'] = true : $execute_params['kofam_kolist'] = false;
-            $request->input('eukcc_db') == 'eukcc_db' ? $execute_params['eukcc_db'] = true : $execute_params['eukcc_db'] = false;
-            if ($execute_params['genus'] != null) {
+            if ($execute_params['genus']) {
                 $this->validate($request, [
                     'genus_name' => 'required|max:200'
                 ]);
@@ -74,13 +65,19 @@ class ExecparamsController extends Controller
             } else {
                 $execute_params['genus_name'] = '';
             }
-            if ($execute_params['augustus_species'] != null) {
-                $augustus_species_name = $request->input('augustus_species_name');
-                $execute_params['augustus_species_name'] = $augustus_species_name;
+            if ($execute_params['augustus_species']) {
+                $execute_params['augustus_species_name'] = $request->input('augustus_species_name');
             } else {
-                $augustus_species_name = null;
                 $execute_params['augustus_species_name'] = '';
             }
+            if ($execute_params['split']) {
+                $execute_params['split_bac_level'] = $request->input('split_bac_level');
+                $execute_params['split_euk_level'] = $request->input('split_euk_level');
+            } else {
+                $execute_params['split_bac_level'] = '';
+                $execute_params['split_euk_level'] = '';
+            }
+            $execute_params['ver'] = $request->input('ver');
             $execute_params_json = json_encode($execute_params);
             if ($request->input('sampleID')) {
                 if (Execparams::where('samples_id', $sample_id)->get()->count() == 0) {
@@ -109,7 +106,6 @@ class ExecparamsController extends Controller
                     $execparams->save();
                 }
             }
-
             /**
              * Execparams reading, concat command
              */
@@ -122,11 +118,14 @@ class ExecparamsController extends Controller
             $cnv = $execute_params->cnv ? '--cnv ' : '';
             $snv = $execute_params->snv ? '--snv ' : '';
             $bulk = $execute_params->bulk ? '--bulk ' : '';
+            $acdc = $execute_params->acdc ? '--acdc ' : '';
             $nanopore = $execute_params->nanopore ? '--nanopore ' : '';
             $no_normalize = $execute_params->no_normalize ? '--no_normalize ' : '';
             $saturation = $execute_params->saturation ? '--saturation ' : '';
             $acquired = $execute_params->acquired ? '--acquired ' : '';
             $split = $execute_params->split ? '--split ' : '';
+            $split_euk = $execute_params->split_euk ? '--split_euk ' : '';
+            $graphbin = $execute_params->graphbin ? '--graphbin ' : '';
             $saveTrimmed = $execute_params->saveTrimmed ? '--saveTrimmed ' : '';
             $saveAlignedIntermediates = $execute_params->saveAlignedIntermediates ? '--saveAlignedIntermediates ' : '';
             $euk = $execute_params->euk ? '--euk ' : '';
@@ -139,29 +138,48 @@ class ExecparamsController extends Controller
                 $genus = '';
             }
             if ($execute_params->augustus_species) {
-                $augustus_species_name = $execute_params->augustus_species_name;
-                $augustus_species = '--augustus_species ' . $augustus_species_name . ' ';
+                $augustus_species = '--augustus_species ' . $execute_params->augustus_species_name . ' ';
             } else {
                 $augustus_species = '';
+            }
+            if ($execute_params->split) {
+                if ($execute_params->split_bac_level == 'genus') {
+                    $split_bac_level = '';
+                } else {
+                    $split_bac_level = '--split_bac_level ' . $execute_params->split_bac_level . ' ';
+                }
+                if ($execute_params->split_euk_level == 'genus') {
+                    $split_euk_level = '';
+                } else {
+                    $split_euk_level = '--split_euk_level ' . $execute_params->split_euk_level . ' ';
+                }
+            } else {
+                $split_bac_level = '';
+                $split_euk_level = '';
             }
             /**
              * Pipeline params database path
              */
             $pipeline_params = PipelineParams::find(1);
-            $resfinder_db_path = $pipeline_params->resfinder_db_path;
-            $nt_db_path = $pipeline_params->nt_db_path;
-            $eggnog_db_path = $pipeline_params->eggnog_db_path;
-            $kraken_db_path = $pipeline_params->kraken_db_path;
+            $nt_db = $pipeline_params->nt_db_path;
+            $blob_path = $pipeline_params->blob_path;
+            $eggnog_db = $pipeline_params->eggnog_db_path;
+            $kraken2_db = $pipeline_params->kraken2_db_path;
             $kofam_profile_path = $pipeline_params->kofam_profile_path;
             $kofam_kolist_path = $pipeline_params->kofam_kolist_path;
+            $checkm2_db_path = $pipeline_params->checkm2_db_path;
             $eukcc_db_path = $pipeline_params->eukcc_db_path;
-            $resfinder_db = $execute_params->resfinder_db ? '--resfinder_db ' . $resfinder_db_path . ' ' : '';
-            $nt_db = $execute_params->nt_db ? '--nt_db ' . $nt_db_path . ' ' : '';
-            $kraken_db = $execute_params->kraken_db ? '--kraken_db ' . $kraken_db_path . ' ' : '';
-            $eggnog_db = $execute_params->eggnog_db ? '--eggnog_db ' . $eggnog_db_path . ' ' : '';
+            $gtdb_path = $pipeline_params->gtdb_path;
+            $point = $execute_params->point ? '--point ' : '';
+            $nt = $execute_params->nt ? '--blastn --nt_db ' . $nt_db . ' ' : '';
+            $blob = $execute_params->blob ? '--blob --blob_db ' . $blob_path . ' ' : '';
+            $kraken = $execute_params->kraken ? '--kraken --kraken_db ' . $kraken2_db . ' ' : '';
+            $eggnog = $execute_params->eggnog ? '--eggnog --eggnog_db ' . $eggnog_db . ' ' : '';
             $kofam_profile = $execute_params->kofam_profile ? '--kofam_profile ' . $kofam_profile_path . ' ' : '';
             $kofam_kolist = $execute_params->kofam_kolist ? '--kofam_kolist ' . $kofam_kolist_path . ' ' : '';
+            $checkm2_db = $execute_params->checkm2 ? '--checkm2 --checkm2_db ' . $checkm2_db_path . ' ' : '';
             $eukcc_db = $execute_params->eukcc_db ? '--eukcc_db ' . $eukcc_db_path . ' ' : '';
+            $gtdbtk = $execute_params->gtdb ? '--gtdbtk --gtdb' . $gtdb_path . ' ' : '';
 
             if ($request->input('sampleID')) {
                 $sampleID = $request->input('sampleID');
@@ -190,7 +208,9 @@ class ExecparamsController extends Controller
                     $filename = str_replace('R1', 'R[1,2]', $filename1);
                 } elseif (strpos($filename1, '_1')) {
                     $filename = str_replace('_1', '_[1,2]', $filename1);
-                }
+                } elseif (strpos($filename1, '.1')) {
+                  $filename = str_replace('.1', '.[1,2]', $filename1);
+              }
 
                 // Save records as sample username + sampleLabel
                 $sample_label = Samples::where('id', $sample_id)->value('sampleLabel');
@@ -198,10 +218,11 @@ class ExecparamsController extends Controller
 
                 if ($filename2 != null) {
                     // PairEnds
-                    $cmd = '--reads "' . $base_path . $accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . $resume . '--outdir results -w work';
+                    $cmd = '--reads "' . $base_path . $accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $split_euk . $split_bac_level . $split_euk_level . $graphbin . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $acdc . $point . $nt .
+                        $blob . $eggnog . $kraken . $kofam_profile . $kofam_kolist . $checkm2_db . $eukcc_db . $gtdbtk . $resume . '--outdir results -w work';
                 } else {
                     // SingleEnds
-                    $cmd = '--reads "' . $base_path . $accession . '/' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--single_end ' . $resume . '--outdir results -w work';
+                    $cmd = '--reads "' . $base_path . $accession . '/' . $filename1 . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $split_euk . $split_bac_level . $split_euk_level . $graphbin . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $acdc . $point . $nt . $blob . $eggnog . $kraken . $kofam_profile . $kofam_kolist . $checkm2_db . $eukcc_db . $gtdbtk . '--single_end ' . $resume . '--outdir results -w work';
                 }
             } else {
                 $projectID = $request->input('projectID');
@@ -238,10 +259,10 @@ class ExecparamsController extends Controller
 
                 if ($filename2 != null) {
                     // Paired-End
-                    $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . $resume . '--outdir results -w work';
+                    $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $split_euk . $split_bac_level . $graphbin . $split_euk_level . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $acdc . $point . $nt . $blob . $eggnog . $kraken . $kofam_profile . $kofam_kolist . $checkm2_db . $eukcc_db . $gtdbtk . $resume . '--outdir results -w work';
                 } else {
                     // Single
-                    $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename_single . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $augustus_species . $resfinder_db . $nt_db . $eggnog_db . $kraken_db . $kofam_profile . $kofam_kolist . $eukcc_db . '--single_end ' . $resume . '--outdir results -w work';
+                    $cmd = '--reads "' . $base_path . $project_accession . '/' . $filename_single . '" ' . $fasta . $gff . $ass . $cnv . $snv . $bulk . $nanopore . $no_normalize . $saturation . $acquired . $split . $split_euk . $split_bac_level . $graphbin . $split_euk_level . $saveTrimmed . $saveAlignedIntermediates . $euk . $fungus . $genus . $acdc .$augustus_species . $point . $nt . $blob . $eggnog . $kraken . $kofam_profile . $kofam_kolist . $checkm2_db . $eukcc_db . $gtdbtk . '--single_end ' . $resume . '--outdir results -w work';
                 }
             }
 
@@ -319,55 +340,44 @@ class ExecparamsController extends Controller
             }
         }
         $PipelineParams = PipelineParams::find(1);
+        $ranks = array('domain', 'order', 'phylum', 'class', 'genus', 'species');
+        $Tswitch = array('ass', 'acquired', 'resume', 'point', 'blob', 'nt', 'kraken', 'eggnog', 'kofam_profile', 'kofam_kolist', 'checkm2');
+        $Fswitch = array(
+            'snv', 'cnv', 'bulk', 'nanopore', 'saturation', 'no_normalize', 'split', 'split_euk', 'acdc',
+            'saveTrimmed', 'saveAlignedIntermediates', 'graphbin', 'euk', 'fungus', 'genus', 'augustus_species', 'eukcc_db', 'gtdb'
+        );
+        $Nswitch = array('augustus_species_name', 'genus_name', 'split_bac_level', 'split_euk_level');
+        $checkm_genus = Storage::get('checkm_genus.txt');
+        $checkm_genus = explode("\r\n", $checkm_genus);
+        $genus_list = array();
+        foreach ($checkm_genus as $checkm) {
+            $checkm = str_replace(" ", "", $checkm);
+            $checkm = preg_replace("/\\d+/", '', $checkm);
+            array_push($genus_list, $checkm);
+        }
+        $augustus_species_lists = array(
+            'Conidiobolus_coronatus', 'E_coli_K12', 'Xipophorus_maculatus', 'adorsata', 'aedes', 'amphimedon', 'ancylostoma_ceylanicum', 'anidulans', 'arabidopsis', 'aspergillus_fumigatus', 'aspergillus_nidulans', 'aspergillus_oryzae', 'aspergillus_terreus', 'b_pseudomallei', 'bombus_impatiens1', ' bombus_terrestris2', 'botrytis_cinerea', 'brugia', 'c_elegans_trsk', 'cacao', 'caenorhabditis', 'camponotus_floridanus', 'candida_albicans', 'candida_guilliermondii', 'candida_tropicalis', 'chaetomium_globosum', 'chicken', 'chiloscyllium', 'chlamy2011', 'chlamydomonas', 'chlorella', 'ciona', 'coccidioides_immitis', 'coprinus', 'coprinus_cinereus', 'coyote_tobacco', 'cryptococcus', 'cryptococcus_neoformans_gattii', 'cryptococcus_neoformans_neoformans_B', 'cryptococcus_neoformans_neoformans_JEC21', 'culex', 'debaryomyces_hansenii', 'elephant_shark', 'encephalitozoon_cuniculi_GB', 'eremothecium_gossypii', 'fly', 'fly_exp', 'fusarium', 'fusarium_graminearum', 'galdieria', 'generic', 'heliconius_melpomene1', 'histoplasma', 'histoplasma_capsulatum', 'honeybee1', 'human', 'japaneselamprey', 'kluyveromyces_lactis', 'laccaria_bicolor', 'leishmania_tarentolae', 'lodderomyces_elongisporus', 'magnaporthe_grisea', 'maize', 'maize5', 'mnemiopsis_leidyi', 'nasonia', 'nematostella_vectensis', 'neurospora', 'neurospora_crassa', 'parasteatoda', 'pchrysosporium', 'pea_aphid', 'pfalciparum', 'phanerochaete_chrysosporium', 'pichia_stipitis', 'pisaster', 'pneumocystis', 'rhincodon', 'rhizopus_oryzae', 'rhodnius', 'rice', 's_aureus', 's_pneumoniae', 'saccharomyces', 'saccharomyces_cerevisiae_S288C', 'saccharomyces_cerevisiae_rm11-1a_1', 'schistosoma', 'schistosoma2', 'schizosaccharomyces_pombe', 'scyliorhinus', 'sealamprey', 'strongylocentrotus_purpuratus', 'sulfolobus_solfataricus', 'template_prokaryotic', 'tetrahymena', 'thermoanaerobacter_tengcongensis', 'tomato', 'toxoplasma', 'tribolium2012', 'trichinella', 'ustilago', 'ustilago_maydis', 'verticillium_albo_atrum1', 'verticillium_longisporum1', 'volvox', 'wheat', 'yarrowia_lipolytica', 'zebrafish'
+        );
         if ($request->has('sampleID')) {
             $sample_id = $request->input('sampleID');
             $project_id = Samples::where('id', $sample_id)->value('projects_id');
             $can_exec = Jobs::where('sample_id', $sample_id)->count() == 0 || Jobs::where('sample_id', $sample_id)->orderBy('id', 'desc')->value('status') == 2 || Jobs::where('sample_id', $sample_id)->orderBy('id', 'desc')->value('status') == 3;
-            $checkm_genus = Storage::get('checkm_genus.txt');
-            $checkm_genus = explode("\r\n", $checkm_genus);
-            $genus_list = array();
-            foreach ($checkm_genus as $checkm) {
-                $checkm = str_replace(" ", "", $checkm);
-                $checkm = preg_replace("/\\d+/", '', $checkm);
-                array_push($genus_list, $checkm);
-            }
-            $augustus_species_lists = array(
-                'Conidiobolus_coronatus', 'E_coli_K12', 'Xipophorus_maculatus', 'adorsata', 'aedes', 'amphimedon', 'ancylostoma_ceylanicum', 'anidulans', 'arabidopsis', 'aspergillus_fumigatus', 'aspergillus_nidulans', 'aspergillus_oryzae', 'aspergillus_terreus', 'b_pseudomallei', 'bombus_impatiens1', ' bombus_terrestris2', 'botrytis_cinerea', 'brugia', 'c_elegans_trsk', 'cacao', 'caenorhabditis', 'camponotus_floridanus', 'candida_albicans', 'candida_guilliermondii', 'candida_tropicalis', 'chaetomium_globosum', 'chicken', 'chiloscyllium', 'chlamy2011', 'chlamydomonas', 'chlorella', 'ciona', 'coccidioides_immitis', 'coprinus', 'coprinus_cinereus', 'coyote_tobacco', 'cryptococcus', 'cryptococcus_neoformans_gattii', 'cryptococcus_neoformans_neoformans_B', 'cryptococcus_neoformans_neoformans_JEC21', 'culex', 'debaryomyces_hansenii', 'elephant_shark', 'encephalitozoon_cuniculi_GB', 'eremothecium_gossypii', 'fly', 'fly_exp', 'fusarium', 'fusarium_graminearum', 'galdieria', 'generic', 'heliconius_melpomene1', 'histoplasma', 'histoplasma_capsulatum', 'honeybee1', 'human', 'japaneselamprey', 'kluyveromyces_lactis', 'laccaria_bicolor', 'leishmania_tarentolae', 'lodderomyces_elongisporus', 'magnaporthe_grisea', 'maize', 'maize5', 'mnemiopsis_leidyi', 'nasonia', 'nematostella_vectensis', 'neurospora', 'neurospora_crassa', 'parasteatoda', 'pchrysosporium', 'pea_aphid', 'pfalciparum', 'phanerochaete_chrysosporium', 'pichia_stipitis', 'pisaster', 'pneumocystis', 'rhincodon', 'rhizopus_oryzae', 'rhodnius', 'rice', 's_aureus', 's_pneumoniae', 'saccharomyces', 'saccharomyces_cerevisiae_S288C', 'saccharomyces_cerevisiae_rm11-1a_1', 'schistosoma', 'schistosoma2', 'schizosaccharomyces_pombe', 'scyliorhinus', 'sealamprey', 'strongylocentrotus_purpuratus', 'sulfolobus_solfataricus', 'template_prokaryotic', 'tetrahymena', 'thermoanaerobacter_tengcongensis', 'tomato', 'toxoplasma', 'tribolium2012', 'trichinella', 'ustilago', 'ustilago_maydis', 'verticillium_albo_atrum1', 'verticillium_longisporum1', 'volvox', 'wheat', 'yarrowia_lipolytica', 'zebrafish'
-            );
             if (Execparams::where('samples_id', $sample_id)->get()->count() != 0) {
-                $data_json = Execparams::where('samples_id', $sample_id)->value('execute_params');
-                $data = json_decode($data_json);
-                $ass = $data->ass;
-                $cnv = $data->cnv;
-                $snv = $data->snv;
-                $bulk = $data->bulk;
-                $nanopore = $data->nanopore;
-                $saturation = $data->saturation;
-                $acquired = $data->acquired;
-                $split = property_exists($data, "split") ? $data->split : false;
-                $saveTrimmed = $data->saveTrimmed;
-                $saveAlignedIntermediates = $data->saveAlignedIntermediates;
-                $no_normalize = $data->no_normalize;
-                $euk = $data->euk;
-                $fungus = $data->fungus;
-                $resume = $data->resume;
-                $genus = $data->genus;
-                $genus_name = $data->genus_name;
-                $augustus_species = $data->augustus_species;
-                $augustus_species_name = $data->augustus_species;
-                $resfinder_db = $data->resfinder_db;
-                $nt_db = $data->nt_db;
-                $kraken_db = $data->kraken_db;
-                $eggnog = $data->eggnog_db;
-                $kofam_profile = $data->kofam_profile;
-                $kofam_kolist = $data->kofam_kolist;
-                $eukcc_db = $data->eukcc_db;
-                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'sample_id', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'genus_list'));
+                $execute_json = Execparams::where('samples_id', $sample_id)->value('execute_params');
+                $eParams = json_decode($execute_json);
+                return view('Pipeline.pipeline', compact('sample_id', 'project_id', 'PipelineParams', 'eParams', 'can_exec', 'augustus_species_lists', 'genus_list', 'ranks'));
             } else {
-                $ass  = $acquired = $resume = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = true;
-                $cnv = $snv = $saturation =  $split = $nanopore = $bulk = $saveTrimmed = $saveAlignedIntermediates = $no_normalize = $euk = $fungus = $genus = $augustus_species = $eukcc_db = false;
-                $genus_name = $augustus_species_name = null;
-                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'sample_id', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'genus_list'));
+                $eParams = new stdClass();
+                foreach ($Fswitch as $f) {
+                    $eParams->$f = false;
+                }
+                foreach ($Tswitch as $t) {
+                    $eParams->$t = true;
+                }
+                foreach ($Nswitch as $n) {
+                    $eParams->$n = null;
+                }
+                return view('Pipeline.pipeline', compact('eParams', 'sample_id', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'genus_list', 'ranks'));
             }
         } else {
             $project_id = $request->input('projectID');
@@ -376,52 +386,22 @@ class ExecparamsController extends Controller
             $first_sample = Samples::where('projects_id', $project_id)->first();
             $first_sample_species_id = $first_sample->species_id;
             $default_reference = isset($first_sample_species_id) ? Species::where('id', $first_sample_species_id)->value('name') : 'denovo';
-            $checkm_genus = Storage::get('checkm_genus.txt');
-            $checkm_genus = explode("\r\n", $checkm_genus);
-            $genus_list = array();
-            foreach ($checkm_genus as $checkm) {
-                $checkm = str_replace(" ", "", $checkm);
-                $checkm = preg_replace("/\\d+/", '', $checkm);
-                array_push($genus_list, $checkm);
-            }
-            $augustus_species_lists = array(
-                'Conidiobolus_coronatus', 'E_coli_K12', 'Xipophorus_maculatus', 'adorsata', 'aedes', 'amphimedon', 'ancylostoma_ceylanicum', 'anidulans', 'arabidopsis', 'aspergillus_fumigatus', 'aspergillus_nidulans', 'aspergillus_oryzae', 'aspergillus_terreus', 'b_pseudomallei', 'bombus_impatiens1', ' bombus_terrestris2', 'botrytis_cinerea', 'brugia', 'c_elegans_trsk', 'cacao', 'caenorhabditis', 'camponotus_floridanus', 'candida_albicans', 'candida_guilliermondii', 'candida_tropicalis', 'chaetomium_globosum', 'chicken', 'chiloscyllium', 'chlamy2011', 'chlamydomonas', 'chlorella', 'ciona', 'coccidioides_immitis', 'coprinus', 'coprinus_cinereus', 'coyote_tobacco', 'cryptococcus', 'cryptococcus_neoformans_gattii', 'cryptococcus_neoformans_neoformans_B', 'cryptococcus_neoformans_neoformans_JEC21', 'culex', 'debaryomyces_hansenii', 'elephant_shark', 'encephalitozoon_cuniculi_GB', 'eremothecium_gossypii', 'fly', 'fly_exp', 'fusarium', 'fusarium_graminearum', 'galdieria', 'generic', 'heliconius_melpomene1', 'histoplasma', 'histoplasma_capsulatum', 'honeybee1', 'human', 'japaneselamprey', 'kluyveromyces_lactis', 'laccaria_bicolor', 'leishmania_tarentolae', 'lodderomyces_elongisporus', 'magnaporthe_grisea', 'maize', 'maize5', 'mnemiopsis_leidyi', 'nasonia', 'nematostella_vectensis', 'neurospora', 'neurospora_crassa', 'parasteatoda', 'pchrysosporium', 'pea_aphid', 'pfalciparum', 'phanerochaete_chrysosporium', 'pichia_stipitis', 'pisaster', 'pneumocystis', 'rhincodon', 'rhizopus_oryzae', 'rhodnius', 'rice', 's_aureus', 's_pneumoniae', 'saccharomyces', 'saccharomyces_cerevisiae_S288C', 'saccharomyces_cerevisiae_rm11-1a_1', 'schistosoma', 'schistosoma2', 'schizosaccharomyces_pombe', 'scyliorhinus', 'sealamprey', 'strongylocentrotus_purpuratus', 'sulfolobus_solfataricus', 'template_prokaryotic', 'tetrahymena', 'thermoanaerobacter_tengcongensis', 'tomato', 'toxoplasma', 'tribolium2012', 'trichinella', 'ustilago', 'ustilago_maydis', 'verticillium_albo_atrum1', 'verticillium_longisporum1', 'volvox', 'wheat', 'yarrowia_lipolytica', 'zebrafish'
-            );
             if (Execparams::where('project_id', $project_id)->get()->count() != 0) {
-                $data_json = Execparams::where('project_id', $project_id)->value('execute_params');
-                $data = json_decode($data_json);
-                $ass = $data->ass;
-                $cnv = $data->cnv;
-                $snv = $data->snv;
-                $bulk = $data->bulk;
-                $nanopore = $data->nanopore;
-                $saturation = $data->saturation;
-                $acquired = $data->acquired;
-                $split = property_exists($data, "split") ? $data->split : false;
-                $saveTrimmed = $data->saveTrimmed;
-                $saveAlignedIntermediates = $data->saveAlignedIntermediates;
-                $no_normalize = $data->no_normalize;
-                $euk = $data->euk;
-                $fungus = $data->fungus;
-                $resume = $data->resume;
-                $genus = $data->genus;
-                $genus_name = $data->genus_name;
-                $augustus_species = $data->augustus_species;
-                $augustus_species_name = $data->augustus_species;
-                $resfinder_db = $data->resfinder_db;
-                $nt_db = $data->nt_db;
-                $kraken_db = $data->kraken_db;
-                $eggnog = $data->eggnog_db;
-                $kofam_profile = $data->kofam_profile;
-                $kofam_kolist = $data->kofam_kolist;
-                $eukcc_db = $data->eukcc_db;
-                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'species_list', 'default_reference', 'genus_list'));
+                $execute_json = Execparams::where('project_id', $project_id)->value('execute_params');
+                $eParams = json_decode($execute_json);
+                return view('Pipeline.pipeline', compact('project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'eParams', 'species_list', 'default_reference', 'genus_list', 'ranks'));
             } else {
-                $ass = $acquired = $resume = $resfinder_db = $nt_db = $kraken_db = $eggnog = $kofam_profile = $kofam_kolist = true;
-                $cnv = $snv = $saturation = $split = $bulk = $nanopore = $no_normalize = $saveTrimmed = $saveAlignedIntermediates = $euk = $fungus = $genus = $augustus_species = $eukcc_db = false;
-                $genus_name = $augustus_species_name = null;
-                $species_list = Species::all();
-                return view('Pipeline.pipeline', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'species_list', 'default_reference', 'genus_list'));
+                $eParams = new stdClass();
+                foreach ($Fswitch as $f) {
+                    $eParams->$f = false;
+                }
+                foreach ($Tswitch as $t) {
+                    $eParams->$t = true;
+                }
+                foreach ($Nswitch as $n) {
+                    $eParams->$n = null;
+                }
+                return view('Pipeline.pipeline', compact('eParams', 'project_id', 'PipelineParams', 'can_exec', 'augustus_species_lists', 'species_list', 'default_reference', 'genus_list', 'ranks'));
             }
         }
     }
@@ -485,44 +465,27 @@ class ExecparamsController extends Controller
             $genus_name = $data->genus_name;
             $augustus_species = $data->augustus_species;
             $augustus_species_name = $data->augustus_species;
-            $resfinder_db = $data->resfinder_db;
-            $nt_db = $data->nt_db;
-            $kraken_db = $data->kraken_db;
-            $eggnog = $data->eggnog_db;
+            $point = $data->point;
+            $graphbin = $data->graphbin;
+            $acdc = $data->acdc;
+            $nt_db = $data->nt;
+            $kraken2_db = $data->kraken;
+            $eggnog = $data->eggnog;
             $kofam_profile = $data->kofam_profile;
             $kofam_kolist = $data->kofam_kolist;
+            $checkm2 = $data->checkm2;
             $eukcc_db = $data->eukcc_db;
             if ($request->has('sampleID')) {
                 $project_id = Samples::where('id', $sample_id)->value('projects_id');
-                return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'sample_id', 'project_id', 'PipelineParams'));
+                return view('Pipeline.pipelineStart', compact('samples', 'ass', 'cnv', 'snv', 'bulk', 'point', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'augustus_species', 'graphbin', 'acdc', 'augustus_species_name', 'nt_db', 'kraken2_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'checkm2', 'eukcc_db', 'sample_id', 'project_id', 'PipelineParams'));
             } else {
-                return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'bulk', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'reference_genome', 'augustus_species', 'augustus_species_name', 'resfinder_db', 'nt_db', 'kraken_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'eukcc_db', 'project_id', 'PipelineParams'));
+                return view('Pipeline.pipelineStart', compact('ass', 'cnv', 'snv', 'bulk', 'point', 'nanopore', 'saturation', 'acquired', 'split', 'saveTrimmed', 'saveAlignedIntermediates', 'no_normalize', 'resume', 'euk', 'fungus', 'genus', 'genus_name', 'reference_genome', 'augustus_species', 'graphbin', 'acdc', 'augustus_species_name', 'nt_db', 'kraken2_db',  'eggnog',  'kofam_profile', 'kofam_kolist', 'checkm2', 'eukcc_db', 'project_id', 'PipelineParams'));
             }
         }
     }
 
     public function get_status(Request $request)
     {
-        /**
-         * Read .nextflow.log
-         */
-        // if($request->input('sampleID')){
-        //     $running_sample_id = $request->input('running_sample_id');
-        //     $uuid = Jobs::where([['sample_id', '=', $running_sample_id], ['status', '=', 1]])->value('uuid');
-        //     $project_id = Samples::where('id', $running_sample_id)->value('projects_id');
-        //     $project_accession = Projects::where('id', $project_id)->value('doi');
-        // }else{
-        //     $running_project_id = $request->input('running_project_id');
-        //     $uuid = Jobs::where([['project_id', '=', $running_project_id], ['status', '=', 1]])->value('uuid');
-        //     $project_accession = Projects::where('id', $running_project_id)->value('doi');
-        // }
-        // $nextflow_log_path = $project_accession . '/' . $uuid . '/.nextflow.log';
-        // if (Storage::disk('local')->exists($nextflow_log_path)) {
-        //     $data = Storage::get($nextflow_log_path);
-        //     return response()->json(['code' => '200', 'data' => $data]);
-        // } else {
-        //     return response()->json(['code' => '201', 'data' => 'failed']);
-        // }
         if ($request->input('running_sample_id')) {
             $running_sample_id = $request->input('running_sample_id');
             $runName = Jobs::where('sample_id', $running_sample_id)->value('current_uuid');

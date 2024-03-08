@@ -3,6 +3,6 @@
     "/js/vendor.js": "/js/vendor.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/js/layui_style.js": "/js/layui_style.js",
+    "/js/form.js": "/js/form.js",
     "/js/plotting.js": "/js/plotting.js"
 }

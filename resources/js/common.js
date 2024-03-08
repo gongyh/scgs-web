@@ -1,59 +1,57 @@
 //const { head } = require("lodash");
+var utils = require('./utils.js');
 
 import { indexOf } from "lodash";
 import { monthsShort } from "moment";
 
 $(function () {
 
-  $('.home-slider').slick({
-    infinite: true,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    dots: true,
-    arrows: true,
-    lazyLoad: 'ondemand',
-    autoplay: true,
-    autoplaySpeed: 5000,
-    responsive: [{
-      breakpoint: 1000,
-      settings: {
-        slidesToShow: 3
-      }
-    }, {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 2
-      }
-    }, {
-      breakpoint: 0,
-      settings: {
-        slidesToShow: 1
-      }
-    }]
-  })
-  /*
-    $('.owl-carousel').owlCarousel({
-      loop: true,
-      margin: 10,
-      nav: false,
-      dots: true,
-      lazyLoad: true,
-      lazyLoadEager: 1,
-      autoplay: true,
-      autoplayHoverPause: true,
-      responsive: {
-        0: {
-          items: 1
-        },
-        600: {
-          items: 2
-        },
-        1000: {
-          items: 4
-        }
-      }
-    })
-  */
+    $('.home-slider').slick({
+        infinite: true,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        arrows: true,
+        lazyLoad: 'ondemand',
+        autoplay: true,
+        autoplaySpeed: 3000,
+        responsive: [{
+            breakpoint: 1000,
+            settings: {
+              slidesToShow: 3
+            }
+           }, {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2
+            }
+           }, {
+            breakpoint: 0,
+            settings: {
+              slidesToShow: 1
+            }
+           }]
+      });
+//   $('.owl-carousel').owlCarousel({
+//     loop: true,
+//     margin: 10,
+//     nav: false,
+//     dots: true,
+//     lazyLoad: true,
+//     lazyLoadEager: 1,
+//     autoplay: true,
+//     autoplayHoverPause: true,
+//     responsive: {
+//       0: {
+//         items: 1
+//       },
+//       600: {
+//         items: 2
+//       },
+//       1000: {
+//         items: 4
+//       }
+//     }
+//   })
   var index = 0;
   var current_url = window.location.href;
   var url = current_url.split('/').pop();
@@ -75,11 +73,15 @@ $(function () {
   species_file.Init('species_file', '/workspace/species/upload');
   var add_sample_files = sampleFileInput();
   add_sample_files.Init('addSampleFiles', '/workspace/addSampleFiles/upload');
-  var running_sample_id = getQueryVariable('sampleID');
-  var running_project_id = getQueryVariable('projectID');
+  var running_sample_id = utils.getQueryVariable('sampleID');
+  var running_project_id = utils.getQueryVariable('projectID');
   var selectedTypes = [];
   //   var check_progress = false;
   //   var read_progress;
+
+  if (current_url.endsWith('/projects') || current_url.endsWith('/myProject')) {
+    $('.layui-footer').hide();
+  }
 
   $('#type').on('change', function () {
     var type = $('#type').val();
@@ -95,7 +97,7 @@ $(function () {
 
   $('#rDate').datetimepicker(
   {
-    value: getNextYear(),
+    value: utils.getNextYear(),
     timepicker: false,
     format: 'Y-m-d'
   });
@@ -267,18 +269,6 @@ $(function () {
     $(this).removeClass('shadow rounded');
   })
 
-  /**
-   * Execute params setting
-   */
-  const db_list = ['resfinder_db', 'nt_db', 'eggnog_db', 'kraken_db', 'kofam_profile', 'kofam_kolist', 'eukcc_db'];
-  for (var i = 0; i < db_list.length; i++) {
-    if ($('#' + db_list[i]).is(':checked')) {
-      $('.' + db_list[i] + '_path').show();
-    } else {
-      $('.' + db_list[i] + '_path').hide();
-    }
-  }
-
   if ($('#nanopore_1').is(':checked')) {
     $('#cnv_2').prop('checked', true);
     $('#snv_2').prop('checked', true);
@@ -298,6 +288,12 @@ $(function () {
   } else {
     $('.euk_true').hide();
     $('.euk_false').show();
+  }
+
+  if ($('#split_1').is(':checked')) {
+    $('.split_true').show();
+  } else {
+    $('.split_true').hide();
   }
 
   if ($('#augustus_species_1').is(':checked')) {
@@ -340,66 +336,19 @@ $(function () {
     }
   })
 
+  $('.split').on('change', function () {
+    if ($('#split_1').is(':checked')) {
+      $('.split_true').show();
+    } else {
+      $('.split_true').hide();
+    }
+  })
+
   $('.augustus_species').on('change', function () {
     if ($('#augustus_species_1').is(':checked')) {
       $('.augustus_species_name').show();
     } else {
       $('.augustus_species_name').hide();
-    }
-  })
-
-  $('#resfinder_db').on('change', function () {
-    if ($('#resfinder_db').is(':checked')) {
-      $('.resfinder_db_path').show();
-    } else {
-      $('.resfinder_db_path').hide();
-    }
-  })
-  $('#nt_db').on('change', function () {
-    if ($('#nt_db').is(':checked')) {
-      $('.nt_db_path').show();
-    } else {
-      $('.nt_db_path').hide();
-    }
-  })
-
-  $('#eggnog_db').on('change', function () {
-    if ($('#eggnog_db').is(':checked')) {
-      $('.eggnog_db_path').show();
-    } else {
-      $('.eggnog_db_path').hide();
-    }
-  })
-
-  $('#kraken_db').on('change', function () {
-    if ($('#kraken_db').is(':checked')) {
-      $('.kraken_db_path').show();
-    } else {
-      $('.kraken_db_path').hide();
-    }
-  })
-
-  $('#kofam_profile').on('change', function () {
-    if ($('#kofam_profile').is(':checked')) {
-      $('.kofam_profile_path').show();
-    } else {
-      $('.kofam_profile_path').hide();
-    }
-  })
-
-  $('#kofam_kolist').on('change', function () {
-    if ($('#kofam_kolist').is(':checked')) {
-      $('.kofam_kolist_path').show();
-    } else {
-      $('.kofam_kolist_path').hide();
-    }
-  })
-
-  $('#eukcc_db').on('change', function () {
-    if ($('#eukcc_db').is(':checked')) {
-      $('.eukcc_db_path').show();
-    } else {
-      $('.eukcc_db_path').hide();
     }
   })
 
@@ -730,8 +679,6 @@ var sampleFileInput = function () {
       showCaption: true,
       dropZoneEnabled: true,
       elCaptionText: 'Upload Files',
-      browseClass: "btn btn-primary",
-      uploadClass: "btn btn-success",
       maxFileCount: 5,
       enctype: 'multipart/form-data',
       validateInitialCount: true,
@@ -749,37 +696,3 @@ var sampleFileInput = function () {
   }
   return oFile;
 };
-
-// release date init
-function getNextYear() {
-  var date = new Date();
-  var nextYear = date.getFullYear() + 1;
-  var month = ('0' + (date.getMonth() + 1)).slice(-2);
-  var day = date.getDate();
-  var nextyear_today = nextYear + '-' + month + '-' + day;
-  return nextyear_today;
-}
-
-/**
- * Get url params
- */
-function getQueryVariable(variable) {
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i = 0; i < vars.length; i++) {
-    var pair = vars[i].split("=");
-    if (pair[0] == variable) { return pair[1]; }
-  }
-  return (false);
-}
-
-/**
- * get different elements between two arrays
- */
-function getNewArr(a, b) {
-  const arr = [...a, ...b];
-  const newArr = arr.filter(item => {
-    return !(a.includes(item) && b.includes(item));
-  });
-  return newArr;
-}

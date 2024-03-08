@@ -16,6 +16,7 @@ RUN wget -q -O parallel-fastq-dump.0.6.7.tar.gz https://github.com/rvalieris/par
   rm -rf ../parallel-fastq-dump.0.6.7.tar.gz ../parallel-fastq-dump-0.6.7
 
 # install nextflow
+ENV NXF_VER 22.10.8
 RUN mkdir /opt/nextflow && cd /opt/nextflow && \
     curl -s https://get.nextflow.io | bash && \
     ln -s /opt/nextflow/nextflow /usr/local/bin/nextflow

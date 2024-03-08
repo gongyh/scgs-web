@@ -6,6 +6,7 @@ use App\Jobs;
 use App\User;
 use App\Samples;
 use App\Projects;
+use App\Execparams;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -110,19 +111,31 @@ class ResultController extends Controller
             $project_id = $request->input('projectID');
             $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
+            $blobName = $request->input('blob');
+            $execParamsJson = Execparams::where('project_id', $project_id)->value('execute_params');
         } else {
             $sample_id = $request->input('sampleID');
             $project_id = Samples::where('id', $sample_id)->value('projects_id');
+            $execParamsJson = Execparams::where('samples_id', $sample_id)->value('execute_params');
             $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+            $filename = Samples::where('id', $sample_id)->value('filename1');
+            preg_match('/(\.fq)?(\.fastq)?(\.gz)?$/', $filename, $matches);
+            $file_postfix = $matches[0];
+            $file_prefix = Str::before($filename, $file_postfix);
+            $file_prefix = explode('/', $file_prefix);
+            $file_prefix = end($file_prefix);
+            $blobName = str_replace("_R1", "_R", $file_prefix);
+            $blobName = str_replace(".R1", ".R", $blobName);
         }
-        $blob = $request->input('blob');
-        $blob_pic_val = $blob;
-        $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
-        $blob_txt_path = $project_accession . '/' . $uuid . '/results/blob/' . $blob . '/' . $blob . '.blobDB.table.txt';
-        $blob_pic_path = $project_accession . '/' . $uuid . '/results/blob/' . $blob_pic_val . '/' . $blob_pic_val . '.blobDB.table.txt';
-        $project_sample_filenames = Samples::where('projects_id', $project_id)->get('filename1');
-        $sample_sum = count($project_sample_filenames);
+        $execParams = json_decode($execParamsJson, true);
+        if (array_key_exists("ver", $execParams) && $execParams["ver"] === "v2") {
+            $quast_path = $project_accession . '/' . $uuid . '/results/quast/quast/report.tsv';
+        } else {
+            $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
+        }
+        $blob_txt_path = $project_accession . '/' . $uuid . '/results/blob/' . $blobName . '/' . $blobName . '.blobDB.table.txt';
+        $blob_pic_path = $project_accession . '/' . $uuid . '/results/blob/' . $blobName . '/' . $blobName . '.blobDB.table.txt';
         if (Storage::disk('local')->exists($quast_path) && Storage::disk('local')->exists($blob_txt_path)) {
             // Quast
             $quast_data = Storage::get($quast_path);
@@ -259,7 +272,6 @@ class ResultController extends Controller
             $data = array('blob_header' => $blob_header, 'blob_pic' => $blob_picture);
             return response()->json(['code' => 200, 'data' => $data]);
         } else {
-            $quast_header = $quast_result = null;
             return response()->json(['code' => 404, 'data' => 'failed']);
         }
     }
@@ -304,13 +316,19 @@ class ResultController extends Controller
             $project_id = $request->input('projectID');
             $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
+            $execParams = Execparams::where('project_id', $project_id)->value('execute_params');
         } else {
             $sample_id = $request->input('sampleID');
             $project_id = Samples::where('id', $sample_id)->value('projects_id');
             $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+            $execParams = Execparams::where('samples_id', $sample_id)->value('execute_params');
         }
-        $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
+        if (array_key_exists("ver", $execParams) && $execParams["ver"] === "v2") {
+            $quast_path = $project_accession . '/' . $uuid . '/results/quast/quast/report.tsv';
+        } else {
+            $quast_path = $project_accession . '/' . $uuid . '/results/quast/report.tsv';
+        }
         if (Storage::disk('disk')->exists($quast_path)) {
             $quast_data = Storage::get($quast_path);
             $quast_data = explode("\n", $quast_data);
@@ -381,14 +399,22 @@ class ResultController extends Controller
             $project_id = $request->input('projectID');
             $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
+            $blobName = $request->input('blob');
         } else {
             $sample_id = $request->input('sampleID');
             $project_id = Samples::where('id', $sample_id)->value('projects_id');
             $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+            $filename = Samples::where('id', $sample_id)->value('filename1');
+            preg_match('/(\.fq)?(\.fastq)?(\.gz)?$/', $filename, $matches);
+            $file_postfix = $matches[0];
+            $file_prefix = Str::before($filename, $file_postfix);
+            $file_prefix = explode('/', $file_prefix);
+            $file_prefix = end($file_prefix);
+            $blobName = str_replace("_R1", "_R", $file_prefix);
+            $blobName = str_replace(".R1", ".R", $blobName);
         }
-        $blob = $request->input('blob');
-        $blob_txt_path = $project_accession . '/' . $uuid . '/results/blob/' . $blob . '/' . $blob . '.blobDB.table.txt';
+        $blob_txt_path = $project_accession . '/' . $uuid . '/results/blob/' . $blobName . '/' . $blobName . '.blobDB.table.txt';
         if (Storage::disk('local')->exists($blob_txt_path)) {
             $blob_txt = Storage::get($blob_txt_path);
             $blob_txt = explode("\n", $blob_txt);
@@ -426,15 +452,22 @@ class ResultController extends Controller
             $project_id = $request->input('projectID');
             $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('project_id', $project_id)->value('uuid');
+            $blobName = $request->input('blob');
         } else {
             $sample_id = $request->input('sampleID');
             $project_id = Samples::where('id', $sample_id)->value('projects_id');
             $project_accession = Projects::where('id', $project_id)->value('doi');
             $uuid = Jobs::where('sample_id', $sample_id)->value('uuid');
+            $filename = Samples::where('id', $sample_id)->value('filename1');
+            preg_match('/(\.fq)?(\.fastq)?(\.gz)?$/', $filename, $matches);
+            $file_postfix = $matches[0];
+            $file_prefix = Str::before($filename, $file_postfix);
+            $file_prefix = explode('/', $file_prefix);
+            $file_prefix = end($file_prefix);
+            $blobName = str_replace("_R1", "_R", $file_prefix);
+            $blobName = str_replace(".R1", ".R", $blobName);
         }
-        $blob_classify = $request->input('blob_classify');
-        $blob_val = $request->input('blob');
-        $blob_path = $project_accession . '/' . $uuid . '/results/blob/' . $blob_val . '/' . $blob_val . '.blobDB.table.txt';
+        $blob_path = $project_accession . '/' . $uuid . '/results/blob/' . $blobName . '/' . $blobName . '.blobDB.table.txt';
 
         // data init
         $blob_txt = Storage::get($blob_path);

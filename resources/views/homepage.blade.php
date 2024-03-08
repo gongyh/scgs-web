@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container">
-
   <!-- Jumbotron Header -->
   <header class="jumbotron mb-4">
     <h1 class="">Single-Cell pHenOme-genOme Landscape</h1>
@@ -36,52 +35,49 @@
   </header>
 
   <!-- Page Features -->
-  <div class="row text-center home-slider">
+  <div class="row text-center home-slider slidercontainer">
     <div class="mb-4">
       <div class="card h-100">
         <img class="card-img-top" src="images/school_mp.jpg" alt="">
         <div class="card-body">
           <h4 class="card-title">Pathways</h4>
-          <p class="card-text">Metabolic pathways</p>
+          <p class="card-text text-nowrap">Metabolic pathways</p>
         </div>
         <div class="card-footer">
           <a href="/docs/pathway" class="btn btn-primary stretched-link">Find Out More!</a>
         </div>
       </div>
     </div>
-
     <div class="mb-4">
       <div class="card h-100">
         <img class="card-img-top" src="images/school_bgc.jpg" alt="">
         <div class="card-body">
           <h4 class="card-title">BGCs</h4>
-          <p class="card-text">Biosynthetic gene clusters</p>
+          <p class="card-text text-nowrap">Biosynthetic gene clusters</p>
         </div>
         <div class="card-footer">
           <a href="/docs/pathway" class="btn btn-primary stretched-link">Find Out More!</a>
         </div>
       </div>
     </div>
-
     <div class="mb-4">
       <div class="card h-100">
         <img class="card-img-top" src="images/school_resistome.jpg" alt="">
         <div class="card-body">
           <h4 class="card-title">Resistome</h4>
-          <p class="card-text">Drug resistance</p>
+          <p class="card-text text-nowrap">Drug resistance</p>
         </div>
         <div class="card-footer">
           <a href="/docs/ast" class="btn btn-primary stretched-link">Find Out More!</a>
         </div>
       </div>
     </div>
-
     <div class="mb-4">
       <div class="card h-100">
         <img class="card-img-top" src="images/school_gwas.jpg" alt="">
         <div class="card-body">
           <h4 class="card-title">GWAS</h4>
-          <p class="card-text">Mutants screening</p>
+          <p class="card-text text-nowrap">Mutants screening</p>
         </div>
         <div class="card-footer">
           <a href="/docs/gwas" class="btn btn-primary stretched-link">Find Out More!</a>
@@ -93,5 +89,4 @@
 
 </div>
 <!-- /.container -->
-
 @endsection

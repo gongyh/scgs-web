@@ -101,6 +101,18 @@
                   </label>
                 </div>
               </div>
+              <div class="d-flex flex-wrap">
+                <div class="custom-control custom-checkbox mt-2">
+                  <input type="checkbox" class="custom-control-input" id="acdc" name="acdc" value="acdc" {{$acdc?'checked':''}} disabled>
+                  <label class="custom-control-label" for="acdc">acdc</label>
+                </div>
+              </div>
+              <div class="d-flex flex-wrap">
+                <div class="custom-control custom-checkbox mt-2">
+                  <input type="checkbox" class="custom-control-input" id="graphbin" name="graphbin" value="graphbin" {{$graphbin?'checked':''}} disabled>
+                  <label class="custom-control-label" for="graphbin">graphbin</label>
+                </div>
+              </div>
               <div>
                 <div class="mt-2">
                   <div class="custom-control custom-checkbox mr-4">
@@ -138,10 +150,9 @@
                       <div class="card-body">
                         <div class="mt-2">
                           <div class="custom-control custom-checkbox mr-4">
-                            <input type="checkbox" class="custom-control-input" id="resfinder_db" name="resfinder_db" value="resfinder_db" {{$resfinder_db?'checked':''}} disabled>
-                            <label class="custom-control-label" for="resfinder_db">resfinder_db</label>
+                            <input type="checkbox" class="custom-control-input" id="point" name="point" value="point" {{$point?'checked':''}} disabled>
+                            <label class="custom-control-label" for="point">point</label>
                           </div>
-                          <div class="d-none mt-2 w-50 border text-secondary rounded shadow p-2 resfinder_db_path overflow-auto {{$resfinder_db?'no-display':''}}">{{$PipelineParams->resfinder_db_path}}</div>
                         </div>
                         <div class="mt-2">
                           <div class="custom-control custom-checkbox mr-4">
@@ -152,10 +163,10 @@
                         </div>
                         <div class="mt-2">
                           <div class="custom-control custom-checkbox mr-4">
-                            <input type="checkbox" class="custom-control-input" id="kraken_db" name="kraken_db" value="kraken_db" {{$kraken_db?'checked':''}} disabled>
-                            <label class="custom-control-label" for="kraken_db">kraken_db</label>
+                            <input type="checkbox" class="custom-control-input" id="kraken2_db" name="kraken2_db" value="kraken2_db" {{$kraken2_db?'checked':''}} disabled>
+                            <label class="custom-control-label" for="kraken2_db">kraken2_db</label>
                           </div>
-                          <div class="d-none mt-2 w-50 border text-secondary rounded shadow p-2 kraken_db_path overflow-auto {{$kraken_db ?'no-display':''}}">{{$PipelineParams->kraken_db_path}}</div>
+                          <div class="d-none mt-2 w-50 border text-secondary rounded shadow p-2 kraken_db_path overflow-auto {{$kraken2_db ?'no-display':''}}">{{$PipelineParams->kraken2_db_path}}</div>
                         </div>
                         <div class="mt-2">
                           <div class="custom-control custom-checkbox mr-4">
@@ -180,6 +191,13 @@
                         </div>
                         <div class="mt-2">
                           <div class="custom-control custom-checkbox mr-4">
+                            <input type="checkbox" class="custom-control-input" id="checkm2" name="checkm2" value="checkm2" {{$checkm2?'checked':''}} disabled>
+                            <label class="custom-control-label" for="checkm2">checkm2</label>
+                          </div>
+                          <div class="d-none mt-2 w-50 border text-secondary rounded shadow p-2 kofam_kolist_path overflow-auto {{$checkm2?'no-display':''}}">{{$PipelineParams->checkm2_db_path}}</div>
+                        </div>
+                        <div class="mt-2">
+                          <div class="custom-control custom-checkbox mr-4">
                             <input type="checkbox" class="custom-control-input" id="eukcc_db" name="eukcc_db" value="eukcc_db" {{$eukcc_db?'checked':''}} disabled>
                             <label class="custom-control-label" for="eukcc_db">eukcc_db</label>
                           </div>
@@ -200,7 +218,7 @@
               <div class="mt-2 font-normal text-primary border-bottom">Pipeline Status</div>
               <div class="pipeline_status pt-2 ml-2"></div>
             </div>
-            <div class="command_out text-wrap text-break rounded overflow-auto"></div>
+            <div class="command_out text-wrap text-break rounded overflow_auto"></div>
           </div>
         </div>
       </div>

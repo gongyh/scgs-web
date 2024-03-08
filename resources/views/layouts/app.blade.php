@@ -19,11 +19,9 @@
 
   <!-- Scripts -->
   <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
-  @stack('plotting-js')
   <script src="{!! mix('js/manifest.js')!!}"></script>
   <script src="{!! mix('js/vendor.js')!!}"></script>
   <script src="{!! mix('js/app.js')!!}"></script>
-  <script src="{!! mix('js/layui_style.js')!!}"></script>
 
   <!-- Page specific styles -->
   @yield('style')
@@ -169,8 +167,13 @@
             <dl class="layui-nav-child">
               <!-- 二级菜单 -->
               <dd>
-                <a href="/apps/app/ramand2o">
+                <a href="/apps/app/ramand2o" target="_blank">
                   <div class="layui-font-18">RamanD2O</div>
+                </a>
+              </dd>
+              <dd>
+                <a href="https://github.com/gongyh/nf-core-scgs" target="_blank">
+                  <div class="layui-font-18">nf-core-scgs</div>
                 </a>
               </dd>
               <dd>

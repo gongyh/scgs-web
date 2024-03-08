@@ -235,7 +235,6 @@ class SamplesController extends Controller
         $lab_id = Projects::where('id', $projectID)->value('labs_id');
         $user = Labs::where('id', $lab_id)->value('principleInvestigator');
         $sample = Samples::find($sample_id);
-        $app = Applications::find($sample['applications_id']);
         $applications = Applications::all();
         $all_species = Species::all();
         $sample_files =  Storage::disk('local')->exists('meta-data/' . $user) ? Storage::files('meta-data/' . $user) : array();
@@ -250,58 +249,19 @@ class SamplesController extends Controller
         $library_selections = array('RANDOM', 'PCR', 'RANDOM PCR', 'HMPR', 'MF', 'CF-S', 'CF-M', 'CF-H', 'CF-T', 'MDA', 'MSLL', 'cDNA', 'CHIP', 'MNase', 'DNAse', 'Hybrid Selection', 'Reduced Representation', 'Restriction Digest', '5-methylcytidine antibody', 'MBD2 protein methyl-CpG binding domain', 'CAGE', 'RACE', 'size fractionation', 'Padlock probes capture method', 'other', 'unspecified', 'cDNA_oligo_dT', 'cDNA_randomPriming', 'Oligo-dT', 'PolyA', 'repeat fractionation');
         $base_path = Storage::disk('local')->getAdapter()->getPathPrefix();
         if ($request->isMethod('POST')) {
-            // Sample update input validate
-            $this->validate($request, [
-                'sample_label' => 'required|max:50',
-                'library_id' => 'required|max:150',
-                'library_strategy' => 'required',
-                'library_source' => 'required',
-                'library_selection' => 'required',
-                'platform' => 'required',
-                'instrument_model' => 'required',
-                'design_description' => 'required|max:500',
-                'select_application' => 'required',
-                'select_species' => 'nullable',
-                'isPairends' => 'required'
-            ]);
-            $projectID = $request->input('projectID');
-            $sample_label = $request->input('sample_label');
-            $library_id = $request->input('library_id');
-            $library_strategy = $request->input('library_strategy');
-            $library_source = $request->input('library_source');
-            $library_selection = $request->input('library_selection');
-            $platform = $request->input('platform');
-            $instrument_model = $request->input('instrument_model');
-            $design_description = $request->input('design_description');
-            $select_application = $request->input('select_application');
-            $select_species = $request->input('select_species');
-            switch ($request->input('isPairends')) {
-                case 'Single':
-                    $isPairends = 0;
-                    break;
-                case 'Paired-end':
-                    $isPairends = 1;
-                    break;
+            $data = $request->input('data');
+            $sampleID = $request->input('sampleID');
+            $sample = Samples::find($sampleID);
+            if (!empty($data)) {
+                foreach($data as $key=>$value) {
+                    $sample[$key] = $value;
+                }
+                $sample->save();
+                return response()->json(['code' => 200, 'info' => 'change']);
             }
-            $sample['sampleLabel'] = $sample_label;
-            $sample['library_id'] = $library_id;
-            $sample['library_strategy'] = $library_strategy;
-            $sample['library_source'] = $library_source;
-            $sample['library_selection'] = $library_selection;
-            $sample['platform'] = $platform;
-            $sample['instrument_model'] = $instrument_model;
-            $sample['design_description'] = $design_description;
-            $sample['applications_id'] = $select_application;
-            $sample['species_id'] = $select_species;
-            $sample['pairends'] = $isPairends;
-            $sample->save();
-            if ($request->input('from')) {
-                return redirect('/workspace/samples?projectID=' . $projectID);
-            } else {
-                return redirect('/samples?projectID=' . $projectID);
-            }
+            return response()->json(['code' => 200, 'info' => 'nothing change']);
         }
-        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample, 'app' => $app, 'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections, 'files' => $files]);
+        return view('Samples.samp_update', ['applications' => $applications, 'all_species' => $all_species, 'sample' => $sample,'base_path' => $base_path, 'library_strategies' => $library_strategies, 'library_sources' => $library_sources, 'library_selections' => $library_selections, 'files' => $files]);
     }
 
     public function upload(Request $request)

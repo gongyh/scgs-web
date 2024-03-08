@@ -9,9 +9,9 @@ window.moment = require('moment/moment');
 require('bootstrap-fileinput/js/fileinput');
 require('bootstrap-fileinput/js/locales/zh');
 require('bootstrap-select/dist/js/bootstrap-select');
-require('owl.carousel2/dist/owl.carousel');
-require('slick-carousel/slick/slick');
+require('../../node_modules/slick-carousel/slick/slick.min');
 require('jquery-datetimepicker/build/jquery.datetimepicker.full')
+require('layui');
 require('./common');
 
 //require('./plotting')

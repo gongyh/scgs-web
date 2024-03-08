@@ -19,9 +19,12 @@ class CreatePipelineParamsTable extends Migration
             $table->string('nt_db_path', 200);
             $table->string('eggnog_db_path', 200);
             $table->string('kraken_db_path', 200);
+            $table->string('kraken2_db_path', 200);
             $table->string('kofam_profile_path', 200);
             $table->string('kofam_kolist_path', 200);
             $table->string('eukcc_db_path', 200);
+            $table->string('checkm2_db_path', 200);
+            $table->string('gtdb_path', 200);
             $table->string('nextflow_path', 200);
             $table->string('nf_core_scgs_path', 200);
             $table->string('nextflow_profile', 200);

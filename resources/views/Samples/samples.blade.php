@@ -15,80 +15,98 @@
         </ol>
       </nav>
       <div class="mb-4">
+        <table class="layui-table">
+          <colgroup>
+            <col width="200">
+            <col>
+          </colgroup>
+          <thead>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Project Name:</td>
+              <td>{{$project->name}}</td>
+            </tr>
+            <tr>
+              <td>Accession:</td>
+              <td>{{$project->doi}}</td>
+            </tr>
+            <tr>
+              <td>Type:</td>
+              <td>{{$project->type}}</td>
+            </tr>
+            <tr>
+              <td>Collection Date:</td>
+              <td>{{$project->collection_date}}</td>
+            </tr>
+            <tr>
+              <td>Release Date:</td>
+              <td>{{$project->release_date}}</td>
+            </tr>
+            <tr>
+              <td>Description:</td>
+              <td>{{$project->description}}</td>
+            </tr>
+            <tr>
+              <td>Accession:</td>
+              <td>{{$project->doi}}</td>
+            </tr>
+            <tr>
+              <td>Project Status:</td>
+              <td>
+                @if(strcmp($status,"not analyzed") == 0)
+                <span class="badge badge-dark">not analyzed</span>
+                @elseif(strcmp($status,"queueing") == 0)
+                <span class="badge badge-warning">
+                  <span>Queueing</span>
+                </span>
+                <i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop">
+                @elseif(strcmp($status,"running") == 0)
+                <span class="badge badge-info">
+                  <span>Running</span>
+                </span>
+                <i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop">
+                @elseif(strcmp($status,"failed") == 0)
+                <span class="badge badge-danger">
+                  <span>failed</span>
+                </span>
+                @elseif(strcmp($status,"success") == 0)
+                <span class="badge badge-success">
+                  <span>success</span>
+                <i class="fa-solid fa-clipboard-check"></i>
+                </span>
+                @else
+                @endif
+              </td>
+            </tr>
+            <tr>
+              <td>Operation:</td>
+              <td>
+                @if(($isAdmin || $isPI) && $canRun && strcmp($status,"running") != 0)
+                <a href="/execute?projectID={{$projectID}}" class="btn btn-sm btn-primary">Execute
+                  <i class="fa-regular fa-square-caret-right" style="font-size:14px"></i>
+                </a>
+                @endif
+                @if(strcmp($status,"success") == 0 && ($isAdmin || $isPI || $is_release))
+                <a href="/successRunning?projectID={{$projectID}}" class="btn btn-sm btn-success">Report
+                  <i class="fa-solid fa-book-open" style="font-size:14px"></i>
+                </a>
+                @elseif(strcmp($status,"running") == 0 && ($isAdmin || $isPI))
+                <a href="/execute/start?projectID={{$projectID}}" class="btn btn-sm btn-info">Progress
+                <i class="fa-solid fa-book-open" style="font-size:14px"></i>
+                </a>
+                @endif
+              </td>
+            </tr>
+            <tr>
+              <td>Phenotype:</td>
+              <td>
+                <a href="/ramanResult?projectID={{$projectID}}" class="btn btn-sm btn-success">Raman Spectra</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-        <div class="project_name">
-          <div class="proj_title">Project Name:</div>
-          <div class="proj_detail">{{$project->name}}</div>
-        </div>
-        <div class="project_doi">
-          <div class="proj_title">Accession:</div>
-          <div class="proj_detail">{{$project->doi}}</div>
-        </div>
-        <div class="project_name">
-          <div class="proj_title">Type:</div>
-          <div class="proj_detail">{{$project->type}}</div>
-        </div>
-        <div class="project_name">
-          <div class="proj_title">Collection Date:</div>
-          <div class="proj_detail">{{$project->collection_date}}</div>
-        </div>
-        <div class="project_name">
-          <div class="proj_title">Release Date:</div>
-          <div class="proj_detail">{{$project->release_date}}</div>
-        </div>
-        <div class="project_desc pb-3">
-          <div class="proj_title">Description:</div>
-          <div class="proj_desc">{{$project->description}}</div>
-        </div>
-        <div class="project_desc pb-3">
-          <div class="proj_title">Project Status:</div>
-          <div>
-            @if(strcmp($status,"not analyzed") == 0)
-            <span class="badge badge-dark mt-2">not analyzed</span>
-            @elseif(strcmp($status,"queueing") == 0)
-            <span class="badge badge-warning mt-2">
-              <span>Queueing</span>
-              <span class="dot">...</span>
-            </span>
-            @elseif(strcmp($status,"running") == 0)
-            <span class="badge badge-info mt-2">
-              <span>Running</span>
-              <span class="dot">...</span>
-            </span>
-            @elseif(strcmp($status,"failed") == 0)
-            <span class="badge badge-danger mt-2">
-              <span>failed</span>
-            </span>
-            @elseif(strcmp($status,"success") == 0)
-            <span class="badge badge-success mt-2">
-              <span>success</span>
-              <i class="fa-solid fa-clipboard-check"></i>
-            </span>
-            @else
-            @endif
-          </div>
-        </div>
-        <div class="project_desc pb-3">
-          @if(($isAdmin || $isPI) && $canRun)
-          <a href="/execute?projectID={{$projectID}}" class="btn btn-primary">Execute
-            <i class="fa-regular fa-square-caret-right" style="font-size:14px"></i>
-          </a>
-          @endif
-          @if(strcmp($status,"success") == 0 && ($isAdmin || $isPI || $is_release))
-          <a href="/successRunning?projectID={{$projectID}}" class="ml-2 btn btn-success">Report
-            <i class="fa-solid fa-book-open"></i>
-          </a>
-          @elseif(strcmp($status,"running") == 0 && ($isAdmin || $isPI))
-          <a href="/execute/start?projectID={{$projectID}}" class="ml-2 btn btn-info">Progress
-            <i class="fa-solid fa-spinner"></i>
-          </a>
-          @endif
-        </div>
-
-        <div class="d-flex border-bottom pb-3">
-          <div class="proj_title">Phenotype:</div>
-          <a href="/ramanResult?projectID={{$projectID}}" class="btn btn-success">Raman Spectra</a>
-        </div>
         <div class="project_sample mt-3">
           <div class="d-flex">
             <div class="proj_title">Samples:</div>

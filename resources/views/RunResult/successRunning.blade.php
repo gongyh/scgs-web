@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="flex-container">
 
   <!-- middle-area -->
   <!-- left column -->
   <div class="row middle-area">
-    <div class="col-md-11">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -292,16 +293,16 @@
             @endforeach
           </select>
           @endif
+          @if(isset($sample_id))
+          <select id="preseq_tabs" class="selectpicker show-tick mb-2" data-live-search="true" data-style="btn-info">
+            @foreach($preseq_array as $preseq)
+            <option value={{$preseq}}>{{$preseq}}</option>
+            @endforeach
+          </select>
+          @endif
           <div id="iframe_browser" class="preseq_report overflow-auto">
             <div id="iframe_browser_header">
               <div id="iframe_browser_title">Preseq Reports</div>
-              @if(isset($sample_id))
-              <ul id="preseq_tabs" class="d-flex">
-                @foreach($preseq_array as $preseq)
-                <li><a href="#" class="text-truncate">{{$preseq}}</a></li>
-                @endforeach
-              </ul>
-              @endif
             </div>
           </div>
           <div id="preseq_report" class="w-100 overflow-hidden shadow p-3 bg-white rounded border">
@@ -457,7 +458,7 @@
       </div>
     </div>
     <!-- right-column -->
-    <div class="col-md-1">
+    <div class="col-md-2">
       <div class="result-info">
         <div class="w-75 nav flex-column nav-pills list-switch left demo-chooser" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
@@ -477,12 +478,7 @@
     </div>
 
   </div>
-
   @endsection
-
-  @push('plotting-js')
-  <script src="https://cdn.staticfile.org/plotly.js/2.11.1/plotly-basic.min.js"></script>
-  @endpush
 
   @section('script')
   <script src="{!! mix('js/plotting.js')!!}"></script>

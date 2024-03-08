@@ -11,11 +11,11 @@
           <div class="w-50 pr-5">
             <div class="layui-form-item" title="BioSample name">
               <label for="new_sample_label">Sample Label</label><span class="text-danger"> *</span>
-              <input type="text" class="layui-input" name="new_sample_label" id="new_sample_label" value={{old('new_sample_label')?old('new_sample_label'):''}}>
+              <input type="text" class="layui-input" name="new_sample_label" id="new_sample_label" lay-verify="required" value={{old('new_sample_label')?old('new_sample_label'):''}}>
             </div>
             <div class="layui-form-item">
               <label for="new_library_id">Library ID</label><span class="text-danger"> *</span>
-              <input type="text" class="layui-input" name="new_library_id" id="new_library_id" value={{old('new_library_id')?old('new_library_id'):''}}>
+              <input type="text" class="layui-input" name="new_library_id" id="new_library_id" lay-verify="required" value={{old('new_library_id')?old('new_library_id'):''}}>
             </div>
             <div class="layui-form-item">
               <label>Library Strategy</label><span class="text-danger"> *</span>
@@ -147,7 +147,7 @@
             <div class="layui-form-item  layui-form-text" title="Free-form description of the methods used to create the sequencing library">
               <label for="design_description">Design Description</label><span class="text-danger"> *</span>
               <div>
-                <textarea class="layui-textarea" placeholder="description" name="design_description" id="design_description" {{old('design_description')?old('design_description'):''}}></textarea>
+                <textarea class="layui-textarea" placeholder="description" name="design_description" id="design_description" lay-verify="required" {{old('design_description')?old('design_description'):''}}></textarea>
               </div>
             </div>
             <div class="layui-form-item">
@@ -183,8 +183,8 @@
                 <div class="layui-form-item" title="Paired-end or Single">
                   <label>Paired-end</label><span class="text-danger"> *</span>
                   <div>
-                    <input type="radio" id="customRadio1" name="isPairends" class="singleEnds" value="Single" title="single-end" lay-filter="single">
-                    <input type="radio" id="customRadio2" name="isPairends" class="pairEnds" value="Paired-end" title="pair-end" lay-filter="paired" checked>
+                    <input type="radio" id="customRadio1" name="isPairends" class="singleEnds" value="Single" title="single" lay-filter="single">
+                    <input type="radio" id="customRadio2" name="isPairends" class="pairEnds" value="Paired-end" title="paired" lay-filter="paired" checked>
                   </div>
                   <div class="layui-form-item">
                     <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
@@ -278,4 +278,8 @@
     </div>
   </div>
 </div>
+@endsection
+
+@section('script')
+  <script src="{!! mix('js/form.js')!!}"></script>
 @endsection

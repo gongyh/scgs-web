@@ -5,48 +5,45 @@
   <div class="row middle-area">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-      <form method="post" action="">
+      <form class="layui-form" id="sampleUpdateForm">
         @csrf
         <div class="d-flex flex-around">
           <div class="w-50 pr-5">
-            <div class="form-group" title="BioSample name">
-              <label for="sample_label">Sample Label</label><span class="text-danger"> *</span>
-              <input type="text" class="form-control" name="sample_label" id="sample_label" value={{$sample->sampleLabel}}>
+            <div class="layui-form-item" title="BioSample name">
+              <label for="sampleLabel">Sample Label</label><span class="text-danger"> *</span>
+              <input type="text" class="layui-input" name="sampleLabel" id="sampleLabel" lay-verify="required" lay-filter="sampleL" value={{$sample->sampleLabel}}>
             </div>
-            <div class="form-group">
+            <div class="layui-form-item">
               <label for="library_id">Library ID</label><span class="text-danger"> *</span>
-              <input type="text" class="form-control" name="library_id" id="library_id" value={{$sample->library_id}}>
+              <input type="text" class="layui-input" name="library_id" id="library_id" lay-filter="libraryID" lay-verify="required" value={{$sample->library_id}}>
             </div>
-            <div class="form-group">
+            <div class="layui-form-item">
               <label for="library_strategy">Library Strategy</label><span class="text-danger"> *</span>
-              <select class="custom-select" name="library_strategy" id="library_strategy">
-                <option selected value={{$sample->library_strategy}}>{{$sample->library_strategy}}</option>
+              <select name="library_strategy" id="library_strategy" lay-filter="libraryS">
                 @foreach($library_strategies as $library_strategy)
-                <option value={{$library_strategy}}>{{$library_strategy}}</option>
+                <option value={{$library_strategy}} @if($sample->library_strategy == $library_strategy)selected @endif>{{$library_strategy}}</option>
                 @endforeach
               </select>
             </div>
-            <div class="form-group">
+            <div class="layui-form-item">
               <label for="library_source">Library Source</label><span class="text-danger"> *</span>
-              <select class="custom-select" name="library_source" id="library_source">
-                <option selected value={{$sample->library_source}}>{{$sample->library_source}}</option>
+              <select name="library_source" id="library_source" lay-filter="librarySo">
                 @foreach($library_sources as $library_source)
-                <option value={{$library_source}}>{{$library_source}}</option>
+                <option value={{$library_source}} @if($sample->library_source == $library_source)selected @endif>{{$library_source}}</option>
                 @endforeach
               </select>
             </div>
-            <div class="form-group">
+            <div class="layui-form-item">
               <label for="library_selection">Library Selection</label><span class="text-danger"> *</span>
-              <select class="custom-select" name="library_selection" id="library_selection">
-                <option selected value={{$sample->library_selection}}>{{$sample->library_selection}}</option>
+              <select class="custom-select" name="library_selection" id="library_selection" lay-filter="librarySe">
                 @foreach($library_selections as $library_selection)
-                <option value={{$library_selection}}>{{$library_selection}}</option>
+                <option value={{$library_selection}} @if($sample->library_selection == $library_selection)selected @endif>{{$library_selection}}</option>
                 @endforeach
               </select>
             </div>
-            <div class="form-group">
+            <div class="layui-form-item">
               <label for="platform">Platform</label><span class="text-danger"> *</span>
-              <select class="custom-select" name="platform" id="platform">
+              <select name="platform" id="platform" lay-filter="platform">
                 <option selected value={{$sample->platform}}>{{$sample->platform}}</option>
                 <option value="_LS454">_LSE454</option>
                 <option value="ABI_SOLID">ABI_SOLID</option>
@@ -60,9 +57,9 @@
                 <option value="PACBIO_SMRT">PACBIO_SMRT</option>
               </select>
             </div>
-            <div class="form-group">
+            <div class="layui-form-item">
               <label for="instrument_model">Instrument_model</label><span class="text-danger"> *</span>
-              <select class="custom-select" name="instrument_model" id="instrument_model">
+              <select name="instrument_model" id="instrument_model" lay-filter="instrumentM">
                 <option selected value={{$sample->instrument_model}}>{{$sample->instrument_model}}</option>
                 <option value="454 GS" class="_LS454">454 GS</option>
                 <option value="454 GS 20" class="_LS454">454 GS 20</option>
@@ -123,25 +120,25 @@
             </div>
           </div>
           <div class="w-50">
-            <div class="form-group" title="Free-form description of the methods used to create the sequencing library">
+            <div class="layui-form-item layui-form-text" title="Free-form description of the methods used to create the sequencing library">
               <label for="design_description">Design Description</label><span class="text-danger"> *</span>
-              <textarea class="form-control" name="design_description" id="design_description">{{$sample->design_description}}</textarea>
+              <textarea class="form-control" name="design_description" id="design_description" lay-verify="required" lay-filter="designD">{{$sample->design_description}}</textarea>
             </div>
-            <div class="form-group">
+            <div class="layui-form-item">
               <label for="filetype">Filetype</label><span class="text-danger"> *</span>
-              <input type="text" class="form-control" name="filetype" id="filetype" disabled value="fastq">
+              <input type="text" class="layui-input bg-light" name="filetype" id="filetype" disabled value="fastq">
             </div>
-            <div class="form-group">
+            <div class="layui-form-item">
               <label for="select_application">Choose a Application</label><span class="text-danger"> *</span>
-              <select class="custom-select" name="select_application" id="select_application">
+              <select name="select_application" id="select_application" lay-filter="application">
                 @foreach($applications as $application)
                 <option value={{$application->id}} @if($sample->applications_id == $application->id)selected @endif>{{$application->name}}</option>
                 @endforeach
               </select>
             </div>
-            <div class="form-group">
+            <div class="layui-form-item">
               <label for="select_species">Choose a Species</label>
-              <select class="custom-select" name="select_species" id="select_species">
+              <select name="select_species" id="select_species" lay-filter="species">
                 <option selected></option>
                 @foreach($all_species as $species)
                 <option value={{$species->id}} @if($sample->species_id == $species->id)selected @endif>{{$species->name}}</option>
@@ -150,22 +147,18 @@
             </div>
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active mt-3" id="file" role="tabpanel" aria-labelledby="file-tab">
-                <div class="form-group" title="Paired-end or Single">
+                <div class="layui-form-item" title="Paired-end or Single">
                   <label>Paired-end</label><span class="text-danger"> *</span>
-                  <div class="custom-control custom-radio">
-                    <input type="radio" id="customRadio1" name="isPairends" class="custom-control-input singleEnds" value="Single" @if($sample->pairends == 0)checked @endif>
-                    <label class="custom-control-label" for="customRadio1">Single</label>
-                  </div>
-                  <div class="custom-control custom-radio">
-                    <input type="radio" id="customRadio2" name="isPairends" class="custom-control-input pairEnds" value="Paired-end" @if($sample->pairends == 1)checked @endif>
-                    <label class="custom-control-label" for="customRadio2">Paired-end</label>
+                  <div>
+                    <input disabled type="radio" id="customRadio1" name="isPairends" class="singleEnds" value="Single" title="single" lay-filter="single" @if($sample->pairends == 0)checked @endif>
+                    <input diasbled type="radio" id="customRadio2" name="isPairends" class="pairEnds" value="Paired-end" title="paired" lay-filter="paired" @if($sample->pairends == 1)checked @endif>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="layui-form-item">
                   <label for="new_fileOne">File 1(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
                   <input disabled type="text" class="form-control mt-2" name="fileOne" id="fileOne" value={{$sample->filename1}}>
                 </div>
-                <div class="form-group file_two">
+                <div class="layui-form-item file_two">
                   <label for="new_fileTwo">File 2(.fasta.gz/.fastq.gz/.fasta/.fastq/.fa)</label><span class="text-danger"> *</span>
                   <input disabled type="text" class="form-control mt-2" name="fileTwo" id="fileTwo" value={{$sample->filename2}}>
                 </div>
@@ -175,7 +168,7 @@
                   <ul>
                     @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
-                    @endforeach
+                      @endforeach
                   </ul>
                 </div>
                 @endif
@@ -190,11 +183,17 @@
             </div>
           </div>
         </div>
-        <div class="mt-2 d-flex flex-row-reverse">
-          <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="layui-form-item">
+          <div class="mt-2 d-flex flex-row-reverse">
+            <button type="button" lay-submit class="layui-btn" lay-filter="demo-submit">Submit</button>
+          </div>
         </div>
       </form>
     </div>
   </div>
 </div>
+@endsection
+
+@section('script')
+  <script src="{!! mix('js/form.js')!!}"></script>
 @endsection

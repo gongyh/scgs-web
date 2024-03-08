@@ -17,15 +17,6 @@ body {
   flex-direction: column;
 }
 
-.main {
-  flex: 1 0 auto;
-}
-
-.header,
-.footer {
-  flex: 0 0 auto;
-}
-
 a,
 a:active,
 a:visited,
@@ -34,9 +25,9 @@ a:hover {
   text-decoration: none !important;
 }
 
-.row {
-  margin-left: 0px !important;
-  margin-right: 0px !important;
+.slidercontainer {
+  margin-left: -3px !important;
+  margin-right: -3px !important;
 }
 
 .rem1 {
@@ -64,7 +55,7 @@ a:hover {
 }
 
 .header {
-  background-color: #3d55a7 !important;
+  background-image: linear-gradient(to right, #007fff, #0000ff, #7f00ff, #bf00ff);
 }
 
 .login-name {
@@ -338,7 +329,8 @@ a:hover {
 }
 
 /* execute params setting */
-.euk-group {
+.euk-group,
+.split_group {
   border: 2px solid rgb(0, 0, 0, 0.125);
   border-radius: 2%;
 }
@@ -505,12 +497,12 @@ a:hover {
   padding: 10px 5px;
   margin: 0;
   border-bottom: 1px solid #fff;
-  background-image: linear-gradient(to right, rgb(173, 218, 248), rgb(149, 195, 238), rgb(240, 187, 231));
+  background-image: linear-gradient(to right,#63B8FF, #87CEFA, rgb(240, 187, 231));
   color: #000;
   text-decoration: none;
   position: relative;
   height: 42px;
-  box-shadow: 2px 3px 4px rgba(149, 195, 238);
+  box-shadow: 2px 3px 4px  rgb(240, 187, 231);
   -webkit-transition: background 0.1s;
   transition: background 0.1s;
 }
@@ -545,14 +537,14 @@ a:hover {
 }
 
 .list-switch.left a.active:before {
-  border-right-color: rgb(173, 218, 248);
+  border-right-color: #00BFFF;
   left: -42px;
 }
 
 .list-switch.left a:hover:before,
 .list-switch.left a:active:before,
 .list-switch.left a:focus:before {
-  border-right-color: rgb(173, 218, 248);
+  border-right-color: #00BFFF;
 }
 
 .project_title a {
@@ -735,6 +727,11 @@ a:hover {
   height: auto;
 }
 
+.logo {
+    display: block;
+    width: 100px;
+    height: 60px;
+}
 
 #guides .step {
   display: inline-block;
